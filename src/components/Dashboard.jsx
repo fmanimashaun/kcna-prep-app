@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { RotateCcw, AlertCircle, Clock } from 'lucide-react';
+import { RotateCcw, TrendingDown, Clock } from 'lucide-react';
 import Section from './Section';
 import Card from './Card';
 import { T, fontHead, fontMono } from '../utils/theme';
@@ -25,14 +25,7 @@ function formatDurationShort(ms) {
   return `${m}m ${s.toString().padStart(2, '0')}s`;
 }
 
-const TRAPS = [
-  ['Workload confusion', 'Know exactly when to reach for Deployment vs StatefulSet vs DaemonSet vs Job vs CronJob. Common trick: "node-level agent" = DaemonSet, not Deployment.'],
-  ['Service type subtleties', 'ClusterIP is internal only. NodePort opens a port on every node. LoadBalancer provisions a cloud LB. ExternalName is just a DNS alias.'],
-  ['Autoscaler trio', 'HPA = pod replicas (horizontal). VPA = pod resource requests (vertical). Cluster Autoscaler = node count. Do not mix them up.'],
-  ['NetworkPolicy enforcement', 'NetworkPolicy is a K8s resource, but the CNI enforces it. Flannel ignores by default. This is the #1 networking trick question.'],
-  ['CNCF project categories', 'Prometheus = metrics, Jaeger = tracing, Fluentd = logs, OpenTelemetry = all three. Know which project lives in which category.'],
-  ['Probe purposes', 'Liveness → restart. Readiness → remove from Service endpoints. Startup → gate the other two during slow boots.'],
-];
+const MIN_ANSWERS_FOR_WEAK_AREAS = 20;
 
 export default function Dashboard({ progress, onReset, user }) {
   const days = daysUntilExam();
@@ -231,22 +224,56 @@ export default function Dashboard({ progress, onReset, user }) {
         </Card>
       </Section>
 
-      <Section subtitle="Common traps" title="Where people lose points">
-        <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
-          {TRAPS.map(([title, text]) => (
-            <Card key={title} style={{ padding: 16 }}>
-              <div className="flex items-start gap-3">
-                <AlertCircle size={18} style={{ color: T.accent, marginTop: 2, flexShrink: 0 }} strokeWidth={1.5} />
-                <div>
-                  <div style={{ fontFamily: fontHead, fontSize: 15, fontWeight: 600, color: T.text, marginBottom: 4 }}>
-                    {title}
-                  </div>
-                  <div style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.55 }}>{text}</div>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+      <Section subtitle="Weak areas" title="Where to spend your next study hour">
+        {stats.totalAnswered < MIN_ANSWERS_FOR_WEAK_AREAS ? (
+          <Card style={{ padding: 24, textAlign: 'center' }}>
+            <div style={{
+              fontFamily: fontHead, fontSize: 17, fontWeight: 500, color: T.textMuted, marginBottom: 6,
+            }}>
+              Answer {MIN_ANSWERS_FOR_WEAK_AREAS - stats.totalAnswered} more
+              question{MIN_ANSWERS_FOR_WEAK_AREAS - stats.totalAnswered === 1 ? '' : 's'} to unlock this.
+            </div>
+            <div style={{ fontSize: 13, color: T.textDim, lineHeight: 1.55 }}>
+              This card surfaces your three lowest-accuracy domains based on actual quiz results — not generic advice.
+            </div>
+          </Card>
+        ) : (
+          <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            {Object.entries(stats.byDomain)
+              .filter(([, s]) => s.answered >= 5)
+              .map(([key, s]) => ({ key, s, acc: (s.correct / s.answered) * 100 }))
+              .sort((a, b) => a.acc - b.acc)
+              .slice(0, 3)
+              .map(({ key, s, acc }) => {
+                const dom = DOMAINS[key];
+                const accRounded = Math.round(acc);
+                const color = acc >= PASS_MARK ? T.correct : acc >= 50 ? T.accent : T.wrong;
+                return (
+                  <Card key={key} style={{ padding: 16, borderLeft: `3px solid ${color}` }}>
+                    <div className="flex items-start gap-3">
+                      <TrendingDown size={18} style={{ color, marginTop: 2, flexShrink: 0 }} strokeWidth={1.8} />
+                      <div style={{ flex: 1 }}>
+                        <div style={{
+                          fontFamily: fontMono, fontSize: 10, color: dom.tone,
+                          letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4,
+                        }}>
+                          {dom.short} · {dom.weight}% of exam
+                        </div>
+                        <div style={{ fontFamily: fontHead, fontSize: 16, fontWeight: 600, color: T.text, marginBottom: 6 }}>
+                          {dom.name}
+                        </div>
+                        <div style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.5 }}>
+                          <span style={{ color, fontWeight: 600 }}>{accRounded}%</span>
+                          {' '}accuracy on {s.correct} / {s.answered} answered.
+                          {' '}Revisit the concepts for this domain and redo wrong ones in free practice.
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
+          </div>
+        )}
       </Section>
 
       <div className="flex justify-center mt-8" style={{ marginBottom: 16 }}>

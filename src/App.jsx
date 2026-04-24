@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import Practice from './components/Practice';
 import Flashcards from './components/Flashcards';
+import Revise from './components/Revise';
 import Landscape from './components/Landscape';
 import UserPrompt from './components/UserPrompt';
 import SyncPanel from './components/SyncPanel';
@@ -26,7 +27,7 @@ export default function App() {
   const [tab, setTab] = useState('dash');
   const [user, setUser] = useState(null);
   const [knownUsers, setKnownUsers] = useState([]);
-  const [progress, setProgress] = useState({ q: {}, f: {}, runs: [] });
+  const [progress, setProgress] = useState({ q: {}, f: {}, runs: [], notes: [], reviewed: {} });
   const [loaded, setLoaded] = useState(false);
   const [days, setDays] = useState(daysUntilExam());
 
@@ -152,11 +153,19 @@ export default function App() {
     setProgress(p => ({ ...p, runs: [...(p.runs || []), run] }));
   };
 
+  const updateNotes = (notes) => {
+    setProgress(p => ({ ...p, notes }));
+  };
+
+  const updateReviewed = (reviewed) => {
+    setProgress(p => ({ ...p, reviewed }));
+  };
+
   const onReset = () => {
     if (!user) return;
     if (window.confirm(`Reset all progress for "${user}"? This cannot be undone.`)) {
       clearProgress(user);
-      setProgress({ q: {}, f: {}, runs: [] });
+      setProgress({ q: {}, f: {}, runs: [], notes: [], reviewed: {} });
     }
   };
 
@@ -226,6 +235,13 @@ export default function App() {
           />
         )}
         {tab === 'flash' && <Flashcards progress={progress} updateCard={updateCard} />}
+        {tab === 'rev'   && (
+          <Revise
+            progress={progress}
+            updateNotes={updateNotes}
+            updateReviewed={updateReviewed}
+          />
+        )}
         {tab === 'land'  && <Landscape />}
       </div>
       <div

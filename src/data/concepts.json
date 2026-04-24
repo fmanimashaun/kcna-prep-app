@@ -1,0 +1,284 @@
+[
+  {
+    "id": "c001",
+    "title": "Control plane anatomy",
+    "d": "k8s",
+    "summary": "Four core components run the cluster: API server, etcd, scheduler, controller manager. Know which does what.",
+    "points": [
+      "**kube-apiserver** — the only component that talks to etcd. Every read and write goes through it. The hub of the cluster.",
+      "**etcd** — distributed, consistent key-value store. Holds ALL cluster state. Lose etcd = lose the cluster.",
+      "**kube-scheduler** — watches for pods with no node assigned, picks one based on resources, affinity, taints. It does not run containers.",
+      "**kube-controller-manager** — runs controllers (Deployment, ReplicaSet, Node, Service, etc.) that drive actual state toward desired state.",
+      "**cloud-controller-manager** — same idea but for cloud-provider-specific things (load balancers, persistent disks, node lifecycle)."
+    ],
+    "traps": [
+      "Don't confuse etcd with a cache — it's the source of truth.",
+      "kubelet and kube-proxy run on every node, not on the control plane (on managed nodes anyway)."
+    ],
+    "related": ["kubelet", "kube-proxy", "controller loop"]
+  },
+  {
+    "id": "c002",
+    "title": "Workload controllers: pick the right one",
+    "d": "k8s",
+    "summary": "Deployment, StatefulSet, DaemonSet, Job, CronJob — each solves a different shape of workload. The exam trades on picking the right one.",
+    "points": [
+      "**Deployment** — stateless, interchangeable replicas. Web apps, APIs. Rolling updates for free.",
+      "**StatefulSet** — stable network identity, ordered startup, stable storage. Databases, Kafka, anything with identity.",
+      "**DaemonSet** — one pod per node (or per matching node). Log shippers, CNI agents, node exporters.",
+      "**Job** — run to completion. Batch processing, migrations.",
+      "**CronJob** — Jobs on a schedule. Periodic cleanup, reports."
+    ],
+    "traps": [
+      "'Runs on every node' is ALWAYS a DaemonSet hint, never a Deployment.",
+      "StatefulSet pods get predictable names (app-0, app-1); Deployment pods get random hashes.",
+      "Jobs are NOT the same as CronJobs — a plain Job runs once."
+    ],
+    "related": ["ReplicaSet", "Pod", "PodDisruptionBudget"]
+  },
+  {
+    "id": "c003",
+    "title": "Service types: ClusterIP vs NodePort vs LoadBalancer vs ExternalName",
+    "d": "k8s",
+    "summary": "Four Service types, each with different exposure. The exam loves to ask 'which type would you use for X?'.",
+    "points": [
+      "**ClusterIP** (default) — stable virtual IP reachable only inside the cluster. Pod-to-pod communication.",
+      "**NodePort** — opens the same port (30000–32767) on every node. External clients hit any node's IP:port.",
+      "**LoadBalancer** — asks the cloud provider for an external LB, which routes to NodePort behind the scenes.",
+      "**ExternalName** — pure DNS alias to an external hostname (CNAME). No proxying, no selectors."
+    ],
+    "traps": [
+      "NodePort is not 'node-level' — it's just a port opened on every node. The target is still pods chosen by the selector.",
+      "LoadBalancer requires cloud integration. On bare metal, it stays pending unless you have MetalLB or similar.",
+      "ExternalName has no ClusterIP, no endpoints, and no selector."
+    ],
+    "related": ["kube-proxy", "Endpoints", "Ingress"]
+  },
+  {
+    "id": "c004",
+    "title": "Probes: liveness, readiness, startup",
+    "d": "k8s",
+    "summary": "Three probes with different jobs. Mixing them up is a classic exam trap.",
+    "points": [
+      "**Liveness** — is the container healthy? If it fails, kubelet restarts the container.",
+      "**Readiness** — is the container ready to serve? If it fails, the pod is removed from Service endpoints (but NOT restarted).",
+      "**Startup** — gate for liveness/readiness during slow boots. Once it succeeds, the other probes take over."
+    ],
+    "traps": [
+      "Readiness failure does NOT restart. It just pulls you out of the load balancer.",
+      "Startup probe protects slow-starting apps from being killed by an aggressive liveness check.",
+      "A pod with no readiness probe is 'ready' the moment its container starts — often too eager."
+    ],
+    "related": ["kubelet", "Service endpoints", "container lifecycle"]
+  },
+  {
+    "id": "c005",
+    "title": "ConfigMaps and Secrets",
+    "d": "k8s",
+    "summary": "Both inject configuration into pods. Secrets are base64-encoded, not encrypted at rest by default.",
+    "points": [
+      "Both can be consumed as env vars OR mounted as files.",
+      "Mounted files update when the ConfigMap/Secret changes; env vars do NOT update until the pod restarts.",
+      "Secrets are base64-encoded for transport, NOT encrypted. Enable encryption at rest in etcd if you need real protection.",
+      "Size limit is 1 MiB for both."
+    ],
+    "traps": [
+      "'Secrets are encrypted' is wrong by default. Base64 is encoding, not encryption.",
+      "Environment variables from a ConfigMap do not hot-reload on change."
+    ],
+    "related": ["etcd encryption", "volume mount", "envFrom"]
+  },
+  {
+    "id": "c006",
+    "title": "Pod networking: every pod gets an IP",
+    "d": "k8s",
+    "summary": "Kubernetes networking model: flat network, every pod has its own IP, all pods can reach all pods without NAT.",
+    "points": [
+      "Each pod has a unique IP, routable inside the cluster.",
+      "Containers in the same pod share the network namespace — they reach each other on localhost.",
+      "The **pause container** holds the network namespace so app containers can come and go without losing the IP.",
+      "CNI plugins (Calico, Flannel, Cilium, Weave) implement the actual networking."
+    ],
+    "traps": [
+      "Two containers in one pod cannot listen on the same port (they share the namespace).",
+      "'Containers in a pod share an IP' is true; 'pods share an IP' is false."
+    ],
+    "related": ["CNI", "pause container", "Service"]
+  },
+  {
+    "id": "c007",
+    "title": "The autoscaler trio: HPA vs VPA vs CA",
+    "d": "orch",
+    "summary": "Three different autoscalers, three different axes. Don't confuse them.",
+    "points": [
+      "**Horizontal Pod Autoscaler (HPA)** — scales pod replica count horizontally based on CPU, memory, or custom metrics.",
+      "**Vertical Pod Autoscaler (VPA)** — adjusts pod resource requests/limits vertically. Typically recreates the pod to apply.",
+      "**Cluster Autoscaler (CA)** — adds or removes nodes based on pending pods that can't be scheduled."
+    ],
+    "traps": [
+      "HPA and VPA together can conflict on CPU metrics — don't let both target the same resource.",
+      "Cluster Autoscaler works WITH HPA: HPA schedules more pods, pending ones trigger CA to add nodes."
+    ],
+    "related": ["metrics-server", "pod disruption budget", "resource requests"]
+  },
+  {
+    "id": "c008",
+    "title": "NetworkPolicy: resource vs enforcement",
+    "d": "orch",
+    "summary": "NetworkPolicy is a Kubernetes API object, but the CNI plugin actually enforces it. If your CNI doesn't support it, the policy is silently ignored.",
+    "points": [
+      "Pods with no NetworkPolicy = allow all in, allow all out.",
+      "Apply a NetworkPolicy selecting a pod → that pod becomes 'isolated' for the specified direction (ingress/egress).",
+      "Rules are additive — multiple policies OR together.",
+      "Enforced by the CNI. Calico and Cilium enforce. Flannel (by itself) does NOT."
+    ],
+    "traps": [
+      "Applying a NetworkPolicy with Flannel and expecting enforcement → silent failure.",
+      "NetworkPolicy is namespace-scoped unless you use a Cilium CiliumClusterwideNetworkPolicy or similar."
+    ],
+    "related": ["CNI", "Cilium", "Calico", "namespace"]
+  },
+  {
+    "id": "c009",
+    "title": "Storage: PV, PVC, StorageClass",
+    "d": "orch",
+    "summary": "Storage abstraction in three layers. Admins provision PVs (or a StorageClass); users claim them with PVCs.",
+    "points": [
+      "**PersistentVolume (PV)** — cluster resource representing actual storage (EBS volume, NFS share, etc.).",
+      "**PersistentVolumeClaim (PVC)** — a request for storage. Bound to a PV that matches size, access mode, class.",
+      "**StorageClass** — blueprint for dynamic provisioning. PVC referencing a class → PV created on demand.",
+      "**Access modes** — ReadWriteOnce (one node), ReadOnlyMany, ReadWriteMany, ReadWriteOncePod."
+    ],
+    "traps": [
+      "ReadWriteOnce = one node (not one pod). Multiple pods on same node can share.",
+      "A PVC without a StorageClass matches only pre-created PVs (static provisioning)."
+    ],
+    "related": ["CSI", "StatefulSet", "volumeClaimTemplates"]
+  },
+  {
+    "id": "c010",
+    "title": "Ingress and Gateway API",
+    "d": "orch",
+    "summary": "Ingress is the original HTTP router for Kubernetes. Gateway API is the successor — more expressive, role-oriented.",
+    "points": [
+      "**Ingress** — L7 routing rules (host/path → service). Needs an Ingress controller (NGINX, Traefik, HAProxy, etc.) to actually do anything.",
+      "**Gateway API** — newer standard. Separates concerns across roles: cluster operator (GatewayClass), infra provider (Gateway), app dev (HTTPRoute).",
+      "Ingress is widely deployed; Gateway API is becoming the recommended path forward.",
+      "Neither provisions a load balancer on its own — the controller does."
+    ],
+    "traps": [
+      "An Ingress resource with no controller installed does nothing. Creating the resource is not enough.",
+      "Don't mix up Ingress (L7, HTTP) with Service of type LoadBalancer (L4, any TCP/UDP)."
+    ],
+    "related": ["Service", "LoadBalancer", "HTTPRoute"]
+  },
+  {
+    "id": "c011",
+    "title": "Cloud native principles: 12-factor and immutability",
+    "d": "arch",
+    "summary": "The mental model behind the whole CNCF ecosystem. Stateless, declarative, immutable.",
+    "points": [
+      "**Immutable infrastructure** — don't patch servers in place; rebuild and replace. Containers embody this.",
+      "**Declarative** — describe desired state (YAML), let controllers drive actual state toward it.",
+      "**Stateless apps** — state lives in backing services (DBs, object stores), not on the compute node.",
+      "**12-factor principles** — config in env, logs as event streams, disposability, dev/prod parity."
+    ],
+    "traps": [
+      "'Cloud native' doesn't mean 'in the cloud'. It means built using cloud-native patterns — can run on-prem.",
+      "Containers ≠ cloud native by themselves. Running a pet container is not cloud native."
+    ],
+    "related": ["containerization", "microservices", "serverless"]
+  },
+  {
+    "id": "c012",
+    "title": "Service mesh: what it gives you",
+    "d": "arch",
+    "summary": "A mesh layers observability, mTLS, and traffic control on top of service-to-service calls — usually via sidecar proxies.",
+    "points": [
+      "Common features: mTLS between services, retries, circuit breaking, request-level metrics, traffic splitting.",
+      "Data plane = proxies (Envoy, linkerd2-proxy) next to each pod. Control plane = configures them.",
+      "**Istio** — powerful, complex, Envoy-based.",
+      "**Linkerd** — lightweight, ultralight Rust proxy.",
+      "**Consul Connect**, **Cilium Service Mesh** — alternatives."
+    ],
+    "traps": [
+      "A mesh is not a load balancer replacement — it runs alongside existing Service discovery.",
+      "Sidecar-per-pod meshes add resource cost; sidecarless meshes (Ambient, Cilium) trade different tradeoffs."
+    ],
+    "related": ["Envoy", "mTLS", "observability"]
+  },
+  {
+    "id": "c013",
+    "title": "CNCF landscape: who does what",
+    "d": "arch",
+    "summary": "The 'which project lives in which category' grid is where most people lose points. Memorize the categories.",
+    "points": [
+      "**Orchestration & scheduling** — Kubernetes (the only one that matters for KCNA).",
+      "**Container runtime** — containerd, CRI-O, Docker (deprecated as a runtime in k8s).",
+      "**Networking (CNI)** — Calico, Cilium, Flannel, Weave.",
+      "**Storage (CSI)** — Rook, Longhorn.",
+      "**Service mesh** — Istio, Linkerd.",
+      "**Observability** — Prometheus (metrics), Jaeger (tracing), Fluentd (logs), OpenTelemetry (all three).",
+      "**App delivery** — ArgoCD, Flux (GitOps); Helm (packaging).",
+      "**Service proxy** — Envoy.",
+      "**Registries** — Harbor."
+    ],
+    "traps": [
+      "Prometheus is metrics ONLY. Not logs, not traces.",
+      "OpenTelemetry is a signal pipeline, not a backend — it feeds Prometheus/Jaeger/etc.",
+      "Helm is packaging, not GitOps."
+    ],
+    "related": ["CNCF graduation", "project categories"]
+  },
+  {
+    "id": "c014",
+    "title": "Observability: three pillars, three tools",
+    "d": "obs",
+    "summary": "Metrics, logs, traces. Know the canonical CNCF project for each.",
+    "points": [
+      "**Metrics** — aggregated numbers over time. Prometheus. Scrapes `/metrics` endpoints.",
+      "**Logs** — discrete events with context. Fluentd, Fluent Bit, Loki.",
+      "**Traces** — request path across services. Jaeger, Zipkin.",
+      "**OpenTelemetry** — unified instrumentation for all three signals. Replaces OpenTracing + OpenCensus."
+    ],
+    "traps": [
+      "Prometheus ≠ logs. A classic exam trap.",
+      "Grafana is a visualization layer, not a storage backend. It reads from Prometheus, Loki, Tempo, etc."
+    ],
+    "related": ["PromQL", "exemplars", "correlation IDs"]
+  },
+  {
+    "id": "c015",
+    "title": "GitOps: pull vs push",
+    "d": "del",
+    "summary": "Git as the source of truth for desired cluster state. Controllers reconcile actual state to match.",
+    "points": [
+      "**Pull model** — agent in cluster watches the repo and pulls changes (ArgoCD, Flux). Safer — the cluster never opens an inbound hole.",
+      "**Push model** — CI pipeline runs `kubectl apply` against the cluster. Simpler, but CI needs cluster creds.",
+      "**ArgoCD** — UI-heavy, CRD-based. Strong audit trail.",
+      "**Flux** — more unixy, split into smaller controllers. Lighter footprint.",
+      "**Helm and Kustomize** both compose cleanly with GitOps tools."
+    ],
+    "traps": [
+      "GitOps = Git is source of truth, not 'we use Git for our YAML'. The reconciliation loop is what makes it GitOps.",
+      "CI/CD tools (Jenkins, GitHub Actions) are not GitOps tools on their own."
+    ],
+    "related": ["ArgoCD", "Flux", "Helm", "Kustomize"]
+  },
+  {
+    "id": "c016",
+    "title": "Deployment strategies: rolling, blue-green, canary",
+    "d": "del",
+    "summary": "Three strategies for shipping a new version with different tradeoffs.",
+    "points": [
+      "**Rolling update** (k8s default for Deployment) — replace pods gradually, controlled by maxSurge/maxUnavailable. No extra infra.",
+      "**Blue-green** — two full environments. Cut over traffic at once. Instant rollback, double the infra.",
+      "**Canary** — send a small % of traffic to the new version first. Validate, then ramp. Needs traffic-splitting (service mesh or Ingress features)."
+    ],
+    "traps": [
+      "Rolling updates give you progressive rollout but no traffic-weight control — it's all-or-nothing per pod.",
+      "Canary needs an intelligent router; NodePort + plain Service can't do weighted splits."
+    ],
+    "related": ["progressive delivery", "feature flags", "Argo Rollouts"]
+  }
+]

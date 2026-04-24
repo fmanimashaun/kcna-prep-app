@@ -1,9 +1,10 @@
-import { BookOpen, Brain, Layers, Gauge, User, Cloud, CloudOff, CloudDrizzle, AlertCircle } from 'lucide-react';
+import { BookOpen, Brain, Layers, Gauge, User, Cloud, CloudOff, CloudDrizzle, AlertCircle, BookMarked } from 'lucide-react';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 
 const TABS = [
   { id: 'dash',  label: 'Dashboard',  icon: Gauge },
   { id: 'prac',  label: 'Practice',   icon: Brain },
+  { id: 'rev',   label: 'Revise',     icon: BookMarked },
   { id: 'flash', label: 'Flashcards', icon: Layers },
   { id: 'land',  label: 'Landscape',  icon: BookOpen },
 ];

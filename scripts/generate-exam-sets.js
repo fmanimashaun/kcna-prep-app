@@ -37,9 +37,12 @@ function shuffle(arr, rng) {
 }
 
 const SEED = 20260429; // exam date, just a stable number
-const SET_COUNT = 7;
 const FULL_SET_SIZE = 60;
-const FULL_SETS = 6;
+// Build as many full 60-question sets as the pool supports, plus one
+// trailing set for the remainder. This keeps sets roughly exam-sized
+// as the question bank grows.
+const FULL_SETS = Math.floor(questions.length / FULL_SET_SIZE);
+const SET_COUNT = FULL_SETS + (questions.length % FULL_SET_SIZE === 0 ? 0 : 1);
 
 // Group by domain
 const byDomain = {};

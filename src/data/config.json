@@ -4,15 +4,53 @@
   "examQuestionCount": 60,
   "examDurationMinutes": 90,
   "domains": {
-    "k8s":  { "name": "Kubernetes Fundamentals",     "weight": 46, "short": "Fundamentals",  "tone": "#7AB8B2" },
-    "orch": { "name": "Container Orchestration",    "weight": 22, "short": "Orchestration", "tone": "#E8A87C" },
-    "arch": { "name": "Cloud Native Architecture",  "weight": 16, "short": "Architecture",  "tone": "#C4A77D" },
-    "obs":  { "name": "Cloud Native Observability", "weight": 8,  "short": "Observability", "tone": "#9CAF88" },
-    "del":  { "name": "Cloud Native App Delivery",  "weight": 8,  "short": "Delivery",      "tone": "#B4846C" }
+    "k8s": {
+      "name": "Kubernetes Fundamentals",
+      "weight": 46,
+      "short": "Fundamentals",
+      "tone": "#7AB8B2"
+    },
+    "orch": {
+      "name": "Container Orchestration",
+      "weight": 22,
+      "short": "Orchestration",
+      "tone": "#E8A87C"
+    },
+    "arch": {
+      "name": "Cloud Native Architecture",
+      "weight": 16,
+      "short": "Architecture",
+      "tone": "#C4A77D"
+    },
+    "obs": {
+      "name": "Cloud Native Observability",
+      "weight": 8,
+      "short": "Observability",
+      "tone": "#9CAF88"
+    },
+    "del": {
+      "name": "Cloud Native App Delivery",
+      "weight": 8,
+      "short": "Delivery",
+      "tone": "#B4846C"
+    }
   },
   "sources": {
-    "curated":  { "label": "Curated", "desc": "Hand-picked set covering the highest-yield concepts" },
-    "prep":     { "label": "Prep Book", "desc": "Comprehensive question bank by domain" },
-    "quiz":     { "label": "Quiz Game", "desc": "Additional question variations" }
+    "curated": {
+      "label": "Curated",
+      "desc": "Hand-picked set covering the highest-yield concepts"
+    },
+    "prep": {
+      "label": "Prep Book",
+      "desc": "Comprehensive question bank by domain"
+    },
+    "quiz": {
+      "label": "Quiz Game",
+      "desc": "Additional question variations"
+    },
+    "form": {
+      "label": "Practice Form",
+      "desc": "60-question KCNA practice exam from a public Google Form"
+    }
   }
 }

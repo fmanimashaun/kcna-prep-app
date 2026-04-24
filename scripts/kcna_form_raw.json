@@ -1,0 +1,595 @@
+[
+  {
+    "i": 1,
+    "q": "Select the characteristics of cloud native applications",
+    "opts": [
+      "Self-healing",
+      "Easy to maintain",
+      "Decoupled services",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 2,
+    "q": "Select advantages of cloud native architecture",
+    "opts": [
+      "High cost and maintenance",
+      "High automation and scalability",
+      "High security risk and complexity",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 3,
+    "q": "The Open Container Initiative standards are for",
+    "opts": [
+      "Runtime, image and build",
+      "Runtime, image and distribution",
+      "Image, build and distribution",
+      "Storage, build and image"
+    ]
+  },
+  {
+    "i": 4,
+    "q": "Cloud applications are usually scaled by",
+    "opts": [
+      "Vertical scaling",
+      "Horizontal scaling",
+      "Circular scaling",
+      "Triangular scaling"
+    ]
+  },
+  {
+    "i": 5,
+    "q": "Serverless computing does not require",
+    "opts": [
+      "Servers",
+      "Provisioning and operating infrastructure",
+      "Application Code",
+      "Network"
+    ]
+  },
+  {
+    "i": 6,
+    "q": "The twelve-factor app is a guideline to",
+    "opts": [
+      "Develop cloud native applications",
+      "Build containers",
+      "Deploy on Kubernetes",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 7,
+    "q": "Which of the following is not a standard used for container orchestration?",
+    "opts": [
+      "Container Network Interface (CNI)",
+      "Container Deployment Interface (CDI)",
+      "Container Runtime Interface (CRI)",
+      "Container Storage Interface (CSI)"
+    ]
+  },
+  {
+    "i": 8,
+    "q": "Which of the following is not a key metric for Site Reliability Engineers?",
+    "opts": [
+      "Service level agreement (SLA)",
+      "Service level indicator (SLI)",
+      "Service level objective (SLO)",
+      "Service level requirement (SLR)"
+    ]
+  },
+  {
+    "i": 9,
+    "q": "Containers can help with __________. Select all correct answers.",
+    "opts": [
+      "Dependency management of applications",
+      "More efficient use of hardware resources",
+      "Writing secure application code",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 10,
+    "q": "The usage of containers and virtual machines are mutually exclusive. True or False?",
+    "opts": [
+      "True",
+      "False"
+    ]
+  },
+  {
+    "i": 11,
+    "q": "Container isolation is achieved by _________.",
+    "opts": [
+      "Namespaces and cgroups",
+      "Container Network Interface",
+      "Security Groups and Firewall",
+      "Service Mesh"
+    ]
+  },
+  {
+    "i": 12,
+    "q": "A Dockerfile contains instructions on how to _________.",
+    "opts": [
+      "Install Docker",
+      "Start multiple containers",
+      "Install Kubernetes",
+      "Build a container image"
+    ]
+  },
+  {
+    "i": 13,
+    "q": "Which command can be used to build a container image with Docker?",
+    "opts": [
+      "docker build",
+      "docker create",
+      "docker start",
+      "docker image"
+    ]
+  },
+  {
+    "i": 14,
+    "q": "Sort the 4C's of cloud native security, starting from the inside.",
+    "opts": [
+      "Code, container, cloud, cluster",
+      "Cluster, container, cloud, code",
+      "Code, container, cluster, cloud",
+      "Container, cluster, cloud, code"
+    ]
+  },
+  {
+    "i": 15,
+    "q": "Which problems can be solved with a container orchestration system?",
+    "opts": [
+      "Scheduling containers",
+      "Managing resources like CPU and memory",
+      "Providing a container network",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 16,
+    "q": "What do you call the automatic process of discovering services on a network?",
+    "opts": [
+      "Service Mesh",
+      "Service Registry",
+      "Service Discovery",
+      "Service IP"
+    ]
+  },
+  {
+    "i": 17,
+    "q": "What are the main parts of a Service Mesh?",
+    "opts": [
+      "Controller-Manager and DNS",
+      "Data Plane and Control Plane",
+      "Virus and Malware scanner",
+      "Dockerfile and Network"
+    ]
+  },
+  {
+    "i": 18,
+    "q": "Kubernetes was originally designed and developed by _________.",
+    "opts": [
+      "Google",
+      "Facebook",
+      "Amazon",
+      "Microsoft"
+    ]
+  },
+  {
+    "i": 19,
+    "q": "What are the two types of Kubernetes nodes? Select all answers that apply.",
+    "opts": [
+      "Control Plane Node",
+      "Data Node",
+      "Security Node",
+      "Worker Node"
+    ]
+  },
+  {
+    "i": 20,
+    "q": "What tool can be used to set up a Kubernetes cluster?",
+    "opts": [
+      "Minikube",
+      "Kubeadm",
+      "Rancher",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 21,
+    "q": "Sort the three stages a request needs to go through in the api-server.",
+    "opts": [
+      "Admission Control, Authorization, Authentication",
+      "Authentication, Admission Control, Authorization",
+      "Authentication, Authorization, Admission Control",
+      "Authorization, Authentication, Admission Control"
+    ]
+  },
+  {
+    "i": 22,
+    "q": "Which container runtime is marked as deprecated by Kubernetes?",
+    "opts": [
+      "CRI-O",
+      "containerd",
+      "Docker",
+      "gvisor"
+    ]
+  },
+  {
+    "i": 23,
+    "q": "Which Kubernetes component is responsible for scheduling?",
+    "opts": [
+      "kube-apiserver",
+      "kube-scheduler",
+      "kube-controller-manager",
+      "kube-proxy"
+    ]
+  },
+  {
+    "i": 24,
+    "q": "Kubernetes objects can be described in a data-serialization language called",
+    "opts": [
+      "HTML",
+      "PHP",
+      "YAML",
+      "Python"
+    ]
+  },
+  {
+    "i": 25,
+    "q": "Which of the following is not a required field in a Kubernetes object?",
+    "opts": [
+      "kind",
+      "spec",
+      "containers",
+      "metadata"
+    ]
+  },
+  {
+    "i": 26,
+    "q": "What is the name of the official Kubernetes command line interface?",
+    "opts": [
+      "containerctl",
+      "kubectl",
+      "kube-tool",
+      "podctl"
+    ]
+  },
+  {
+    "i": 27,
+    "q": "What is the smallest deployable compute unit of Kubernetes?",
+    "opts": [
+      "Container",
+      "Deployment",
+      "Pod",
+      "ReplicaSet"
+    ]
+  },
+  {
+    "i": 28,
+    "q": "How do you configure a container to run in a pod before your main container(s)?",
+    "opts": [
+      "bootstrapContainer",
+      "initContainer",
+      "priorityContainer",
+      "startContainer"
+    ]
+  },
+  {
+    "i": 29,
+    "q": "Which workload object does not exist in Kubernetes?",
+    "opts": [
+      "ReplicaSet",
+      "Deployment",
+      "ApplicationSet",
+      "StatefulSet"
+    ]
+  },
+  {
+    "i": 30,
+    "q": "Which service types exist in Kubernetes?",
+    "opts": [
+      "NodePort",
+      "ClusterIP",
+      "LoadBalancer",
+      "ExternalName",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 31,
+    "q": "Ingress objects can be used to configure HTTP(S) routing rules. True or False?",
+    "opts": [
+      "True",
+      "False"
+    ]
+  },
+  {
+    "i": 32,
+    "q": "Which Kubernetes object can be used to request storage?",
+    "opts": [
+      "Container Storage Interface",
+      "PersistentVolume",
+      "PersistentVolumeClaim",
+      "StorageClass"
+    ]
+  },
+  {
+    "i": 33,
+    "q": "What is the main difference between ConfigMaps and Secrets?",
+    "opts": [
+      "Base64 encoding",
+      "Pretty formatting",
+      "Encryption",
+      "Syntax Highlighting"
+    ]
+  },
+  {
+    "i": 34,
+    "q": "Which autoscalers are available in Kubernetes?",
+    "opts": [
+      "Horizontal Pod Autoscaler",
+      "Cluster Autoscaler",
+      "Vertical Pod Autoscaler",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 35,
+    "q": "What is the name of a popular version control tool?",
+    "opts": [
+      "Docker",
+      "git",
+      "Kubernetes",
+      "containerd"
+    ]
+  },
+  {
+    "i": 36,
+    "q": "Version control systems can be used as a basis to manage __________.",
+    "opts": [
+      "Source code",
+      "Configuration",
+      "Infrastructure",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 37,
+    "q": "What does CI/CD stand for?",
+    "opts": [
+      "Continuous Installation/Continuous Downtime",
+      "Continuous Integration/Continuous Delivery",
+      "Container Interface/Container Deployment",
+      "Continuous Infrastructure/Continuous Deployment"
+    ]
+  },
+  {
+    "i": 38,
+    "q": "How can you automate the build, test and deployment of an application?",
+    "opts": [
+      "CI/CD pipeline",
+      "CI/CD branch",
+      "CI/CD repository",
+      "CI/CD network"
+    ]
+  },
+  {
+    "i": 39,
+    "q": "Flux is built with the ____________.",
+    "opts": [
+      "CI/CD Toolkit",
+      "Cluster Toolkit",
+      "GitOps Toolkit",
+      "Infrastructure Toolkit"
+    ]
+  },
+  {
+    "i": 40,
+    "q": "Flux and ArgoCD are popular GitOps tools. They use a push-based approach. ",
+    "opts": [
+      "True",
+      "False"
+    ]
+  },
+  {
+    "i": 41,
+    "q": "Observability is the same as monitoring. True or False?",
+    "opts": [
+      "True",
+      "False"
+    ]
+  },
+  {
+    "i": 42,
+    "q": "Which of the following is typical telemetry data?",
+    "opts": [
+      "Metrics",
+      "Logs",
+      "Traces",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 43,
+    "q": "How can you show the logs of a previously terminated container named ruby in the web-1 pod?",
+    "opts": [
+      "kubectl logs web-1 ruby",
+      "kubectl logs -p web-1 ruby",
+      "kubectl web-1 ruby -p",
+      "kubectl logs -p -c ruby web-1"
+    ]
+  },
+  {
+    "i": 44,
+    "q": "What do you call the pattern where you add a second container to your pod to collect and ship logs?",
+    "opts": [
+      "Cluster-level logging",
+      "Node-level logging",
+      "Sidecar container logging",
+      "Application-level logging"
+    ]
+  },
+  {
+    "i": 45,
+    "q": "What is a good format for structured logging?",
+    "opts": [
+      "YAML",
+      "JSON",
+      "XML",
+      "HTML"
+    ]
+  },
+  {
+    "i": 46,
+    "q": "What kind of software is Prometheus?",
+    "opts": [
+      "Software to manage containers",
+      "Software to collect and store metrics",
+      "Software to manage virtual machines",
+      "Software to collect and store logs"
+    ]
+  },
+  {
+    "i": 47,
+    "q": "Which Prometheus metric type should be used for a value that only increases (e.g., an error_count)?",
+    "opts": [
+      "Histogram",
+      "Gauge",
+      "Counter",
+      "Summary"
+    ]
+  },
+  {
+    "i": 48,
+    "q": "Which methods can be used to optimize cloud costs? Select all answers that apply.",
+    "opts": [
+      "Buying dedicated bare-metal servers",
+      "Right-Sizing",
+      "Geo-replication",
+      "Reserving instances"
+    ]
+  },
+  {
+    "i": 49,
+    "q": "What is the front end  for Kubernetes control plan",
+    "opts": [
+      "kube-scheduler",
+      "etcd",
+      "kube-controller-manager",
+      "kube-apiserver"
+    ]
+  },
+  {
+    "i": 50,
+    "q": "Key value store used as Kubernetes backing store for all cluster data?",
+    "opts": [
+      "etcd",
+      "kube-scheduler",
+      "kube-apiserver",
+      "kubelet"
+    ]
+  },
+  {
+    "i": 51,
+    "q": "________ watches the newly created pods that have no node assigned, and select a node for them to run.",
+    "opts": [
+      "kube-proxy",
+      "kube-scheduler",
+      "kube-apiserver",
+      "kubelet"
+    ]
+  },
+  {
+    "i": 52,
+    "q": "Which of the following runs controllers?",
+    "opts": [
+      "kube-proxy",
+      "kube-scheduler",
+      "kube-apiserver",
+      "kube-controller-manager"
+    ]
+  },
+  {
+    "i": 53,
+    "q": "Which agent runs in each node in a cluster",
+    "opts": [
+      "etcd",
+      "kube-scheduler",
+      "kube-apiserver",
+      "kubelet"
+    ]
+  },
+  {
+    "i": 54,
+    "q": "Which type of components make global decisions about the cluster in Kubernetes?",
+    "opts": [
+      "Add on components",
+      "Extra components",
+      "Node components",
+      "Master components"
+    ]
+  },
+  {
+    "i": 55,
+    "q": "You can deploy a Kubernetes cluster on",
+    "opts": [
+      "Cloud",
+      "On-prem datacenter",
+      "A local machine",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 56,
+    "q": "Tool that runs a single node cluster in a virtual machine on your personal computer",
+    "opts": [
+      "kubectl",
+      "kube-proxy",
+      "Container runtime",
+      "Minikube"
+    ]
+  },
+  {
+    "i": 57,
+    "q": "Autoscaling in Kubernetes is supported on",
+    "opts": [
+      "AWS",
+      "Google Compute Engine (GCE)",
+      "Google Container Engine (GKE)",
+      "All of the above"
+    ]
+  },
+  {
+    "i": 58,
+    "q": "A Kubernetes container image encapsulates",
+    "opts": [
+      "an application and all of its dependencies",
+      "an application",
+      "software dependencies",
+      "none of these"
+    ]
+  },
+  {
+    "i": 59,
+    "q": "kubelet performs garbage collection for images every",
+    "opts": [
+      "1 minute",
+      "5 minutes",
+      "10 minutes",
+      "30 minutes"
+    ]
+  },
+  {
+    "i": 60,
+    "q": "Minikube can be installed on ",
+    "opts": [
+      "Linux",
+      "macOS",
+      "Windows",
+      "All of the above"
+    ]
+  }
+]

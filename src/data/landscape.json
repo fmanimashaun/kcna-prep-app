@@ -1,0 +1,108 @@
+[
+  {
+    "cat": "Orchestration",
+    "color": "#7AB8B2",
+    "items": [
+      { "n": "Kubernetes", "d": "Container orchestration. The heart of it all." },
+      { "n": "Helm", "d": "Package manager for Kubernetes." },
+      { "n": "KEDA", "d": "Event-driven autoscaler." }
+    ]
+  },
+  {
+    "cat": "Container Runtime",
+    "color": "#E8A87C",
+    "items": [
+      { "n": "containerd", "d": "CRI-compliant runtime. Most common." },
+      { "n": "CRI-O", "d": "Lightweight CRI runtime for K8s." }
+    ]
+  },
+  {
+    "cat": "Networking",
+    "color": "#B4846C",
+    "items": [
+      { "n": "Cilium", "d": "eBPF-based CNI + observability." },
+      { "n": "Calico", "d": "CNI with NetworkPolicy enforcement." },
+      { "n": "Flannel", "d": "Simple overlay CNI (no NetworkPolicy)." },
+      { "n": "CoreDNS", "d": "Cluster DNS / service discovery." }
+    ]
+  },
+  {
+    "cat": "Service Mesh",
+    "color": "#C4A77D",
+    "items": [
+      { "n": "Istio", "d": "Feature-rich mesh on Envoy." },
+      { "n": "Linkerd", "d": "Lightweight mesh (Rust-based)." },
+      { "n": "Envoy", "d": "L7 proxy, data plane for many meshes." }
+    ]
+  },
+  {
+    "cat": "Storage",
+    "color": "#9CAF88",
+    "items": [
+      { "n": "Rook", "d": "Storage orchestrator (runs Ceph on K8s)." },
+      { "n": "Longhorn", "d": "Distributed block storage for K8s." },
+      { "n": "OpenEBS", "d": "Container-attached storage." }
+    ]
+  },
+  {
+    "cat": "Observability",
+    "color": "#7AB8B2",
+    "items": [
+      { "n": "Prometheus", "d": "Metrics TSDB + alerting." },
+      { "n": "Grafana", "d": "Dashboards & visualization." },
+      { "n": "OpenTelemetry", "d": "Vendor-neutral instrumentation." },
+      { "n": "Jaeger", "d": "Distributed tracing." },
+      { "n": "Fluentd / Fluent Bit", "d": "Log collection." },
+      { "n": "Loki", "d": "Log aggregation (Grafana Labs)." },
+      { "n": "Cortex / Thanos", "d": "Long-term Prometheus storage." }
+    ]
+  },
+  {
+    "cat": "CI/CD & GitOps",
+    "color": "#E8A87C",
+    "items": [
+      { "n": "Argo CD", "d": "GitOps continuous delivery." },
+      { "n": "Flux", "d": "GitOps toolkit." },
+      { "n": "Argo Workflows", "d": "Kubernetes-native workflow engine." },
+      { "n": "Argo Rollouts", "d": "Progressive delivery (canary, blue/green)." },
+      { "n": "Tekton", "d": "K8s-native CI/CD pipelines." },
+      { "n": "Jenkins X", "d": "Cloud-native CI/CD (on Tekton)." }
+    ]
+  },
+  {
+    "cat": "Security",
+    "color": "#C96868",
+    "items": [
+      { "n": "Falco", "d": "Runtime security / threat detection." },
+      { "n": "OPA", "d": "Open Policy Agent — general-purpose policy." },
+      { "n": "SPIFFE / SPIRE", "d": "Workload identity." },
+      { "n": "Notary / TUF", "d": "Image signing and trust." }
+    ]
+  },
+  {
+    "cat": "Serverless",
+    "color": "#B4846C",
+    "items": [
+      { "n": "Knative", "d": "K8s-native serverless + eventing." },
+      { "n": "OpenFaaS", "d": "Functions on Kubernetes." },
+      { "n": "CloudEvents", "d": "Spec for describing event data." }
+    ]
+  },
+  {
+    "cat": "Coordination / State",
+    "color": "#9CAF88",
+    "items": [
+      { "n": "etcd", "d": "Distributed KV store (K8s backing store)." }
+    ]
+  },
+  {
+    "cat": "Databases & Messaging",
+    "color": "#C4A77D",
+    "items": [
+      { "n": "Vitess", "d": "Horizontal scaling for MySQL." },
+      { "n": "TiKV", "d": "Distributed transactional KV store." },
+      { "n": "NATS", "d": "Messaging and event streaming." },
+      { "n": "gRPC", "d": "RPC framework (HTTP/2 + protobuf)." }
+    ]
+  }
+]

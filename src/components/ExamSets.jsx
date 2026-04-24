@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Clock, Play, Check, X, Flag, ChevronLeft, ChevronRight, Shuffle, AlertTriangle } from 'lucide-react';
 import Card from './Card';
+import RelatedConcepts from './RelatedConcepts';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 import { shuffleArray } from '../utils/helpers';
 import config from '../data/config.json';
@@ -574,6 +575,7 @@ function ResultsView({ run, questions, onRetake, onBackToPicker }) {
             <div style={{ fontSize: 14, lineHeight: 1.6, color: T.text }}>
               {q.expl}
             </div>
+            <RelatedConcepts question={q} />
           </div>
 
           <div className="flex justify-between mt-5">

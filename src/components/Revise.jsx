@@ -4,98 +4,12 @@ import {
 } from 'lucide-react';
 import Card from './Card';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
+import { renderInline, renderBody } from '../utils/conceptRender';
 import { chipStyle, toggleStyle } from './Filters';
 import config from '../data/config.json';
 import CONCEPTS from '../data/concepts.json';
 
 const DOMAINS = config.domains;
-
-// Very lightweight inline markdown: **bold**, `code`, links stay as-is.
-// Safe because we only handle these three and escape everything else.
-function renderInline(text) {
-  const parts = [];
-  let rest = text;
-  let key = 0;
-
-  const push = (node) => parts.push(<span key={key++}>{node}</span>);
-
-  while (rest.length > 0) {
-    const boldMatch = rest.match(/^(.*?)\*\*([^*]+)\*\*/s);
-    const codeMatch = rest.match(/^(.*?)`([^`]+)`/s);
-
-    // Choose the earlier match
-    let next = null;
-    if (boldMatch && codeMatch) {
-      next = boldMatch[1].length <= codeMatch[1].length ? { type: 'b', m: boldMatch } : { type: 'c', m: codeMatch };
-    } else if (boldMatch) next = { type: 'b', m: boldMatch };
-    else if (codeMatch) next = { type: 'c', m: codeMatch };
-
-    if (!next) {
-      push(rest);
-      break;
-    }
-
-    const [full, before, inner] = next.m;
-    if (before) push(before);
-    if (next.type === 'b') {
-      parts.push(<strong key={key++} style={{ color: T.text, fontWeight: 600 }}>{inner}</strong>);
-    } else {
-      parts.push(
-        <code key={key++} style={{
-          background: T.bgRaised, padding: '1px 6px', borderRadius: 2,
-          fontFamily: fontMono, fontSize: '0.9em', color: T.accent,
-        }}>{inner}</code>
-      );
-    }
-    rest = rest.slice(full.length);
-  }
-
-  return parts;
-}
-
-function renderBody(text) {
-  // Split into paragraphs and bullet lists (- or *)
-  if (!text) return null;
-  const lines = text.split('\n');
-  const blocks = [];
-  let current = null;
-
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (/^[-*]\s+/.test(trimmed)) {
-      const item = trimmed.replace(/^[-*]\s+/, '');
-      if (current?.type !== 'list') {
-        if (current) blocks.push(current);
-        current = { type: 'list', items: [] };
-      }
-      current.items.push(item);
-    } else if (trimmed === '') {
-      if (current) { blocks.push(current); current = null; }
-    } else {
-      if (current?.type !== 'p') {
-        if (current) blocks.push(current);
-        current = { type: 'p', text: '' };
-      }
-      current.text += (current.text ? ' ' : '') + trimmed;
-    }
-  }
-  if (current) blocks.push(current);
-
-  return blocks.map((b, i) => {
-    if (b.type === 'p') {
-      return <p key={i} style={{ margin: '0 0 10px', color: T.text, fontSize: 14, lineHeight: 1.6 }}>
-        {renderInline(b.text)}
-      </p>;
-    }
-    return (
-      <ul key={i} style={{ margin: '0 0 10px', paddingLeft: 20, color: T.text, fontSize: 14, lineHeight: 1.7 }}>
-        {b.items.map((it, j) => (
-          <li key={j} style={{ marginBottom: 4 }}>{renderInline(it)}</li>
-        ))}
-      </ul>
-    );
-  });
-}
 
 function NoteEditor({ initial, onSave, onCancel }) {
   const [title, setTitle] = useState(initial?.title || '');

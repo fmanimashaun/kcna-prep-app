@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Check, X, ChevronRight, Shuffle } from 'lucide-react';
 import Card from './Card';
 import Filters from './Filters';
+import RelatedConcepts from './RelatedConcepts';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 import { shuffleArray } from '../utils/helpers';
 import config from '../data/config.json';
@@ -211,6 +212,7 @@ export default function FreePractice({ progress, updateQuestion }) {
             <div style={{ fontSize: 14, lineHeight: 1.6, color: T.text }}>
               {current.expl}
             </div>
+            <RelatedConcepts question={current} />
           </div>
         )}
 

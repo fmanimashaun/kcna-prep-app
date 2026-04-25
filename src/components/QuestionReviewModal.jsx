@@ -1,5 +1,6 @@
-import { Check, X as XIcon, X } from 'lucide-react';
+import { Check, X as XIcon } from 'lucide-react';
 import Card from './Card';
+import Modal from './Modal';
 import RelatedConcepts from './RelatedConcepts';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 import config from '../data/config.json';
@@ -10,8 +11,7 @@ const DOMAINS = config.domains;
 // Used by Dashboard's "Recent answers" list so a question can be revisited
 // at any time without restarting practice.
 export default function QuestionReviewModal({ question, status, onClose }) {
-  if (!question) return null;
-  const dom = DOMAINS[question.d];
+  const dom = question ? DOMAINS[question.d] : null;
 
   // status: { correct, attempts, last } from progress.q[id]
   // We don't know which option was picked (per-question stats only track right/wrong),
@@ -20,18 +20,8 @@ export default function QuestionReviewModal({ question, status, onClose }) {
   const lastWasCorrect = status?.correct;
 
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 20, zIndex: 30, overflowY: 'auto',
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{ width: '100%', maxWidth: 720, margin: '20px 0' }}
-      >
+    <Modal open={!!question} onClose={onClose}>
+      <div style={{ width: '100%', maxWidth: 720 }}>
         <Card style={{ padding: 28 }}>
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex items-center gap-2 flex-wrap">
@@ -156,6 +146,6 @@ export default function QuestionReviewModal({ question, status, onClose }) {
           </div>
         </Card>
       </div>
-    </div>
+    </Modal>
   );
 }

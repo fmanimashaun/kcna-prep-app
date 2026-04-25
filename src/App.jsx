@@ -8,6 +8,7 @@ import Landscape from './components/Landscape';
 import UserPrompt from './components/UserPrompt';
 import ExamDatePrompt from './components/ExamDatePrompt';
 import ExamTimeModal from './components/ExamTimeModal';
+import Modal from './components/Modal';
 import SyncPanel from './components/SyncPanel';
 import {
   loadProgress, saveProgress, clearProgress,
@@ -331,29 +332,20 @@ export default function App() {
         syncError={syncError}
       />
 
-      {editingExamDate && (
-        <div
-          onClick={() => setEditingExamDate(false)}
-          style={{
-            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: 20, zIndex: 30,
-          }}
-        >
-          <div onClick={(e) => e.stopPropagation()} style={{ width: '100%', maxWidth: 440 }}>
-            <ExamDatePrompt
-              embedded
-              user={user}
-              initialDate={progress.examDate}
-              title="Update your exam date"
-              subtitle="The countdown will adjust to the new date right away."
-              submitLabel="Update"
-              onSubmit={(d) => { setExamDate(d); setEditingExamDate(false); }}
-              onCancel={() => setEditingExamDate(false)}
-            />
-          </div>
+      <Modal open={editingExamDate} onClose={() => setEditingExamDate(false)}>
+        <div style={{ width: '100%', maxWidth: 440 }}>
+          <ExamDatePrompt
+            embedded
+            user={user}
+            initialDate={progress.examDate}
+            title="Update your exam date"
+            subtitle="The countdown will adjust to the new date right away."
+            submitLabel="Update"
+            onSubmit={(d) => { setExamDate(d); setEditingExamDate(false); }}
+            onCancel={() => setEditingExamDate(false)}
+          />
         </div>
-      )}
+      </Modal>
 
       {countdown?.expired && !examTimeAcked && (
         <ExamTimeModal

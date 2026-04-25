@@ -1,5 +1,6 @@
 import { Sparkles, X as XIcon } from 'lucide-react';
 import Card from './Card';
+import Modal from './Modal';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 
 function formatExamMoment(iso) {
@@ -17,15 +18,8 @@ function formatExamMoment(iso) {
 // app and the exam time has already passed), until they dismiss it.
 export default function ExamTimeModal({ examDate, user, onClose }) {
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 20, zIndex: 40,
-      }}
-    >
-      <div onClick={(e) => e.stopPropagation()} style={{ width: '100%', maxWidth: 460 }}>
+    <Modal open onClose={onClose} dim="rgba(0,0,0,0.75)">
+      <div style={{ width: '100%', maxWidth: 460 }}>
         <Card style={{ padding: 32, position: 'relative' }}>
           <button
             onClick={onClose}
@@ -111,6 +105,6 @@ export default function ExamTimeModal({ examDate, user, onClose }) {
           </button>
         </Card>
       </div>
-    </div>
+    </Modal>
   );
 }

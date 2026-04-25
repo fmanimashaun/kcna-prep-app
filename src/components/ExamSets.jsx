@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Clock, Play, Check, X, Flag, ChevronLeft, ChevronRight, Shuffle, AlertTriangle } from 'lucide-react';
 import Card from './Card';
+import Modal from './Modal';
 import RelatedConcepts from './RelatedConcepts';
 import FlagButton from './FlagButton';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
@@ -413,23 +414,14 @@ function ActiveExam({ set, questions, onFinish, onAbort }) {
         </button>
       </div>
 
-      {showSubmitConfirm && (
+      <Modal open={showSubmitConfirm} onClose={() => setShowSubmitConfirm(false)} dim="rgba(0,0,0,0.6)">
         <div
-          onClick={() => setShowSubmitConfirm(false)}
           style={{
-            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: 20, zIndex: 20,
+            background: T.bgCard, border: `1px solid ${T.border}`,
+            borderRadius: 2, padding: 24, maxWidth: 420, width: '100%',
           }}
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: T.bgCard, border: `1px solid ${T.border}`,
-              borderRadius: 2, padding: 24, maxWidth: 420, width: '100%',
-            }}
-          >
-            <div className="flex items-start gap-3 mb-3">
+          <div className="flex items-start gap-3 mb-3">
               <AlertTriangle size={20} style={{ color: T.accent, flexShrink: 0, marginTop: 2 }} />
               <div>
                 <div style={{ fontFamily: fontHead, fontSize: 18, fontWeight: 600, marginBottom: 6 }}>
@@ -475,8 +467,7 @@ function ActiveExam({ set, questions, onFinish, onAbort }) {
               </button>
             </div>
           </div>
-        </div>
-      )}
+      </Modal>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Cloud, CloudOff, ExternalLink, LogOut, Check, X as XIcon } from 'lucide-react';
 import Card from './Card';
+import Modal from './Modal';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 
 const TOKEN_URL = 'https://github.com/settings/tokens/new?description=KCNA+Prep+Sync&scopes=gist';
@@ -19,8 +20,6 @@ export default function SyncPanel({
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState(null);
   const [result, setResult] = useState(null);
-
-  if (!open) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,18 +41,8 @@ export default function SyncPanel({
   const connected = !!syncConfig;
 
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 20, zIndex: 30,
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{ width: '100%', maxWidth: 520 }}
-      >
+    <Modal open={open} onClose={onClose}>
+      <div style={{ width: '100%', maxWidth: 520 }}>
         <Card style={{ padding: 28 }}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
@@ -263,7 +252,7 @@ export default function SyncPanel({
           )}
         </Card>
       </div>
-    </div>
+    </Modal>
   );
 }
 

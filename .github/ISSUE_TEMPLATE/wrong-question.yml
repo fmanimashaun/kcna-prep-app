@@ -1,0 +1,54 @@
+name: Wrong / shaky question
+description: Report a wrong answer key, a misleading distractor, or an explanation that contradicts the marked answer.
+title: "[q????] "
+labels: ["question-flag"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Faster path:** open the app, click the **Flag** button on the question, write a one-line reason, then **Open GitHub issue** from your dashboard. The form below mirrors what the in-app flow already pre-fills — only use it if you can't reach the app.
+
+  - type: input
+    id: question_id
+    attributes:
+      label: Question id
+      description: The id shown above the question, like `q0265`.
+      placeholder: q0265
+    validations:
+      required: true
+
+  - type: textarea
+    id: question_text
+    attributes:
+      label: Question text
+      description: Paste the question stem so we can find it even if the id has shifted.
+    validations:
+      required: true
+
+  - type: textarea
+    id: options
+    attributes:
+      label: Options as currently shown
+      description: One per line, with a `*` next to the option currently marked correct.
+      placeholder: |
+        - Pods
+        - Deployments
+        * Services
+        - DaemonSets
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: What's wrong
+      description: Be specific. "Answer key is wrong, the explanation describes option B but `correct` is set to 2." beats "this seems off."
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source / reference (optional)
+      description: A link to kubernetes.io, a CNCF doc, or whatever supports the correction. Strong references win arguments.
+      placeholder: https://kubernetes.io/docs/...

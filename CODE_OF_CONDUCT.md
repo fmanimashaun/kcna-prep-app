@@ -59,9 +59,13 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-fisayo.animashaun@outlook.com.
-All complaints will be reviewed and investigated promptly and fairly.
+reported privately to the community leaders responsible for enforcement
+through either of these channels:
+
+- Email: fisayo.animashaun@outlook.com
+- GitHub private advisory: https://github.com/fmanimashaun/kcna-prep-app/security/advisories/new
+
+All reports will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
 reporter of any incident.

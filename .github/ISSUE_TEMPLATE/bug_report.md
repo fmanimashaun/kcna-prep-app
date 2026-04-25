@@ -1,38 +1,36 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+about: Something in the app is broken or behaving unexpectedly (not a wrong answer).
+title: "[Bug] "
+labels: bug
 assignees: ''
-
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+> **Wrong answer key or shaky question?** Don't use this template — use the in-app **Flag** button on the question, then **Open GitHub issue** from your dashboard. It pre-fills everything we need.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+## What happened
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+A clear and concise description of what went wrong.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## What you expected
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+What should have happened instead.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+## How to reproduce
 
-**Additional context**
-Add any other context about the problem here.
+1.
+2.
+3.
+
+## Environment
+
+- Site: <!-- e.g. https://fmanimashaun.github.io/kcna-prep-app/, or your fork -->
+- Browser + version: <!-- e.g. Chrome 132 / Safari 17.4 / Firefox 124 -->
+- Device: <!-- desktop / phone / tablet, OS -->
+- Cross-device sync enabled? yes / no
+
+## Screenshots / console output
+
+If applicable, paste a screenshot or any errors from the browser devtools console.
+
+## Anything else

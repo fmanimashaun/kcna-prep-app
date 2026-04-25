@@ -303,8 +303,18 @@ kcna-prep-app/
 
 ---
 
+## Contributing
+
+The most useful kind of contribution is **flagging wrong answers** through the in-app flow — the dashboard's **Open GitHub issue** button does the paperwork for you. For code changes, question/concept additions, or anything more involved, see [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide (schemas, smoke tests, PR checklist).
+
+Discussion (study tips, exam strategy, prep questions) lives in [GitHub Discussions](https://github.com/fmanimashaun/kcna-prep-app/discussions). Bug reports go to [Issues](https://github.com/fmanimashaun/kcna-prep-app/issues). Security problems go through [SECURITY.md](SECURITY.md) — don't post them publicly.
+
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+---
+
 ## License and attribution
 
-This is a personal study tool, provided as-is. Question content is aggregated and deduplicated from publicly-available KCNA prep materials. If you fork, extend, or share, please credit the original source authors of the question content.
+Code is [MIT-licensed](LICENSE) — yours to adapt for your own prep, or any other exam. The engine is generic; replace the data files and it works for anything with multiple-choice questions, flashcards, and concept notes.
 
-Code is yours to adapt for your own prep — or any other exam. The engine is generic; replace the data files and it works for anything with multiple-choice questions, flashcards, and concept notes.
+Question content is aggregated and rewritten from publicly-available KCNA prep materials (CNCF documentation, kubernetes.io, open-source quizzes, and reference books). If you redistribute or republish that content, please credit the underlying upstream sources.

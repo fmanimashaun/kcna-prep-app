@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Study tips, exam strategy, general chat
+    url: https://github.com/fmanimashaun/kcna-prep-app/discussions
+    about: Anything that isn't a bug or a wrong-question report belongs in Discussions.
+  - name: 🚩 Flag a wrong question from inside the app
+    url: https://fmanimashaun.github.io/kcna-prep-app/
+    about: The fastest path — the in-app Flag button pre-fills the issue for you. Use the wrong-question template here only if you can't reach the app.

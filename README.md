@@ -1,6 +1,6 @@
 # KCNA Prep · Field Guide
 
-A study tool for the **Kubernetes and Cloud Native Associate (KCNA)** exam — 410 practice questions, 83 flashcards, 16 concept deep-dives, timed exam simulations, and a CNCF landscape reference.
+A study tool for the **Kubernetes and Cloud Native Associate (KCNA)** exam — 463 practice questions, 83 flashcards, 20 concept deep-dives, timed exam simulations, and a CNCF landscape reference.
 
 **Live demo:** https://fmanimashaun.github.io/kcna-prep-app/
 
@@ -10,16 +10,18 @@ A study tool for the **Kubernetes and Cloud Native Associate (KCNA)** exam — 4
 
 ## Features
 
-- **410 practice questions** with detailed explanations, partitioned across 7 exam-style sets (6 × 60 + 1 × 50).
-- **Timed exam mode** — 60 questions, 90-minute countdown, question navigator with flagging, review-answers screen.
+- **463 practice questions** with detailed explanations, partitioned across 8 exam-style sets (7 × 60 + 1 × 43).
+- **Timed exam mode** — 60 questions, 90-minute countdown, question navigator with in-exam flagging, review-answers screen.
 - **Free practice mode** — filter by domain, source, only-unanswered, only-previously-wrong; shuffle the deck; instant feedback.
-- **16 concept deep-dives** in the Revise tab — each with summary, key points, common traps, and related terms. Write your own notes alongside the curated set.
+- **20 concept deep-dives** in the Revise tab — each with summary, key points, common traps, and related terms. Write your own notes alongside the curated set.
 - **"Learn more" panel** below every explanation — surfaces 1–2 concepts from the same domain (keyword-matched to the question) as collapsible inline cards.
 - **83 flashcards** with three-tier spaced review (Again / Learning / Known).
 - **CNCF landscape reference** organized by category for fast recall.
-- **Live dashboard** — questions attempted, overall accuracy, data-driven "weak areas" (your 3 lowest-accuracy domains), exam-run history, days-until-exam countdown.
-- **Per-user progress tracking** — multiple people can share the same browser without mixing results.
-- **Optional cross-device sync** via a private GitHub Gist — open the app on your phone, tablet, or another laptop and see the same progress.
+- **Live dashboard** — questions attempted, overall accuracy, data-driven "weak areas" (your 3 lowest-accuracy domains), exam-run history, days-until-exam countdown, recent answers list.
+- **Per-user progress tracking** — multiple people can share the same browser without mixing results. Each user picks their own exam date when they sign in.
+- **Question flagging** — mark any question whose answer or explanation looks wrong with a written reason; flagged items pile up on your dashboard. One click opens a pre-filled GitHub issue against the fork's own repo so the question bank can be corrected.
+- **Review past attempts anytime** — every exam run and every recent answer is clickable from the dashboard, so you can revisit a question without restarting practice.
+- **Optional cross-device sync** via a private GitHub Gist — open the app on your phone, tablet, or another laptop and see the same progress (including your exam date and flags).
 - **No backend, no accounts, no tracking** — everything runs in your browser. The Gist sync talks directly to github.com; nothing else.
 
 ---
@@ -27,14 +29,16 @@ A study tool for the **Kubernetes and Cloud Native Associate (KCNA)** exam — 4
 ## Using the app
 
 1. Open the live site (or your fork's URL).
-2. Enter your name. Progress is saved under that name.
-3. Pick a tab:
-   - **Dashboard** — where you stand, weak areas, exam countdown.
-   - **Practice** — two modes: *Exam sets (timed)* for dress rehearsal, *Free practice (untimed)* for grinding specific domains.
+2. **Enter your name.** Progress is saved under that name. Multiple people can share the same browser — each picks their own name on the sign-in screen.
+3. **Pick your exam date.** Right after the name screen, set the date you're sitting the exam. The header countdown reads from this. Click the countdown number anytime to change it.
+4. Pick a tab:
+   - **Dashboard** — where you stand, weak areas, exam countdown, exam-run history, recent answers (all clickable to re-open the question), and flagged questions.
+   - **Practice** — two modes: *Exam sets (timed)* for dress rehearsal, *Free practice (untimed)* for grinding specific domains. Each answered question shows an explanation, a "Learn more" panel, and a flag button.
    - **Revise** — read concept deep-dives and add your own notes.
    - **Flashcards** — quick recall, three-tier review.
    - **Landscape** — CNCF project reference grid.
-4. (Optional) Click the cloud icon in the header to enable cross-device sync — see [Cross-device sync](#cross-device-sync) below.
+5. **Found a wrong answer key or shaky question?** Hit the flag button on the question, write a one-line reason, save. It shows up on your dashboard. From there, **Open GitHub issue** pre-fills an issue against the fork's repo with the question id, your reason, and the current options/explanation — no token required, just paste-and-submit.
+6. (Optional) Click the **cloud icon** in the header to enable cross-device sync — see [Cross-device sync](#cross-device-sync) below.
 
 ---
 
@@ -71,14 +75,32 @@ https://<your-github-username>.github.io/<your-repo-name>/
 
 ### 4. If you renamed the repo
 
-The Vite build needs the base path to match the subpath on GitHub Pages. The workflow (`.github/workflows/deploy.yml`) already reads the repo name automatically:
+The Vite build needs the base path to match the subpath on GitHub Pages. The workflow (`.github/workflows/deploy.yml`) reads the repo name and full `owner/repo` automatically:
 
 ```yaml
 env:
   VITE_BASE: /${{ github.event.repository.name }}/
+  VITE_ISSUES_REPO: ${{ github.repository }}
 ```
 
-No manual change needed — it just works for whatever you called the fork.
+- `VITE_BASE` makes the asset paths line up with `https://<you>.github.io/<repo>/`.
+- `VITE_ISSUES_REPO` is what the **Open GitHub issue** button uses, so flagged questions on your fork file issues against **your** repo, not mine.
+
+No manual change needed — both vars are wired to whatever you called the fork.
+
+---
+
+## Flagging questions and getting them fixed
+
+Question quality matters more than quantity for an exam, so the app has a built-in feedback loop:
+
+1. **In a question's review (free practice or after submitting an exam set)**, click the flag icon. Write a short reason ("answer key looks wrong", "option C is ambiguous", "explanation contradicts the right answer"). Save.
+2. The flag is stored on your user record and pushed to your Gist if sync is on. It also surfaces on the Dashboard's **Flagged for review** section.
+3. From the dashboard, **Open GitHub issue** opens a pre-filled new-issue page on the fork's repo (read from `VITE_ISSUES_REPO`). It includes the question id, the question text, all options, the current "correct" answer, and your reason. You just hit submit.
+
+**No token needed.** This works the same way as a `mailto:` link — your browser navigates to the new-issue URL with the body pre-filled. GitHub asks you to log in to actually submit.
+
+If you fork the repo, the button automatically targets your fork. If you're using the original at `fmanimashaun/kcna-prep-app`, the issue lands there and I'll review it.
 
 ---
 
@@ -127,6 +149,7 @@ Every change (answering a question, finishing an exam set, adding a note) is pus
 - **Single source of truth is the Gist.** On pull, the remote overwrites local.
 - **Last-write-wins** on simultaneous edits. Realistically not an issue for a personal prep app.
 - **Token per device.** The token is stored in `localStorage` on each browser. Paste it once per device, not every session.
+- **What syncs:** answered questions, flashcard ratings, exam-run history, your notes, your reviewed-concept set, your flags, and your exam date — i.e. the entire per-user record.
 - **Revoke anytime** at github.com/settings/tokens — the app falls back to localStorage-only when the token is gone.
 
 ---
@@ -215,7 +238,13 @@ npm run build
 npm run preview
 ```
 
-The GitHub Actions workflow runs `npm ci && npm run build` on every push to `main` with `VITE_BASE` set to match the repo name, and deploys the `dist/` output to GitHub Pages.
+The GitHub Actions workflow runs `npm ci && npm run build` on every push to `main` with `VITE_BASE` and `VITE_ISSUES_REPO` set automatically from the repo, and deploys the `dist/` output to GitHub Pages.
+
+Local dev doesn't set those env vars, so the asset base is `/` and the **Open GitHub issue** button falls back to the upstream repo (`fmanimashaun/kcna-prep-app`). Set them yourself if you want to test issue posting against your fork:
+
+```bash
+VITE_ISSUES_REPO=your-username/your-repo npm run dev
+```
 
 ---
 
@@ -223,40 +252,43 @@ The GitHub Actions workflow runs `npm ci && npm run build` on every push to `mai
 
 ```
 kcna-prep-app/
-├── .github/workflows/deploy.yml   # GH Pages build + deploy on push to main
+├── .github/workflows/deploy.yml      # GH Pages build + deploy on push to main
 ├── scripts/
-│   └── generate-exam-sets.js      # Partitions questions.json into 7 exam sets
+│   └── generate-exam-sets.js         # Partitions questions.json into 8 exam sets
 ├── src/
-│   ├── main.jsx                   # React entry
-│   ├── App.jsx                    # Top-level state, routing, sync orchestration
-│   ├── index.css                  # Fonts, theme variables, animations
+│   ├── main.jsx                      # React entry
+│   ├── App.jsx                       # Top-level state, routing, sync orchestration
+│   ├── index.css                     # Fonts, theme variables, animations
 │   ├── data/
-│   │   ├── questions.json         # 410 practice questions
-│   │   ├── exam-sets.json         # Generated: 7 stable exam sets
-│   │   ├── flashcards.json        # 83 flashcards
-│   │   ├── concepts.json          # 16 curated concept deep-dives
-│   │   ├── landscape.json         # CNCF landscape reference
-│   │   └── config.json            # Domains, weights, sources, pass mark
+│   │   ├── questions.json            # 463 practice questions
+│   │   ├── exam-sets.json            # Generated: 8 stable exam sets (7×60 + 1×43)
+│   │   ├── flashcards.json           # 83 flashcards
+│   │   ├── concepts.json             # 20 curated concept deep-dives
+│   │   ├── landscape.json            # CNCF landscape reference
+│   │   └── config.json               # Domains, weights, sources, pass mark
 │   ├── components/
-│   │   ├── Header.jsx             # Tabs, user switch, sync indicator
+│   │   ├── Header.jsx                # Tabs, user switch, sync indicator, countdown
 │   │   ├── Section.jsx, Card.jsx, Filters.jsx
-│   │   ├── Dashboard.jsx          # Snapshot, weak areas, exam history
-│   │   ├── Practice.jsx           # Container: exam sets + free practice
-│   │   ├── ExamSets.jsx           # Timed exam picker + active + results
-│   │   ├── FreePractice.jsx       # Untimed filtered practice
-│   │   ├── Revise.jsx             # Concept deep-dives + user notes
-│   │   ├── RelatedConcepts.jsx    # "Learn more" panel after explanations
-│   │   ├── Flashcards.jsx         # Three-tier flashcard review
-│   │   ├── Landscape.jsx          # CNCF project grid
-│   │   ├── UserPrompt.jsx         # First-load name entry
-│   │   └── SyncPanel.jsx          # Gist sync setup modal
+│   │   ├── Dashboard.jsx             # Snapshot, weak areas, exam history, flagged list
+│   │   ├── Practice.jsx              # Container: exam sets + free practice
+│   │   ├── ExamSets.jsx              # Timed exam picker + active + results
+│   │   ├── FreePractice.jsx          # Untimed filtered practice
+│   │   ├── Revise.jsx                # Concept deep-dives + user notes
+│   │   ├── RelatedConcepts.jsx       # "Learn more" panel after explanations
+│   │   ├── Flashcards.jsx            # Three-tier flashcard review
+│   │   ├── Landscape.jsx             # CNCF project grid
+│   │   ├── FlagButton.jsx            # Per-question flag UI (reason capture)
+│   │   ├── QuestionReviewModal.jsx   # Re-open any past answer for review
+│   │   ├── UserPrompt.jsx            # First-load name entry
+│   │   ├── ExamDatePrompt.jsx        # Per-user exam date capture + edit
+│   │   └── SyncPanel.jsx             # Gist sync setup modal
 │   └── utils/
-│       ├── storage.js             # Per-user localStorage schema
-│       ├── sync.js                # Gist API client + sync config
-│       ├── conceptRender.jsx      # Shared markdown + concept matching
-│       ├── helpers.js             # Date math, array shuffling
-│       └── theme.js               # Color tokens, font stacks
-└── vite.config.js                 # Uses VITE_BASE env for subpath hosting
+│       ├── storage.js                # Per-user localStorage schema
+│       ├── sync.js                   # Gist API client + sync config
+│       ├── conceptRender.jsx         # Shared markdown + concept matching
+│       ├── helpers.js                # Date math (daysUntilExam), shuffling
+│       └── theme.js                  # Color tokens, font stacks
+└── vite.config.js                    # Uses VITE_BASE env for subpath hosting
 ```
 
 ---

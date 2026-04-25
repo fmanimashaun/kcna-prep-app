@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { RotateCcw, TrendingDown, Clock, Flag, Copy, Check } from 'lucide-react';
+import { RotateCcw, TrendingDown, Clock, Flag, Copy, Check, ExternalLink } from 'lucide-react';
 import Section from './Section';
 import Card from './Card';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
@@ -306,6 +306,28 @@ export default function Dashboard({ progress, onReset, user }) {
   );
 }
 
+// GitHub repo where the canonical question bank lives. Update this if you fork.
+const REPO_ISSUES_URL = 'https://github.com/fmanimashaun/kcna-prep-app/issues/new';
+// GitHub URL practical limit is ~8KB; keep body well under for headers + title.
+const GH_URL_LIMIT = 6000;
+
+function buildFlagReport(entries) {
+  return entries.map(e => {
+    const correctOpt = e.q ? e.q.opts[e.q.correct] : '?';
+    return [
+      `### ${e.id}  \`${e.q?.d || '?'} / ${e.q?.src || '?'}\``,
+      ``,
+      `**Q:** ${e.q?.q || '(question not found)'}`,
+      ``,
+      e.q ? e.q.opts.map((o, i) => `- **${String.fromCharCode(65 + i)}.** ${o}${i === e.q.correct ? ' ← marked correct' : ''}`).join('\n') : '',
+      ``,
+      `**Currently marked correct:** ${correctOpt}`,
+      ``,
+      `**Flag reason:** ${e.reason || '_(no reason)_'}`,
+    ].join('\n');
+  }).join('\n\n---\n\n');
+}
+
 function FlaggedSection({ flags }) {
   const [copied, setCopied] = useState(false);
 
@@ -318,19 +340,11 @@ function FlaggedSection({ flags }) {
 
   if (entries.length === 0) return null;
 
+  const reportText = buildFlagReport(entries);
+
   const copyToClipboard = async () => {
-    const text = entries.map(e => {
-      const correctOpt = e.q ? e.q.opts[e.q.correct] : '?';
-      return [
-        `## ${e.id}  [${e.q?.d || '?'} / ${e.q?.src || '?'}]`,
-        `Q: ${e.q?.q || '(question not found)'}`,
-        e.q ? e.q.opts.map((o, i) => `  ${String.fromCharCode(65 + i)}. ${o}${i === e.q.correct ? '  <-- marked correct' : ''}`).join('\n') : '',
-        `Currently marked correct: ${correctOpt}`,
-        `Flag reason: ${e.reason || '(no reason)'}`,
-      ].join('\n');
-    }).join('\n\n---\n\n');
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(reportText);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -338,33 +352,91 @@ function FlaggedSection({ flags }) {
     }
   };
 
+  const openGitHubIssue = () => {
+    const title = `Question flag report (${entries.length} question${entries.length === 1 ? '' : 's'})`;
+    const intro = `Reporting ${entries.length} flagged question${entries.length === 1 ? '' : 's'} from the KCNA prep app for review.\n\n`;
+    const body = intro + reportText;
+
+    const encoded = encodeURIComponent(body);
+    if (encoded.length > GH_URL_LIMIT) {
+      // Too long for a GET URL — fall back to clipboard + open blank issue.
+      copyToClipboard();
+      window.open(
+        `${REPO_ISSUES_URL}?title=${encodeURIComponent(title)}&labels=question-flag`,
+        '_blank',
+        'noopener'
+      );
+      alert('Too many flags for a single URL. Report copied to clipboard — paste it into the issue body that just opened.');
+      return;
+    }
+
+    window.open(
+      `${REPO_ISSUES_URL}?title=${encodeURIComponent(title)}&labels=question-flag&body=${encoded}`,
+      '_blank',
+      'noopener'
+    );
+  };
+
   return (
     <Section
       subtitle="Questions you flagged"
       title={`Flagged for review (${entries.length})`}
     >
-      <div className="flex justify-end mb-3">
-        <button
-          onClick={copyToClipboard}
-          style={{
-            padding: '6px 12px',
-            background: copied ? T.correct : 'transparent',
-            color: copied ? T.bg : T.textMuted,
-            border: `1px solid ${copied ? T.correct : T.border}`,
-            borderRadius: 2,
-            cursor: 'pointer',
-            fontFamily: fontMono,
-            fontSize: 11,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-          }}
-        >
-          {copied ? <Check size={12} /> : <Copy size={12} />}
-          {copied ? 'Copied' : 'Copy all (for review)'}
-        </button>
+      <div style={{
+        background: T.bgRaised,
+        border: `1px solid ${T.border}`,
+        borderRadius: 2,
+        padding: 14,
+        marginBottom: 14,
+      }}>
+        <div style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.6, marginBottom: 12 }}>
+          Send these flags upstream so the question bank can be fixed for everyone.
+          The maintainer will review and update the canonical{' '}
+          <code style={{ fontFamily: fontMono, color: T.accent, fontSize: 12 }}>questions.json</code>; fixes
+          ship to all users on the next deploy.
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={openGitHubIssue}
+            title="Opens GitHub with the report pre-filled — click Submit to file the issue"
+            style={{
+              padding: '8px 14px',
+              background: T.primary,
+              color: T.bg,
+              border: 'none',
+              borderRadius: 2,
+              cursor: 'pointer',
+              fontFamily: fontBody,
+              fontSize: 13,
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
+          >
+            <ExternalLink size={13} /> Open GitHub issue
+          </button>
+          <button
+            onClick={copyToClipboard}
+            title="Copy as markdown — paste anywhere"
+            style={{
+              padding: '8px 14px',
+              background: copied ? T.correct : 'transparent',
+              color: copied ? T.bg : T.textMuted,
+              border: `1px solid ${copied ? T.correct : T.border}`,
+              borderRadius: 2,
+              cursor: 'pointer',
+              fontFamily: fontBody,
+              fontSize: 13,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
+          >
+            {copied ? <Check size={13} /> : <Copy size={13} />}
+            {copied ? 'Copied' : 'Copy as markdown'}
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">

@@ -741,12 +741,33 @@ function ResultsView({ run, questions, onRetake, onBackToPicker, flags, onFlag, 
 }
 
 // ---------- Top-level ExamSets ----------
-export default function ExamSets({ progress, addExamRun, updateQuestion, flagQuestion, unflagQuestion }) {
+export default function ExamSets({
+  progress, addExamRun, updateQuestion,
+  flagQuestion, unflagQuestion,
+  pendingReviewRun, clearPendingReviewRun,
+}) {
   // stage: 'picker' | 'active' | 'results'
   const [stage, setStage] = useState('picker');
   const [activeSet, setActiveSet] = useState(null);
   const [activeQuestions, setActiveQuestions] = useState([]);
   const [lastRun, setLastRun] = useState(null);
+
+  // If the user clicked a past run on Dashboard, hydrate the review screen
+  // for that specific run.
+  useEffect(() => {
+    if (!pendingReviewRun) return;
+    const set = EXAM_SETS.sets.find(s => s.id === pendingReviewRun.setId);
+    // Recreate the question list. We use the set's stored question IDs in their
+    // canonical order — questions present at the time of the run but later
+    // removed will simply be missing; the run's `answers` map handles that case.
+    const ids = set ? set.questionIds : Object.keys(pendingReviewRun.answers || {});
+    const qs = ids.map(id => QUESTION_BY_ID[id]).filter(Boolean);
+    setActiveSet(set || { id: pendingReviewRun.setId, name: pendingReviewRun.setName, size: ids.length, questionIds: ids });
+    setActiveQuestions(qs);
+    setLastRun(pendingReviewRun);
+    setStage('results');
+    clearPendingReviewRun?.();
+  }, [pendingReviewRun, clearPendingReviewRun]);
 
   const startSet = (setId) => {
     const set = EXAM_SETS.sets.find(s => s.id === setId);

@@ -31,6 +31,11 @@ export default function App() {
   const [loaded, setLoaded] = useState(false);
   const [days, setDays] = useState(daysUntilExam());
 
+  // Pending review handoff: when the user clicks a past run on Dashboard,
+  // we stash it here and switch to the Practice tab; ExamSets picks it up
+  // and opens its review screen.
+  const [pendingReviewRun, setPendingReviewRun] = useState(null);
+
   // Sync state
   const [syncConfig, setSyncConfigState] = useState(null);
   const [syncStatus, setSyncStatus] = useState('idle'); // 'idle' | 'pulling' | 'pushing' | 'error' | 'offline'
@@ -176,6 +181,11 @@ export default function App() {
     });
   };
 
+  const reviewRun = (run) => {
+    setPendingReviewRun(run);
+    setTab('prac');
+  };
+
   const onReset = () => {
     if (!user) return;
     if (window.confirm(`Reset all progress for "${user}"? This cannot be undone.`)) {
@@ -241,7 +251,14 @@ export default function App() {
           zIndex: 2,
         }}
       >
-        {tab === 'dash'  && <Dashboard progress={progress} onReset={onReset} user={user} />}
+        {tab === 'dash'  && (
+          <Dashboard
+            progress={progress}
+            onReset={onReset}
+            user={user}
+            onReviewRun={reviewRun}
+          />
+        )}
         {tab === 'prac'  && (
           <Practice
             progress={progress}
@@ -249,6 +266,8 @@ export default function App() {
             addExamRun={addExamRun}
             flagQuestion={flagQuestion}
             unflagQuestion={unflagQuestion}
+            pendingReviewRun={pendingReviewRun}
+            clearPendingReviewRun={() => setPendingReviewRun(null)}
           />
         )}
         {tab === 'flash' && <Flashcards progress={progress} updateCard={updateCard} />}

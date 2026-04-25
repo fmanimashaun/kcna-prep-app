@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
-import { RotateCcw, TrendingDown, Clock, Flag, Copy, Check, ExternalLink } from 'lucide-react';
+import { RotateCcw, TrendingDown, Clock, Flag, Copy, Check, ExternalLink, History, ChevronRight } from 'lucide-react';
 import Section from './Section';
 import Card from './Card';
+import QuestionReviewModal from './QuestionReviewModal';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 import { daysUntilExam } from '../utils/helpers';
 import config from '../data/config.json';
@@ -29,7 +30,7 @@ function formatDurationShort(ms) {
 
 const MIN_ANSWERS_FOR_WEAK_AREAS = 20;
 
-export default function Dashboard({ progress, onReset, user }) {
+export default function Dashboard({ progress, onReset, user, onReviewRun }) {
   const days = daysUntilExam();
   const runs = progress.runs || [];
 
@@ -105,15 +106,33 @@ export default function Dashboard({ progress, onReset, user }) {
             {[...runs].reverse().slice(0, 12).map((r, i) => {
               const pct = Math.round((r.score / r.total) * 100);
               const color = pct >= PASS_MARK ? T.correct : pct >= 50 ? T.accent : T.wrong;
+              const clickable = !!onReviewRun;
               return (
-                <div
+                <button
                   key={`${r.setId}-${r.finishedAt}-${i}`}
+                  onClick={clickable ? () => onReviewRun(r) : undefined}
+                  disabled={!clickable}
+                  title={clickable ? 'Click to review answers' : undefined}
                   style={{
                     background: T.bgCard, border: `1px solid ${T.border}`,
                     borderLeft: `3px solid ${color}`,
                     padding: 14, borderRadius: 2,
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     gap: 12, flexWrap: 'wrap',
+                    cursor: clickable ? 'pointer' : 'default',
+                    textAlign: 'left',
+                    fontFamily: 'inherit',
+                    color: 'inherit',
+                    width: '100%',
+                    transition: 'border-color 0.15s, background 0.15s',
+                  }}
+                  onMouseOver={(e) => {
+                    if (!clickable) return;
+                    e.currentTarget.style.background = T.bgRaised;
+                  }}
+                  onMouseOut={(e) => {
+                    if (!clickable) return;
+                    e.currentTarget.style.background = T.bgCard;
                   }}
                 >
                   <div className="flex items-center gap-3">
@@ -124,6 +143,7 @@ export default function Dashboard({ progress, onReset, user }) {
                       </div>
                       <div style={{ fontFamily: fontMono, fontSize: 11, color: T.textDim, letterSpacing: '0.05em' }}>
                         {formatRunDate(r.finishedAt)} · {formatDurationShort(r.durationMs)}
+                        {clickable && <span style={{ marginLeft: 10, color: T.primary }}>· review →</span>}
                       </div>
                     </div>
                   </div>
@@ -135,7 +155,7 @@ export default function Dashboard({ progress, onReset, user }) {
                       {r.score}/{r.total}
                     </div>
                   </div>
-                </div>
+                </button>
               );
             })}
             {runs.length > 12 && (
@@ -149,6 +169,8 @@ export default function Dashboard({ progress, onReset, user }) {
           </div>
         </Section>
       )}
+
+      <RecentAnswersSection answers={progress.q} />
 
       <Section subtitle="Domain by domain" title="Accuracy by exam weight">
         <div className="flex flex-col gap-3">
@@ -497,4 +519,189 @@ function FlaggedSection({ flags }) {
       </div>
     </Section>
   );
+}
+
+// Lists the most recently answered questions (free-practice + exam-set rollups).
+// Each row is clickable and opens QuestionReviewModal so the user can revisit
+// the question, the correct answer, and the explanation at any time.
+function RecentAnswersSection({ answers }) {
+  const [reviewing, setReviewing] = useState(null); // { question, status }
+  const [filter, setFilter] = useState('all'); // 'all' | 'wrong' | 'correct'
+  const [showAll, setShowAll] = useState(false);
+
+  const list = useMemo(() => {
+    if (!answers) return [];
+    const items = Object.entries(answers).map(([id, st]) => ({
+      id,
+      status: st,
+      at: st?.last || 0,
+      q: QUESTION_BY_ID[id],
+    }));
+    items.sort((a, b) => b.at - a.at);
+    return items;
+  }, [answers]);
+
+  const filtered = list.filter(item => {
+    if (filter === 'wrong') return item.status?.correct === false;
+    if (filter === 'correct') return item.status?.correct === true;
+    return true;
+  });
+
+  if (list.length === 0) return null;
+
+  const visible = showAll ? filtered : filtered.slice(0, 12);
+
+  return (
+    <>
+      <Section
+        subtitle="Pick up where you left off"
+        title="Recent answers"
+      >
+        <div className="flex flex-wrap gap-2 mb-3">
+          {[
+            { id: 'all', label: `All · ${list.length}` },
+            { id: 'wrong', label: `Wrong · ${list.filter(i => i.status?.correct === false).length}` },
+            { id: 'correct', label: `Correct · ${list.filter(i => i.status?.correct === true).length}` },
+          ].map(opt => {
+            const active = filter === opt.id;
+            return (
+              <button
+                key={opt.id}
+                onClick={() => { setFilter(opt.id); setShowAll(false); }}
+                style={{
+                  padding: '5px 10px',
+                  background: active ? T.text : 'transparent',
+                  color: active ? T.bg : T.textMuted,
+                  border: `1px solid ${active ? T.text : T.border}`,
+                  borderRadius: 2,
+                  cursor: 'pointer',
+                  fontFamily: fontMono,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          {visible.map(item => {
+            const correct = item.status?.correct;
+            const color = correct === true ? T.correct : correct === false ? T.wrong : T.border;
+            const dom = item.q?.d ? DOMAINS[item.q.d] : null;
+            const ago = item.at ? formatAgo(item.at) : '—';
+            return (
+              <button
+                key={item.id}
+                onClick={() => item.q && setReviewing({ question: item.q, status: item.status })}
+                disabled={!item.q}
+                style={{
+                  background: T.bgCard, border: `1px solid ${T.border}`,
+                  borderLeft: `3px solid ${color}`,
+                  padding: 12, borderRadius: 2,
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  gap: 12, flexWrap: 'wrap',
+                  cursor: item.q ? 'pointer' : 'not-allowed',
+                  textAlign: 'left',
+                  fontFamily: 'inherit',
+                  color: 'inherit',
+                  width: '100%',
+                  transition: 'background 0.15s',
+                }}
+                onMouseOver={(e) => { if (item.q) e.currentTarget.style.background = T.bgRaised; }}
+                onMouseOut={(e) => { if (item.q) e.currentTarget.style.background = T.bgCard; }}
+              >
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="flex items-center gap-2 flex-wrap" style={{ marginBottom: 4 }}>
+                    <span style={{
+                      fontFamily: fontMono, fontSize: 10, color: T.textDim,
+                      letterSpacing: '0.15em', textTransform: 'uppercase',
+                    }}>
+                      {item.id}
+                    </span>
+                    {dom && (
+                      <span style={{
+                        fontFamily: fontMono, fontSize: 10, color: dom.tone,
+                        letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 600,
+                      }}>
+                        · {dom.short}
+                      </span>
+                    )}
+                    <span style={{
+                      fontFamily: fontMono, fontSize: 10,
+                      color: correct === true ? T.correct : correct === false ? T.wrong : T.textDim,
+                      letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 600,
+                    }}>
+                      · {correct === true ? 'correct' : correct === false ? 'wrong' : 'unknown'}
+                    </span>
+                    <span style={{
+                      fontFamily: fontMono, fontSize: 10, color: T.textDim,
+                      letterSpacing: '0.05em',
+                    }}>
+                      · {ago}
+                    </span>
+                  </div>
+                  <div style={{
+                    fontSize: 13, color: T.text, lineHeight: 1.45,
+                    overflow: 'hidden', textOverflow: 'ellipsis',
+                    display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                  }}>
+                    {item.q ? item.q.q : '(question no longer in the bank)'}
+                  </div>
+                </div>
+                {item.q && <ChevronRight size={16} style={{ color: T.textMuted, flexShrink: 0 }} />}
+              </button>
+            );
+          })}
+        </div>
+
+        {filtered.length > 12 && (
+          <div className="flex justify-center mt-3">
+            <button
+              onClick={() => setShowAll(s => !s)}
+              style={{
+                padding: '6px 14px',
+                background: 'transparent',
+                color: T.textMuted,
+                border: `1px solid ${T.border}`,
+                borderRadius: 2,
+                cursor: 'pointer',
+                fontFamily: fontMono,
+                fontSize: 11,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+              }}
+            >
+              {showAll ? `Show fewer` : `Show all ${filtered.length}`}
+            </button>
+          </div>
+        )}
+      </Section>
+
+      {reviewing && (
+        <QuestionReviewModal
+          question={reviewing.question}
+          status={reviewing.status}
+          onClose={() => setReviewing(null)}
+        />
+      )}
+    </>
+  );
+}
+
+function formatAgo(ts) {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 60) return 'just now';
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h / 24);
+  if (d < 7) return `${d}d ago`;
+  const w = Math.floor(d / 7);
+  return `${w}w ago`;
 }

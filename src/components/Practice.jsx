@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Clock, Infinity as InfinityIcon } from 'lucide-react';
 import FreePractice from './FreePractice';
 import ExamSets from './ExamSets';
@@ -9,8 +9,18 @@ const MODES = [
   { id: 'free', label: 'Free practice (untimed)', icon: InfinityIcon },
 ];
 
-export default function Practice({ progress, updateQuestion, addExamRun, flagQuestion, unflagQuestion }) {
+export default function Practice({
+  progress, updateQuestion, addExamRun,
+  flagQuestion, unflagQuestion,
+  pendingReviewRun, clearPendingReviewRun,
+}) {
   const [mode, setMode] = useState('exam');
+
+  // If we arrived here because the user clicked a past run on Dashboard,
+  // force the exam-set mode so the review surfaces.
+  useEffect(() => {
+    if (pendingReviewRun) setMode('exam');
+  }, [pendingReviewRun]);
 
   return (
     <div className="anim-in">
@@ -57,6 +67,8 @@ export default function Practice({ progress, updateQuestion, addExamRun, flagQue
           updateQuestion={updateQuestion}
           flagQuestion={flagQuestion}
           unflagQuestion={unflagQuestion}
+          pendingReviewRun={pendingReviewRun}
+          clearPendingReviewRun={clearPendingReviewRun}
         />
       )}
       {mode === 'free' && (

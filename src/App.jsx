@@ -6,6 +6,7 @@ import Flashcards from './components/Flashcards';
 import Revise from './components/Revise';
 import Landscape from './components/Landscape';
 import UserPrompt from './components/UserPrompt';
+import ExamDatePrompt from './components/ExamDatePrompt';
 import SyncPanel from './components/SyncPanel';
 import {
   loadProgress, saveProgress, clearProgress,
@@ -27,9 +28,10 @@ export default function App() {
   const [tab, setTab] = useState('dash');
   const [user, setUser] = useState(null);
   const [knownUsers, setKnownUsers] = useState([]);
-  const [progress, setProgress] = useState({ q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} });
+  const [progress, setProgress] = useState({ examDate: null, q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} });
   const [loaded, setLoaded] = useState(false);
-  const [days, setDays] = useState(daysUntilExam());
+  const [days, setDays] = useState(null);
+  const [editingExamDate, setEditingExamDate] = useState(false);
 
   // Pending review handoff: when the user clicks a past run on Dashboard,
   // we stash it here and switch to the Practice tab; ExamSets picks it up
@@ -65,11 +67,13 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Refresh countdown every minute
+  // Recompute countdown whenever the user's exam date changes,
+  // and tick once a minute so the day rolls over without a refresh.
   useEffect(() => {
-    const timer = setInterval(() => setDays(daysUntilExam()), 60_000);
+    setDays(daysUntilExam(progress.examDate));
+    const timer = setInterval(() => setDays(daysUntilExam(progress.examDate)), 60_000);
     return () => clearInterval(timer);
-  }, []);
+  }, [progress.examDate]);
 
   // Persist locally on every progress change + debounced push to remote
   useEffect(() => {
@@ -181,6 +185,10 @@ export default function App() {
     });
   };
 
+  const setExamDate = (dateStr) => {
+    setProgress(p => ({ ...p, examDate: dateStr || null }));
+  };
+
   const reviewRun = (run) => {
     setPendingReviewRun(run);
     setTab('prac');
@@ -190,7 +198,7 @@ export default function App() {
     if (!user) return;
     if (window.confirm(`Reset all progress for "${user}"? This cannot be undone.`)) {
       clearProgress(user);
-      setProgress({ q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} });
+      setProgress({ examDate: null, q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} });
     }
   };
 
@@ -230,10 +238,22 @@ export default function App() {
     return <UserPrompt existingUsers={knownUsers} onSubmit={handleUserSubmit} />;
   }
 
+  // Block until the user has set an exam date — countdown + strategy depend on it.
+  if (!progress.examDate) {
+    return (
+      <ExamDatePrompt
+        user={user}
+        onSubmit={(d) => setExamDate(d)}
+      />
+    );
+  }
+
   return (
     <div className="grain" style={{ minHeight: '100vh', background: T.bg }}>
       <Header
         days={days}
+        examDate={progress.examDate}
+        onEditExamDate={() => setEditingExamDate(true)}
         tab={tab}
         onTab={setTab}
         user={user}
@@ -254,6 +274,7 @@ export default function App() {
         {tab === 'dash'  && (
           <Dashboard
             progress={progress}
+            days={days}
             onReset={onReset}
             user={user}
             onReviewRun={reviewRun}
@@ -304,6 +325,30 @@ export default function App() {
         lastSync={lastSync}
         syncError={syncError}
       />
+
+      {editingExamDate && (
+        <div
+          onClick={() => setEditingExamDate(false)}
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: 20, zIndex: 30,
+          }}
+        >
+          <div onClick={(e) => e.stopPropagation()} style={{ width: '100%', maxWidth: 440 }}>
+            <ExamDatePrompt
+              embedded
+              user={user}
+              initialDate={progress.examDate}
+              title="Update your exam date"
+              subtitle="The countdown will adjust to the new date right away."
+              submitLabel="Update"
+              onSubmit={(d) => { setExamDate(d); setEditingExamDate(false); }}
+              onCancel={() => setEditingExamDate(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

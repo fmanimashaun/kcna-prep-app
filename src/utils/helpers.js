@@ -1,10 +1,11 @@
-import config from '../data/config.json';
-
-const EXAM_DATE = new Date(config.examDate);
-
-export function daysUntilExam() {
-  const now = new Date();
-  const diff = EXAM_DATE - now;
+// daysUntilExam(examDate)
+// examDate: ISO string like "2026-04-29" or "2026-04-29T09:00:00".
+// Returns null when no date is set, otherwise a non-negative integer.
+export function daysUntilExam(examDate) {
+  if (!examDate) return null;
+  const target = new Date(examDate);
+  if (Number.isNaN(target.getTime())) return null;
+  const diff = target - new Date();
   return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 }
 

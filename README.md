@@ -137,14 +137,7 @@ Data lives in [`src/data/`](src/data/). All files are plain JSON.
 
 ### Change the exam date
 
-Edit `src/data/config.json`:
-
-```json
-{
-  "examDate": "2026-04-29T09:00:00",
-  ...
-}
-```
+Each user picks their own exam date when they first sign in (after entering their name). To change it later, click the countdown number in the header — it opens an editor and the new date syncs across devices.
 
 ### Add practice questions
 
@@ -243,7 +236,7 @@ kcna-prep-app/
 │   │   ├── flashcards.json        # 83 flashcards
 │   │   ├── concepts.json          # 16 curated concept deep-dives
 │   │   ├── landscape.json         # CNCF landscape reference
-│   │   └── config.json            # Exam date, domains, sources, weights
+│   │   └── config.json            # Domains, weights, sources, pass mark
 │   ├── components/
 │   │   ├── Header.jsx             # Tabs, user switch, sync indicator
 │   │   ├── Section.jsx, Card.jsx, Filters.jsx

@@ -50,8 +50,15 @@ function SyncIndicator({ syncConfig, syncStatus, onClick }) {
   );
 }
 
+function formatExamDate(iso) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
 export default function Header({
-  days, tab, onTab,
+  days, examDate, onEditExamDate,
+  tab, onTab,
   user, onSwitchUser,
   syncConfig, syncStatus, onOpenSync,
 }) {
@@ -113,7 +120,18 @@ export default function Header({
                 <span style={{ color: T.textDim }}>switch</span>
               </button>
             )}
-            <div className="text-right">
+            <button
+              onClick={onEditExamDate}
+              title={examDate ? `Exam date: ${formatExamDate(examDate)} · click to change` : 'Set exam date'}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                padding: 0,
+                cursor: onEditExamDate ? 'pointer' : 'default',
+                textAlign: 'right',
+                fontFamily: 'inherit',
+              }}
+            >
               <div style={{
                 fontFamily: fontMono, fontSize: 10, letterSpacing: '0.2em',
                 color: T.textDim, textTransform: 'uppercase',
@@ -122,11 +140,19 @@ export default function Header({
               </div>
               <div style={{
                 fontFamily: fontHead, fontSize: 32, fontWeight: 700,
-                color: days <= 3 ? T.accent : T.text, lineHeight: 1,
+                color: days != null && days <= 3 ? T.accent : T.text, lineHeight: 1,
               }}>
-                {days}
+                {days ?? '—'}
               </div>
-            </div>
+              {examDate && (
+                <div style={{
+                  fontFamily: fontMono, fontSize: 9, letterSpacing: '0.15em',
+                  color: T.textDim, textTransform: 'uppercase', marginTop: 2,
+                }}>
+                  {formatExamDate(examDate)}
+                </div>
+              )}
+            </button>
           </div>
         </div>
 

@@ -4,6 +4,7 @@
 //   currentUser: "Fisayo",
 //   users: {
 //     "Fisayo": {
+//       examDate: "2026-04-29",   // ISO date the user is sitting the exam
 //       q: { [questionId]: { correct, attempts, last } },
 //       f: { [cardId]:   { status, last } },
 //       runs: [ { setId, startedAt, finishedAt, durationMs, score, total, byDomain, answers } ],
@@ -15,7 +16,7 @@ const STORAGE_KEY = 'kcna-progress-v2';
 const LEGACY_KEY = 'kcna-progress-v1';
 
 function emptyUser() {
-  return { q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} };
+  return { examDate: null, q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} };
 }
 
 function emptyStore() {
@@ -50,7 +51,7 @@ function readStore() {
       return {
         currentUser: null,
         users: {
-          __legacy: { q: old.q || {}, f: old.f || {}, runs: [], notes: [], reviewed: {}, flags: {} },
+          __legacy: { examDate: null, q: old.q || {}, f: old.f || {}, runs: [], notes: [], reviewed: {}, flags: {} },
         },
       };
     }
@@ -100,6 +101,7 @@ export function loadProgress(name) {
   const user = store.users[name];
   if (!user) return emptyUser();
   return {
+    examDate: user.examDate || null,
     q: user.q || {},
     f: user.f || {},
     runs: user.runs || [],
@@ -113,6 +115,7 @@ export function saveProgress(name, state) {
   if (!name) return;
   const store = readStore();
   store.users[name] = {
+    examDate: state.examDate || null,
     q: state.q || {},
     f: state.f || {},
     runs: state.runs || [],

@@ -4,7 +4,6 @@ import Section from './Section';
 import Card from './Card';
 import QuestionReviewModal from './QuestionReviewModal';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
-import { daysUntilExam } from '../utils/helpers';
 import config from '../data/config.json';
 import QUESTIONS from '../data/questions.json';
 import FLASHCARDS from '../data/flashcards.json';
@@ -30,8 +29,7 @@ function formatDurationShort(ms) {
 
 const MIN_ANSWERS_FOR_WEAK_AREAS = 20;
 
-export default function Dashboard({ progress, onReset, user, onReviewRun }) {
-  const days = daysUntilExam();
+export default function Dashboard({ progress, days, onReset, user, onReviewRun }) {
   const runs = progress.runs || [];
 
   const stats = useMemo(() => {

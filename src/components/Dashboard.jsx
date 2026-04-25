@@ -306,8 +306,11 @@ export default function Dashboard({ progress, onReset, user }) {
   );
 }
 
-// GitHub repo where the canonical question bank lives. Update this if you fork.
-const REPO_ISSUES_URL = 'https://github.com/fmanimashaun/kcna-prep-app/issues/new';
+// Resolved at build time from VITE_ISSUES_REPO (set by .github/workflows/deploy.yml
+// to ${{ github.repository }}, so each fork posts issues to its own repo).
+// Falls back to the upstream repo for local dev / unset builds.
+const ISSUES_REPO = import.meta.env.VITE_ISSUES_REPO || 'fmanimashaun/kcna-prep-app';
+const REPO_ISSUES_URL = `https://github.com/${ISSUES_REPO}/issues/new`;
 // GitHub URL practical limit is ~8KB; keep body well under for headers + title.
 const GH_URL_LIMIT = 6000;
 

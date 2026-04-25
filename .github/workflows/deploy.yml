@@ -27,6 +27,9 @@ jobs:
       - name: Build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
+          # ${{ github.repository }} is "owner/repo" — used by the in-app
+          # "Open GitHub issue" button so each fork posts to its own repo.
+          VITE_ISSUES_REPO: ${{ github.repository }}
         run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

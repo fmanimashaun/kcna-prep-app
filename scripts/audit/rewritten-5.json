@@ -1,0 +1,183 @@
+[
+  {
+    "id": "q0350",
+    "options": [
+      "kube-proxy",
+      "kube-apiserver",
+      "etcd",
+      "kubelet"
+    ]
+  },
+  {
+    "id": "q0351",
+    "options": [
+      "Running application containers",
+      "Serving the Kubernetes API",
+      "Storing the cluster state",
+      "Managing network policies"
+    ]
+  },
+  {
+    "id": "q0352",
+    "options": [
+      "StatefulSet",
+      "DaemonSet",
+      "Deployment",
+      "ReplicaSet"
+    ],
+    "expl": "Deployments manage ReplicaSets, providing declarative updates and scaling for stateless applications. While a ReplicaSet alone can maintain Pod replicas, Deployment is the higher-level controller you typically use because it adds rollout history, rolling updates, and rollback."
+  },
+  {
+    "id": "q0353",
+    "options": [
+      "Virtual Machine",
+      "Container",
+      "Operating System",
+      "Serverless Function"
+    ],
+    "expl": "A container bundles an application and its dependencies into a portable, isolated package that runs consistently across environments."
+  },
+  {
+    "id": "q0354",
+    "options": [
+      "Simplifying application code",
+      "Automating deployment and scaling",
+      "Reducing storage costs",
+      "Improving network latency"
+    ]
+  },
+  {
+    "id": "q0355",
+    "question": "Which of these is a standard maintained by the OCI (Open Container Initiative)?",
+    "options": [
+      "Container Runtime Interface (CRI)",
+      "Container Network Interface (CNI)",
+      "Image Specification",
+      "Container Storage Interface (CSI)"
+    ],
+    "expl": "The OCI defines standards for container image format (Image Specification), runtime (Runtime Specification), and distribution. CRI, CNI, and CSI are Kubernetes-specific interfaces, not OCI standards."
+  },
+  {
+    "id": "q0356",
+    "question": "Which CRI-compliant container runtime is the most widely used default in modern Kubernetes clusters?",
+    "options": [
+      "dockershim",
+      "containerd",
+      "rkt",
+      "LXC"
+    ],
+    "expl": "containerd is the most widely used CRI-compliant runtime in modern Kubernetes clusters. dockershim was removed in Kubernetes 1.24, rkt is deprecated, and LXC is not commonly used as a Kubernetes runtime."
+  },
+  {
+    "id": "q0357",
+    "options": [
+      "Ingress",
+      "Service",
+      "EndpointSlice",
+      "Pod"
+    ]
+  },
+  {
+    "id": "q0358",
+    "options": [
+      "ConfigMap",
+      "Annotation",
+      "Label",
+      "Secret"
+    ],
+    "expl": "Secrets are Kubernetes objects specifically designed to hold small amounts of sensitive data such as passwords or API keys. Note: Secret data is base64-encoded by default; enable encryption-at-rest on etcd for true encryption."
+  },
+  {
+    "id": "q0359",
+    "options": [
+      "Managing storage volumes",
+      "Providing container networking",
+      "Scheduling Pods",
+      "Enforcing RBAC"
+    ]
+  },
+  {
+    "id": "q0360",
+    "options": [
+      "Service",
+      "Ingress",
+      "NetworkPolicy",
+      "PodSecurityPolicy"
+    ]
+  },
+  {
+    "id": "q0361",
+    "options": [
+      "Container image building",
+      "Cluster storage management",
+      "Managing inter-service communications",
+      "Node provisioning"
+    ]
+  },
+  {
+    "id": "q0362",
+    "options": [
+      "PersistentVolumeClaim (PVC)",
+      "StorageClass",
+      "PersistentVolume (PV)",
+      "ConfigMap"
+    ]
+  },
+  {
+    "id": "q0363",
+    "options": [
+      "A request for storage by a user",
+      "A type of storage backend",
+      "A node's local storage",
+      "An allocation of memory"
+    ]
+  },
+  {
+    "id": "q0364",
+    "options": [
+      "To define storage types for dynamic provisioning",
+      "To claim a specific PV",
+      "To attach storage to a Pod",
+      "To back up volume data"
+    ],
+    "expl": "StorageClasses allow administrators to define different classes of storage (e.g., 'fast-ssd', 'cheap-hdd') and enable dynamic provisioning of PersistentVolumes on demand."
+  },
+  {
+    "id": "q0365",
+    "correct": 2,
+    "options": [
+      "Vertical Pod Autoscaler (VPA)",
+      "Cluster Autoscaler (CA)",
+      "Horizontal Pod Autoscaler (HPA)",
+      "Node Problem Detector (NPD)"
+    ],
+    "expl": "The Horizontal Pod Autoscaler (HPA) automatically scales the number of Pods in a Deployment (or ReplicaSet/StatefulSet) based on observed CPU utilization or custom metrics. VPA adjusts Pod resource requests, Cluster Autoscaler adjusts the number of Nodes, and Node Problem Detector reports node-level issues."
+  },
+  {
+    "id": "q0366",
+    "options": [
+      "Monolithic",
+      "Microservices",
+      "Serverless",
+      "Client-Server"
+    ]
+  },
+  {
+    "id": "q0367",
+    "options": [
+      "Networking",
+      "Storage",
+      "Server Management",
+      "Application logic"
+    ]
+  },
+  {
+    "id": "q0368",
+    "options": [
+      "Linux Foundation (LF)",
+      "Apache Software Foundation (ASF)",
+      "Cloud Native Computing Foundation (CNCF)",
+      "Eclipse Foundation"
+    ]
+  }
+]

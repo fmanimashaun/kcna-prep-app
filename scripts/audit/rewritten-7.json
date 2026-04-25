@@ -1,0 +1,192 @@
+[
+  {
+    "id": "q0388",
+    "opts": [
+      "Secret",
+      "ConfigMap",
+      "NetworkPolicy",
+      "RoleBinding / ClusterRoleBinding"
+    ]
+  },
+  {
+    "id": "q0389",
+    "opts": [
+      "Deployment",
+      "StatefulSet",
+      "DaemonSet",
+      "Job"
+    ]
+  },
+  {
+    "id": "q0390",
+    "opts": [
+      "Deployments manage stateless Pods, while StatefulSets provide stable network identities and ordered, persistent storage for each Pod",
+      "Deployments are designed exclusively for database workloads, while StatefulSets handle web servers",
+      "StatefulSets cannot use PersistentVolumes, while Deployments can",
+      "Deployments guarantee Pod ordering during scaling, while StatefulSets do not"
+    ],
+    "correct": 0,
+    "expl": "StatefulSets provide guarantees about ordering and uniqueness of Pods, including stable network identifiers (predictable Pod names like web-0, web-1) and stable persistent storage. Deployments treat Pods as interchangeable replicas, which suits stateless workloads."
+  },
+  {
+    "id": "q0391",
+    "opts": [
+      "Service (LoadBalancer type)",
+      "NodePort Service",
+      "Ingress",
+      "ExternalName Service"
+    ]
+  },
+  {
+    "id": "q0392",
+    "opts": [
+      "Init Container",
+      "Sidecar Container",
+      "Ephemeral Container",
+      "Job Container"
+    ]
+  },
+  {
+    "id": "q0393",
+    "opts": [
+      "Imperative Commands",
+      "Control Loop / Reconciliation",
+      "Manual Scaling",
+      "Direct Node Access"
+    ]
+  },
+  {
+    "id": "q0394",
+    "opts": [
+      "Replication",
+      "Orchestration",
+      "Scheduling",
+      "Deployment"
+    ]
+  },
+  {
+    "id": "q0395",
+    "opts": [
+      "Scale Pod replicas",
+      "Scale cluster Nodes",
+      "Scale Persistent Volumes",
+      "Scale Service endpoints"
+    ]
+  },
+  {
+    "id": "q0396",
+    "opts": [
+      "SQL",
+      "PromQL",
+      "JSONPath",
+      "YAML"
+    ]
+  },
+  {
+    "id": "q0409",
+    "expl": "Requests are used for scheduling and reserve a guaranteed share of node resources, while limits cap the maximum a container can use. When limits greatly exceed requests, containers can burst beyond their guaranteed share and starve other Pods on the node — leading to CPU throttling, OOM kills, and Pod eviction once the kubelet detects node pressure."
+  },
+  {
+    "id": "q0410",
+    "opts": [
+      "1",
+      "-1",
+      "0",
+      "NaN (Not a Number)",
+      "The metric will be absent (no data point recorded)."
+    ],
+    "correct": 2,
+    "expl": "The up metric explicitly indicates scrape success or failure. A value of 1 means the scrape succeeded, while 0 means it failed (timeout, connection refused, non-200 HTTP response, etc.). The metric is not absent and not NaN — it's specifically set to 0."
+  },
+  {
+    "id": "q0412",
+    "opts": [
+      "Tightly coupled monoliths and manual deployments",
+      "High automation and elastic scalability",
+      "Mandatory use of proprietary hardware",
+      "Single-vendor lock-in by design"
+    ],
+    "correct": 1,
+    "expl": "Cloud native architectures emphasize high automation (declarative orchestration, CI/CD, GitOps) and elastic scalability (horizontal scaling, autoscaling). The other choices describe characteristics cloud native explicitly seeks to avoid."
+  },
+  {
+    "id": "q0414",
+    "opts": [
+      "Vertical scaling",
+      "Horizontal scaling",
+      "Diagonal scaling",
+      "Manual provisioning"
+    ],
+    "correct": 1,
+    "expl": "Horizontal scaling — adding more instances behind a load balancer — is the dominant model for stateless cloud native apps. Vertical scaling (bigger machines) is bounded by hardware limits and typically causes downtime."
+  },
+  {
+    "id": "q0416",
+    "opts": [
+      "Develop cloud native applications",
+      "Build container images",
+      "Deploy applications on Kubernetes",
+      "Design hardware networking topologies"
+    ],
+    "correct": 0,
+    "expl": "The 12-factor methodology (originated at Heroku) is a set of guidelines for building portable, scalable, cloud-suited applications — config in env vars, logs as streams, disposability, and so on. It predates Kubernetes and is independent of any container build tooling."
+  },
+  {
+    "id": "q0419",
+    "question": "What is the primary benefit containers provide to application teams?",
+    "opts": [
+      "Packaging an application with its dependencies for consistent execution across environments",
+      "Automatically generating secure application source code",
+      "Eliminating the need for an operating system kernel",
+      "Replacing the need for a CI/CD pipeline"
+    ],
+    "correct": 0,
+    "expl": "Containers package an application together with its dependencies and runtime configuration into a portable artifact, solving the 'works on my machine' problem and enabling consistent execution across dev, test, and prod. They share the host kernel and do not write secure code or replace CI/CD."
+  },
+  {
+    "id": "q0423",
+    "question": "Which command produces a container image from a Dockerfile?",
+    "opts": [
+      "docker build",
+      "docker run",
+      "docker commit",
+      "docker pull"
+    ],
+    "correct": 0,
+    "expl": "`docker build` reads a Dockerfile and produces a container image. `docker run` starts a container from an existing image, `docker commit` creates an image from a running container's filesystem changes, and `docker pull` downloads an existing image from a registry."
+  },
+  {
+    "id": "q0425",
+    "opts": [
+      "Scheduling containers across nodes",
+      "Managing CPU and memory resources",
+      "Providing a cluster network for containers",
+      "Writing application source code"
+    ],
+    "correct": 3,
+    "expl": "Container orchestrators like Kubernetes schedule workloads onto nodes, enforce resource requests/limits, and provide a cluster network (via a CNI plugin). They do not write or generate application source code — that remains a developer responsibility."
+  },
+  {
+    "id": "q0427",
+    "opts": [
+      "Ingress and Egress",
+      "Data Plane and Control Plane",
+      "Proxy and Registry",
+      "Sidecar and Gateway"
+    ],
+    "correct": 1,
+    "expl": "A service mesh is composed of a data plane (sidecar proxies that intercept and route actual service-to-service traffic) and a control plane (which configures the proxies with policies, certificates, and routing rules)."
+  },
+  {
+    "id": "q0428",
+    "question": "Which foundation hosts the Kubernetes project?",
+    "opts": [
+      "Cloud Native Computing Foundation (CNCF)",
+      "Apache Software Foundation",
+      "Linux Foundation Networking",
+      "Open Container Initiative (OCI)"
+    ],
+    "correct": 0,
+    "expl": "Kubernetes originated at Google (based on lessons from Borg) and was donated to the Cloud Native Computing Foundation (CNCF) in 2015. CNCF, a sub-foundation of the Linux Foundation, hosts and stewards the project today."
+  }
+]

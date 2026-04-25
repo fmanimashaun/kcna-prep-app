@@ -1,0 +1,325 @@
+[
+  {
+    "id": "q0186",
+    "domain": "arch",
+    "src": "prep",
+    "question": "What is a potential drawback or challenge associated with serverless FaaS architectures compared to traditional long-running services?",
+    "options": [
+      "Significantly higher infrastructure costs when constantly busy.",
+      "Difficulty in achieving automatic scaling.",
+      "Lack of support for common programming languages.",
+      "Cold starts (latency introduced when invoking an idle function).",
+      "Inability to integrate with other cloud services."
+    ],
+    "correct": 2,
+    "explanation": "DevOps promotes breaking down silos between development and operations teams. It emphasizes shared goals, collaboration, communication, and automating processes (CI/CD, IaC) to deliver software faster and more reliably.",
+    "auditIssue": "Explanation is completely mismatched: it discusses DevOps culture instead of explaining why 'cold starts' is a drawback of FaaS.",
+    "auditSuggestion": "Replace the explanation with one describing cold starts: when a function has been idle, the platform must provision/initialize a new instance (container, runtime, code load) before executing, adding latency to the first invocation."
+  },
+  {
+    "id": "q0190",
+    "domain": "arch",
+    "src": "prep",
+    "question": "Besides FaaS, what other types of services sometimes fall under the \"serverless\" umbrella?",
+    "options": [
+      "Managed databases, messaging queues, and API gateways that autoscale and abstract infrastructure.",
+      "Traditional virtual machines with pay-as-you-go pricing.",
+      "Bare-metal servers provisioned via an API.",
+      "On-premises Kubernetes clusters managed using GitOps.",
+      "Desktop applications deployed via MSI installers."
+    ],
+    "correct": 0,
+    "explanation": "The \"serverless\" concept often extends beyond FaaS to include managed backend services (Backend-as-a-Service or BaaS) like databases (e.g., DynamoDB, Firestore), queues (e.g., SQS, Pub/Sub), and API gateways where the provider manages scaling, availability, and infrastructure, abstracting it from the user.",
+    "auditIssue": "Distractor 'Desktop applications deployed via MSI installers' is a throwaway/nonsense option irrelevant to cloud native serverless.",
+    "auditSuggestion": "Replace with a more plausible distractor such as 'Dedicated hosts with pre-allocated capacity reserved per tenant.'"
+  },
+  {
+    "id": "q0192",
+    "domain": "arch",
+    "src": "prep",
+    "question": "Why is understanding the different personas (Developer, Operator, etc.) important when designing a cloud native platform or process?",
+    "options": [
+      "It helps determine the pricing model for the platform.",
+      "It ensures the platform only uses CNCF Graduated projects.",
+      "It allows tailoring tools, interfaces, and automation to meet the specific needs and workflows of each role.",
+      "It dictates the programming language used for building the platform itself.",
+      "It's primarily a marketing exercise with little technical impact."
+    ],
+    "correct": 2,
+    "explanation": "Different roles have different needs, priorities, and technical skills. Designing a platform or process with these personas in mind leads to better usability, adoption, and efficiency. For example, developers need easy self-service deployment, while operators need robust monitoring and control.",
+    "auditIssue": "Explanation has a stray trailing page-number artifact (' 181') left over from a source document.",
+    "auditSuggestion": "Remove the stray '181' at the end of the explanation."
+  },
+  {
+    "id": "q0199",
+    "domain": "arch",
+    "src": "prep",
+    "question": "If VPA is configured in \"recommendation\" mode (updateMode: \"Off\"), what does it do?",
+    "options": [
+      "It automatically adjusts Pod resource requests/limits based on usage.",
+      "It scales the number of Pod replicas based on its recommendations.",
+      "It generates recommendations for resource requests/limits but does not apply them automatically.",
+      "It adds or removes cluster nodes based on resource recommendations.",
+      "It disables itself and provides no recommendations."
+    ],
+    "correct": 2,
+    "explanation": "In recommendation-only mode, VPA analyzes resource usage and updates the status.recommendation field of the VPA object with suggested values for requests/limits, but it doesn't modify the running Pods. This allows operators to review recommendations before applying them.",
+    "auditIssue": "Explanation has a stray trailing page-number artifact (' 183').",
+    "auditSuggestion": "Remove the trailing '183' from the explanation."
+  },
+  {
+    "id": "q0202",
+    "domain": "arch",
+    "src": "prep",
+    "question": "An End User of a cloud native application interacts with the system differently than a Developer or Operator. What is the End User's primary interaction?",
+    "options": [
+      "Pushing code commits to a Git repository.",
+      "Configuring monitoring alerts for application performance.",
+      "Using the application's interface (e.g., web UI, mobile app) to consume its functionality.",
+      "Provisioning new nodes for the Kubernetes cluster.",
+      "Writing Kubernetes YAML manifests."
+    ],
+    "correct": 2,
+    "explanation": "The End User is the consumer of the application built by Developers and run on the platform managed by Operators. Their interaction is typically through the application's intended interface to achieve a business goal or task.",
+    "auditIssue": "Question is trivially easy; the correct option is obvious ('uses the application's interface') while other options are throwaways clearly belonging to other personas.",
+    "auditSuggestion": "Raise difficulty by asking about differentiating concerns across personas (e.g., which persona cares most about SLOs vs. feature velocity) rather than the obvious end-user interaction."
+  },
+  {
+    "id": "q0207",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What distinguishes \"observability\" from traditional \"monitoring\"?",
+    "options": [
+      "Monitoring uses dashboards; Observability uses only logs.",
+      "Monitoring focuses on predefined metrics (\"known unknowns\"); Observability aims to infer system state from outputs (\"unknown unknowns\").",
+      "Observability is only applicable to serverless architectures; Monitoring is for VMs.",
+      "Monitoring relies on pulling metrics; Observability relies on pushing logs.",
+      "Observability replaces the need for alerting systems."
+    ],
+    "correct": 1,
+    "explanation": "Traditional monitoring often tracks predefined key metrics against thresholds (did CPU usage cross",
+    "auditIssue": "Explanation is truncated mid-sentence ('did CPU usage cross 80') — the percent sign and rest of the explanation are missing.",
+    "auditSuggestion": "Complete the explanation, e.g., 'Traditional monitoring tracks predefined metrics against thresholds (e.g., did CPU exceed 80%?), while observability aims to answer arbitrary questions about system state from rich telemetry (logs, metrics, traces) without knowing failure modes in advance.'"
+  },
+  {
+    "id": "q0213",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What does \"instrumentation\" mean in the context of application observability?",
+    "options": [
+      "Automatically installing monitoring agents on application hosts.",
+      "Adding code to an application to generate and export telemetry data (logs, metrics, traces).",
+      "Configuring firewall rules to allow monitoring traffic.",
+      "Visualizing telemetry data in dashboards like Grafana.",
+      "Writing PromQL queries to analyze application performance."
+    ],
+    "correct": 1,
+    "explanation": "Instrumentation is the process of adding code (using libraries like OpenTelemetry SDKs or Prometheus client libraries) to an application so that it emits signals about its state and behavior - creating log entries, incrementing metric counters, starting/ending trace spans.",
+    "auditIssue": "Explanation has a stray trailing page-number artifact (' 187').",
+    "auditSuggestion": "Remove the trailing '187'."
+  },
+  {
+    "id": "q0220",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What type of Prometheus metric is most suitable for tracking a value that can arbitrarily increase or decrease, like the current number of active connections?",
+    "options": [
+      "Counter",
+      "Gauge",
+      "Histogram",
+      "Summary",
+      "Info"
+    ],
+    "correct": 1,
+    "explanation": "A Gauge represents a single numerical value that can go up or down. It's suitable for metrics like temperature, current memory 189 usage, or the number of items in a queue. Counters only go up (or reset to zero). Histograms and Summaries track distributions.",
+    "auditIssue": "Explanation contains an embedded stray number ('current memory 189 usage') — page-number artifact breaking the sentence.",
+    "auditSuggestion": "Remove the '189' artifact so the text reads 'current memory usage'."
+  },
+  {
+    "id": "q0225",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What is a \"Service Level Objective\" (SLO) in the context of observability and SRE?",
+    "options": [
+      "A detailed log message indicating a service failure.",
+      "A contractual agreement with a cloud provider for uptime (SLA).",
+      "A specific, measurable target for a service's reliability or performance (e.g., 99.9",
+      "A dashboard showing real-time resource utilization.",
+      "An alert configured in Alertmanager."
+    ],
+    "correct": 2,
+    "explanation": "An SLO is an internal target for service reliability, often based on user happiness metrics (e.g., availability, latency). Observability data (metrics, logs) is used to measure performance against SLOs. Service Level Indicators (SLIs) are the metrics used to measure SLO compliance. SLAs are external agreements.",
+    "auditIssue": "Correct option text is truncated mid-sentence ('99.9') — the percentage and rest of the target are missing, making the option grammatically broken.",
+    "auditSuggestion": "Complete the option, e.g., 'A specific, measurable target for a service's reliability or performance (e.g., 99.9% of requests succeed over 30 days).'"
+  },
+  {
+    "id": "q0227",
+    "domain": "obs",
+    "src": "prep",
+    "question": "How might analyzing network egress data, often available via cloud provider monitoring or specialized tools, help control costs?",
+    "options": [
+      "By optimizing DNS resolution times within the cluster.",
+      "By identifying unexpected or excessive data transfer out of the cluster/cloud, which often incurs costs.",
+      "By improving the efficiency of the CNI plugin's IP address allocation.",
+      "By reducing the number of LoadBalancer services used.",
+      "By increasing the MTU size for Pod network interfaces."
+    ],
+    "correct": 1,
+    "explanation": "Cloud providers typically charge for data transferred out to the internet or sometimes between regions/availability zones. Monitoring 191 egress traffic helps identify applications sending large amounts of data unexpectedly, allowing investigation and potential optimization to reduce data transfer costs.",
+    "auditIssue": "Explanation contains an embedded stray number ('Monitoring 191 egress traffic') — page-number artifact.",
+    "auditSuggestion": "Remove '191' from within the explanation."
+  },
+  {
+    "id": "q0232",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What is the difference between the up metric automatically generated by Prometheus and application-specific health check metrics?",
+    "options": [
+      "up is a gauge, while health checks are counters.",
+      "up indicates scrape success; health checks indicate application functionality.",
+      "up is only generated for Kubernetes Pods; health checks are for external services.",
+      "up requires custom instrumentation; health checks are built-in.",
+      "up triggers Alertmanager directly; health checks require PromQL rules."
+    ],
+    "correct": 1,
+    "explanation": "Prometheus automatically generates an upjob=\"...\", instance=\"...\" metric for each target scrape (1 if successful, 0 if failed). This only tells if Prometheus could reach the /metrics endpoint. Application health checks (e.g., a /healthz endpoint) verify internal application logic or dependencies.",
+    "auditIssue": "Explanation has formatting issue: 'upjob=\"...\", instance=\"...\"' is missing braces — should read 'up{job=\"...\", instance=\"...\"}'.",
+    "auditSuggestion": "Fix to 'up{job=\"...\", instance=\"...\"}' to render the metric label syntax correctly."
+  },
+  {
+    "id": "q0234",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What is a potential downside of relying only on logs for observability?",
+    "options": [
+      "Logs cannot capture detailed error messages.",
+      "Logs are difficult to aggregate and query for trends or patterns across many instances.",
+      "Logs do not provide timestamps for events.",
+      "Logs cannot be generated by most modern applications.",
+      "Logs cannot be stored centrally."
+    ],
+    "correct": 2,
+    "explanation": "remote_write allows Prometheus to stream its collected metrics data in near real-time to compatible remote endpoints. This is commonly used for long-term storage solutions (e.g., Thanos, Cortex, VictoriaMetrics, cloud vendor TSDBs) that can handle larger data volumes and longer retention periods.",
+    "auditIssue": "Explanation does not match the question at all — it describes Prometheus remote_write for long-term storage, which has nothing to do with 'downsides of relying only on logs'.",
+    "auditSuggestion": "Replace the explanation with one that addresses log-only observability limitations, e.g., 'Unstructured or high-volume logs are expensive to aggregate, index, and query for trends across many instances; metrics are far better for aggregate trends and traces for request flow.'"
+  },
+  {
+    "id": "q0240",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What problem does the Prometheus scrape_timeout configuration setting address?",
+    "options": [
+      "It limits how long Prometheus waits for Alertmanager to respond.",
+      "It defines the maximum duration Prometheus will wait for a target to respond during a scrape.",
+      "It sets the retention period for metrics data in the TSDB.",
+      "It controls how often Prometheus reloads its configuration file.",
+      "It limits the number of concurrent scrapes Prometheus can perform."
+    ],
+    "correct": 1,
+    "explanation": "If a target is slow to respond or hangs, Prometheus needs a timeout to avoid waiting indefinitely and blocking other scrapes. scrape_timeout 195 defines this limit; if the target doesn't respond within this duration, the scrape fails, and the up metric becomes",
+    "auditIssue": "Explanation contains spurious artifact 'scrape_timeout 195' - looks like a PDF page-number leak.",
+    "auditSuggestion": "Remove the stray '195' from the explanation so it reads 'scrape_timeout defines this limit'."
+  },
+  {
+    "id": "q0242",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What is a key challenge when collecting traces in high-throughput systems?",
+    "options": [
+      "Traces do not support capturing latency information.",
+      "Generating and storing trace data for every request can be resourceintensive and costly.",
+      "Traces cannot be correlated with logs or metrics.",
+      "Trace data cannot be visualized effectively.",
+      "Only specific programming languages support trace instrumentation."
+    ],
+    "correct": 1,
+    "explanation": "Capturing detailed trace data for every single request in a high-volume system can generate massive amounts of data and add performance overhead. Sampling (collecting traces for a subset of requests) is often employed to manage this overhead while still providing representative insights.",
+    "auditIssue": "Typo in option B: 'resourceintensive' should be 'resource-intensive'.",
+    "auditSuggestion": "Fix hyphenation: 'Generating and storing trace data for every request can be resource-intensive and costly.'"
+  },
+  {
+    "id": "q0247",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What does \"right-sizing\" mean in the context of Kubernetes resource requests/limits and cost management?",
+    "options": [
+      "Always setting requests and limits to the maximum allowed values.",
+      "Setting requests and limits based on observed application usage patterns to avoid waste.",
+      "Using only the largest available node types in the cluster.",
+      "Disabling resource limits entirely for better performance.",
+      "Matching resource requests exactly to the node's capacity."
+    ],
+    "correct": 1,
+    "explanation": "Right-sizing involves analyzing actual resource consumption (using metrics from observability tools) and adjusting the resources.requests 197 and resources.limits in Pod specs to align closely with actual needs, minimizing over-provisioning (waste) while ensuring sufficient resources for performance.",
+    "auditIssue": "Explanation has spurious '197' artifact embedded in the text ('resources.requests 197 and resources.limits').",
+    "auditSuggestion": "Remove the stray '197' from the explanation."
+  },
+  {
+    "id": "q0249",
+    "domain": "obs",
+    "src": "prep",
+    "question": "Besides the basic up metric, what is another common metric exposed by Prometheus exporters to indicate their own health or ability to collect data?",
+    "options": [
+      "exporter_scrape_duration_seconds or similar metrics about the scrape itself.",
+      "node_cpu_seconds_total exposed by node_exporter.",
+      "kube_pod_info exposed by kube-state-metrics.",
+      "http_requests_total from an application.",
+      "etcd_server_has_leader from etcd."
+    ],
+    "correct": 0,
+    "explanation": "Many exporters expose metrics about their own operation, such as how long it took them to collect data from the target system (...scrape_duration_seconds) or the number of errors encountered (...scrape_errors_total). Monitoring these helps diagnose issues with the exporter itself.",
+    "auditIssue": "Distractors are plausible exporter metric names but the question wording ('another common metric ... to indicate their own health') makes option A the obvious right answer while other options are real metrics from other exporters; this borders on a give-away since only option A is meta/self-reported.",
+    "auditSuggestion": "Tighten distractors to be other meta-metrics (e.g., a container_cpu metric, a generic target label) or reword the stem to specifically ask which of these is a self-monitoring metric emitted by exporters about the scrape process itself."
+  },
+  {
+    "id": "q0253",
+    "domain": "del",
+    "src": "prep",
+    "question": "In GitOps, what serves as the single source of truth for the desired state of the application and infrastructure?",
+    "options": [
+      "The running cluster state queried via kubectl.",
+      "A configuration management database (CMDB).",
+      "A Git repository containing declarative configuration manifests.",
+      "A wiki page maintained by the operations team.",
+      "The CI/CD pipeline logs."
+    ],
+    "correct": 1,
+    "explanation": "CI focuses on automating the process of integrating code changes from multiple contributors into a shared repository. Each integration is verified by an automated build and test 1 sequence to detect issues early. It does not typically involve deployment to production itself (that's CD).",
+    "auditIssue": "Explanation is wrong - it describes Continuous Integration instead of GitOps source of truth. Mismatch between question and explanation.",
+    "auditSuggestion": "Replace explanation with something like: 'In GitOps the Git repository holds the declarative desired state for applications and infrastructure. The cluster is continuously reconciled against this source of truth, providing auditability and easy rollback.'"
+  },
+  {
+    "id": "q0259",
+    "domain": "del",
+    "src": "prep",
+    "question": "What is the primary function of a container registry (e.g., Docker Hub, Google Container Registry, Harbor) in the CI/CD process?",
+    "options": [
+      "To store source code repositories.",
+      "To run automated unit and integration tests.",
+      "To store and distribute container images built by the CI process.",
+      "To host Kubernetes manifest files declaratively defining deployments.",
+      "To manage DNS records for deployed applications."
+    ],
+    "correct": 2,
+    "explanation": "A Canary Release introduces the new version to a small subset of users/traffic first. If monitoring shows the new version is stable and performs well, traffic is gradually shifted until the new version handles all traffic. This minimizes the blast radius of potential issues.",
+    "auditIssue": "Explanation is wrong - it describes a Canary Release instead of the purpose of a container registry. Mismatched explanation.",
+    "auditSuggestion": "Replace explanation with: 'A container registry (Docker Hub, GCR, Harbor, ECR, etc.) stores the container images produced by CI and distributes them to downstream environments, letting Kubernetes pull the exact image referenced in a manifest.'"
+  },
+  {
+    "id": "q0264",
+    "domain": "del",
+    "src": "prep",
+    "question": "What role does automated testing (unit, integration, end-toend) play in achieving reliable Continuous Delivery/Deployment?",
+    "options": [
+      "It slows down the delivery pipeline unnecessarily.",
+      "It provides the confidence needed to automate deployments by verifying application correctness at different levels.",
+      "It is only necessary for applications written in specific languages.",
+      "It replaces the need for monitoring and observability post-deployment.",
+      "It primarily focuses on testing the underlying Kubernetes infrastructure."
+    ],
+    "correct": 1,
+    "explanation": "Automated tests are crucial gates in the CI/CD pipeline. They verify that code changes haven't introduced regressions and that the application functions as expected. Passing these tests provides confidence that the artifact is safe to deploy, enabling automation.",
+    "auditIssue": "Typo in stem: 'end-toend' missing hyphen.",
+    "auditSuggestion": "Correct to 'end-to-end'."
+  }
+]

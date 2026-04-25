@@ -1,0 +1,105 @@
+[
+  {
+    "id": "q0066",
+    "expl": "A Deployment performs rolling updates by creating a new ReplicaSet and gradually scaling it up while scaling down the old ReplicaSet. Pods are replaced incrementally according to maxSurge and maxUnavailable settings, so a healthy set of replicas keeps serving traffic throughout the rollout, achieving zero downtime."
+  },
+  {
+    "id": "q0077",
+    "question": "Which field in a Pod's specification is crucial for the kube-scheduler to determine if a node has sufficient resources?"
+  },
+  {
+    "id": "q0079",
+    "opts": [
+      "Image Specification",
+      "Distribution Specification",
+      "Runtime Specification",
+      "Network Specification",
+      "Storage Specification"
+    ]
+  },
+  {
+    "id": "q0080",
+    "expl": "A ConfigMap stores non-sensitive configuration data as key/value pairs. It can be consumed by Pods as environment variables, command-line arguments, or files mounted into a volume, decoupling configuration from container images. Secrets serve the same role for sensitive data; ConfigMaps are the right choice for plain values like URLs or log levels."
+  },
+  {
+    "id": "q0087",
+    "opts": [
+      "kubectl get pod <pod-name> --logs",
+      "kubectl describe pod <pod-name>",
+      "kubectl logs <pod-name> [-c <container-name>]",
+      "kubectl attach <pod-name> -c <container-name>",
+      "kubectl exec <pod-name> -- tail /var/log/messages"
+    ]
+  },
+  {
+    "id": "q0099",
+    "opts": [
+      "metadata.name",
+      "metadata.namespace",
+      "metadata.labels",
+      "spec.containers[].image",
+      "spec.serviceAccountName"
+    ],
+    "expl": "A Service defines a label selector in its spec. The endpoints controller continuously watches Pods whose metadata.labels match that selector and populates the Service's Endpoints/EndpointSlices, which kube-proxy then uses to route traffic. Names, namespaces, images, and service accounts play no role in target selection."
+  },
+  {
+    "id": "q0100",
+    "expl": "An emptyDir volume is created when a Pod is assigned to a node and exists for as long as that Pod runs there. Its contents are lost when the Pod is removed from the node. Because all containers in the Pod can mount it at the same path, it is ideal as scratch space or for sharing files between containers within a single Pod."
+  },
+  {
+    "id": "q0101",
+    "opts": [
+      "/api/v1/nodes",
+      "/api/v1/namespaces/{namespace}/pods",
+      "/apis/apps/v1/deployments",
+      "/healthz",
+      "/metrics"
+    ],
+    "correct": 1,
+    "expl": "kubectl translates resource types into REST paths against the Kubernetes API server. Pods are part of the core API group (no group name), so they live under /api/v1, and because Pods are namespaced the full path is /api/v1/namespaces/{namespace}/pods. Deployments belong to the apps group (/apis/apps/v1/...), while /healthz and /metrics are server-level endpoints, not resource collections."
+  },
+  {
+    "id": "q0104",
+    "expl": "The node-controller, which runs as part of the kube-controller-manager, is responsible for monitoring Node health based on heartbeats received from each kubelet. When heartbeats stop arriving, it updates the Node's status conditions (e.g., Ready becomes False or Unknown), which is then persisted to etcd via the API server."
+  },
+  {
+    "id": "q0107",
+    "question": "In a typical Kubernetes cluster setup, where does the kube-scheduler run?"
+  },
+  {
+    "id": "q0122",
+    "expl": "A NetworkPolicy is a namespaced resource that selects Pods via a podSelector and defines which ingress and egress traffic is allowed at L3/L4 (IP addresses/CIDRs, ports, and protocols). The policy itself is just a specification; the cluster's CNI plugin (e.g., Calico, Cilium) is responsible for enforcing it at the network layer."
+  },
+  {
+    "id": "q0128",
+    "expl": "Ingress objects manage external access to in-cluster Services, typically over HTTP and HTTPS. They provide L7 features such as host-based routing (e.g., foo.example.com) and path-based routing (e.g., example.com/bar), along with TLS termination. An Ingress controller (such as NGINX, Traefik, or a cloud provider's controller) actually implements the routing rules defined by Ingress resources."
+  },
+  {
+    "id": "q0139",
+    "expl": "RBAC lets cluster administrators define Roles and ClusterRoles that list exactly which verbs (get, list, create, etc.) are allowed on which resources, then bind those roles to specific users, groups, or ServiceAccounts via RoleBindings or ClusterRoleBindings. By granting only the permissions a subject actually needs, RBAC directly enables the principle of least privilege."
+  },
+  {
+    "id": "q0145",
+    "expl": "NetworkPolicies provide L3/L4 segmentation between Pods. A Service Mesh operates at L7, offering richer features such as automatic mTLS for strong workload identity and encryption, fine-grained traffic control (retries, timeouts, traffic splitting, circuit breaking), and detailed telemetry (metrics, logs, distributed traces) for application traffic. You choose a mesh when those L7 capabilities are required."
+  },
+  {
+    "id": "q0152",
+    "expl": "Within the same namespace, the short Service name (e.g., my-svc) is sufficient because Pods are configured with a DNS search path that includes <namespace>.svc.cluster.local. For cross-namespace lookups you would use my-svc.my-ns or the fully qualified my-svc.my-ns.svc.cluster.local."
+  },
+  {
+    "id": "q0159",
+    "expl": "Platform Engineers, Operators, and SREs are responsible for building, operating, and maintaining the underlying platform itself: provisioning clusters, managing upgrades and patches, handling reliability, observability, and capacity, and providing the platform as a service to application teams. Application Developers consume the platform; they do not run it."
+  },
+  {
+    "id": "q0165",
+    "expl": "The Cluster Autoscaler watches for Pods that are unschedulable due to insufficient CPU or memory on existing nodes. When such Pods exist, it asks the underlying infrastructure (typically a cloud provider) to add new worker nodes so the Pods can be scheduled. It also removes nodes that have been underutilized for a sustained period and whose Pods can be rescheduled elsewhere."
+  },
+  {
+    "id": "q0172",
+    "expl": "The CNCF acts as a vendor-neutral home and community hub for cloud native projects. It promotes principles and best practices through its website and blog, technical reports and white papers, the CNCF Landscape, webinars and training, and major events such as KubeCon + CloudNativeCon, while fostering collaboration across maintainers and end users."
+  },
+  {
+    "id": "q0179",
+    "expl": "The CNI specification standardizes the contract between a container runtime/orchestrator and a network plugin, but it deliberately leaves the implementation open. That is why projects like Calico, Flannel, and Cilium can coexist and differentiate on features such as policy enforcement, eBPF data planes, encryption, or performance, giving users choice while preserving interoperability."
+  }
+]

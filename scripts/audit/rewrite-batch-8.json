@@ -1,0 +1,291 @@
+[
+  {
+    "id": "q0429",
+    "domain": "k8s",
+    "src": "form",
+    "question": "What tool can be used to set up a Kubernetes cluster?",
+    "options": [
+      "Minikube",
+      "Kubeadm",
+      "Rancher",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Minikube (local dev), kubeadm (production-grade bootstrap), and Rancher (multi-cluster management) all set up Kubernetes clusters, each for a different scale of use.",
+    "auditIssue": "'All of the above' crutch; only three options before the catch-all makes it easy to guess.",
+    "auditSuggestion": "Add a plausible non-installer distractor (e.g., 'Helm' or 'kubectl') and remove the 'All of the above' pattern so candidates must identify true cluster-setup tools."
+  },
+  {
+    "id": "q0433",
+    "domain": "k8s",
+    "src": "form",
+    "question": "Kubernetes objects can be described in a data-serialization language called",
+    "options": [
+      "HTML",
+      "PHP",
+      "YAML",
+      "Python"
+    ],
+    "correct": 2,
+    "explanation": "Kubernetes manifests are almost always written in YAML (sometimes JSON for APIs). YAML is human-readable and well-suited to declarative configuration.",
+    "auditIssue": "Distractors (HTML, PHP, Python) are not data-serialization languages at all, making the question trivially easy. Below KCNA level.",
+    "auditSuggestion": "Use plausible data-serialization distractors like 'TOML', 'XML', 'JSON' (mention that JSON is also valid but YAML is canonical), or rephrase to compare YAML vs JSON specifically."
+  },
+  {
+    "id": "q0435",
+    "domain": "k8s",
+    "src": "form",
+    "question": "What is the name of the official Kubernetes command line interface?",
+    "options": [
+      "containerctl",
+      "kubectl",
+      "kube-tool",
+      "podctl"
+    ],
+    "correct": 1,
+    "explanation": "kubectl (often pronounced 'kube-control' or 'kube-cuddle') is the official CLI for interacting with the Kubernetes API server.",
+    "auditIssue": "Distractors 'containerctl' and 'podctl' are invented/throwaway. Question is trivially easy.",
+    "auditSuggestion": "Replace with real-sounding alternatives or rewrite to test kubectl usage (e.g., which subcommand does X)."
+  },
+  {
+    "id": "q0436",
+    "domain": "k8s",
+    "src": "form",
+    "question": "How do you configure a container to run in a pod before your main container(s)?",
+    "options": [
+      "bootstrapContainer",
+      "initContainer",
+      "priorityContainer",
+      "startContainer"
+    ],
+    "correct": 1,
+    "explanation": "Init containers run sequentially before the main application containers start, and must complete successfully. They're ideal for setup tasks like schema migrations, fetching configuration, or waiting for dependencies.",
+    "auditIssue": "Distractors 'bootstrapContainer', 'priorityContainer', 'startContainer' are invented names, making it a pattern-match rather than a knowledge test.",
+    "auditSuggestion": "Test the behavior instead: 'Which pod construct runs to completion before app containers start and blocks them if it fails?' with options like initContainer, sidecar, ephemeralContainer, postStart hook."
+  },
+  {
+    "id": "q0438",
+    "domain": "orch",
+    "src": "form",
+    "question": "Which service types exist in Kubernetes?",
+    "options": [
+      "NodePort",
+      "ClusterIP",
+      "LoadBalancer",
+      "ExternalName",
+      "All of the above"
+    ],
+    "correct": 4,
+    "explanation": "Kubernetes Services support four types: ClusterIP (default, internal), NodePort (opens a port on every node), LoadBalancer (provisions a cloud LB), and ExternalName (DNS CNAME to an external hostname).",
+    "auditIssue": "'All of the above' crutch combined with listing every Service type as individually-correct options telegraphs the answer.",
+    "auditSuggestion": "Rephrase to 'Which of the following is NOT a Kubernetes Service type?' and include a plausible wrong answer (e.g., 'Headless', 'Ingress', 'ExternalIP')."
+  },
+  {
+    "id": "q0441",
+    "domain": "k8s",
+    "src": "form",
+    "question": "What is the main difference between ConfigMaps and Secrets?",
+    "options": [
+      "Base64 encoding",
+      "Pretty formatting",
+      "Encryption",
+      "Syntax Highlighting"
+    ],
+    "correct": 0,
+    "explanation": "Secrets are base64-encoded, ConfigMaps are plain text. Base64 is encoding, not encryption — Secrets are not encrypted at rest by default (enable etcd encryption for that).",
+    "auditIssue": "Answer 'Base64 encoding' is misleading as 'the main difference' — the real difference is intent/handling (sensitive data, mount permissions, opt-in encryption). Explanation admits base64 is not encryption, which undermines the stated correct answer.",
+    "auditSuggestion": "Reframe as 'Which statement best describes the difference between ConfigMaps and Secrets?' with option: 'Secrets are intended for sensitive data and are base64-encoded (but not encrypted by default)'."
+  },
+  {
+    "id": "q0442",
+    "domain": "arch",
+    "src": "form",
+    "question": "Which autoscalers are available in Kubernetes?",
+    "options": [
+      "Horizontal Pod Autoscaler",
+      "Cluster Autoscaler",
+      "Vertical Pod Autoscaler",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "All three exist: HPA scales pod replicas, VPA adjusts pod resource requests/limits, Cluster Autoscaler adds/removes nodes. They operate on different axes and can complement each other.",
+    "auditIssue": "'All of the above' crutch; listing the three autoscalers as individual options makes the answer obvious.",
+    "auditSuggestion": "Ask 'Which Kubernetes autoscaler scales the number of nodes?' or 'Which is NOT a Kubernetes autoscaler?' with a plausible distractor like 'Node Autoscaler' or 'Pod Autoscaler'."
+  },
+  {
+    "id": "q0443",
+    "domain": "del",
+    "src": "form",
+    "question": "What is the name of a popular version control tool?",
+    "options": [
+      "Docker",
+      "git",
+      "Kubernetes",
+      "containerd"
+    ],
+    "correct": 1,
+    "explanation": "Git is the dominant distributed version control system. The others are containerization/orchestration tools that typically *use* git for their source and config, but aren't version control themselves.",
+    "auditIssue": "Trivially easy; distractors (Docker, Kubernetes, containerd) are nonsensical as VCS answers. Below KCNA level.",
+    "auditSuggestion": "Remove, or rewrite to test GitOps/VCS concepts relevant to delivery (e.g., what does a git commit represent in GitOps)."
+  },
+  {
+    "id": "q0444",
+    "domain": "del",
+    "src": "form",
+    "question": "Version control systems can be used as a basis to manage which of these?",
+    "options": [
+      "Source code",
+      "Configuration",
+      "Infrastructure",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Modern engineering treats all of these as code: application source, configuration (ConfigMaps/Helm values), and infrastructure (Terraform, Kubernetes manifests). GitOps builds on this principle.",
+    "auditIssue": "'All of the above' crutch.",
+    "auditSuggestion": "Reframe as 'Which best describes GitOps?' with distractors that test conceptual understanding rather than listing categories."
+  },
+  {
+    "id": "q0445",
+    "domain": "del",
+    "src": "form",
+    "question": "How can you automate the build, test and deployment of an application?",
+    "options": [
+      "CI/CD pipeline",
+      "CI/CD branch",
+      "CI/CD repository",
+      "CI/CD network"
+    ],
+    "correct": 0,
+    "explanation": "A CI/CD pipeline defines the stages (build → test → scan → deploy) an artifact moves through automatically. Tools like Jenkins, GitHub Actions, GitLab CI, and Argo CD implement pipelines.",
+    "auditIssue": "Distractors 'CI/CD branch', 'CI/CD repository', 'CI/CD network' are invented throwaway phrases, making the question trivially easy.",
+    "auditSuggestion": "Use plausible alternatives like 'Cron job', 'Webhook', 'Makefile', or test a deeper CI/CD concept (e.g., what stages a pipeline typically has)."
+  },
+  {
+    "id": "q0449",
+    "domain": "obs",
+    "src": "form",
+    "question": "Which of the following is typical telemetry data?",
+    "options": [
+      "Metrics",
+      "Logs",
+      "Traces",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Metrics, logs, and traces are the three pillars of observability. OpenTelemetry provides a vendor-neutral way to generate and export all three.",
+    "auditIssue": "'All of the above' crutch; listing the three pillars as individual options gives the answer away.",
+    "auditSuggestion": "Ask 'Which of the following is NOT one of the three pillars of observability?' with a distractor like 'Alerts', 'Dashboards', or 'Events'."
+  },
+  {
+    "id": "q0452",
+    "domain": "obs",
+    "src": "form",
+    "question": "What is a good format for structured logging?",
+    "options": [
+      "YAML",
+      "JSON",
+      "XML",
+      "HTML"
+    ],
+    "correct": 1,
+    "explanation": "JSON is the de facto format for structured logs — compact, machine-parseable, supported by all aggregators (Loki, Elasticsearch, CloudWatch). One JSON object per line.",
+    "auditIssue": "Distractors (YAML, XML, HTML) are weak — YAML and XML are structured but HTML is nonsensical. Trivially easy.",
+    "auditSuggestion": "Compare real logging formats (JSON, logfmt, plain-text, syslog) to make the discrimination meaningful."
+  },
+  {
+    "id": "q0460",
+    "domain": "k8s",
+    "src": "form",
+    "question": "Which type of components make global decisions about the cluster in Kubernetes?",
+    "options": [
+      "Add on components",
+      "Extra components",
+      "Node components",
+      "Master components"
+    ],
+    "correct": 3,
+    "explanation": "The control plane (historically called 'master components') — API server, scheduler, controller manager, etcd — makes cluster-wide decisions. Node components (kubelet, kube-proxy) handle local execution.",
+    "auditIssue": "Uses deprecated terminology ('Master components'); distractors 'Add on components' and 'Extra components' are not real Kubernetes categories.",
+    "auditSuggestion": "Ask directly: 'Which set of Kubernetes components makes global decisions about the cluster?' with options: Control plane, Data plane, Node components, Add-ons."
+  },
+  {
+    "id": "q0461",
+    "domain": "k8s",
+    "src": "form",
+    "question": "You can deploy a Kubernetes cluster on",
+    "options": [
+      "Cloud",
+      "On-prem datacenter",
+      "A local machine",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Kubernetes runs anywhere Linux does. Managed services (EKS, GKE, AKS) in the cloud, self-managed on-prem, and local tools like Minikube, kind, or k3d for a developer laptop.",
+    "auditIssue": "'All of the above' crutch with three deployment-location options; trivially easy.",
+    "auditSuggestion": "Test something more meaningful, e.g., 'Which of the following is NOT a valid Kubernetes deployment target?' with a plausible false option."
+  },
+  {
+    "id": "q0462",
+    "domain": "k8s",
+    "src": "form",
+    "question": "Which tool runs a single-node cluster in a virtual machine on your personal computer?",
+    "options": [
+      "kubectl",
+      "kube-proxy",
+      "Container runtime",
+      "Minikube"
+    ],
+    "correct": 3,
+    "explanation": "Minikube provisions a local single-node Kubernetes cluster (historically inside a VM, now optionally via containers). It's the classic way to experiment locally without cloud resources.",
+    "auditIssue": "Distractors 'kubectl', 'kube-proxy', 'Container runtime' are not local cluster installers — none are plausible, making it trivially easy. Could also mention kind/k3d as alternatives.",
+    "auditSuggestion": "Use plausible distractors like 'kind', 'k3d', 'kubeadm', 'MicroK8s' and ask which is/isn't used for local single-node development."
+  },
+  {
+    "id": "q0463",
+    "domain": "arch",
+    "src": "form",
+    "question": "Autoscaling in Kubernetes is supported on",
+    "options": [
+      "AWS",
+      "Google Compute Engine (GCE)",
+      "Google Container Engine (GKE)",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Cluster Autoscaler has integrations for all major cloud providers (AWS, GCP, Azure, and others). HPA and VPA are provider-agnostic — they work on any Kubernetes cluster with a metrics source.",
+    "auditIssue": "Vendor-trivia-shaped question; 'All of the above' crutch; lists GCE (the IaaS) vs GKE (managed K8s) which confuses the concept. Also stale — autoscaling works on Azure, on-prem, etc. too.",
+    "auditSuggestion": "Rewrite to test understanding of Cluster Autoscaler provider-agnosticism, or ask about the specific autoscaler types (HPA/VPA/CA) rather than cloud providers."
+  },
+  {
+    "id": "q0464",
+    "domain": "k8s",
+    "src": "form",
+    "question": "A Kubernetes container image encapsulates",
+    "options": [
+      "an application and all of its dependencies",
+      "an application",
+      "software dependencies",
+      "none of these"
+    ],
+    "correct": 0,
+    "explanation": "A container image bundles the application binary together with its runtime dependencies (libraries, files, config) into a single immutable artifact that runs the same everywhere.",
+    "auditIssue": "'none of these' is a negation/throwaway distractor; options 2 and 3 are partially-correct subsets of option 1, which is confusing and trivially easy. 'Kubernetes container image' is also slightly wrong phrasing — it's just an OCI/container image.",
+    "auditSuggestion": "Rewrite: 'Which best describes a container image?' with distinct distractors like 'A running process on a node', 'A Kubernetes Pod definition', 'A host-level kernel module'."
+  },
+  {
+    "id": "q0466",
+    "domain": "k8s",
+    "src": "form",
+    "question": "Minikube can be installed on",
+    "options": [
+      "Linux",
+      "macOS",
+      "Windows",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Minikube is cross-platform: binaries and packages are available for Linux, macOS, and Windows. It's the easiest way to run Kubernetes on any developer workstation.",
+    "auditIssue": "'All of the above' crutch; trivially easy platform-support trivia below KCNA level.",
+    "auditSuggestion": "Remove, or replace with a question about local-cluster tooling choices (Minikube vs kind vs k3d vs Docker Desktop) and their tradeoffs."
+  }
+]

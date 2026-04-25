@@ -1,0 +1,667 @@
+[
+  {
+    "q": "Which are Open Standards for cloud native?",
+    "opts": [
+      "OCI (images/runtime)",
+      "CNI (networking) and CSI (storage)",
+      "CRI (runtime interface)",
+      "All of the above"
+    ],
+    "correct": 3,
+    "expl": "All four are foundational. Add SPIFFE/SPIRE (workload identity) to the list. These standards are why the ecosystem is not locked to one vendor.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0048"
+  },
+  {
+    "q": "Resilience patterns for distributed systems include:",
+    "opts": [
+      "Ignoring transient errors",
+      "Circuit breakers, exponential backoff retries, graceful degradation",
+      "Bringing everything down on any error",
+      "Retrying indefinitely"
+    ],
+    "correct": 1,
+    "expl": "Circuit breakers prevent cascading failures; exponential backoff with jitter prevents thundering herds; graceful degradation keeps core functions alive when dependencies fail. Indefinite retries make outages worse.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0049"
+  },
+  {
+    "q": "The \"three pillars\" of observability are:",
+    "opts": [
+      "Logs, Alerts, Dashboards",
+      "Metrics, Logs, Traces",
+      "CPU, Memory, Disk",
+      "Monitoring, Logging, Security"
+    ],
+    "correct": 1,
+    "expl": "Metrics (numeric time-series), Logs (timestamped events), Traces (request paths through distributed systems). Observability is the goal; these are the signals that enable it.",
+    "d": "obs",
+    "src": "curated",
+    "id": "q0051"
+  },
+  {
+    "q": "Prometheus is primarily:",
+    "opts": [
+      "A distributed tracing system",
+      "A log aggregation system",
+      "A time-series database with a pull-based monitoring and alerting model",
+      "A service mesh"
+    ],
+    "correct": 2,
+    "expl": "Prometheus (CNCF graduated) scrapes HTTP metrics endpoints at intervals, stores them in a TSDB, and queries them with PromQL. Alertmanager handles routing. It is the de facto K8s metrics standard.",
+    "d": "obs",
+    "src": "curated",
+    "id": "q0052"
+  },
+  {
+    "q": "OpenTelemetry is:",
+    "opts": [
+      "A Kubernetes distribution",
+      "A vendor-neutral observability framework (APIs, SDKs, collectors) for metrics, logs, and traces",
+      "A replacement for Prometheus",
+      "A CI/CD tool"
+    ],
+    "correct": 1,
+    "expl": "OTel decouples instrumentation from backends. Instrument once; send data to Jaeger, Prometheus, Tempo, or any commercial vendor. It is rapidly becoming the default instrumentation standard.",
+    "d": "obs",
+    "src": "curated",
+    "id": "q0053"
+  },
+  {
+    "q": "Which CNCF project is for distributed tracing?",
+    "opts": [
+      "Fluentd",
+      "Jaeger",
+      "Prometheus",
+      "Helm"
+    ],
+    "correct": 1,
+    "expl": "Jaeger (CNCF graduated, originally from Uber) visualizes how requests flow across services. OpenTelemetry commonly feeds trace data to Jaeger or to Grafana Tempo.",
+    "d": "obs",
+    "src": "curated",
+    "id": "q0055"
+  },
+  {
+    "q": "GitOps is best described as:",
+    "opts": [
+      "A Git hosting service",
+      "An operational pattern where Git is the source of truth and an operator continuously reconciles the cluster",
+      "A way to store images in Git",
+      "A microservice branch strategy"
+    ],
+    "correct": 1,
+    "expl": "Git holds desired state. Argo CD or Flux watches the repo and reconciles cluster state to match. Changes happen via pull request. Benefits: auditability, rollback via Git revert, fully declarative.",
+    "d": "del",
+    "src": "curated",
+    "id": "q0056"
+  },
+  {
+    "q": "Argo CD and Flux are examples of:",
+    "opts": [
+      "Service mesh implementations",
+      "GitOps continuous delivery tools for Kubernetes",
+      "Container runtimes",
+      "Cluster bootstrap tools"
+    ],
+    "correct": 1,
+    "expl": "Both are CNCF projects. Argo CD has a rich web UI and app-centric model; Flux is a collection of small controllers composable via the GitOps Toolkit. Either is fine for KCNA.",
+    "d": "del",
+    "src": "curated",
+    "id": "q0057"
+  },
+  {
+    "q": "Helm is:",
+    "opts": [
+      "A Kubernetes distribution",
+      "A package manager for Kubernetes using charts",
+      "A monitoring tool",
+      "A container runtime"
+    ],
+    "correct": 1,
+    "expl": "Helm (CNCF graduated) packages K8s manifests into parameterized charts. Think apt/brew for Kubernetes. It uses Go templates. Alternative: Kustomize (no templates; overlays on base YAML, built into kubectl -k).",
+    "d": "del",
+    "src": "curated",
+    "id": "q0059"
+  },
+  {
+    "q": "Tekton is:",
+    "opts": [
+      "A service mesh",
+      "A Kubernetes-native CI/CD framework with pipelines as K8s resources",
+      "A monitoring tool",
+      "A log aggregator"
+    ],
+    "correct": 1,
+    "expl": "Tekton (CNCF) defines Tasks, Pipelines, and PipelineRuns as CRDs. Pipeline steps run as pods. Jenkins X is built on Tekton. Contrast with classic Jenkins, which runs outside Kubernetes.",
+    "d": "del",
+    "src": "curated",
+    "id": "q0060"
+  },
+  {
+    "q": "Which architectural component ensures that the actual state of cluster resources converges towards the desired state defined in their specifications?",
+    "opts": [
+      "kube-apiserver",
+      "kube-scheduler",
+      "Controllers (within kube-controller-manager)",
+      "kubelet",
+      "etcd"
+    ],
+    "correct": 2,
+    "expl": "Controllers implement reconciliation loops. They watch the desired state via the API server and interact with resources to make the current state match the desired state (e.g., ReplicaSet controller ensuring the right number of Pods exist).",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0061"
+  },
+  {
+    "q": "A Pod specification includes two containers: one web server and one log shipper. How do these containers communicate efficiently over the network within the Pod?",
+    "opts": [
+      "Via a Kubernetes Service",
+      "Via the node's primary IP address",
+      "Via localhost and shared network namespace",
+      "Via an automatically created NetworkPolicy",
+      "Via distinct Pod IP addresses assigned to each container"
+    ],
+    "correct": 2,
+    "expl": "Containers within the same Pod share the same network namespace, meaning they can communicate using localhost and standard 143 inter-process communication mechanisms as if they were on the same machine.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0062"
+  },
+  {
+    "q": "Which Kubernetes resource provides a mechanism for grouping API objects and providing a scope for names?",
+    "opts": [
+      "Label",
+      "Annotation",
+      "Namespace",
+      "Deployment",
+      "ServiceAccount"
+    ],
+    "correct": 2,
+    "expl": "Namespaces create logical partitions within a cluster, allowing teams or applications to operate independently. Resource names must be unique within a Namespace, but not necessarily across the entire cluster.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0064"
+  },
+  {
+    "q": "What core Kubernetes concept allows Deployments to perform rolling updates with zero downtime?",
+    "opts": [
+      "Managing StatefulSets",
+      "Utilizing PersistentVolumes",
+      "Incrementally replacing Pods managed by ReplicaSets",
+      "Direct communication with the kube-scheduler",
+      "Modifying NetworkPolicy rules dynamically"
+    ],
+    "correct": 2,
+    "expl": "The kube-scheduler watches for Pods without an assigned node and selects the most suitable node based on filtering (resource requests, affinity rules, etc.) and scoring algorithms.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0066"
+  },
+  {
+    "q": "How does Kubernetes typically handle the failure of a container within a Pod?",
+    "opts": [
+      "By deleting the entire Pod immediately",
+      "By restarting the failed container based on the Pod's restartPolicy",
+      "By scheduling a new Pod on a different node",
+      "By marking the Node as unschedulable",
+      "By alerting the kube-scheduler to find a replacement container"
+    ],
+    "correct": 1,
+    "expl": "The kubelet monitors container health. If a container fails, the kubelet restarts it according to the Pod's restartPolicy (Always, OnFailure, Never). The Pod itself continues to exist on the same node.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0067"
+  },
+  {
+    "q": "What distinguishes a Kubernetes Secret from a ConfigMap?",
+    "opts": [
+      "Secrets are namespaced, ConfigMaps are not",
+      "ConfigMaps store configuration data, Secrets store sensitive data (base64 encoded)",
+      "Secrets can only be mounted as environment variables, ConfigMaps as files",
+      "ConfigMaps are automatically encrypted at rest, Secrets are not",
+      "Secrets are immutable once created, ConfigMaps are mutable"
+    ],
+    "correct": 1,
+    "expl": "Both are used for configuration, but Secrets are intended for sensitive information (passwords, keys) and are stored base64 encoded (not truly encrypted by default in etcd, though). ConfigMaps are for nonsensitive configuration data. Both are namespaced and can be mounted in multiple ways.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0068"
+  },
+  {
+    "q": "Which of the following is NOT a standard component of the Kubernetes control plane?",
+    "opts": [
+      "etcd",
+      "kube-apiserver",
+      "kube-scheduler",
+      "containerd",
+      "kube-controller-manager"
+    ],
+    "correct": 3,
+    "expl": "containerd is a container runtime; it typically runs on worker nodes (managed by the kubelet) to handle container execution, not as part of the central control plane.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0069"
+  },
+  {
+    "q": "What is the purpose of labels in Kubernetes?",
+    "opts": [
+      "To provide detailed descriptive information about a resource",
+      "To define network access rules between resources",
+      "To attach identifying metadata for selection and organization",
+      "To specify resource requests and limits for containers",
+      "To store multi-line configuration data"
+    ],
+    "correct": 2,
+    "expl": "Labels are key/value pairs attached to objects (like Pods, Services) used to organize resources and allow users/controllers to select subsets of objects (e.g., a Service selecting Pods with app=backend).",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0070"
+  },
+  {
+    "q": "When defining a Pod, what does the spec.containers[].image field specify?",
+    "opts": [
+      "The base operating system for the container",
+      "The specific container image (and tag) to run",
+      "The command to execute inside the container",
+      "The resource limits for the container",
+      "The network port the container will listen on"
+    ],
+    "correct": 1,
+    "expl": "This field tells the container runtime which image (e.g., nginx:1.21 or myrepo/myapp:v2.5) to pull from a registry and use to create the container process.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0071"
+  },
+  {
+    "q": "If a Pod needs access to specific hardware features available only on certain nodes, which scheduling mechanism is most suitable?",
+    "opts": [
+      "ResourceQuota",
+      "NetworkPolicy",
+      "PodDisruptionBudget",
+      "Taints and Tolerations or Node Affinity",
+      "HorizontalPodAutoscaler"
+    ],
+    "correct": 3,
+    "expl": "Taints applied to nodes repel Pods that don't Tolerate them. Node Affinity allows Pods to express preferences or requirements for nodes based on node labels (which can represent hardware features, location, etc.). Both help ensure Pods land on appropriate nodes.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0072"
+  },
+  {
+    "q": "Which API object represents a single point of access to a set of Pods providing the same functionality, acting as an internal load balancer?",
+    "opts": [
+      "Ingress",
+      "EndpointSlice",
+      "Service",
+      "ReplicaSet",
+      "NetworkPolicy"
+    ],
+    "correct": 2,
+    "expl": "A Service defines a logical set of Pods (usually selected by labels) and provides a stable IP address and DNS name. kube-proxy ensures traffic to the Service IP is load-balanced across the healthy backend Pods.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0073"
+  },
+  {
+    "q": "What is the relationship between a Deployment and a ReplicaSet?",
+    "opts": [
+      "A ReplicaSet manages multiple Deployments",
+      "A Deployment watches ReplicaSets for scaling signals",
+      "A Deployment declaratively manages ReplicaSets to orchestrate Pod updates",
+      "ReplicaSets are used only for stateful applications, Deployments for stateless",
+      "They are independent controllers managing Pod lifecycles"
+    ],
+    "correct": 2,
+    "expl": "A Deployment provides declarative updates for Pods and ReplicaSets. It creates and manages ReplicaSets, handling rolling updates or rollbacks by manipulating the desired replica count of underlying ReplicaSets. You typically interact with Deployments, not ReplicaSets directly.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0074"
+  },
+  {
+    "q": "The Kubernetes API server performs several actions when receiving a request. Which action verifies if the authenticated user is allowed to perform the requested operation?",
+    "opts": [
+      "Authentication",
+      "Admission Control",
+      "Authorization",
+      "Rate Limiting",
+      "Validation"
+    ],
+    "correct": 2,
+    "expl": "After Authentication (who are you?), Authorization (e.g., via RBAC) checks if the identified user has the necessary permissions (Role/ClusterRole bindings) to perform the action (e.g., create, get, delete) on the specific resource (e.g., pods) in the target namespace.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0075"
+  },
+  {
+    "q": "What is the primary function of etcd within the Kubernetes architecture?",
+    "opts": [
+      "To run the container runtime interface",
+      "To schedule Pods across available nodes",
+      "To provide reliable, distributed storage for cluster state and configuration",
+      "To manage network policies and ingress rules",
+      "To execute health checks against running containers"
+    ],
+    "correct": 2,
+    "expl": "etcd is the consistent key-value store that acts as the source of truth for the entire cluster. All configuration, state, and metadata are persisted here, ensuring consistency across the control plane. 147",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0076"
+  },
+  {
+    "q": "Which field in a Pod's specification is crucial for the kubescheduler to determine if a node has sufficient resources?",
+    "opts": [
+      "spec.nodeName",
+      "spec.containers[].ports",
+      "spec.containers[].resources.requests",
+      "spec.serviceAccountName",
+      "spec.restartPolicy"
+    ],
+    "correct": 2,
+    "expl": "The resources.requests field (for CPU and memory) indicates the minimum amount of resources the container needs. The scheduler uses this to filter out nodes that cannot meet these requests.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0077"
+  },
+  {
+    "q": "What fundamental concept allows Kubernetes controllers to operate effectively without needing constant instructions?",
+    "opts": [
+      "Imperative command execution",
+      "The reconciliation loop (Control Loop)",
+      "Direct manipulation of etcd",
+      "Event-driven webhooks",
+      "Stateful session management"
+    ],
+    "correct": 1,
+    "expl": "Controllers continuously watch the desired state (from the API server) and the current state (observed in the cluster), taking actions (via the API server) to make the current state match the desired state. This is the core principle of Kubernetes automation.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0078"
+  },
+  {
+    "q": "Which OCI (Open Container Initiative) specification defines how container runtimes should execute containers?",
+    "opts": [
+      "Image Specification",
+      "Distribution Specification",
+      "Runtime Specification (CRI is Kubernetes' interface to this)",
+      "Network Specification (CNI is related)",
+      "Storage Specification"
+    ],
+    "correct": 2,
+    "expl": "The OCI Runtime Specification outlines how to run a container filesystem bundle. Kubernetes uses the Container Runtime Interface (CRI) as an abstraction layer over runtimes like containerd or CRI-O that implement this standard.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0079"
+  },
+  {
+    "q": "You need to provide non-sensitive configuration data (like a URL endpoint or logging level) to a Pod. Which resource is most appropriate?",
+    "opts": [
+      "Secret",
+      "ConfigMap",
+      "Annotation",
+      "ResourceQuota",
+      "DownwardAPI"
+    ],
+    "correct": 2,
+    "expl": "A DaemonSet ensures that a copy of a Pod runs on all (or some specified) nodes. This is useful for node-level agents like log collectors, monitoring agents, or CNI plugins.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0080"
+  },
+  {
+    "q": "What does it mean for the Kubernetes API to be \"declarative\"?",
+    "opts": [
+      "API calls must be made sequentially",
+      "Users specify the desired end state, not the steps to reach it",
+      "The API only accepts YAML formatted requests",
+      "API responses always include the full resource specification",
+      "The API can only create resources, not update or delete them"
+    ],
+    "correct": 1,
+    "expl": "Users declare the desired state of resources (e.g., \"I want 3 replicas of this Pod\"). Kubernetes controllers then figure out the sequence of actions needed to achieve and maintain that state. Contrast this with imperative approaches (\"run container X\", \"scale up by 1\").",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0081"
+  },
+  {
+    "q": "Which mechanism prevents the kube-scheduler from placing Pods on a Node that is undergoing maintenance or is otherwise unsuitable?",
+    "opts": [
+      "ResourceQuotas",
+      "NetworkPolicies",
+      "Taints on the Node and Tolerations on the Pod",
+      "PodDisruptionBudgets",
+      "PriorityClasses"
+    ],
+    "correct": 2,
+    "expl": "A Taint applied to a Node repels Pods. Pods can express Tolerations for specific taints, allowing them to be scheduled onto those nodes. This is commonly used to cordon nodes for maintenance or dedicate nodes for specific workloads.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0082"
+  },
+  {
+    "q": "What part of the Kubernetes system is responsible for managing the lifecycle of EndpointSlice objects, which track Pod IPs for Services?",
+    "opts": [
+      "kube-proxy",
+      "kubelet",
+      "endpointslice-controller (within kube-controller-manager)",
+      "kube-scheduler",
+      "coredns / kube-dns"
+    ],
+    "correct": 2,
+    "expl": "The endpointslice-controller (part of kube-controller-manager) watches Services and their selector-matched Pods, creating and managing EndpointSlices to store the Pod IP addresses and port information efficiently. kube-proxy consumes this information.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0083"
+  },
+  {
+    "q": "Which component translates a Service's virtual IP address into actual Pod IP addresses on each node?",
+    "opts": [
+      "etcd",
+      "kube-apiserver",
+      "coredns / kube-dns",
+      "kube-proxy",
+      "kubelet"
+    ],
+    "correct": 3,
+    "expl": "kube-proxy, running on each node, watches Services and Endpoints/EndpointSlices. It programs network rules (e.g., iptables, IPVS) to intercept traffic destined for a Service's ClusterIP and directs it to one of the healthy backend Pod IPs.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0084"
+  },
+  {
+    "q": "A StatefulSet is often preferred over a Deployment for running databases. Why?",
+    "opts": [
+      "StatefulSets have simpler configuration",
+      "Deployments cannot use Persistent Storage",
+      "StatefulSets provide stable, unique network IDs and persistent storage per Pod",
+      "Deployments automatically handle database schema migrations",
+      "StatefulSets require less CPU and memory resources"
+    ],
+    "correct": 2,
+    "expl": "StatefulSets provide guarantees crucial for stateful apps: stable network identifiers (e.g., db-0, db-1), stable persistent storage linked to each identity, and ordered, graceful deployment and scaling.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0085"
+  },
+  {
+    "q": "What is the primary goal of the Open Container Initiative (OCI)?",
+    "opts": [
+      "To create a commercial container platform",
+      "To define open standards around container formats and runtime",
+      "To manage the Kubernetes source code repository",
+      "To develop container networking plugins (CNI)",
+      "To provide free container image hosting"
+    ],
+    "correct": 1,
+    "expl": "OCI aims to establish common, open, minimal standards for container image formats and container runtime execution to ensure interoperability and prevent fragmentation in the container ecosystem.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0086"
+  },
+  {
+    "q": "Which kubectl command is used to view the logs of a running container within a Pod?",
+    "opts": [
+      "kubectl get pod <pod-name> -logs",
+      "kubectl describe pod <pod-name>",
+      "kubectl logs <pod-name> [-c <container-name>]",
+      "kubectl attach <pod-name> -c <container-name>",
+      "kubectl exec <pod-name> - tail /var/log/messages"
+    ],
+    "correct": 2,
+    "expl": "kubectl logs fetches the logs (stdout/stderr) from a specified container within a Pod. The -c flag is needed if the Pod has multiple containers.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0087"
+  },
+  {
+    "q": "What is the function of an Admission Controller in the Kubernetes API request lifecycle?",
+    "opts": [
+      "To authenticate the user making the request",
+      "To authorize the requested operation",
+      "To mutate or validate API objects before they are persisted in etcd",
+      "To schedule the Pod onto a suitable node",
+      "To route network traffic to the correct Pod"
+    ],
+    "correct": 2,
+    "expl": "Admission Controllers intercept API requests after authentication and authorization but before persistence. They can mutate objects (e.g., inject sidecars, set default values) or validate them (e.g., enforce security policies, check resource quotas).",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0088"
+  },
+  {
+    "q": "Which resource defines constraints on the total amount of compute resources (CPU, memory) that can be consumed within a specific Namespace?",
+    "opts": [
+      "LimitRange",
+      "ResourceQuota",
+      "NetworkPolicy",
+      "PodSecurityPolicy / PodSecurityAdmission",
+      "PriorityClass"
+    ],
+    "correct": 1,
+    "expl": "A ResourceQuota limits the aggregate resource consumption (CPU, memory, storage, object counts) within a Namespace, preventing overuse and ensuring fair sharing among users or teams.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0089"
+  },
+  {
+    "q": "Consider a Pod that needs to perform a one-time initialization task before its main application container starts. Which container type is best suited for this?",
+    "opts": [
+      "Sidecar Container",
+      "Ephemeral Container",
+      "Init Container",
+      "Main Application Container",
+      "Job Container"
+    ],
+    "correct": 2,
+    "expl": "Init Containers run sequentially before the main application containers in a Pod start. They must complete successfully for the main containers to launch, making them ideal for setup tasks like database schema migration, fetching configuration, or waiting for dependencies.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0090"
+  },
+  {
+    "q": "What is the purpose of the metadata.ownerReferences field in a Kubernetes object?",
+    "opts": [
+      "To specify the user who created the object",
+      "To link the object to its managing controller (e.g., ReplicaSet to Deployment)",
+      "To list labels used for selecting the object",
+      "To store annotations related to the object's owner",
+      "To define the Namespace the object belongs to"
+    ],
+    "correct": 1,
+    "expl": "ownerReferences create parent-child relationships between objects. This enables cascading deletion (deleting the owner deletes dependents) and helps controllers identify the objects they manage. For example, a ReplicaSet Pod will have an ownerReference pointing to the ReplicaSet.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0091"
+  },
+  {
+    "q": "Which statement best describes the relationship between Kubernetes and Docker (as of 2025)?",
+    "opts": [
+      "Kubernetes requires Docker to be installed on all nodes.",
+      "Docker is the only container runtime supported by Kubernetes.",
+      "Kubernetes primarily interacts with container runtimes via CRI (e.g., containerd, CRI-O), abstracting Docker.",
+      "Docker manages the Kubernetes control plane components.",
+      "Kubernetes is a component within the Docker Enterprise platform."
+    ],
+    "correct": 2,
+    "expl": "Kubernetes deprecated the direct Docker integration (dockershim). It now interacts with OCI-compliant runtimes like containerd (which Docker itself uses) or CRI-O via the Container Runtime Interface (CRI). While Docker might be installed, K8s doesn't use it directly in the same way.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0092"
+  },
+  {
+    "q": "If multiple Pods need to share persistent data, which volume type allows simultaneous mounting by multiple Pods (potentially with read/write access)?",
+    "opts": [
+      "hostPath",
+      "emptyDir",
+      "A PersistentVolume with an accessMode like ReadWriteMany (RWX)",
+      "secret volume",
+      "configMap volume"
+    ],
+    "correct": 2,
+    "expl": "PersistentVolumes (PVs) represent external storage. Their accessModes define how they can be mounted. ReadWriteOnce (RWO) allows mounting by a single node, while ReadWriteMany (RWX) allows simultaneous read/write mounting by multiple nodes (requires a capable storage backend like NFS).",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0093"
+  },
+  {
+    "q": "Which control plane component is primarily responsible for running controllers like the Node Controller, Deployment Controller, and Service Controller?",
+    "opts": [
+      "etcd",
+      "kube-apiserver",
+      "kube-scheduler",
+      "kube-controller-manager",
+      "cloud-controller-manager"
+    ],
+    "correct": 3,
+    "expl": "The kube-controller-manager bundles core Kubernetes controllers into a single binary. It runs controllers that handle node lifecycle, workload management (Deployments, ReplicaSets), service endpoints, namespace creation, etc.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0094"
+  },
+  {
+    "q": "What is the purpose of a LimitRange object within a Namespace?",
+    "opts": [
+      "To limit the total resource usage of the entire Namespace",
+      "To set default resource requests/limits for containers and validate min/max bounds",
+      "To restrict network traffic between Pods in the Namespace",
+      "To control which users can create resources in the Namespace",
+      "To define storage quotas for PersistentVolumeClaims"
+    ],
+    "correct": 1,
+    "expl": "A LimitRange operates at the container/Pod level within a Namespace. It can enforce minimum/maximum resource constraints and specify default request/limit values if they aren't explicitly set in the Pod spec. ResourceQuota limits the Namespace total.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0095"
+  },
+  {
+    "q": "Which kubectl command would you use to apply a configuration defined in my-app.yaml declaratively?",
+    "opts": [
+      "kubectl create -f my-app.yaml",
+      "kubectl replace -f my-app.yaml",
+      "kubectl apply -f my-app.yaml",
+      "kubectl patch -f my-app.yaml",
+      "kubectl run -f my-app.yaml"
+    ],
+    "correct": 2,
+    "expl": "kubectl apply is the standard command for declarative resource management. It creates resources if they don't exist or calculates and applies necessary changes if they do, based on the definition in the file.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0096"
+  },
+  {
+    "q": "How does the kube-scheduler handle Pods with defined affinity rules?",
+    "opts": [
+      "It ignores affinity rules if resource requests cannot be met.",
+      "It uses affinity rules as the primary factor for node selection.",
+      "It considers affinity/anti-affinity rules during the filtering and scoring phases.",
+      "It delegates affinity processing to the kubelet.",
+      "It only processes podAffinity, not nodeAffinity."
+    ],
+    "correct": 2,
+    "expl": "Affinity rules (node and inter-pod) influence scheduling decisions. Required affinity rules act as filters (nodes must match). Preferred affinity rules contribute to the scoring phase (nodes matching preferred rules get higher scores). 153",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0097"
+  }
+]

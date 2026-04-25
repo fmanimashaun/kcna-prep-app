@@ -1,0 +1,197 @@
+[
+  {
+    "id": "q0034",
+    "q": "What is containerd?"
+  },
+  {
+    "id": "q0050",
+    "opts": [
+      "Infrastructure is patched in place after deployment",
+      "Components are replaced entirely rather than modified — typically via new images",
+      "Infrastructure is tied to specific physical hardware and cannot be moved",
+      "Configuration drift is corrected by SSHing in and running scripts"
+    ],
+    "correct": 1,
+    "expl": "Immutable infrastructure means you replace, not modify. Containers make this natural: build a new image, deploy it, kill the old pod. Benefits: reproducibility, easier rollback, no config drift. A and D both describe mutable approaches (in-place patching, manual remediation); C confuses immutability with hardware coupling."
+  },
+  {
+    "id": "q0411",
+    "q": "Which of the following is NOT a typical characteristic of cloud native applications?",
+    "opts": [
+      "Self-healing through automated restarts and rescheduling",
+      "Loosely coupled services that can be deployed independently",
+      "Tightly coupled, monolithic deployment units sharing a single runtime",
+      "Designed for observability with metrics, logs, and traces"
+    ],
+    "correct": 2,
+    "expl": "Cloud native applications are resilient (self-healing), loosely coupled (so services can scale and evolve independently), and observable. Tight coupling and monolithic deployment is the opposite of the cloud native model — it prevents independent scaling, slows release cadence, and creates large blast radii on failure."
+  },
+  {
+    "id": "q0221",
+    "q": "Why is tagging or labeling resources (e.g., Pods, Nodes, cloud resources) crucial for effective cost management in a shared cloud native environment?",
+    "opts": [
+      "It allows cost allocation and analysis based on specific teams, projects, or environments",
+      "It enables the kube-scheduler to spread workloads across the cheapest nodes automatically",
+      "It is required for the Horizontal Pod Autoscaler to consider cost when scaling",
+      "It causes the cloud provider to apply automatic discounts to tagged resources"
+    ],
+    "correct": 0,
+    "expl": "In shared environments, costs are aggregated across many workloads. Consistent tagging/labeling lets cost tools (cloud provider billing, OpenCost, Kubecost) filter and group spend by team, project, or environment — which is the foundation of FinOps showback and chargeback. Tags do not influence the scheduler (B), the HPA does not factor in price (C), and providers do not discount based on tags (D)."
+  },
+  {
+    "id": "q0058",
+    "opts": [
+      "Replaces all instances at once in a single cutover",
+      "Routes a small share of traffic to the new version, increasing if healthy",
+      "Maintains two full environments and switches all traffic at cutover",
+      "Replaces pods one at a time without any traffic shaping"
+    ],
+    "correct": 1,
+    "expl": "Canary = gradual traffic shift with observation. If error rate or latency degrades on the small canary slice, you roll back before most users are affected. A describes a recreate strategy; C describes blue/green (two full environments, atomic switch); D describes a rolling update (instance-by-instance, but every healthy pod gets full traffic share)."
+  },
+  {
+    "id": "q0271",
+    "opts": [
+      "It eliminates the need for any code review or testing in the pipeline",
+      "It shifts most reliability concerns from developers to a dedicated release team",
+      "It produces faster, more reliable, and consistent deployments with quicker feedback loops",
+      "It removes the need for version control because every build is tracked in the pipeline"
+    ],
+    "correct": 2,
+    "expl": "Automation produces deterministic, repeatable deployments and lets teams release more frequently with shorter feedback loops — the core CI/CD value proposition. A is wrong because automation augments testing, not replaces it. B inverts the goal: automated pipelines empower developers to ship safely, not hand reliability off. D confuses pipeline traceability with source control — version control is still required."
+  },
+  {
+    "id": "q0009",
+    "opts": [
+      "It enables horizontal scaling without an upper replica limit",
+      "It provides stable network identities (predictable pod names) and stable persistent storage per replica",
+      "It performs rolling updates faster than a Deployment by skipping readiness checks",
+      "It automatically provisions PersistentVolumes without needing a StorageClass"
+    ],
+    "correct": 1,
+    "expl": "StatefulSets give pods ordinal, predictable names (web-0, web-1, ...) and bind each replica to its own PVC that survives restarts and rescheduling. Essential for databases, brokers, and anything needing identity. A is false — both controllers scale horizontally. C is false — StatefulSets actually update more conservatively (ordered, one at a time) than Deployments. D is false — a StorageClass (or pre-provisioned PV) is still required; the StatefulSet just templates the PVCs."
+  },
+  {
+    "id": "q0017",
+    "opts": [
+      "Attract pods to specific nodes based on node labels",
+      "Repel pods from nodes unless the pod explicitly tolerates the taint",
+      "Limit the CPU and memory a pod is allowed to consume",
+      "Automatically drain and cordon nodes during cluster upgrades"
+    ],
+    "correct": 1,
+    "expl": "A taint on a node says 'keep pods away unless they tolerate me.' Use cases: dedicated GPU nodes, reserved control-plane nodes, nodes under maintenance. A describes node affinity, which is the opposite (attraction). C describes resource requests/limits. D describes kubectl drain / cordon, which evict pods rather than gating scheduling."
+  },
+  {
+    "id": "q0026",
+    "q": "Which statement is true about the container image tag `latest`?",
+    "domain": "orch"
+  },
+  {
+    "id": "q0041",
+    "opts": [
+      "Sharing a single database across all services to keep data consistent",
+      "Config in environment variables, backing services as attached resources, stateless processes",
+      "Tightly coupling the build and run stages so the same artifact behaves identically",
+      "Storing session state in process memory for low-latency access"
+    ],
+    "correct": 1,
+    "expl": "Twelve-Factor is a SaaS methodology. Key factors: III. Config in env, IV. Backing services as attached resources, VI. Stateless processes, V. Strict separation of build/release/run, XI. Logs as event streams. A violates IV (services should be swappable resources, not a shared substrate). C inverts factor V — build and run must be cleanly separated. D violates VI — processes must be stateless so any instance can serve any request."
+  },
+  {
+    "id": "q0042",
+    "opts": [
+      "A deployment model where developers package and manage their own container runtime",
+      "A model where developers don't manage infra; the platform provisions compute on demand and can scale to zero",
+      "An architecture where each function runs in its own dedicated VM that stays running",
+      "A pattern where application code is executed only on edge devices near the user"
+    ],
+    "correct": 1,
+    "expl": "Servers still exist — they are just the provider's problem. You pay per execution rather than for idle capacity, and scale-to-zero is a defining property. Examples: AWS Lambda, Knative, OpenFaaS. A inverts the model (developers explicitly do not manage runtime). C describes always-on VM-per-function, which defeats the elasticity and billing model. D describes edge computing, a related but distinct concept."
+  },
+  {
+    "id": "q0045",
+    "opts": [
+      "A role focused exclusively on incident response and on-call rotations",
+      "A software engineering discipline that uses error budgets and SLOs to balance reliability and feature velocity",
+      "A methodology that merges all developers and operators into a single undifferentiated team",
+      "A framework for outsourcing operations to a managed service provider"
+    ],
+    "correct": 1,
+    "expl": "SRE was formalized at Google. Its defining ideas are SLOs (measurable reliability targets) and error budgets (100% − SLO) — when the budget is burned, feature work pauses until reliability recovers. A is too narrow (SRE is much more than on-call). C describes one cultural variant of DevOps, not SRE specifically. D is the opposite — SRE invests engineering effort internally rather than outsourcing it."
+  },
+  {
+    "id": "q0047",
+    "opts": [
+      "A practice that brings financial accountability to the variable spend model of cloud, attributing cost to teams and workloads",
+      "A CNCF runtime that auto-scales pods up or down based on real-time spot-instance prices",
+      "An admission controller that rejects deployments exceeding a namespace's monthly budget",
+      "A cost-optimized Kubernetes distribution focused on small businesses"
+    ],
+    "correct": 0,
+    "expl": "FinOps is a cultural and operational practice (not a piece of software) that brings finance, engineering, and product together to manage cloud spend. In Kubernetes, supporting tools like OpenCost (CNCF) and Kubecost allocate spend back to namespaces, teams, or workloads. B, C, and D are plausible-sounding but invented — there is no such CNCF auto-scaler, no standard budget admission controller, and no FinOps-branded distribution."
+  },
+  {
+    "id": "q0048",
+    "q": "Which open standard defines the on-disk format and runtime behavior of container images?",
+    "opts": [
+      "OCI (Open Container Initiative)",
+      "CNI (Container Network Interface)",
+      "CSI (Container Storage Interface)",
+      "CRI (Container Runtime Interface)"
+    ],
+    "correct": 0,
+    "expl": "OCI standardizes the image format (image-spec) and runtime behavior (runtime-spec) so any compliant builder produces images any compliant runtime can run. CNI standardizes pod networking plugins (Calico, Cilium, ...). CSI standardizes storage drivers. CRI is the gRPC interface kubelet uses to talk to runtimes like containerd/CRI-O — it does not define the image format itself."
+  },
+  {
+    "id": "q0049",
+    "opts": [
+      "Synchronous retries with no backoff or jitter",
+      "Circuit breakers, exponential backoff with jitter, and graceful degradation",
+      "Tight coupling to dependencies so failures fail fast and loudly",
+      "Global locks on shared state to serialize all requests"
+    ],
+    "correct": 1,
+    "expl": "Circuit breakers stop hammering a failing dependency, exponential backoff with jitter prevents thundering-herd retries, and graceful degradation keeps core functionality working when non-critical dependencies fail. A causes retry storms that worsen outages. C amplifies blast radius rather than containing it. D introduces a single point of contention and is an availability anti-pattern in distributed systems."
+  },
+  {
+    "id": "q0053",
+    "q": "What is OpenTelemetry?",
+    "opts": [
+      "A vendor-neutral observability framework (APIs, SDKs, collectors) for metrics, logs, and traces",
+      "A time-series database and metrics backend that replaces Prometheus",
+      "A log aggregation agent that ships container stdout to cloud storage",
+      "A distributed tracing UI for visualizing service dependency graphs"
+    ],
+    "correct": 0,
+    "expl": "OpenTelemetry (CNCF) decouples instrumentation from backends: instrument your app once with OTel APIs/SDKs, then route metrics, logs, and traces through the OTel Collector to backends like Prometheus, Jaeger, Tempo, or commercial vendors. It is not itself a TSDB (B), a log shipper (C), or a tracing UI (D) — it is the standardized telemetry pipeline that feeds those tools."
+  },
+  {
+    "id": "q0059",
+    "q": "What is Helm?",
+    "opts": [
+      "A lightweight Kubernetes distribution targeted at edge clusters",
+      "A package manager for Kubernetes that uses templated, parameterized charts",
+      "A GitOps continuous-delivery operator that reconciles cluster state from a repo",
+      "A templating overlay engine for raw YAML that ships built into kubectl"
+    ],
+    "correct": 1,
+    "expl": "Helm (CNCF graduated) packages Kubernetes manifests into charts with parameterizable values — think apt/brew for Kubernetes. C describes Argo CD or Flux. D describes Kustomize, which uses overlays (not templates) and is invoked via kubectl -k. A is unrelated (e.g., k3s/MicroK8s are distributions, not Helm)."
+  },
+  {
+    "id": "q0060",
+    "q": "What is Tekton?",
+    "opts": [
+      "A service mesh providing mTLS and traffic management between services",
+      "A Kubernetes-native CI/CD framework whose pipelines are defined as CRDs and run as pods",
+      "A GitOps reconciliation controller that syncs manifests from Git to the cluster",
+      "A workflow engine designed primarily for batch and data pipelines"
+    ],
+    "correct": 1,
+    "expl": "Tekton (CNCF) defines Tasks, Pipelines, and PipelineRuns as Kubernetes CRDs; each step runs in its own pod, making CI/CD a first-class cluster workload. A describes Istio/Linkerd. C describes Argo CD/Flux (GitOps), which is complementary to but distinct from CI. D describes Argo Workflows, which is more general-purpose and commonly used for data/batch jobs rather than build/test/deploy pipelines."
+  },
+  {
+    "id": "q0062",
+    "expl": "Containers within the same Pod share the same network namespace, so they can reach each other over localhost on any port — no Service, NetworkPolicy, or extra Pod IP is required. A and B route through cluster networking unnecessarily. D is irrelevant — NetworkPolicies gate traffic, they don't enable it. E is wrong because each Pod gets a single IP shared by all its containers, not one per container."
+  }
+]

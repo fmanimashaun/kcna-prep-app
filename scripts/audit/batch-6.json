@@ -1,0 +1,677 @@
+[
+  {
+    "q": "What does the Prometheus Query Language (PromQL) primarily operate on?",
+    "opts": [
+      "Raw log files stored on disk.",
+      "Relational database tables containing event data.",
+      "Time series data identified by metric names and key-value labels.",
+      "Distributed trace spans stored in Jaeger or Zipkin.",
+      "Kubernetes API object definitions (YAML)."
+    ],
+    "correct": 2,
+    "expl": "PromQL is specifically designed to query and manipulate the time series data stored in Prometheus's TSDB. Its functions and operators work on vectors (sets) of time series selected using metric names and label matchers.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0237"
+  },
+  {
+    "q": "When evaluating cloud costs, what is a key difference between \"reserved instances\" (RIs) or \"savings plans\" and \"on-demand\" pricing?",
+    "opts": [
+      "On-demand instances offer better performance than RIs.",
+      "RIs provide significant discounts in exchange for a commitment to usage (e.g., 1 or 3 years).",
+      "On-demand pricing is only available for serverless functions.",
+      "RIs can only be used for Kubernetes control plane nodes.",
+      "On-demand instances have guaranteed availability; RIs do not."
+    ],
+    "correct": 1,
+    "expl": "Cloud providers offer lower hourly rates for compute resources via RIs or Savings Plans if customers commit to a certain level of usage for a defined term. On-demand pricing offers flexibility but at a higher hourly cost. Usage data from observability helps determine appropriate RI/SP commitments.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0238"
+  },
+  {
+    "q": "Which statement accurately describes structured logging?",
+    "opts": [
+      "Writing logs only in binary format for performance.",
+      "Writing log entries as plain text strings with embedded timestamps.",
+      "Writing logs in a consistent, machine-readable format (e.g., JSON) with key-value pairs.",
+      "Only logging metrics data instead of event descriptions.",
+      "Encrypting all log messages before writing them to disk."
+    ],
+    "correct": 2,
+    "expl": "Structured logging involves formatting log output as data structures (like JSON) rather than free-form text. This makes logs much easier to parse, filter, and analyze programmatically by log aggregation tools (like Elasticsearch, Loki), improving querying capabilities.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0239"
+  },
+  {
+    "q": "What problem does the Prometheus scrape_timeout configuration setting address?",
+    "opts": [
+      "It limits how long Prometheus waits for Alertmanager to respond.",
+      "It defines the maximum duration Prometheus will wait for a target to respond during a scrape.",
+      "It sets the retention period for metrics data in the TSDB.",
+      "It controls how often Prometheus reloads its configuration file.",
+      "It limits the number of concurrent scrapes Prometheus can perform."
+    ],
+    "correct": 1,
+    "expl": "If a target is slow to respond or hangs, Prometheus needs a timeout to avoid waiting indefinitely and blocking other scrapes. scrape_timeout 195 defines this limit; if the target doesn't respond within this duration, the scrape fails, and the up metric becomes 0.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0240"
+  },
+  {
+    "q": "How can FinOps principles, which emphasize cloud financial accountability, be applied within a Kubernetes environment?",
+    "opts": [
+      "By giving developers unrestricted access to create cloud resources.",
+      "By focusing solely on reducing performance to minimize costs.",
+      "By integrating cost visibility (via observability) into engineering workflows and decision-making.",
+      "By manually approving every deployment to the cluster.",
+      "By using only open source software to avoid licensing fees."
+    ],
+    "correct": 2,
+    "expl": "FinOps brings financial accountability to the cloud. In Kubernetes, this means using observability tools (metrics, tags) and cost monitoring platforms to make costs visible to engineers, enabling them to understand the cost implications of their architectural choices and resource requests, fostering optimization.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0241"
+  },
+  {
+    "q": "What is a key challenge when collecting traces in high-throughput systems?",
+    "opts": [
+      "Traces do not support capturing latency information.",
+      "Generating and storing trace data for every request can be resourceintensive and costly.",
+      "Traces cannot be correlated with logs or metrics.",
+      "Trace data cannot be visualized effectively.",
+      "Only specific programming languages support trace instrumentation."
+    ],
+    "correct": 1,
+    "expl": "Capturing detailed trace data for every single request in a high-volume system can generate massive amounts of data and add performance overhead. Sampling (collecting traces for a subset of requests) is often employed to manage this overhead while still providing representative insights.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0242"
+  },
+  {
+    "q": "If you see rapidly increasing cardinality for a specific Prometheus metric, what is a likely cause related to labels?",
+    "opts": [
+      "The scrape interval for the metric's job is too short.",
+      "The metric name itself is changing frequently.",
+      "A label value associated with the metric is highly dynamic and unique per instance/request (e.g., user ID, Pod ID, timestamp).",
+      "The Alertmanager configuration is incorrect.",
+      "The remote_write endpoint is unavailable."
+    ],
+    "correct": 2,
+    "expl": "High cardinality is almost always caused by labels having too many unique values. Using identifiers like user IDs, session IDs, request IDs, or exact timestamps as label values creates a new time series for each unique value, leading to cardinality explosion.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0243"
+  },
+  {
+    "q": "Why is monitoring resource limits alongside usage and requests important for cost and stability?",
+    "opts": [
+      "Limits directly determine the cost charged by the cloud provider.",
+      "High limit values guarantee better application performance.",
+      "Frequent throttling due to hitting CPU limits, or OOMKills due to hitting memory limits, indicate potential misconfiguration affecting stability and performance.",
+      "Limits prevent the Cluster Autoscaler from adding new nodes.",
+      "Limits are only relevant for stateful applications."
+    ],
+    "correct": 2,
+    "expl": "Limits enforce resource caps. If a Pod frequently hits its memory limit, it gets OOMKilled (unstable). If it frequently hits its CPU limit, it gets throttled (poor performance). Monitoring these events indicates that limits might be too low, or the application needs optimization, impacting both stability and user experience.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0244"
+  },
+  {
+    "q": "What is the role of time-series data (metrics) in proactive observability?",
+    "opts": [
+      "Primarily useful only for debugging specific past incidents.",
+      "Used to establish baselines, detect anomalies, and predict future trends or potential issues.",
+      "Only valuable when combined with distributed tracing data.",
+      "Cannot be used effectively for real-time alerting.",
+      "Replaced entirely by structured logging in modern systems."
+    ],
+    "correct": 1,
+    "expl": "Analyzing trends, seasonality, and deviations from normal patterns in metrics data allows teams to detect potential problems (e.g., resource exhaustion, performance degradation) before they cause significant user impact. This enables proactive alerting and capacity planning.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0245"
+  },
+  {
+    "q": "When configuring Prometheus alerting rules, what is the purpose of the for clause?",
+    "opts": [
+      "To specify the receiver for the alert (e.g., Slack channel).",
+      "To define the duration an alert condition must be true before the alert becomes firing.",
+      "To set the severity label for the alert (e.g., critical, warning).",
+      "To group multiple related alert conditions into a single rule.",
+      "To add annotations with contextual information to the alert."
+    ],
+    "correct": 1,
+    "expl": "Network glitches or brief spikes can cause alert conditions to flap. The for clause requires a condition to be continuously true for a specified duration (e.g., 5 minutes) before the alert transitions from pending to firing state and gets sent to Alertmanager, reducing noise from transient issues.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0246"
+  },
+  {
+    "q": "What does \"right-sizing\" mean in the context of Kubernetes resource requests/limits and cost management?",
+    "opts": [
+      "Always setting requests and limits to the maximum allowed values.",
+      "Setting requests and limits based on observed application usage patterns to avoid waste.",
+      "Using only the largest available node types in the cluster.",
+      "Disabling resource limits entirely for better performance.",
+      "Matching resource requests exactly to the node's capacity."
+    ],
+    "correct": 1,
+    "expl": "Right-sizing involves analyzing actual resource consumption (using metrics from observability tools) and adjusting the resources.requests 197 and resources.limits in Pod specs to align closely with actual needs, minimizing over-provisioning (waste) while ensuring sufficient resources for performance.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0247"
+  },
+  {
+    "q": "Which observability pillar is typically the most voluminous and potentially most expensive to store and process?",
+    "opts": [
+      "Metrics",
+      "Traces",
+      "Logs",
+      "Events",
+      "SLOs"
+    ],
+    "correct": 2,
+    "expl": "Applications often generate vast amounts of log data, especially at debug levels or in verbose systems. While metrics and traces can also be large, raw log volumes frequently surpass them, leading to significant storage and processing costs in centralized logging systems.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0248"
+  },
+  {
+    "q": "Besides the basic up metric, what is another common metric exposed by Prometheus exporters to indicate their own health or ability to collect data?",
+    "opts": [
+      "exporter_scrape_duration_seconds or similar metrics about the scrape itself.",
+      "node_cpu_seconds_total exposed by node_exporter.",
+      "kube_pod_info exposed by kube-state-metrics.",
+      "http_requests_total from an application.",
+      "etcd_server_has_leader from etcd."
+    ],
+    "correct": 0,
+    "expl": "Many exporters expose metrics about their own operation, such as how long it took them to collect data from the target system (...scrape_duration_seconds) or the number of errors encountered (...scrape_errors_total). Monitoring these helps diagnose issues with the exporter itself.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0249"
+  },
+  {
+    "q": "How can cloud provider cost explorers or billing dashboards be used in conjunction with Kubernetes observability tools?",
+    "opts": [
+      "To replace the need for Prometheus monitoring within the cluster.",
+      "To get a high-level view of overall spend, which can then be correlated with granular usage data from Kubernetes tools.",
+      "To configure Kubernetes NetworkPolicies automatically based on cost.",
+      "To directly adjust Pod resource requests based on billing alerts.",
+      "To provide distributed tracing across cloud services."
+    ],
+    "correct": 1,
+    "expl": "Cloud billing dashboards show the total cost breakdown by service, region, tags etc. Kubernetes-specific tools (like Kubecost or Prometheus+Grafana) show detailed in-cluster resource consumption. Using both provides end-to-end visibility: overall cost trends from the provider, detailed workload attribution from K8s tools.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0250"
+  },
+  {
+    "q": "What is a primary benefit of adopting standardized telemetry collection like OpenTelemetry?",
+    "opts": [
+      "It guarantees that applications will have zero performance overhead from instrumentation.",
+      "It allows organizations to switch observability backends (e.g., Jaeger to Datadog) without re-instrumenting application code.",
+      "It automatically writes optimal PromQL queries for dashboards.",
+      "It eliminates the need for log rotation and retention policies.",
+      "It provides a single dashboard for all logs, metrics, and traces."
+    ],
+    "correct": 1,
+    "expl": "By instrumenting code using the vendor-neutral OpenTelemetry APIs/SDKs, applications can export data in a standard format (OTLP). This data can then be sent to various compatible backends. If the organization decides to change backends, only the export configuration needs updating, not the application code.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0251"
+  },
+  {
+    "q": "What core principle of cloud-native application delivery emphasizes treating infrastructure components and application deployments as disposable units replaced on update?",
+    "opts": [
+      "Statefulness",
+      "Mutability",
+      "Immutability",
+      "Manual Configuration",
+      "High Cohesion"
+    ],
+    "correct": 2,
+    "expl": "Immutability means that once an artifact (like a container image or a VM image) is created, it is not changed. Updates happen by deploying new instances based on new artifacts and replacing the old ones. This leads to more predictable and reliable deployments compared to mutating running instances.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0252"
+  },
+  {
+    "q": "In GitOps, what serves as the single source of truth for the desired state of the application and infrastructure?",
+    "opts": [
+      "The running cluster state queried via kubectl.",
+      "A configuration management database (CMDB).",
+      "A Git repository containing declarative configuration manifests.",
+      "A wiki page maintained by the operations team.",
+      "The CI/CD pipeline logs."
+    ],
+    "correct": 1,
+    "expl": "CI focuses on automating the process of integrating code changes from multiple contributors into a shared repository. Each integration is verified by an automated build and test 1 sequence to detect issues early. It does not typically involve deployment to production itself (that's CD).",
+    "d": "del",
+    "src": "prep",
+    "id": "q0253"
+  },
+  {
+    "q": "How does the declarative nature of Kubernetes manifests support cloud-native application delivery principles?",
+    "opts": [
+      "By requiring developers to specify exact imperative commands for deployment.",
+      "By allowing users to define the desired state, leaving the how to the orchestrator's control loop.",
+      "By enforcing the use of specific programming languages for applications.",
+      "By automatically generating Git repositories for each application.",
+      "By integrating directly with billing systems for cost management."
+    ],
+    "correct": 1,
+    "expl": "Declarative configuration (like K8s YAML) focuses on specifying the desired end state (e.g., \"I want 3 replicas of this image running with this config\"). The orchestrator (Kubernetes) continuously works to reconcile the actual state with this desired state. This contrasts with imperative approaches that specify step-by-step commands.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0254"
+  },
+  {
+    "q": "What is the role of a GitOps agent or operator (like Argo CD or Flux) running within the Kubernetes cluster?",
+    "opts": [
+      "To build container images from source code committed to Git.",
+      "To run automated tests against application code in Git.",
+      "To continuously monitor the Git repository and reconcile the cluster state to match the desired state in Git.",
+      "To provide a web UI for developers to manually apply manifests to the cluster.",
+      "To manage user access control to the Git repository."
+    ],
+    "correct": 2,
+    "expl": "The GitOps operator runs in the cluster and acts as the reconciliation engine. It detects differences between the desired state defined in Git and the actual state in the cluster, then takes action (e.g., using kubectl apply) to converge the cluster state towards the desired state.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0255"
+  },
+  {
+    "q": "What distinguishes Continuous Delivery from Continuous Deployment within a CI/CD pipeline?",
+    "opts": [
+      "Continuous Delivery involves manual testing; Continuous Deployment is fully automated.",
+      "Continuous Delivery deploys to production automatically; Continuous Deployment requires manual approval.",
+      "Continuous Delivery ensures code is always deployable; Continuous Deployment automatically deploys it.",
+      "Continuous Delivery focuses on infrastructure; Continuous Deployment focuses on application code.",
+      "Continuous Delivery uses Git; Continuous Deployment uses SVN."
+    ],
+    "correct": 2,
+    "expl": "Continuous Delivery automates the pipeline up to the point where the build artifact is ready and verified for release, but a manual approval step is typically required for production deployment. Continuous Deployment goes further, automatically deploying every verified build to production without manual intervention.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0256"
+  },
+  {
+    "q": "Why is a feedback loop important in cloud-native application delivery?",
+    "opts": [
+      "It eliminates the need for version control systems like Git.",
+      "It ensures that only senior developers can deploy applications.",
+      "It provides visibility into the deployment process and application health, enabling quick response to issues.",
+      "It mandates the use of specific cloud providers for hosting.",
+      "It replaces the need for automated testing."
+    ],
+    "correct": 2,
+    "expl": "Effective application delivery requires feedback loops at various stages - CI tests provide feedback on code quality, deployment tools report success/failure, and observability tools provide feedback on application health post-deployment. This allows teams to detect and respond to problems quickly.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0257"
+  },
+  {
+    "q": "In the \"pull-based\" GitOps model, where does the initiative for updating the cluster state originate?",
+    "opts": [
+      "The CI server pushes changes directly to the Kubernetes API server.",
+      "The developer manually runs kubectl apply from their workstation.",
+      "The GitOps operator running inside the cluster pulls changes from the Git repository.",
+      "An external webhook triggers the update based on Git commits.",
+      "The Git repository pushes changes directly to the cluster nodes."
+    ],
+    "correct": 2,
+    "expl": "In the pull model, the GitOps operator deployed within the cluster periodically checks the Git repository for changes or receives webhook notifications. It then \"pulls\" the manifests and applies them to the same cluster where it's running. This is generally considered more secure than external systems pushing changes in.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0258"
+  },
+  {
+    "q": "What is the primary function of a container registry (e.g., Docker Hub, Google Container Registry, Harbor) in the CI/CD process?",
+    "opts": [
+      "To store source code repositories.",
+      "To run automated unit and integration tests.",
+      "To store and distribute container images built by the CI process.",
+      "To host Kubernetes manifest files declaratively defining deployments.",
+      "To manage DNS records for deployed applications."
+    ],
+    "correct": 2,
+    "expl": "A Canary Release introduces the new version to a small subset of users/traffic first. If monitoring shows the new version is stable and performs well, traffic is gradually shifted until the new version handles all traffic. This minimizes the blast radius of potential issues.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0259"
+  },
+  {
+    "q": "What benefit does GitOps provide regarding auditability and rollback?",
+    "opts": [
+      "It eliminates the need for logging application events.",
+      "It relies on manual documentation stored outside Git for tracking changes.",
+      "Every change to the desired state is a Git commit, providing a full audit trail and easy rollback via git revert.",
+      "Rollbacks must be performed by directly modifying the live cluster state.",
+      "Audit trails are only available through proprietary third-party tools."
+    ],
+    "correct": 2,
+    "expl": "Since Git is the source of truth, the Git history (commits, authors, timestamps) serves as a detailed audit log of all changes to the desired state. Rolling back to a previous known good state is as simple as reverting the corresponding commit(s) in Git and letting the operator reconcile.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0260"
+  },
+  {
+    "q": "In a typical Kubernetes CI/CD pipeline, what stage usually occurs immediately after building the container image?",
+    "opts": [
+      "Deploying the image to the production Kubernetes cluster.",
+      "Pushing the container image to a container registry.",
+      "Running end-to-end tests requiring a fully deployed environment.",
+      "Manually approving the release for deployment.",
+      "Configuring DNS records for the new application version."
+    ],
+    "correct": 1,
+    "expl": "Once the image is built (docker build), the next logical step is to store this immutable artifact in a central, accessible location - the container registry. Subsequent steps like testing or deployment will pull the image from this registry.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0261"
+  },
+  {
+    "q": "Which deployment strategy involves running two identical production environments, only one of which receives live traffic at any time?",
+    "opts": [
+      "Canary Release",
+      "Rolling Update",
+      "Blue/Green Deployment",
+      "Shadow Deployment",
+      "Recreate Deployment"
+    ],
+    "correct": 2,
+    "expl": "In Blue/Green deployment, two environments (\"Blue\" - current, \"Green\" - new) exist. The new version is deployed and tested in the Green environment. Once ready, traffic is switched (e.g., via load balancer or DNS) from Blue to Green. Blue can be kept as a standby for quick rollback or decommissioned.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0262"
+  },
+  {
+    "q": "How does the concept of \"configuration drift\" relate to GitOps?",
+    "opts": [
+      "GitOps intentionally introduces configuration drift for flexibility.",
+      "Configuration drift is the desired outcome of a GitOps workflow.",
+      "GitOps aims to prevent or automatically correct configuration drift by continuously reconciling the cluster state with Git.",
+      "Configuration drift refers to changes made only within the Git repository.",
+      "GitOps requires manual intervention to detect configuration drift."
+    ],
+    "correct": 2,
+    "expl": "Configuration drift occurs when the actual state of the cluster differs from the desired state defined in configuration (e.g., due to manual kubectl commands). GitOps operators constantly detect this drift and automatically apply changes to bring the cluster back in sync with the Git repository, thus preventing drift.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0263"
+  },
+  {
+    "q": "What role does automated testing (unit, integration, end-toend) play in achieving reliable Continuous Delivery/Deployment?",
+    "opts": [
+      "It slows down the delivery pipeline unnecessarily.",
+      "It provides the confidence needed to automate deployments by verifying application correctness at different levels.",
+      "It is only necessary for applications written in specific languages.",
+      "It replaces the need for monitoring and observability post-deployment.",
+      "It primarily focuses on testing the underlying Kubernetes infrastructure."
+    ],
+    "correct": 1,
+    "expl": "Automated tests are crucial gates in the CI/CD pipeline. They verify that code changes haven't introduced regressions and that the application functions as expected. Passing these tests provides confidence that the artifact is safe to deploy, enabling automation.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0264"
+  },
+  {
+    "q": "Which practice aligns best with the principle of using declarative specifications for application delivery?",
+    "opts": [
+      "Writing shell scripts that execute a series of kubectl commands to deploy.",
+      "Using Kubernetes manifests (YAML) stored in Git to define the desired application state.",
+      "Manually configuring applications through a graphical user interface after deployment.",
+      "Storing application configuration directly within container images.",
+      "Using SSH to log into nodes and manually start application processes."
+    ],
+    "correct": 2,
+    "expl": "Storing plain-text secrets in Git is a major security risk. GitOps workflows require solutions to manage secrets safely, such as encrypting them in Git (e.g., Sealed Secrets, SOPS) and decrypting them only within the cluster, or fetching them from external secret management systems (e.g., HashiCorp Vault, AWS Secrets Manager).",
+    "d": "del",
+    "src": "prep",
+    "id": "q0265"
+  },
+  {
+    "q": "What is \"pipeline-as-code\" in the context of CI/CD?",
+    "opts": [
+      "Writing application code directly within the CI/CD tool's UI.",
+      "Defining the CI/CD pipeline's stages, steps, and configuration using code stored in version control (e.g., Jenkinsfile, GitLab CI YAML).",
+      "Generating pipeline definitions automatically based on monitoring data.",
+      "A specific programming language used exclusively for writing CI/CD pipelines.",
+      "Storing pipeline execution logs as application code."
+    ],
+    "correct": 1,
+    "expl": "Pipeline-as-code treats the definition of the build, test, and deployment pipeline itself as code. This definition lives in version control alongside the application code, enabling versioning, review, and easier management of the pipeline's structure and logic.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0266"
+  },
+  {
+    "q": "How does the concept of \"least privilege\" apply to GitOps operators?",
+    "opts": [
+      "The operator should run with cluster-admin privileges for maximum flexibility.",
+      "The operator's permissions (e.g., via ServiceAccount and RBAC) should be scoped only to the resources it needs to manage.",
+      "Developers interacting with Git should have least privilege; the operator needs full access.",
+      "The operator should only have read-only access to the Git repository.",
+      "Least privilege only applies to CI/CD tools, not GitOps operators."
+    ],
+    "correct": 1,
+    "expl": "For security, the GitOps operator running in the cluster should be granted only the minimum RBAC permissions required to manage the specific resources defined in its target Git repositories and namespaces. Granting cluster-admin privileges unnecessarily increases the potential blast radius if compromised.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0267"
+  },
+  {
+    "q": "What is the purpose of tools like Helm or Kustomize in Kubernetes application delivery?",
+    "opts": [
+      "To replace the need for container image registries.",
+      "To provide runtime monitoring and alerting for applications.",
+      "To manage, template, and customize Kubernetes manifest files, simplifying complex deployments.",
+      "To automatically write application source code based on high-level requirements.",
+      "To enforce network security policies between Pods."
+    ],
+    "correct": 2,
+    "expl": "Deploying applications often involves many related Kubernetes manifests. Helm (packaging/templating) and Kustomize (overlaybased customization) help manage this complexity, allowing for parameterization, reuse, and environment-specific configuration without duplicating large amounts of YAML.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0268"
+  },
+  {
+    "q": "In a GitOps workflow, how are changes typically promoted across different environments (e.g., staging to production)?",
+    "opts": [
+      "By directly modifying the live production cluster using kubectl.",
+      "By manually copying manifests from a staging directory to a production directory on a local machine.",
+      "By merging or promoting changes between branches or directories in the Git repository that represent different environments.",
+      "By re-running the entire CI pipeline with a \"production\" flag.",
+      "By configuring the GitOps operator to ignore environment differences."
+    ],
+    "correct": 2,
+    "expl": "A common GitOps pattern is to represent each environment (dev, staging, prod) as a separate branch or directory in Git. Promoting a change involves merging code/configuration from the staging branch/directory to the production branch/directory. The GitOps operator watching production then applies the change.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0269"
+  },
+  {
+    "q": "What is the significance of using unique, immutable tags (e.g., Git SHA, semantic version) for container images in a CI/CD pipeline?",
+    "opts": [
+      "It allows developers to overwrite existing tags like latest for simplicity.",
+      "It makes it difficult to track which version of the code is running in production.",
+      "It ensures that deployments are predictable and repeatable, always pulling the exact intended version of the image.",
+      "It reduces the storage space required in the container registry.",
+      "It is primarily for aesthetic purposes in dashboard displays."
+    ],
+    "correct": 2,
+    "expl": "Using mutable tags like latest is dangerous, as the underlying image can change without the deployment configuration changing, leading to unexpected behavior. Immutable tags ensure that myapp:v1.2.3 always refers to the exact same image build, making deployments deterministic and rollbacks reliable.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0270"
+  },
+  {
+    "q": "If a discrepancy exists between the state defined in Git and the live cluster state, what is the expected behavior of a GitOps reconciliation loop?",
+    "opts": [
+      "It sends an alert to the developer asking them to manually fix the cluster.",
+      "It automatically updates the Git repository to match the cluster state.",
+      "It detects the drift and takes action to modify the cluster state to match the desired state in Git.",
+      "It halts all further deployments until the discrepancy is manually resolved.",
+      "It ignores the discrepancy unless explicitly told to sync."
+    ],
+    "correct": 2,
+    "expl": "The core function of the GitOps operator's reconciliation loop is to ensure the cluster state mirrors the state defined in Git. If drift is detected, the operator will apply the necessary changes (create, update, delete resources) to the cluster to bring it back into alignment with the Git repository.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0272"
+  },
+  {
+    "q": "What security practice should be integrated into a CI pipeline dealing with container images?",
+    "opts": [
+      "Disabling all network access for the CI runner.",
+      "Storing plain-text API keys directly in the pipeline script.",
+      "Scanning container images for known vulnerabilities (CVEs) using tools like Trivy, Clair, or Snyk.",
+      "Granting the CI runner root privileges on the build host.",
+      "Bypassing all automated tests to speed up the build process."
+    ],
+    "correct": 2,
+    "expl": "Integrating automated vulnerability scanning into the CI pipeline helps identify and potentially block images with known security flaws before they are pushed to a registry or deployed. This is a crucial step in securing the software supply chain.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0273"
+  },
+  {
+    "q": "Which component is typically NOT considered part of a core GitOps workflow?",
+    "opts": [
+      "A Git repository containing declarative manifests.",
+      "An automated mechanism to apply changes from Git to the cluster (Operator).",
+      "A mechanism to observe the cluster state and compare it with Git (Operator).",
+      "An imperative script run manually by developers to deploy applications.",
+      "A feedback mechanism reporting synchronization status."
+    ],
+    "correct": 3,
+    "expl": "GitOps relies on declarative configurations and automated reconciliation. Manually executed imperative scripts bypass the core GitOps loop and principles, potentially leading to configuration drift and loss of auditability.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0274"
+  },
+  {
+    "q": "In CI/CD for Kubernetes, why is it often better to update the image tag in a deployment manifest rather than using the latest tag?",
+    "opts": [
+      "Using latest triggers automatic rollbacks on failure.",
+      "The latest tag provides better caching performance in the container registry.",
+      "Updating a specific tag declaratively triggers a controlled rollout; latest doesn't reliably signal updates.",
+      "The latest tag is not supported by most container registries.",
+      "Using specific tags requires less storage space in Git."
+    ],
+    "correct": 2,
+    "expl": "Kubernetes Deployments typically trigger a rollout only when the Pod template changes. Simply pushing a new image with the latest tag doesn't change the manifest, so Kubernetes might not update running Pods. Using a unique tag (e.g., v1.2.3) forces a change in the manifest, reliably triggering the desired rollout strategy.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0275"
+  },
+  {
+    "q": "What does \"Shift Left\" mean in the context of security in application delivery?",
+    "opts": [
+      "Moving security testing and considerations to the rightmost (production) stage of the pipeline.",
+      "Integrating security checks and practices earlier in the development lifecycle (e.g., in CI).",
+      "Assigning all security responsibilities solely to a dedicated security team.",
+      "Ignoring security concerns until after an application has been deployed.",
+      "Focusing security efforts only on the underlying infrastructure."
+    ],
+    "correct": 1,
+    "expl": "\"Shift Left\" encourages incorporating security practices (like code analysis, dependency scanning, image vulnerability scanning) earlier in the software development lifecycle (closer to the \"left\" side, where code is written) rather than treating security as an afterthought just before release.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0276"
+  },
+  {
+    "q": "Can GitOps manage resources outside of Kubernetes (e.g., cloud databases, DNS records)?",
+    "opts": [
+      "No, GitOps is strictly limited to managing Kubernetes API objects.",
+      "Yes, potentially, if using tools like Crossplane or Terraform controllers that extend the GitOps model to manage external resources.",
+      "Only if the external resources are manually synchronized with Git state.",
+      "No, managing external resources always requires a separate imperative process.",
+      "Yes, by storing credentials for cloud providers directly in Git manifests."
+    ],
+    "correct": 1,
+    "expl": "While core GitOps tools focus on Kubernetes, the principles can be extended. Tools like Crossplane allow defining external cloud resources using Kubernetes custom resources (CRDs). A GitOps operator can then manage these CRDs, effectively extending the GitOps workflow to provision and manage external resources declaratively.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0277"
+  },
+  {
+    "q": "What is the purpose of a \"smoke test\" in a CD pipeline, often run immediately after deployment?",
+    "opts": [
+      "To perform comprehensive end-to-end functional testing of all features.",
+      "To check the basic health and availability of the newly deployed application or service.",
+      "To run security vulnerability scans on the deployed application.",
+      "To gather detailed performance metrics under simulated heavy load.",
+      "To verify the configuration stored in the Git repository."
+    ],
+    "correct": 1,
+    "expl": "A smoke test is a quick, basic check to ensure the application starts correctly and key functionalities are available (e.g., can it serve a simple request? Is the homepage accessible?). It's not exhaustive but provides rapid feedback on whether the deployment was fundamentally successful. 207",
+    "d": "del",
+    "src": "prep",
+    "id": "q0278"
+  },
+  {
+    "q": "How does GitOps handle failed deployments or rollbacks compared to traditional methods?",
+    "opts": [
+      "Rollbacks require complex manual intervention on the cluster.",
+      "Failures are ignored until the next successful Git commit.",
+      "Rollbacks are typically achieved by reverting the change in Git and letting the operator synchronize the cluster to the previous known good state.",
+      "Failed deployments automatically trigger a full cluster rebuild.",
+      "Rollbacks are not possible within a GitOps framework."
+    ],
+    "correct": 2,
+    "expl": "Because the desired state is versioned in Git, rolling back is often as simple as git revert <commit-hash>. The GitOps operator detects this change in the desired state (now pointing to the older configuration) and automatically rolls the cluster back accordingly.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0279"
+  },
+  {
+    "q": "What is the relationship between Continuous Integration (CI) and GitOps?",
+    "opts": [
+      "GitOps replaces the need for a CI server entirely.",
+      "CI builds artifacts (e.g., container images); GitOps often consumes these artifacts for deployment based on Git state.",
+      "CI is responsible for deploying manifests; GitOps is responsible for building images.",
+      "They are mutually exclusive approaches to application delivery.",
+      "GitOps is a specific tool used only within CI pipelines."
+    ],
+    "correct": 1,
+    "expl": "CI and GitOps are complementary. The CI pipeline typically handles building the application, running tests, and producing artifacts like container images (often pushing them to a registry). A commit updating a manifest in Git (e.g., with the new image tag) then triggers the GitOps workflow to deploy that artifact.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0280"
+  },
+  {
+    "q": "Which cloud-native principle supports the idea of automating infrastructure provisioning alongside application deployment?",
+    "opts": [
+      "Infrastructure as Code (IaC)",
+      "Manual server configuration",
+      "Stateful application design",
+      "High latency tolerance",
+      "Reactive programming"
+    ],
+    "correct": 0,
+    "expl": "IaC involves managing and provisioning infrastructure (networks, servers, load balancers, Kubernetes clusters) through machinereadable definition files (code), rather than manual configuration. This allows infrastructure changes to be versioned, tested, and automated alongside application code delivery.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0281"
+  },
+  {
+    "q": "In a pull-based GitOps model, how does the operator typically authenticate to the Git repository?",
+    "opts": [
+      "Using the developer's personal Git credentials stored in a Secret.",
+      "Using SSH keys, deploy tokens, or access tokens configured specifically for the operator.",
+      "No authentication is required if the repository is public.",
+      "Using Kubernetes ServiceAccount tokens intended for API server access.",
+      "Authentication is handled by the CI server, not the operator."
+    ],
+    "correct": 1,
+    "expl": "The GitOps operator needs credentials to access the Git repository. Secure methods include generating an SSH key pair and adding the public key to the repository's deploy keys, or using specific access tokens with limited scope, configured securely within the operator's deployment.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0282"
+  }
+]

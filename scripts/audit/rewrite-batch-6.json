@@ -1,0 +1,306 @@
+[
+  {
+    "id": "q0369",
+    "domain": "arch",
+    "src": "prep",
+    "question": "What is the benefit of using open standards in cloud native technologies?",
+    "options": [
+      "Vendor lock-in",
+      "Increased complexity",
+      "Interoperability Portability",
+      "Reduced security"
+    ],
+    "correct": 2,
+    "explanation": "Open standards (like OCI, CRI, CNI) ensure that different tools and platforms can work together, preventing vendor lock-in.",
+    "auditIssue": "Contains 'nan' placeholder option. Also, 'Interoperability Portability' (option C) is missing a separator like '&' or '/' — looks like a formatting error.",
+    "auditSuggestion": "Remove 'nan'. Change C to 'Interoperability and portability'."
+  },
+  {
+    "id": "q0370",
+    "domain": "arch",
+    "src": "prep",
+    "question": "In a typical cloud native environment, which persona is primarily responsible for designing and building the application?",
+    "options": [
+      "Operator",
+      "Developer",
+      "Site Reliability Engineer (SRE)",
+      "Security Engineer"
+    ],
+    "correct": 1,
+    "explanation": "Developers focus on writing, building, and testing the application code that runs within the cloud native platform.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a distractor like 'End User'."
+  },
+  {
+    "id": "q0371",
+    "domain": "arch",
+    "src": "prep",
+    "question": "Which persona is typically focused on the reliability, scalability, and maintenance of the underlying Kubernetes platform?",
+    "options": [
+      "End User",
+      "Application Developer",
+      "Platform Operator / SRE",
+      "Data Scientist"
+    ],
+    "correct": 2,
+    "explanation": "Operators or SREs manage the Kubernetes cluster itself, ensuring it's healthy, scalable, and available for developers.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a distractor like 'Product Manager'."
+  },
+  {
+    "id": "q0372",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What are the three pillars of observability in cloud native systems?",
+    "options": [
+      "Alerts, Dashboards, Reports",
+      "Logs, Metrics, Traces",
+      "Monitoring, Logging, Profiling",
+      "Scaling, Scheduling, Storing"
+    ],
+    "correct": 1,
+    "explanation": "Logs (events), Metrics (measurements over time), and Traces (request flows) are considered the fundamental pillars of observability.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a distractor like 'Events, Alerts, Graphs'."
+  },
+  {
+    "id": "q0373",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What type of telemetry data records discrete events that happened at a specific time?",
+    "options": [
+      "Metrics",
+      "Traces",
+      "Logs",
+      "Profiles"
+    ],
+    "correct": 2,
+    "explanation": "Logs provide timestamped records of events, often used for debugging or auditing.",
+    "auditIssue": "Contains 'nan' throwaway option as 5th choice",
+    "auditSuggestion": "Remove the 'nan' option so there are 4 clean distractors"
+  },
+  {
+    "id": "q0374",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What type of telemetry data represents a measurement sampled over time, often aggregated?",
+    "options": [
+      "Metrics",
+      "Traces",
+      "Logs",
+      "Events"
+    ],
+    "correct": 0,
+    "explanation": "Metrics are numerical values tracked over time (e.g., CPU usage, request count) used for monitoring trends and performance.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0375",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What type of telemetry data shows the path and duration of a request as it flows through multiple services?",
+    "options": [
+      "Metrics",
+      "Traces",
+      "Logs",
+      "Alerts"
+    ],
+    "correct": 1,
+    "explanation": "Traces (specifically distributed traces) track a request's journey across different microservices, identifying bottlenecks.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0376",
+    "domain": "obs",
+    "src": "prep",
+    "question": "Which open-source monitoring system, graduated by the CNCF, is widely used for collecting and querying time-series metrics in Kubernetes?",
+    "options": [
+      "Grafana",
+      "Jaeger",
+      "Prometheus",
+      "Fluentd"
+    ],
+    "correct": 2,
+    "explanation": "Prometheus is the de facto standard for metrics collection and alerting in the Kubernetes ecosystem.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0377",
+    "domain": "obs",
+    "src": "prep",
+    "question": "How does Prometheus typically gather metrics from applications and infrastructure?",
+    "options": [
+      "Pushing metrics to endpoints",
+      "Pulling metrics via scraping",
+      "Reading log files directly",
+      "Using kernel probes"
+    ],
+    "correct": 1,
+    "explanation": "PromQL (Prometheus Query Language) is the powerful functional query language used to select and aggregate time series data.",
+    "auditIssue": "Contains 'nan' throwaway option AND explanation is wrong — it talks about PromQL instead of explaining the pull/scrape model",
+    "auditSuggestion": "Remove 'nan' and replace explanation with: 'Prometheus uses a pull-based model, periodically scraping metrics endpoints (HTTP /metrics) exposed by targets.'"
+  },
+  {
+    "id": "q0378",
+    "domain": "obs",
+    "src": "prep",
+    "question": "In cloud native cost management, what does \"FinOps\" primarily focus on?",
+    "options": [
+      "Optimizing application code",
+      "Managing cloud spending",
+      "Improving network security",
+      "Automating deployments"
+    ],
+    "correct": 1,
+    "explanation": "FinOps is a cultural practice and framework that brings financial accountability to the variable spend model of the cloud.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0379",
+    "domain": "obs",
+    "src": "prep",
+    "question": "Why can cost management be challenging in Kubernetes environments?",
+    "options": [
+      "Lack of monitoring tools",
+      "Shared resources dynamic workloads",
+      "Fixed infrastructure costs",
+      "Infrequent deployments"
+    ],
+    "correct": 1,
+    "explanation": "The shared nature of cluster resources and the dynamic scaling of workloads make it difficult to attribute costs accurately.",
+    "auditIssue": "Contains 'nan' throwaway option; correct option 'Shared resources dynamic workloads' is missing a conjunction (grammar)",
+    "auditSuggestion": "Remove 'nan' and fix option text to 'Shared resources and dynamic workloads'"
+  },
+  {
+    "id": "q0380",
+    "domain": "del",
+    "src": "prep",
+    "question": "What is the practice of using Git repositories as the single source of truth for defining and managing infrastructure and applications?",
+    "options": [
+      "CI/CD",
+      "DevOps",
+      "GitOps",
+      "Infrastructure as Code (IaC)"
+    ],
+    "correct": 2,
+    "explanation": "GitOps leverages Git's features (versioning, history, PRs) to manage infrastructure and application deployment declaratively.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0381",
+    "domain": "del",
+    "src": "prep",
+    "question": "Which core principle differentiates GitOps from general Infrastructure as Code (IaC)?",
+    "options": [
+      "Using code for infra config",
+      "Automating infrastructure tests",
+      "Using Git as the source of truth",
+      "Manual deployment approval"
+    ],
+    "correct": 2,
+    "explanation": "While IaC uses code, GitOps specifically mandates Git as the declarative source of truth and uses agents to enforce that state.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0382",
+    "domain": "del",
+    "src": "prep",
+    "question": "What does \"CI\" stand for in the context of application delivery?",
+    "options": [
+      "Continuous Integration",
+      "Cluster Infrastructure",
+      "Container Interface",
+      "Cloud Instance"
+    ],
+    "correct": 0,
+    "explanation": "Continuous Integration involves frequently merging code changes into a central repository, followed by automated builds and tests.",
+    "auditIssue": "Contains 'nan' throwaway option; question is trivially easy acronym recall",
+    "auditSuggestion": "Remove 'nan'; consider deepening by asking about a CI outcome/practice rather than the acronym"
+  },
+  {
+    "id": "q0383",
+    "domain": "del",
+    "src": "prep",
+    "question": "What does \"CD\" stand for in CI/CD?",
+    "options": [
+      "Container Deployment",
+      "Continuous Delivery/Deployment",
+      "Cluster Discovery",
+      "Centralized Dashboard"
+    ],
+    "correct": 1,
+    "explanation": "Continuous Delivery ensures code changes can be released quickly, while Continuous Deployment automatically deploys them to production.",
+    "auditIssue": "Contains 'nan' throwaway option; trivial acronym recall",
+    "auditSuggestion": "Remove 'nan'; optionally rephrase to test the Delivery vs Deployment distinction"
+  },
+  {
+    "id": "q0384",
+    "domain": "del",
+    "src": "prep",
+    "question": "Which stage in a typical CI/CD pipeline for Kubernetes usually involves creating a container image?",
+    "options": [
+      "Testing",
+      "Building",
+      "Deployment",
+      "Monitoring"
+    ],
+    "correct": 1,
+    "explanation": "The build stage compiles code (if necessary) and packages the application and its dependencies into a container image (e.g., Docker).",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0385",
+    "domain": "del",
+    "src": "prep",
+    "question": "Which tool is commonly used in CI/CD pipelines to automate the build, test, and deployment processes?",
+    "options": [
+      "Kubernetes",
+      "Docker",
+      "Jenkins / GitLab CI / GitHub Actions",
+      "Prometheus"
+    ],
+    "correct": 2,
+    "explanation": "Tools like Jenkins, GitLab CI, GitHub Actions, Argo CD, Flux etc., orchestrate the steps within a CI/CD pipeline.",
+    "auditIssue": "Contains 'nan' throwaway option; correct option lists 3 tools joined with slashes (awkward); explanation has stray '129' artifact",
+    "auditSuggestion": "Remove 'nan', change correct option to 'Jenkins' with other CI tools as separate distractors (Argo CD, Flux) and remove '129' from explanation"
+  },
+  {
+    "id": "q0386",
+    "domain": "del",
+    "src": "prep",
+    "question": "What is the primary goal of Application Delivery in a cloud native context?",
+    "options": [
+      "To secure the cluster",
+      "To monitor resource usage",
+      "To reliably deploy manage apps",
+      "To provision infrastructure"
+    ],
+    "correct": 2,
+    "explanation": "Application delivery focuses on the processes and tools used to get applications running reliably and efficiently in the environment.",
+    "auditIssue": "Contains 'nan' throwaway option; correct option 'To reliably deploy manage apps' is a sentence fragment missing conjunction",
+    "auditSuggestion": "Remove 'nan'; fix option to 'To reliably deploy and manage applications'"
+  },
+  {
+    "id": "q0387",
+    "domain": "orch",
+    "src": "prep",
+    "question": "In Kubernetes RBAC (Role-Based Access Control), what defines a set of permissions?",
+    "options": [
+      "Role / ClusterRole",
+      "ServiceAccount",
+      "RoleBinding / ClusterRoleBinding",
+      "User"
+    ],
+    "correct": 0,
+    "explanation": "A Role (namespace-scoped) or ClusterRole (cluster-scoped) contains rules that represent a set of permissions on resources.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  }
+]

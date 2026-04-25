@@ -1,0 +1,159 @@
+[
+  {
+    "id": "q0265",
+    "expl": "Declarative delivery means expressing desired state (what to run) rather than the steps to get there. Kubernetes manifests stored in Git capture that desired state and let controllers reconcile the cluster, unlike imperative scripts, UIs, or in-image config."
+  },
+  {
+    "id": "q0268",
+    "expl": "Deploying applications often involves many related Kubernetes manifests. Helm (packaging/templating) and Kustomize (overlay-based customization) help manage this complexity, allowing for parameterization, reuse, and environment-specific configuration without duplicating large amounts of YAML."
+  },
+  {
+    "id": "q0276",
+    "opts": [
+      "Focusing security exclusively on runtime admission control in production clusters.",
+      "Integrating security checks and practices earlier in the development lifecycle (e.g., in CI).",
+      "Assigning all security responsibilities solely to a dedicated security team.",
+      "Adopting a zero-trust network model as the only security control.",
+      "Shifting security responsibility to the SRE on-call rotation."
+    ],
+    "correct": 1
+  },
+  {
+    "id": "q0278",
+    "expl": "A smoke test is a quick, basic check to ensure the application starts correctly and key functionalities are available (e.g., can it serve a simple request? Is the homepage accessible?). It's not exhaustive but provides rapid feedback on whether the deployment was fundamentally successful."
+  },
+  {
+    "id": "q0289",
+    "expl": "In GitOps, the Application Definition is the declarative configuration (Kubernetes YAML, Helm charts, Kustomize overlays, etc.) stored in Git that describes the desired deployment state. Source code, container images, and test results are separate artifacts; the Application Definition is what reconciliation agents act on."
+  },
+  {
+    "id": "q0293",
+    "question": "Which of the following is a primary factor when choosing between a pull-based and a push-based GitOps approach?",
+    "opts": [
+      "The specific programming language used by the application being deployed.",
+      "Security considerations regarding cluster API access.",
+      "The container image registry vendor used by the team.",
+      "The Kubernetes minor version running on the cluster.",
+      "The choice of YAML versus JSON for manifest files."
+    ],
+    "correct": 1,
+    "expl": "The pull vs push decision is driven by factors like who initiates the connection (security/network exposure of the cluster API), how well it scales to many clusters, and where the Git repository sits relative to the cluster. The application's programming language, registry vendor, K8s minor version, and manifest serialization format are not relevant to that choice."
+  },
+  {
+    "id": "q0302",
+    "question": "Which factor from a Pod spec does the kube-scheduler use to filter eligible nodes during scheduling?",
+    "expl": "The kube-scheduler filters nodes based on whether they can satisfy the Pod's resource requests (CPU, memory), along with constraints like nodeSelector, affinity, and taints/tolerations. It then ranks the remaining nodes using priority functions."
+  },
+  {
+    "id": "q0305",
+    "opts": [
+      "It allows for more complex scripting logic",
+      "It enables direct manipulation of etcd data",
+      "It focuses on the desired end state, not the steps to achieve it",
+      "It provides faster API response times",
+      "It simplifies single-container Pod deployments only"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "q0307",
+    "question": "Which responsibility does containerd primarily fulfill as a container runtime in Kubernetes?",
+    "expl": "containerd is a core container runtime that manages the complete container lifecycle on a single host - image transfer, storage, container execution, supervision, and low-level lifecycle management. The kubelet talks to containerd through the CRI to start and stop containers."
+  },
+  {
+    "id": "q0314",
+    "question": "How does Serverless (e.g., FaaS like AWS Lambda or Knative Serving) primarily differ from traditional PaaS offerings?",
+    "opts": [
+      "Serverless does not use containers under the hood",
+      "Serverless requires developers to manage their own OS patches",
+      "Serverless abstracts away server provisioning and scaling, billing per execution rather than per running instance",
+      "PaaS does not offer auto-scaling capabilities",
+      "Serverless eliminates the need for a container image registry"
+    ],
+    "correct": 2,
+    "expl": "Both PaaS and Serverless abstract infrastructure, but Serverless (especially FaaS) takes it further: there are no always-on instances to size or pay for, scale-to-zero is the default, and billing is tied to actual execution. PaaS still typically requires picking instance sizes and pays for running instances even when idle."
+  },
+  {
+    "id": "q0326",
+    "question": "Which set of practices best characterizes cloud native architectures?",
+    "opts": [
+      "Long-lived virtual machines, manual configuration, and quarterly release cycles",
+      "Microservices, containers, dynamic orchestration, and DevOps automation",
+      "Monolithic application design deployed to managed cloud VMs",
+      "Mainframe-style batch processing with centralized scheduling",
+      "Single-tenant bare-metal deployments managed via SSH"
+    ],
+    "correct": 1,
+    "expl": "Per the CNCF, cloud native architectures emphasize loosely coupled microservices packaged in containers, dynamically orchestrated (e.g., Kubernetes), and delivered through DevOps practices and automation. Monolithic apps lifted to cloud VMs are 'cloud-hosted' but not cloud native."
+  },
+  {
+    "id": "q0331",
+    "question": "What is the MOST distinctive behavior of kubectl apply that kubectl create lacks?",
+    "opts": [
+      "apply runs entirely client-side without contacting the API server",
+      "apply automatically creates a Namespace if one is missing",
+      "apply bypasses admission controllers, while create enforces them",
+      "apply records a last-applied-configuration annotation and uses it to compute three-way merge patches on subsequent runs",
+      "apply is faster than create for large manifests"
+    ],
+    "correct": 3,
+    "expl": "kubectl apply records the applied configuration in the kubectl.kubernetes.io/last-applied-configuration annotation. On subsequent applies, it uses a three-way merge between the previous, live, and new configurations to compute a patch, enabling declarative updates. kubectl create simply creates the resource and fails if it already exists."
+  },
+  {
+    "id": "q0334",
+    "expl": "StatefulSets are designed for stateful applications, providing stable, persistent identifiers (e.g., my-app-0, my-app-1) and per-instance persistent storage that follows the Pod identity."
+  },
+  {
+    "id": "q0338",
+    "expl": "The up metric is automatically generated by Prometheus per scrape. It has a value of 1 if the scrape of the target succeeded and 0 if it failed, serving as a basic target-health signal that can be alerted on."
+  },
+  {
+    "id": "q0342",
+    "opts": [
+      "To mandate specific vendor products for each stage.",
+      "To enforce a single required architecture for all cloud native applications.",
+      "To offer a recommended journey and project choices for adopters.",
+      "To rank cloud providers based on their Kubernetes offerings.",
+      "To certify individual developers as cloud native experts."
+    ],
+    "correct": 2
+  },
+  {
+    "id": "q0343",
+    "expl": "Serverless functions are designed for short-lived, event-driven computations where the underlying infrastructure (servers, OS) is completely managed by the platform, allowing developers to focus on code."
+  },
+  {
+    "id": "q0347",
+    "opts": [
+      "Node",
+      "Container",
+      "Pod",
+      "Deployment",
+      "Namespace"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "q0348",
+    "opts": [
+      "kube-apiserver",
+      "etcd",
+      "kube-scheduler",
+      "kubelet",
+      "kube-controller-manager"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "q0349",
+    "opts": [
+      "Storing cluster state",
+      "Scheduling Pods onto Nodes",
+      "Ensuring containers described in PodSpecs are running on the Node",
+      "Exposing the Kubernetes API",
+      "Programming iptables/IPVS rules for Service traffic"
+    ],
+    "correct": 2,
+    "expl": "The kubelet runs on each Node and ensures that the containers described in PodSpecs are running and healthy. It pulls Pod specs from the API server and works with the container runtime through the CRI."
+  }
+]

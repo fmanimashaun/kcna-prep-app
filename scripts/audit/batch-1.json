@@ -1,0 +1,632 @@
+[
+  {
+    "q": "etcd in a Kubernetes cluster is:",
+    "opts": [
+      "A load balancer for API requests",
+      "A distributed, consistent key-value store holding all cluster state",
+      "A container runtime",
+      "The default ingress controller"
+    ],
+    "correct": 1,
+    "expl": "etcd is the source of truth for the cluster: every object, every desired state, sits here. Losing etcd without a backup means losing the cluster state, which is why regular snapshots are critical.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0002"
+  },
+  {
+    "q": "Which component runs on every worker node and ensures containers described in PodSpecs are running?",
+    "opts": [
+      "kube-proxy",
+      "kubelet",
+      "kube-controller-manager",
+      "cloud-controller-manager"
+    ],
+    "correct": 1,
+    "expl": "The kubelet is the node agent. It watches the API server for pods assigned to its node and instructs the container runtime (via CRI) to run them. kube-proxy handles network rules but does not manage containers.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0003"
+  },
+  {
+    "q": "A DaemonSet is best used when you need to:",
+    "opts": [
+      "Run a batch job to completion",
+      "Run N replicas of a stateless web app",
+      "Run one pod per node (or subset of nodes) for cluster-wide agents",
+      "Run a one-shot task on a schedule"
+    ],
+    "correct": 2,
+    "expl": "DaemonSets guarantee a pod on every (or selected) node — ideal for log shippers (Fluent Bit), metrics agents (node-exporter), and CNI plugins. Deployments handle stateless replicas; Jobs run to completion; CronJobs run on schedule.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0004"
+  },
+  {
+    "q": "Which Service type exposes the service on each node's IP at a static port?",
+    "opts": [
+      "ClusterIP",
+      "NodePort",
+      "LoadBalancer",
+      "ExternalName"
+    ],
+    "correct": 1,
+    "expl": "NodePort opens a static port (30000-32767 by default) on every node that forwards to the Service. ClusterIP is internal-only, LoadBalancer provisions a cloud LB on top, ExternalName maps a DNS alias.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0005"
+  },
+  {
+    "q": "You need to provide a database password to a pod. Which object is most appropriate?",
+    "opts": [
+      "ConfigMap",
+      "Secret",
+      "A plain env var in the pod spec",
+      "PersistentVolume"
+    ],
+    "correct": 1,
+    "expl": "Secrets are designed for sensitive data — stored base64-encoded in etcd and can be encrypted at rest. ConfigMaps are for non-sensitive config. Plaintext env vars in the pod spec end up in version control and logs.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0006"
+  },
+  {
+    "q": "A pod is stuck in Pending. Which of these is the LEAST likely cause?",
+    "opts": [
+      "Insufficient node CPU or memory",
+      "Taints on nodes the pod does not tolerate",
+      "The container inside has crashed repeatedly",
+      "A PersistentVolumeClaim cannot be bound"
+    ],
+    "correct": 2,
+    "expl": "A crashing container produces CrashLoopBackOff or Error — the pod has already been scheduled and started. Pending means it has not yet been scheduled, typically due to resources, taints, or unbound PVCs.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0007"
+  },
+  {
+    "q": "A Deployment directly manages which object?",
+    "opts": [
+      "Pods",
+      "ReplicaSets",
+      "StatefulSets",
+      "DaemonSets"
+    ],
+    "correct": 1,
+    "expl": "Deployment → ReplicaSet → Pods. During rolling updates, the Deployment creates a new ReplicaSet and scales down the old. You rarely manage ReplicaSets directly, but the hierarchy matters for the exam.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0008"
+  },
+  {
+    "q": "What is the defining purpose of a StatefulSet vs a Deployment?",
+    "opts": [
+      "StatefulSet is faster",
+      "It provides stable network identities (predictable pod names) and stable persistent storage per replica",
+      "It only works on one node",
+      "It automatically provisions PVs"
+    ],
+    "correct": 1,
+    "expl": "StatefulSets give pods ordinal, predictable names (web-0, web-1) and bind each to its own PVC. Essential for databases, brokers, and anything needing identity across restarts.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0009"
+  },
+  {
+    "q": "Which kubectl command applies configuration declaratively?",
+    "opts": [
+      "kubectl create -f file.yaml",
+      "kubectl run file.yaml",
+      "kubectl apply -f file.yaml",
+      "kubectl deploy file.yaml"
+    ],
+    "correct": 2,
+    "expl": "apply is declarative — creates if absent, updates if present, tracks changes via annotations. create is imperative and errors when the resource already exists.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0010"
+  },
+  {
+    "q": "Labels and selectors are used to:",
+    "opts": [
+      "Enforce pod-to-pod security",
+      "Identify and group objects, enabling loose coupling between them",
+      "Encrypt data at rest",
+      "Define resource limits"
+    ],
+    "correct": 1,
+    "expl": "Labels are key/value metadata; selectors query them. This is how a Service finds its pods, how a Deployment tracks its ReplicaSet, how NetworkPolicies target workloads. It is the glue of the Kubernetes object model.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0011"
+  },
+  {
+    "q": "A namespace in Kubernetes provides:",
+    "opts": [
+      "Strong security isolation by default",
+      "A scope for resource names, enabling multi-tenant division of a cluster",
+      "Encrypted pod traffic",
+      "Separate etcd instances"
+    ],
+    "correct": 1,
+    "expl": "Namespaces scope resource names and quotas but are NOT a security boundary on their own. You need NetworkPolicies, RBAC, and possibly PodSecurity admission to actually isolate tenants.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0012"
+  },
+  {
+    "q": "Which statement about Pods is true?",
+    "opts": [
+      "A pod must contain exactly one container",
+      "Containers in a pod share the network namespace and can share volumes",
+      "Each container in a pod has its own IP",
+      "Pods automatically survive node failures"
+    ],
+    "correct": 1,
+    "expl": "Pods can hold one OR more containers. They share an IP, localhost, and can mount the same volumes. Pods do not survive node failure — controllers (Deployments, StatefulSets) recreate them elsewhere.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0013"
+  },
+  {
+    "q": "A PersistentVolumeClaim (PVC) represents:",
+    "opts": [
+      "A user's request for storage that binds to a PersistentVolume",
+      "A physical disk on a node",
+      "A backup of pod data",
+      "A compressed log archive"
+    ],
+    "correct": 0,
+    "expl": "PVCs decouple pods from the specifics of storage. A pod claims storage; the PVC binds to a matching PV (static or dynamically provisioned via a StorageClass). The pod never needs to know the storage backend.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0014"
+  },
+  {
+    "q": "An Ingress resource provides:",
+    "opts": [
+      "Pod-to-pod encryption",
+      "HTTP/HTTPS routing rules from outside the cluster to internal Services",
+      "DNS resolution",
+      "Container image storage"
+    ],
+    "correct": 1,
+    "expl": "Ingress defines rules (hosts, paths) routing external HTTP traffic to Services. It requires an Ingress controller (nginx, Traefik, HAProxy, etc.) to actually implement them — Ingress resources alone do nothing.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0015"
+  },
+  {
+    "q": "Which component maintains iptables/IPVS rules on nodes to implement the Service abstraction?",
+    "opts": [
+      "kubelet",
+      "kube-proxy",
+      "kube-scheduler",
+      "CoreDNS"
+    ],
+    "correct": 1,
+    "expl": "kube-proxy watches Services and Endpoints on the API server and programs node network rules so traffic to a Service IP reaches a healthy pod. Modes: iptables, IPVS, nftables.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0016"
+  },
+  {
+    "q": "Taints and tolerations are used to:",
+    "opts": [
+      "Encrypt traffic",
+      "Repel pods from nodes unless the pod explicitly tolerates the taint",
+      "Limit CPU and memory",
+      "Monitor pod health"
+    ],
+    "correct": 1,
+    "expl": "A taint on a node says \"keep pods away unless they tolerate me.\" Use cases: dedicated GPU nodes, reserved control plane nodes, nodes under maintenance. The inverse of node affinity (which attracts pods).",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0017"
+  },
+  {
+    "q": "A ReplicaSet's core responsibility is to:",
+    "opts": [
+      "Ensure a specified number of pod replicas are running at any time",
+      "Perform rolling updates and rollbacks",
+      "Mount persistent storage",
+      "Schedule pods across zones"
+    ],
+    "correct": 0,
+    "expl": "ReplicaSets ensure N replicas exist — nothing more. Rolling update logic lives in the Deployment above them. If you see \"ReplicaSet\" in a question, think \"headcount enforcer.\"",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0018"
+  },
+  {
+    "q": "ConfigMaps should NOT be used for:",
+    "opts": [
+      "Feature flags",
+      "Non-sensitive env variables",
+      "Application config files",
+      "Database passwords and API tokens"
+    ],
+    "correct": 3,
+    "expl": "ConfigMaps store data in plaintext. For secrets, use Secrets, which (a) are handled with more care in logs and CLI output and (b) support at-rest encryption when configured.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0019"
+  },
+  {
+    "q": "When a pod is deleted, its IP address:",
+    "opts": [
+      "Is reserved for that pod if recreated",
+      "Is released; a new pod gets a different IP",
+      "Persists for 5 minutes",
+      "Is tied to the pod name"
+    ],
+    "correct": 1,
+    "expl": "Pod IPs are ephemeral. This is exactly why Services exist — they provide a stable virtual IP (ClusterIP) even as underlying pods come and go with different IPs.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0020"
+  },
+  {
+    "q": "Which is NOT a Kubernetes workload resource?",
+    "opts": [
+      "Deployment",
+      "StatefulSet",
+      "LoadBalancer",
+      "Job"
+    ],
+    "correct": 2,
+    "expl": "LoadBalancer is a Service type, not a workload. Workload resources manage pods: Deployment, StatefulSet, DaemonSet, Job, CronJob, ReplicaSet.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0021"
+  },
+  {
+    "q": "A CronJob creates:",
+    "opts": [
+      "A ReplicaSet",
+      "A StatefulSet",
+      "Jobs on a time-based schedule",
+      "A Deployment"
+    ],
+    "correct": 2,
+    "expl": "CronJob → schedule (cron syntax) → Job → Pod. Each scheduled firing spawns a Job that runs to completion.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0022"
+  },
+  {
+    "q": "How do control plane components typically talk to worker nodes?",
+    "opts": [
+      "Directly via SSH",
+      "Through the kubelet on each node, which watches the API server",
+      "Via etcd replication",
+      "Through kube-proxy only"
+    ],
+    "correct": 1,
+    "expl": "All communication funnels through the API server. Kubelets on nodes watch the API server for assignments and report status back. Components do not talk to each other directly.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0023"
+  },
+  {
+    "q": "The Horizontal Pod Autoscaler (HPA) scales based on:",
+    "opts": [
+      "The number of nodes",
+      "CPU, memory, or custom/external metrics of pods",
+      "Time of day",
+      "Image size"
+    ],
+    "correct": 1,
+    "expl": "HPA adjusts replica count based on observed pod metrics. CPU and memory are built-in; custom metrics come via adapters (metrics-server, Prometheus Adapter, KEDA for event-driven).",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0024"
+  },
+  {
+    "q": "RBAC permissions are granted by which pair of resources?",
+    "opts": [
+      "Policies and Bindings",
+      "Roles/ClusterRoles and RoleBindings/ClusterRoleBindings",
+      "Users and Groups",
+      "Namespaces and Labels"
+    ],
+    "correct": 1,
+    "expl": "Roles define what can be done (namespaced) or ClusterRoles (cluster-scoped). Bindings attach those roles to subjects (users, groups, ServiceAccounts). You need both halves.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0025"
+  },
+  {
+    "q": "A container image tag `latest`:",
+    "opts": [
+      "Guarantees the newest secure version",
+      "Is a mutable pointer that can change, making deployments non-reproducible",
+      "Is immutable and version-pinned",
+      "Cannot be used in production"
+    ],
+    "correct": 1,
+    "expl": "`latest` is just a default tag — publishers may or may not update it. Production should pin to specific tags or, better, image digests (sha256:...) for true immutability.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0026"
+  },
+  {
+    "q": "A pod requests 250m CPU and 256Mi memory with no limits set. What does this mean?",
+    "opts": [
+      "The pod cannot exceed 250m CPU",
+      "The pod is guaranteed those resources; can burst higher if node capacity allows",
+      "It will be OOM-killed if it exceeds 256Mi",
+      "It will not be scheduled"
+    ],
+    "correct": 1,
+    "expl": "Requests = scheduler reservation (guaranteed floor). Limits = cap. Without limits, a pod can use whatever the node has free — which risks noisy-neighbor effects and unpredictable OOM behavior. Best practice: set both.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0027"
+  },
+  {
+    "q": "Which probe determines if a container is ready to receive traffic from a Service?",
+    "opts": [
+      "Liveness probe",
+      "Readiness probe",
+      "Startup probe",
+      "Health probe"
+    ],
+    "correct": 1,
+    "expl": "Readiness failure removes the pod from Service endpoints (but does not restart). Liveness failure restarts the container. Startup probe disables the other two until the app finishes starting.",
+    "d": "k8s",
+    "src": "curated",
+    "id": "q0028"
+  },
+  {
+    "q": "Which interface standardizes how kubelet talks to container runtimes?",
+    "opts": [
+      "CSI",
+      "CNI",
+      "CRI",
+      "OCI"
+    ],
+    "correct": 2,
+    "expl": "CRI = Container Runtime Interface, gRPC API between kubelet and runtimes (containerd, CRI-O). CSI is storage, CNI is networking, OCI specifies image and runtime formats.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0029"
+  },
+  {
+    "q": "CNI plugins are responsible for:",
+    "opts": [
+      "Assigning IPs and configuring pod network connectivity",
+      "Scheduling pods",
+      "Storing cluster state",
+      "Providing DNS"
+    ],
+    "correct": 0,
+    "expl": "CNI plugins (Calico, Cilium, Flannel, Weave) set up pod network interfaces, assign IPs, and program routes. Every cluster picks one primary CNI.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0030"
+  },
+  {
+    "q": "CSI exists so that:",
+    "opts": [
+      "Containers can share storage without volumes",
+      "Storage vendors can plug into Kubernetes (and other orchestrators) without modifying core code",
+      "Pods can be auto-scaled",
+      "Containers are isolated from each other"
+    ],
+    "correct": 1,
+    "expl": "CSI decouples storage drivers from the Kubernetes release cycle. EBS, Ceph, Portworx, Longhorn all ship their own CSI drivers that K8s loads at runtime — no core patches needed.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0031"
+  },
+  {
+    "q": "OCI (Open Container Initiative) defines:",
+    "opts": [
+      "Network policies",
+      "Container image format (image-spec) and runtime behavior (runtime-spec)",
+      "Kubernetes API objects",
+      "Service mesh configuration"
+    ],
+    "correct": 1,
+    "expl": "OCI is a Linux Foundation project. Its two main specs — image-spec and runtime-spec — are why an image built with Docker also runs under containerd, CRI-O, or Podman. Plus distribution-spec for registries.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0032"
+  },
+  {
+    "q": "A NetworkPolicy in Kubernetes:",
+    "opts": [
+      "Is enforced automatically by the API server",
+      "Is enforced by the CNI plugin — and is silently ignored if the CNI does not support it",
+      "Only applies to ingress traffic",
+      "Replaces RBAC"
+    ],
+    "correct": 1,
+    "expl": "This is a gotcha. NetworkPolicy is a K8s resource, but enforcement is delegated to the CNI. Flannel does not enforce by default; Calico, Cilium, and Weave do. Apply a policy without an enforcing CNI and traffic flows freely.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0033"
+  },
+  {
+    "q": "Which Pod Security Standard is most restrictive?",
+    "opts": [
+      "Privileged",
+      "Baseline",
+      "Restricted",
+      "Enforced"
+    ],
+    "correct": 2,
+    "expl": "Three levels: Privileged (unrestricted), Baseline (prevents known privilege escalation), Restricted (follows hardening best practices — non-root, no host mounts, etc.). \"Enforced\" is a mode, not a level.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0035"
+  },
+  {
+    "q": "Which tool scales the number of nodes in a cluster based on pending pods?",
+    "opts": [
+      "HPA",
+      "VPA",
+      "Cluster Autoscaler",
+      "kube-proxy"
+    ],
+    "correct": 2,
+    "expl": "Cluster Autoscaler watches for pods that cannot be scheduled due to resource shortage and requests more nodes from the cloud provider. HPA = pod replicas; VPA = pod resource requests.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0036"
+  },
+  {
+    "q": "CoreDNS in a Kubernetes cluster provides:",
+    "opts": [
+      "Node health monitoring",
+      "DNS-based service discovery for pods and services",
+      "Ingress load balancing",
+      "Pod-to-pod encryption"
+    ],
+    "correct": 1,
+    "expl": "CoreDNS is the default K8s DNS server. It answers records like my-svc.my-ns.svc.cluster.local so pods can reach Services by name without knowing their ClusterIPs.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0037"
+  },
+  {
+    "q": "Which volume type is erased when the pod is removed from a node?",
+    "opts": [
+      "PersistentVolume",
+      "emptyDir",
+      "hostPath",
+      "configMap (mounted)"
+    ],
+    "correct": 1,
+    "expl": "emptyDir lives and dies with the pod. Useful for scratch space, intermediate processing, or sharing between containers in the same pod. For durability, use PVCs.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0038"
+  },
+  {
+    "q": "An admission controller runs:",
+    "opts": [
+      "Before authentication",
+      "After authN/authZ, before the request is persisted to etcd",
+      "After the pod has started",
+      "On every kubectl command client-side"
+    ],
+    "correct": 1,
+    "expl": "Admission controllers are the last gatekeepers before persistence. They can validate (reject invalid requests) or mutate (inject sidecars, default values). Webhooks let you plug in custom policy.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0039"
+  },
+  {
+    "q": "Which is NOT typically a container runtime responsibility?",
+    "opts": [
+      "Pulling images from a registry",
+      "Starting and stopping containers",
+      "Scheduling pods across nodes",
+      "Managing container isolation"
+    ],
+    "correct": 2,
+    "expl": "Scheduling is kube-scheduler territory (control plane). Runtimes operate at the node level: image mgmt, lifecycle, isolation (via cgroups, namespaces), in cooperation with CNI and CSI plugins.",
+    "d": "orch",
+    "src": "curated",
+    "id": "q0040"
+  },
+  {
+    "q": "Core principles of the Twelve-Factor App include:",
+    "opts": [
+      "A shared database across all services",
+      "Config in env variables, backing services as attached resources, stateless processes",
+      "Deploying on a single server",
+      "Logs written to local files"
+    ],
+    "correct": 1,
+    "expl": "Twelve-Factor is a SaaS methodology. Key factors for cloud native: III. Config in env, IV. Backing services as resources, VI. Stateless processes, XI. Logs as event streams. It is why containers fit so well.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0041"
+  },
+  {
+    "q": "Serverless (FaaS) means:",
+    "opts": [
+      "Literally no servers",
+      "Developers don't manage infra; the platform provisions compute on demand and can scale to zero",
+      "Containers are eliminated",
+      "Code runs only on edge devices"
+    ],
+    "correct": 1,
+    "expl": "Servers still exist — they are just the provider's problem. Pay for execution, not idle capacity. Scale-to-zero is a defining property. Examples: AWS Lambda, Knative, OpenFaaS.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0042"
+  },
+  {
+    "q": "Which CNCF project is a Kubernetes-native serverless platform?",
+    "opts": [
+      "Prometheus",
+      "Knative",
+      "Envoy",
+      "Flux"
+    ],
+    "correct": 1,
+    "expl": "Knative adds serverless primitives to Kubernetes: autoscaling (including to zero), event sources, and simplified deployment. OpenFaaS is another option in the ecosystem.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0043"
+  },
+  {
+    "q": "A service mesh primarily provides:",
+    "opts": [
+      "Image storage",
+      "Service-to-service mTLS, observability, and traffic management via sidecar proxies",
+      "Cluster autoscaling",
+      "GitOps deployments"
+    ],
+    "correct": 1,
+    "expl": "Meshes (Istio, Linkerd, Consul, Kuma) inject a sidecar proxy (usually Envoy) into each pod. The proxy handles mTLS, retries, circuit breaking, traffic splitting, and emits telemetry — all without app code changes.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0044"
+  },
+  {
+    "q": "Site Reliability Engineering (SRE) treats operations as:",
+    "opts": [
+      "Eliminating all outages",
+      "A software engineering problem, using error budgets and SLOs to balance reliability and feature velocity",
+      "Manual server management",
+      "Avoiding automation"
+    ],
+    "correct": 1,
+    "expl": "SRE was born at Google. Key idea: error budget = 100% − SLO. When you burn your budget, you slow feature work until reliability recovers. Treats ops problems with software solutions.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0045"
+  },
+  {
+    "q": "A key trade-off of microservices architecture is:",
+    "opts": [
+      "Lower operational complexity than monoliths",
+      "Independent deployability, but higher operational complexity (distributed systems challenges)",
+      "Guaranteed lower latency",
+      "One database for all services"
+    ],
+    "correct": 1,
+    "expl": "Microservices give teams autonomy but introduce distributed systems pain: network failures, eventual consistency, harder debugging. Do not pick microservices for small teams or simple domains — monoliths are often the right answer.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0046"
+  },
+  {
+    "q": "FinOps in a cloud native context refers to:",
+    "opts": [
+      "Financial fraud detection",
+      "A practice for managing and attributing cloud spend",
+      "A certified accounting tool",
+      "Forex handling for multi-region deployments"
+    ],
+    "correct": 1,
+    "expl": "FinOps brings financial accountability to the variable cost model of cloud. In K8s, tools like OpenCost (CNCF) and Kubecost allocate spend back to namespaces, teams, or workloads.",
+    "d": "arch",
+    "src": "curated",
+    "id": "q0047"
+  }
+]

@@ -1,0 +1,218 @@
+[
+  {
+    "id": "q0429",
+    "q": "Which of the following is NOT primarily a tool for setting up a Kubernetes cluster?",
+    "opts": [
+      "Minikube",
+      "kubeadm",
+      "Helm",
+      "kops"
+    ],
+    "correct": 2,
+    "expl": "Minikube (local single-node), kubeadm (production-grade bootstrap), and kops (cluster lifecycle on cloud) all create Kubernetes clusters. Helm is a package manager for applications running on Kubernetes — it does not provision the cluster itself."
+  },
+  {
+    "id": "q0433",
+    "q": "Kubernetes manifests are most commonly written in which data-serialization format?",
+    "opts": [
+      "TOML",
+      "XML",
+      "YAML",
+      "INI"
+    ],
+    "correct": 2,
+    "expl": "Kubernetes manifests are canonically written in YAML. JSON is also accepted by the API, but YAML is preferred for its readability and support for comments. TOML, XML, and INI are not used by the Kubernetes API."
+  },
+  {
+    "id": "q0435",
+    "q": "Which kubectl subcommand applies a manifest declaratively, creating or updating resources to match the file?",
+    "opts": [
+      "kubectl create",
+      "kubectl apply",
+      "kubectl run",
+      "kubectl expose"
+    ],
+    "correct": 1,
+    "expl": "kubectl apply is the declarative command — it creates resources that don't exist and updates ones that do, tracking changes via the last-applied-configuration annotation. kubectl create is imperative and fails if the resource exists; run starts a pod; expose creates a Service from an existing resource."
+  },
+  {
+    "id": "q0436",
+    "q": "Which pod construct runs to completion before the main application containers start, and blocks the pod from starting if it fails?",
+    "opts": [
+      "Sidecar container",
+      "Init container",
+      "Ephemeral container",
+      "postStart lifecycle hook"
+    ],
+    "correct": 1,
+    "expl": "Init containers run sequentially to completion before app containers start; if any init container fails, the pod is restarted (or fails) per its restartPolicy. Sidecars run alongside the main container, ephemeral containers are injected for debugging a running pod, and postStart hooks run after a container has already started."
+  },
+  {
+    "id": "q0438",
+    "q": "Which of the following is NOT a Kubernetes Service type?",
+    "opts": [
+      "ClusterIP",
+      "NodePort",
+      "Ingress",
+      "ExternalName"
+    ],
+    "correct": 2,
+    "expl": "ClusterIP, NodePort, LoadBalancer, and ExternalName are the four Service types. Ingress is a separate API resource (managed by an Ingress controller) that routes HTTP/S traffic to Services — it is not itself a Service type."
+  },
+  {
+    "id": "q0441",
+    "q": "Which statement best describes the difference between ConfigMaps and Secrets?",
+    "opts": [
+      "Secrets are intended for sensitive data and are base64-encoded, but are not encrypted at rest by default",
+      "Secrets are encrypted at rest by default while ConfigMaps are stored in plain text",
+      "ConfigMaps are namespaced while Secrets are cluster-scoped",
+      "Secrets can only hold strings while ConfigMaps can hold any data type"
+    ],
+    "correct": 0,
+    "expl": "Secrets are designed for sensitive data (passwords, tokens, keys) and their values are base64-encoded for binary safety — but base64 is encoding, not encryption. Encryption at rest in etcd is opt-in and must be configured separately. Both ConfigMaps and Secrets are namespaced and can hold arbitrary key-value data."
+  },
+  {
+    "id": "q0442",
+    "q": "Which Kubernetes autoscaler adjusts a workload's CPU and memory requests/limits rather than the number of replicas?",
+    "opts": [
+      "Horizontal Pod Autoscaler (HPA)",
+      "Vertical Pod Autoscaler (VPA)",
+      "Cluster Autoscaler",
+      "Karpenter"
+    ],
+    "correct": 1,
+    "expl": "VPA tunes pod resource requests/limits based on observed usage. HPA scales the number of replicas, while Cluster Autoscaler and Karpenter add or remove nodes — they operate on different axes from VPA."
+  },
+  {
+    "id": "q0443",
+    "q": "In a GitOps workflow, what does a commit to the main branch of the configuration repository typically represent?",
+    "opts": [
+      "A trigger to rebuild the container runtime",
+      "The desired state of the system, which a controller will reconcile toward",
+      "A direct API call to the Kubernetes control plane",
+      "An immutable container image"
+    ],
+    "correct": 1,
+    "expl": "GitOps treats the Git repository as the single source of truth for desired state. A commit changes that desired state, and an in-cluster agent (e.g., Argo CD, Flux) continuously reconciles the live cluster to match. Commits do not call the API directly or build images by themselves."
+  },
+  {
+    "id": "q0444",
+    "q": "Which best describes the GitOps approach to managing systems?",
+    "opts": [
+      "Using Git purely as a backup mechanism for cluster snapshots",
+      "Manually applying kubectl commands and recording them in Git afterward",
+      "Declaring desired state in Git and using an automated agent to reconcile the cluster",
+      "Pushing container images directly from developer laptops to production"
+    ],
+    "correct": 2,
+    "expl": "GitOps stores the declarative desired state (manifests, Helm values, infrastructure code) in Git, and an automated controller continuously pulls and applies changes to keep the live system in sync. Manual kubectl drift, ad-hoc backups, and laptop-to-prod pushes are anti-patterns it is meant to replace."
+  },
+  {
+    "id": "q0445",
+    "q": "Which of the following best describes a CI/CD pipeline?",
+    "opts": [
+      "A storage location for source code and configuration",
+      "A defined sequence of automated stages (e.g., build, test, deploy) that an artifact passes through",
+      "A network connection between developer machines and the cluster",
+      "A long-lived branch dedicated to production releases"
+    ],
+    "correct": 1,
+    "expl": "A CI/CD pipeline is the automated sequence of stages — typically build, test, scan, and deploy — that code moves through on its way to production. Repositories store code, branches organize history, and networks carry traffic, but none of these define the automation flow itself."
+  },
+  {
+    "id": "q0449",
+    "q": "Which of the following is NOT one of the three pillars of observability?",
+    "opts": [
+      "Metrics",
+      "Logs",
+      "Alerts",
+      "Traces"
+    ],
+    "correct": 2,
+    "expl": "The three pillars of observability are metrics, logs, and traces. Alerts are a downstream consumer of these signals — they are produced by evaluating metrics or logs, but are not themselves a pillar."
+  },
+  {
+    "id": "q0452",
+    "q": "Which format is most widely adopted for structured application logs?",
+    "opts": [
+      "Plain unstructured text",
+      "JSON (one object per line)",
+      "Syslog RFC 3164",
+      "CSV"
+    ],
+    "correct": 1,
+    "expl": "Line-delimited JSON is the de facto structured logging format — compact, machine-parseable, and supported by all major aggregators (Loki, Elasticsearch, CloudWatch, Datadog). Plain text lacks structure, syslog has limited fields, and CSV is awkward for nested or optional data."
+  },
+  {
+    "id": "q0460",
+    "q": "Which set of Kubernetes components makes global decisions about the cluster, such as scheduling and responding to events?",
+    "opts": [
+      "Control plane components",
+      "Node components",
+      "Add-ons",
+      "Container runtime"
+    ],
+    "correct": 0,
+    "expl": "The control plane (API server, scheduler, controller manager, etcd) makes cluster-wide decisions. Node components (kubelet, kube-proxy) execute work locally on each node. Add-ons provide optional cluster features like DNS or dashboards, and the container runtime runs individual containers."
+  },
+  {
+    "id": "q0461",
+    "q": "Which of the following is NOT a typical Kubernetes deployment target?",
+    "opts": [
+      "A managed cloud service such as EKS, GKE, or AKS",
+      "An on-premises datacenter using kubeadm or a distribution",
+      "A local developer workstation using Minikube or kind",
+      "A web browser running JavaScript"
+    ],
+    "correct": 3,
+    "expl": "Kubernetes runs on Linux nodes, so it can be deployed in managed cloud, on-prem, and local-dev environments. A web browser cannot host the Kubernetes control plane or workloads — Kubernetes is not a browser runtime."
+  },
+  {
+    "id": "q0462",
+    "q": "Which of the following tools is NOT typically used to run a local single-node or single-host Kubernetes cluster for development?",
+    "opts": [
+      "Minikube",
+      "kind",
+      "k3d",
+      "kube-proxy"
+    ],
+    "correct": 3,
+    "expl": "Minikube, kind (Kubernetes-in-Docker), and k3d (k3s-in-Docker) are all popular tools for running a local Kubernetes cluster on a developer machine. kube-proxy is a per-node networking component inside any Kubernetes cluster — it does not provision clusters."
+  },
+  {
+    "id": "q0463",
+    "q": "Which statement about Kubernetes autoscaling is most accurate?",
+    "opts": [
+      "Cluster Autoscaler is provider-agnostic and works identically on every cloud without configuration",
+      "HPA and VPA work on any conformant Kubernetes cluster, while Cluster Autoscaler relies on cloud-provider integrations to add or remove nodes",
+      "Autoscaling is only supported on Google Cloud",
+      "HPA scales nodes, while Cluster Autoscaler scales pod replicas"
+    ],
+    "correct": 1,
+    "expl": "HPA (replicas) and VPA (resource requests/limits) are provider-agnostic and run on any Kubernetes cluster with a metrics source. Cluster Autoscaler scales the node pool itself and therefore needs a provider-specific integration (AWS, GCP, Azure, on-prem auto-provisioners, etc.)."
+  },
+  {
+    "id": "q0464",
+    "q": "Which best describes a container image?",
+    "opts": [
+      "A running process executing on a node",
+      "A Kubernetes Pod specification stored in etcd",
+      "An immutable artifact that bundles an application with its runtime dependencies",
+      "A kernel module loaded on the host"
+    ],
+    "correct": 2,
+    "expl": "A container image is an immutable, layered artifact (typically OCI-formatted) that packages an application binary together with its libraries, files, and configuration so it runs consistently across environments. A running process is a container, a Pod spec is API metadata, and kernel modules live in the host kernel."
+  },
+  {
+    "id": "q0466",
+    "q": "Which of the following is the most accurate statement about local Kubernetes development tools?",
+    "opts": [
+      "Minikube is the only tool that can run Kubernetes on a developer workstation",
+      "kind runs Kubernetes nodes as Docker containers, making it well-suited for CI environments",
+      "Docker Desktop cannot run a Kubernetes cluster",
+      "k3d requires a separate hypervisor and cannot run on Linux"
+    ],
+    "correct": 1,
+    "expl": "kind (Kubernetes IN Docker) runs each Kubernetes node as a Docker container, which makes it fast to start and tear down — ideal for CI pipelines. Minikube, Docker Desktop, and k3d are all valid local options as well, each with different tradeoffs around VM usage, multi-node support, and resource overhead."
+  }
+]

@@ -1,0 +1,306 @@
+[
+  {
+    "id": "q0350",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which component acts as the central control plane and exposes the Kubernetes API?",
+    "options": [
+      "kube-proxy",
+      "kube-apiserver",
+      "etcd",
+      "controller-manager"
+    ],
+    "correct": 1,
+    "explanation": "The kube-apiserver validates and configures data for API objects (Pods, Services, etc.) and is the frontend for the control plane.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or replace with a plausible distractor like 'kubelet'."
+  },
+  {
+    "id": "q0351",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What is the primary role of etcd in a Kubernetes cluster?",
+    "options": [
+      "Running application containers",
+      "Scheduling workloads",
+      "Storing the cluster state",
+      "Managing network policies"
+    ],
+    "correct": 2,
+    "explanation": "etcd is a consistent and highly-available key-value store used as Kubernetes' backing store for all cluster data.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or replace with a plausible distractor like 'Serving the Kubernetes API'."
+  },
+  {
+    "id": "q0352",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which Kubernetes resource is typically used to manage stateless applications by ensuring a specified number of Pod replicas are running?",
+    "options": [
+      "StatefulSet",
+      "DaemonSet",
+      "Deployment",
+      "Job"
+    ],
+    "correct": 2,
+    "explanation": "Deployments manage ReplicaSets, providing declarative updates and scaling for stateless applications.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or replace with a plausible distractor like 'ReplicaSet' (with explanation distinguishing Deployment as the higher-level manager)."
+  },
+  {
+    "id": "q0353",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What type of software package bundles application code with all its dependencies, libraries, and configuration files?",
+    "options": [
+      "Virtual Machine",
+      "Container",
+      "Operating System",
+      "Serverless Function"
+    ],
+    "correct": 2,
+    "explanation": "Scheduling is the core function of the kube-scheduler, selecting appropriate Nodes for Pods based on resource requests and other factors.",
+    "auditIssue": "Contains 'nan' placeholder option, AND the explanation is completely mismatched — it talks about kube-scheduler and Pods rather than containers/packaging.",
+    "auditSuggestion": "Remove 'nan'. Replace explanation with: 'A container bundles an application and its dependencies into a portable, isolated package that runs consistently across environments.'"
+  },
+  {
+    "id": "q0354",
+    "domain": "orch",
+    "src": "prep",
+    "question": "What is the main benefit of using container orchestration systems like Kubernetes?",
+    "options": [
+      "Simplifying code writing",
+      "Automating deployment scaling",
+      "Reducing storage costs",
+      "Improving network latency"
+    ],
+    "correct": 1,
+    "explanation": "Orchestrators automate the deployment, scaling, management, and networking of containerized applications.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a plausible distractor like 'Replacing developers'."
+  },
+  {
+    "id": "q0355",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which of these is a standard specified by the OCI (Open Container Initiative)?",
+    "options": [
+      "Docker",
+      "Kubernetes",
+      "Image Specification",
+      "Istio"
+    ],
+    "correct": 2,
+    "explanation": "The OCI defines standards for container image formats (Image Specification) and runtime (Runtime Specification).",
+    "auditIssue": "Contains 'nan' placeholder option. Also 'Docker' as a distractor is weak since Docker predates and influenced OCI; the question could be tighter.",
+    "auditSuggestion": "Remove 'nan'. Consider adding 'Runtime Specification' context since both Image and Runtime are OCI specs."
+  },
+  {
+    "id": "q0356",
+    "domain": "orch",
+    "src": "prep",
+    "question": "Which container runtime is most commonly associated with Kubernetes and implements the CRI (Container Runtime Interface)?",
+    "options": [
+      "Docker (dockershim)",
+      "containerd",
+      "rkt",
+      "LXC"
+    ],
+    "correct": 1,
+    "explanation": "containerd is a widely used container runtime focused on simplicity, robustness, and portability, fully implementing the CRI.",
+    "auditIssue": "Contains 'nan' placeholder option. Also 'Docker (dockershim)' is historically accurate but dockershim was removed in K8s 1.24 — the phrasing 'most commonly associated' is now outdated.",
+    "auditSuggestion": "Remove 'nan'. Consider tightening question to 'Which CRI-compliant container runtime is the most widely used default in modern Kubernetes clusters?'"
+  },
+  {
+    "id": "q0357",
+    "domain": "orch",
+    "src": "prep",
+    "question": "What Kubernetes object provides a stable IP address and DNS name for accessing a set of Pods?",
+    "options": [
+      "Ingress",
+      "Service",
+      "EndpointSlice",
+      "NetworkPolicy"
+    ],
+    "correct": 1,
+    "explanation": "A Service defines a logical set of Pods and a policy by which to access them, providing load balancing and service discovery.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or replace with 'Pod'."
+  },
+  {
+    "id": "q0358",
+    "domain": "orch",
+    "src": "prep",
+    "question": "How can you securely store sensitive information like passwords or API keys in Kubernetes?",
+    "options": [
+      "ConfigMap",
+      "Annotation",
+      "Label",
+      "Secret"
+    ],
+    "correct": 3,
+    "explanation": "Secrets are Kubernetes objects specifically designed to hold small amounts of sensitive data.",
+    "auditIssue": "Contains 'nan' placeholder option. Also, Secrets are base64-encoded (not encrypted) by default — explanation should briefly note this to avoid misleading learners.",
+    "auditSuggestion": "Remove 'nan'. Add to explanation: 'Note: Secret data is base64-encoded by default; enable encryption-at-rest on etcd for true encryption.'"
+  },
+  {
+    "id": "q0359",
+    "domain": "orch",
+    "src": "prep",
+    "question": "What is the role of a CNI (Container Network Interface) plugin in Kubernetes?",
+    "options": [
+      "Managing storage volumes",
+      "Providing container networking",
+      "Scheduling Pods",
+      "Securing the API server"
+    ],
+    "correct": 1,
+    "explanation": "CNI plugins are responsible for configuring network interfaces for containers and managing IP address allocation within the cluster.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a plausible distractor like 'Enforcing RBAC'."
+  },
+  {
+    "id": "q0360",
+    "domain": "orch",
+    "src": "prep",
+    "question": "Which Kubernetes object defines rules about how Pods are allowed to communicate with each other and network endpoints?",
+    "options": [
+      "Service",
+      "Ingress",
+      "NetworkPolicy",
+      "SecurityContext"
+    ],
+    "correct": 2,
+    "explanation": "NetworkPolicies allow specifying traffic flow rules at the IP address or port level (OSI layer 3 or 4).",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or replace with 'PodSecurityPolicy'."
+  },
+  {
+    "id": "q0361",
+    "domain": "orch",
+    "src": "prep",
+    "question": "What is the primary purpose of a Service Mesh like Istio or Linkerd?",
+    "options": [
+      "Container image building",
+      "Cluster storage management",
+      "Managing inter-service comms",
+      "Node provisioning"
+    ],
+    "correct": 2,
+    "explanation": "Service meshes add observability, security, and reliability features to communication between microservices (service-to-service).",
+    "auditIssue": "Contains 'nan' placeholder option. Option text 'Managing inter-service comms' uses an abbreviation inconsistently.",
+    "auditSuggestion": "Remove 'nan'. Expand 'comms' to 'communications' for consistency."
+  },
+  {
+    "id": "q0362",
+    "domain": "orch",
+    "src": "prep",
+    "question": "What Kubernetes object represents a piece of storage in the cluster, provisioned by an administrator or dynamically?",
+    "options": [
+      "PersistentVolumeClaim (PVC)",
+      "StorageClass",
+      "PersistentVolume (PV)",
+      "Volume"
+    ],
+    "correct": 2,
+    "explanation": "A PersistentVolume (PV) is a piece of storage provisioned for use in the cluster, independent of any individual Pod.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a plausible distractor like 'ConfigMap'."
+  },
+  {
+    "id": "q0363",
+    "domain": "orch",
+    "src": "prep",
+    "question": "What does a PersistentVolumeClaim (PVC) represent in Kubernetes?",
+    "options": [
+      "A request for storage by a user",
+      "A type of storage backend",
+      "A node's local storage",
+      "A backup of a volume"
+    ],
+    "correct": 0,
+    "explanation": "A PVC is a request made by a user (or Pod) for storage resources defined by a PV.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a plausible distractor like 'An allocation of memory'."
+  },
+  {
+    "id": "q0364",
+    "domain": "orch",
+    "src": "prep",
+    "question": "What is the function of a StorageClass in Kubernetes?",
+    "options": [
+      "To define types of storage",
+      "To claim a specific PV",
+      "To attach storage to a Pod",
+      "To backup volume data"
+    ],
+    "correct": 0,
+    "explanation": "StorageClasses allow administrators to define different \"classes\" of storage (e.g., 'fast-ssd', 'cheap-hdd') for dynamic provisioning.",
+    "auditIssue": "Contains 'nan' placeholder option. Correct option 'To define types of storage' is vague; could be clearer as 'To define types of storage for dynamic provisioning'.",
+    "auditSuggestion": "Remove 'nan'. Sharpen option A to 'To define storage types for dynamic provisioning'."
+  },
+  {
+    "id": "q0365",
+    "domain": "arch",
+    "src": "prep",
+    "question": "Which mechanism allows Kubernetes to automatically adjust the number of Pods in a Deployment based on CPU utilization or custom metrics?",
+    "options": [
+      "Vertical Pod Autoscaler (VPA)",
+      "Cluster Autoscaler (CA)",
+      "Horizontal Pod Autoscaler (HPA)",
+      "Node Problem Detector (NPD)"
+    ],
+    "correct": 1,
+    "explanation": "The Cluster Autoscaler adjusts the number of Nodes in the cluster based on pending Pods that cannot be scheduled due to resource limits.",
+    "auditIssue": "Contains 'nan' placeholder option. CRITICAL: the keyed correct answer is index 1 (Cluster Autoscaler), but the question asks about adjusting the number of Pods based on CPU — that is Horizontal Pod Autoscaler (index 2). The explanation even describes Cluster Autoscaler, which is the wrong answer for the question asked.",
+    "auditSuggestion": "Change correct to 2 (HPA) and fix explanation: 'The Horizontal Pod Autoscaler (HPA) automatically scales the number of Pods in a Deployment (or ReplicaSet/StatefulSet) based on observed CPU utilization or custom metrics.'"
+  },
+  {
+    "id": "q0366",
+    "domain": "arch",
+    "src": "prep",
+    "question": "What term describes an architectural approach where applications are built as small, independent services that run in their own processes?",
+    "options": [
+      "Monolithic",
+      "Microservices",
+      "Serverless",
+      "N-Tier"
+    ],
+    "correct": 1,
+    "explanation": "Microservices architecture structures an application as a collection of loosely coupled, independently deployable services.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a distractor like 'Client-Server'."
+  },
+  {
+    "id": "q0367",
+    "domain": "arch",
+    "src": "prep",
+    "question": "What does \"Serverless\" computing primarily abstract away from the developer?",
+    "options": [
+      "Networking",
+      "Storage",
+      "Server Management",
+      "Operating System choice"
+    ],
+    "correct": 2,
+    "explanation": "Serverless platforms (like FaaS) manage the underlying infrastructure, allowing developers to focus solely on code execution.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add a distractor like 'Application logic'."
+  },
+  {
+    "id": "q0368",
+    "domain": "arch",
+    "src": "prep",
+    "question": "Which organization hosts Kubernetes and promotes the growth of the cloud native ecosystem?",
+    "options": [
+      "Linux Foundation (LF)",
+      "Apache Software Foundation (ASF)",
+      "Cloud Native Computing Foundation (CNCF)",
+      "Open Source Initiative (OSI)"
+    ],
+    "correct": 2,
+    "explanation": "The CNCF, part of the Linux Foundation, stewards Kubernetes and many other cloud native projects.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or add another foundation distractor like 'Eclipse Foundation'."
+  }
+]

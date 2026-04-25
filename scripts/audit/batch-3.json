@@ -1,0 +1,677 @@
+[
+  {
+    "q": "What is the concept of \"desired state reconciliation\" fundamental to Kubernetes?",
+    "opts": [
+      "Users manually reconcile cluster state using kubectl.",
+      "Controllers continuously observe and work to match actual state to declared state.",
+      "etcd automatically corrects discrepancies between desired and actual state.",
+      "kubelet reconciles container state based solely on node health.",
+      "The API server rejects any configuration that deviates from the current state."
+    ],
+    "correct": 1,
+    "expl": "This is the core operational principle. Users declare the desired state (via API objects), and various controllers run loops comparing this desired state with the actual observed state, taking corrective actions (creating/deleting/updating resources) to close the gap.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0098"
+  },
+  {
+    "q": "Which resource attribute is primarily used by a Service to determine which Pods should receive traffic?",
+    "opts": [
+      "metadata.name",
+      "metadata.namespace",
+      "metadata.labels (matched by the Service's selector)",
+      "spec.nodeName",
+      "status.podIP"
+    ],
+    "correct": 2,
+    "expl": "A Service definition includes a selector field, which specifies a set of labels. The Service continuously identifies Pods matching these labels and directs traffic to them (via Endpoints/EndpointSlices managed by controllers).",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0099"
+  },
+  {
+    "q": "What type of container volume shares the Pod's lifecycle and is initially empty, useful for temporary data sharing between containers in a Pod?",
+    "opts": [
+      "hostPath",
+      "persistentVolumeClaim",
+      "emptyDir",
+      "nfs",
+      "secret"
+    ],
+    "correct": 2,
+    "expl": "An emptyDir volume is created when a Pod is assigned to a node and exists as long as that Pod is running on that node. Its 1 contents are lost when the Pod is deleted. It's ideal for scratch space or sharing files between containers within the same Pod.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0100"
+  },
+  {
+    "q": "Which Kubernetes API endpoint would kubectl get pods likely interact with?",
+    "opts": [
+      "/api/v1/nodes",
+      "/api/v1/namespaces/namespace/pods",
+      "/apis/apps/v1/deployments",
+      "/healthz",
+      "/metrics"
+    ],
+    "correct": 2,
+    "expl": "Requests are used for scheduling, guaranteeing the resource. Limits enforce an upper bound. If limits are high, a container might consume resources needed by other Pods on the node, potentially leading to CPU throttling or OOM (Out Of Memory) kills and eviction if node pressure occurs.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0101"
+  },
+  {
+    "q": "Which architectural pattern describes running a helper container alongside a main application container in the same Pod to provide auxiliary functionality?",
+    "opts": [
+      "Init Container",
+      "Ephemeral Container",
+      "Sidecar Container",
+      "Ambassador Container",
+      "Adapter Container"
+    ],
+    "correct": 2,
+    "expl": "The Sidecar pattern involves adding containers to a Pod to extend or enhance the main application container (e.g., for logging, monitoring, proxying) without modifying the main application's code. They share the same lifecycle and network/storage namespaces.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0102"
+  },
+  {
+    "q": "How are API resources like Deployments and StatefulSets grouped in the Kubernetes API?",
+    "opts": [
+      "Under the core v1 API group (/api/v1)",
+      "They are not part of any API group.",
+      "Under specific API groups like apps/v1",
+      "Under the scheduling.k8s.io API group",
+      "Under the batch/v1 API group"
+    ],
+    "correct": 2,
+    "expl": "Kubernetes organizes its API into groups to facilitate evolution. Workload resources like Deployments, StatefulSets, ReplicaSets, and DaemonSets are part of the apps API group, currently at version v1.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0103"
+  },
+  {
+    "q": "If a Node fails, what component detects this failure and updates the Node's status in etcd?",
+    "opts": [
+      "kubelet on the failed node",
+      "kube-proxy on peer nodes",
+      "node-controller (within kube-controller-manager)",
+      "kube-scheduler",
+      "etcd itself through distributed consensus"
+    ],
+    "correct": 2,
+    "expl": "The node-controller, running within the kube-controllermanager, is responsible for monitoring Node health (based on heartbeats from kubelet) and updating the Node status (e.g., setting conditions like Ready to False or Unknown).",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0104"
+  },
+  {
+    "q": "Which resource configuration allows a Pod to securely access the Kubernetes API server using the Pod's own identity?",
+    "opts": [
+      "Mounting a Secret containing API keys",
+      "Configuring a ServiceAccount for the Pod and mounting its token",
+      "Using hostNetwork: true",
+      "Defining an Ingress resource",
+      "Setting environment variables with kubeconfig data"
+    ],
+    "correct": 1,
+    "expl": "A ServiceAccount provides an identity for a Pod. Kubernetes automatically creates and mounts a token for this ServiceAccount into the Pod (unless disabled), which applications can use to authenticate to the API server. Permissions are granted via RBAC.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0105"
+  },
+  {
+    "q": "What is the primary purpose of using annotations on Kubernetes resources?",
+    "opts": [
+      "To select resources for operations (like Services selecting Pods)",
+      "To define resource constraints and quotas",
+      "To attach arbitrary non-identifying metadata (often used by tools)",
+      "To specify the desired number of replicas for a workload",
+      "To enforce security policies on Pods"
+    ],
+    "correct": 2,
+    "expl": "While labels are for identifying and selecting objects, annotations are meant for attaching non-identifying metadata, often used by tools, libraries, or operators to store configuration, pointers, or state information relevant to their function.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0106"
+  },
+  {
+    "q": "In a typical Kubernetes cluster setup, where does the kubescheduler run?",
+    "opts": [
+      "On every worker node",
+      "As a Pod managed by a DaemonSet",
+      "As a static Pod or systemd service on a control plane node",
+      "Inside the etcd cluster",
+      "As part of the kubelet binary"
+    ],
+    "correct": 2,
+    "expl": "The kube-scheduler is a critical control plane component. It usually runs directly on a control plane node, often managed as a static Pod (defined by a manifest file read by the kubelet on the control plane node) or as a system service.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0107"
+  },
+  {
+    "q": "What is a primary motivation for adopting container orchestration beyond simply running containers with a runtime like containerd?",
+    "opts": [
+      "To achieve higher density of containers on a single host.",
+      "To automate deployment, scaling, healing, and networking of distributed applications.",
+      "To simplify the process of building container images from source code.",
+      "To provide a standardized container image format for portability.",
+      "To enforce strict kernel isolation between containers."
+    ],
+    "correct": 1,
+    "expl": "While runtimes manage container lifecycle on a single host, orchestration automates complex tasks across a cluster of hosts, such as declarative deployments, auto-scaling based on load, self-healing of failed instances, service discovery, and load balancing.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0108"
+  },
+  {
+    "q": "The Container Runtime Interface (CRI) in Kubernetes serves what key purpose?",
+    "opts": [
+      "To define the standard for container image formats.",
+      "To provide an API for kubelet to interact with different container runtimes.",
+      "To manage network plugin configurations (CNI).",
+      "To enforce security policies for container execution.",
+      "To schedule containers onto nodes."
+    ],
+    "correct": 1,
+    "expl": "CRI is a plugin interface enabling kubelet to use various container runtimes (like containerd, CRI-O) without recompiling Kubernetes. It standardizes communication for operations like starting/stopping Pods and containers.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0109"
+  },
+  {
+    "q": "In Kubernetes RBAC, what is the difference between a Role and a ClusterRole?",
+    "opts": [
+      "Role grants permissions to users, ClusterRole to ServiceAccounts.",
+      "Role is for read-only access, ClusterRole for write access.",
+      "Role is namespaced, ClusterRole is cluster-wide.",
+      "Role defines permissions, ClusterRole binds permissions to subjects.",
+      "Role is for built-in components, ClusterRole for custom resources."
+    ],
+    "correct": 2,
+    "expl": "Role objects define permissions within a specific namespace, while ClusterRole objects define permissions that apply cluster-wide (e.g., to access nodes, persistent volumes, or resources across all namespaces).",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0110"
+  },
+  {
+    "q": "Which Kubernetes networking component is responsible for ensuring that traffic sent to a Service's IP address is correctly routed to one of its backing Pods?",
+    "opts": [
+      "CNI plugin",
+      "kube-dns / CoreDNS",
+      "kube-proxy",
+      "Ingress controller",
+      "The API server's endpoint controller."
+    ],
+    "correct": 2,
+    "expl": "kube-proxy runs on each node and maintains network rules (e.g., using iptables, IPVS) that implement Kubernetes Services. It watches the API server for Service and EndpointSlice changes and updates these rules accordingly.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0111"
+  },
+  {
+    "q": "What fundamental problem does a Service Mesh aim to solve for microservices that is not inherently addressed by basic Kubernetes Services?",
+    "opts": [
+      "Providing stable IP addresses for Pods.",
+      "Exposing services to external traffic via HTTP/S routing.",
+      "Adding advanced observability, security (mTLS), and traffic control between services.",
+      "Managing persistent storage for stateful applications.",
+      "Automating the build and deployment of container images."
+    ],
+    "correct": 2,
+    "expl": "While Kubernetes Services provide basic L4 load balancing and service discovery, a Service Mesh (like Istio, Linkerd) adds a dedicated infrastructure layer for L7 concerns like fine-grained traffic management (canary, retries), mutual TLS (mTLS) between services, and detailed telemetry (metrics, traces).",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0112"
+  },
+  {
+    "q": "What is the role of a PersistentVolumeClaim (PVC) in Kubernetes storage?",
+    "opts": [
+      "It defines a specific type of storage backend (e.g., SSD, HDD).",
+      "It represents a piece of provisioned storage available in the cluster.",
+      "It is a request for storage by a user/Pod, consuming a PersistentVolume.",
+      "It directly attaches a node's local disk to a Pod.",
+      "It manages the lifecycle of storage snapshots."
+    ],
+    "correct": 2,
+    "expl": "A PVC is a request for storage by a user. It consumes an existing PersistentVolume (PV) or can dynamically provision one if a StorageClass is configured. Pods then mount the PVC as a volume.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0113"
+  },
+  {
+    "q": "How does container orchestration typically facilitate \"self-healing\" for applications?",
+    "opts": [
+      "By automatically applying security patches to container images.",
+      "By using AI to predict and prevent application failures.",
+      "By monitoring application health and automatically restarting or replacing failed instances.",
+      "By providing detailed debugging tools for developers to fix application bugs faster.",
+      "By load balancing traffic away from nodes with high CPU usage."
+    ],
+    "correct": 2,
+    "expl": "Orchestrators monitor the health of application instances (e.g., Pods). If an instance fails a health check or crashes, the orchestrator can automatically restart it or replace it with a new instance to maintain the desired state and availability.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0114"
+  },
+  {
+    "q": "What is the primary purpose of a ServiceAccount in Kubernetes security?",
+    "opts": [
+      "To provide an identity for human users to log into the cluster.",
+      "To define permissions for accessing Kubernetes API resources.",
+      "To provide a distinct identity for processes running inside Pods to interact with the API.",
+      "To securely store API tokens and certificates for external services.",
+      "To encrypt network traffic between Pods."
+    ],
+    "correct": 2,
+    "expl": "ServiceAccounts are meant for processes within Pods, giving them an identity that can be authenticated by the API server and authorized via RBAC to perform specific actions. Human users typically use regular user accounts or external identity providers.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0116"
+  },
+  {
+    "q": "What role does the Container Network Interface (CNI) play in Kubernetes networking?",
+    "opts": [
+      "It defines the API for how kube-proxy implements Services.",
+      "It provides a specification for writing plugins to configure network interfaces for Pods.",
+      "It manages DNS resolution for Services and Pods within the cluster.",
+      "It enforces network policies to restrict traffic flow between Pods.",
+      "It provides a secure tunnel for control plane communication."
+    ],
+    "correct": 1,
+    "expl": "CNI is a specification and a set of libraries for writing plugins to configure network interfaces in Linux containers. In Kubernetes, CNI plugins are responsible for connecting Pods to the cluster network and assigning IP addresses.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0117"
+  },
+  {
+    "q": "Which feature is typically NOT offered as a core capability by a Service Mesh?",
+    "opts": [
+      "Automatic mTLS encryption between services.",
+      "Fine-grained traffic routing (e.g., canary deployments, A/B testing).",
+      "Distributed tracing and observability metrics for inter-service communication.",
+      "Container image vulnerability scanning.",
+      "Resiliency features like retries and timeouts."
+    ],
+    "correct": 3,
+    "expl": "Service Meshes focus on managing and securing interservice communication (runtime concerns). Image vulnerability scanning is typically part of the CI/CD pipeline or a separate security tool, addressing build-time or registry concerns.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0118"
+  },
+  {
+    "q": "What is the primary function of a StorageClass in Kubernetes?",
+    "opts": [
+      "To directly provide storage to a Pod.",
+      "To define different \"classes\" or types of storage for dynamic provisioning.",
+      "To claim a specific PersistentVolume for use.",
+      "To backup and restore data from PersistentVolumes.",
+      "To limit the amount of storage a namespace can consume."
+    ],
+    "correct": 1,
+    "expl": "StorageClasses allow administrators to define different types of storage (e.g., \"fast-ssd\", \"cheap-hdd\", \"backup-storage\") with specific provisioners and parameters. This enables dynamic provisioning of PersistentVolumes when a PersistentVolumeClaim requests a certain class.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0119"
+  },
+  {
+    "q": "How does declarative configuration, a common feature in container orchestration, improve system reliability compared to imperative commands?",
+    "opts": [
+      "It executes commands faster.",
+      "It allows users to specify the exact sequence of operations for desired outcomes.",
+      "It describes the desired state, allowing the orchestrator to continuously reconcile.",
+      "It requires less YAML or JSON to define resources.",
+      "It automatically selects the most performant hardware."
+    ],
+    "correct": 2,
+    "expl": "With declarative configuration, users define the desired end state. The orchestrator then works to achieve and maintain this state, automatically correcting drift. This is more robust than imperative commands which specify how to do something and don't inherently handle drift.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0120"
+  },
+  {
+    "q": "What is the significance of the dockershim component being removed from Kubernetes starting from v1.24?",
+    "opts": [
+      "Kubernetes no longer supports Docker-formatted container images.",
+      "Developers must use a different command-line tool instead of docker build.",
+      "Kubernetes now directly uses container runtimes that implement CRI, like containerd.",
+      "All existing Docker containers must be rebuilt using a new OCI tool.",
+      "Pods can no longer run multiple containers."
+    ],
+    "correct": 2,
+    "expl": "The removal of dockershim means Kubernetes no longer has built-in direct support for the Docker Engine as a runtime. Instead, it relies on runtimes that implement the Container Runtime Interface (CRI), such as containerd (which Docker itself uses) or CRI-O. Docker images still work.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0121"
+  },
+  {
+    "q": "When a NetworkPolicy in Kubernetes selects a Pod, what does it primarily control?",
+    "opts": [
+      "The Pod's ability to access external services outside the cluster.",
+      "The amount of network bandwidth the Pod can consume.",
+      "The ingress and egress network traffic for that Pod at L3/L4.",
+      "The DNS resolution behavior for the Pod.",
+      "The encryption of data in transit for the Pod."
+    ],
+    "correct": 2,
+    "expl": "Kubernetes provides an internal DNS service (typically CoreDNS) that automatically creates DNS records for Services. Applications can discover other services by looking up their DNS names (e.g., my-service.my-namespace.svc.cluster.local), which resolve to the Service's ClusterIP.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0122"
+  },
+  {
+    "q": "If a company wants to implement zero-trust security for interservice communication within their Kubernetes cluster, what would a Service Mesh primarily contribute?",
+    "opts": [
+      "Encrypting persistent data at rest.",
+      "Enforcing strong authentication and authorization for kubectl users.",
+      "Providing automatic mutual TLS (mTLS) between all services in the mesh.",
+      "Scanning Pods for known vulnerabilities.",
+      "Managing firewall rules at the cluster's edge."
+    ],
+    "correct": 2,
+    "expl": "A key feature of many Service Meshes is the ability to automatically establish and enforce mTLS for all traffic between services in the mesh. This encrypts traffic and ensures that services mutually authenticate each other, a core tenet of zero-trust networking.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0123"
+  },
+  {
+    "q": "The Container Storage Interface (CSI) was developed to address what challenge in Kubernetes storage?",
+    "opts": [
+      "To provide a standard for defining StorageClass parameters.",
+      "To enable third-party storage vendors to develop plugins without modifying core Kubernetes code.",
+      "To improve the performance of hostPath volumes.",
+      "To automate the backup and restore of PersistentVolumes.",
+      "To define how containers should access configuration data."
+    ],
+    "correct": 1,
+    "expl": "CSI is a standard for exposing block and file storage systems to containerized workloads. It allows storage vendors to create plugins that integrate with Kubernetes (and other orchestrators) to manage storage lifecycles, without needing their code to be part of the Kubernetes core.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0124"
+  },
+  {
+    "q": "Which of these is NOT a typical benefit of using a container orchestrator for managing applications?",
+    "opts": [
+      "Improved resource utilization through bin packing.",
+      "Simplified application code logic for handling infrastructure failures.",
+      "Abstracted underlying infrastructure differences.",
+      "Automatic conversion of monolithic applications to microservices.",
+      "Enhanced scalability and availability of applications."
+    ],
+    "correct": 3,
+    "expl": "Orchestrators help deploy and manage microservices (and even well-architected monoliths), but they do not automatically refactor or convert application code from a monolithic architecture to a microservices architecture. That's a software design and development effort.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0125"
+  },
+  {
+    "q": "What is a key characteristic of runc, often used by higher-level runtimes like containerd?",
+    "opts": [
+      "It's a full-fledged container orchestrator.",
+      "It provides a command-line tool for building OCI-compliant images.",
+      "It's a low-level OCI runtime responsible for spawning and running containers.",
+      "It's a CNI plugin for configuring Pod networking.",
+      "It's a distributed key-value store for container metadata."
+    ],
+    "correct": 2,
+    "expl": "runc is a CLI tool for spawning and running containers according to the OCI specification. Higher-level runtimes like containerd use runc (or similar OCI runtimes) under the hood to actually execute the containers.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0126"
+  },
+  {
+    "q": "What is the primary purpose of Secrets in Kubernetes, and how are they typically made available to Pods?",
+    "opts": [
+      "To store arbitrary non-sensitive configuration; as environment variables or files.",
+      "To store sensitive data (e.g., passwords, tokens); as environment variables or volume mounts.",
+      "To define network policies; applied directly by kubelet.",
+      "To store TLS certificates for Ingress; only used by Ingress controllers.",
+      "To store container image pull credentials; only used by kubelet."
+    ],
+    "correct": 1,
+    "expl": "Secrets are designed for sensitive information. While they can be used for image pull credentials, their broader use is for application secrets. They are base64 encoded (not encrypted by default in etcd) and can be mounted as files into Pods or exposed as environment variables.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0127"
+  },
+  {
+    "q": "An Ingress resource in Kubernetes provides what type of functionality?",
+    "opts": [
+      "L4 TCP/UDP load balancing for internal services.",
+      "Management of external HTTP/S access to services, with host/path based routing.",
+      "Network isolation between Pods within the same namespace.",
+      "Dynamic provisioning of persistent storage for web servers.",
+      "A CNI plugin implementation for advanced networking features."
+    ],
+    "correct": 1,
+    "expl": "Ingress objects manage external access to services in a cluster, typically HTTP/S. They provide L7 features like host-based routing 162 (e.g., foo.example.com) and path-based routing (e.g., example.com/bar), acting as a reverse proxy. An Ingress controller implements these rules.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0128"
+  },
+  {
+    "q": "In the context of a Service Mesh, what does \"traffic splitting\" commonly refer to?",
+    "opts": [
+      "Dividing network bandwidth equally among all services.",
+      "Routing a percentage of traffic to different versions of a service (e.g., for canary).",
+      "Encrypting only a portion of the traffic between services.",
+      "Splitting large data packets into smaller frames for transmission.",
+      "Blocking traffic from specific IP address ranges."
+    ],
+    "correct": 1,
+    "expl": "Traffic splitting is a Service Mesh capability that allows routing specific percentages of incoming requests to different versions of a service. This is crucial for deployment strategies like canary releases or A/B testing, allowing gradual rollouts and risk mitigation.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0129"
+  },
+  {
+    "q": "If a Pod needs temporary scratch space that is empty upon creation and deleted when the Pod terminates, which volume type is most appropriate?",
+    "opts": [
+      "hostPath",
+      "persistentVolumeClaim",
+      "emptyDir",
+      "configMap",
+      "nfs"
+    ],
+    "correct": 2,
+    "expl": "An emptyDir volume is created when a Pod is assigned to a node. It is initially empty, and its contents are deleted when the Pod is removed from the node. It's useful for scratch space or sharing files between containers in the same Pod.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0130"
+  },
+  {
+    "q": "What is a key security implication of running containers as a non-root user?",
+    "opts": [
+      "It prevents containers from accessing network resources.",
+      "It reduces the potential impact if the container process is compromised.",
+      "It allows containers to bypass RBAC checks for API access.",
+      "It disables the container runtime's ability to pull images from private registries.",
+      "It encrypts all data written by the container to its filesystem."
+    ],
+    "correct": 1,
+    "expl": "Running container processes as a non-root user is a security best practice. If an attacker compromises the process, they gain the privileges of that non-root user, which are significantly less than root, limiting their ability to harm the host system or other containers.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0131"
+  },
+  {
+    "q": "What is the typical interaction flow when kubelet needs to start a Pod using a CRI-compliant runtime?",
+    "opts": [
+      "kubelet directly calls runc to create the container.",
+      "kubelet sends a request to the CRI gRPC server implemented by the runtime.",
+      "kubelet updates etcd, and the runtime reads the changes.",
+      "kubelet instructs kube-proxy to prepare the network for the runtime.",
+      "kubelet uses kubectl commands to tell the runtime what to do."
+    ],
+    "correct": 1,
+    "expl": "kubelet acts as a client to the CRI gRPC server implemented by the container runtime (e.g., containerd). It sends requests like RunPodSandbox (to create the Pod's environment) and CreateContainer/StartContainer for each container in the Pod.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0132"
+  },
+  {
+    "q": "In Kubernetes, what is the purpose of an EndpointSlice object in relation to a Service?",
+    "opts": [
+      "To define the external IP address for a LoadBalancer Service.",
+      "To store the DNS configuration for a Service.",
+      "To efficiently track and provide the IP addresses and ports of Pods backing a Service.",
+      "To enforce network policies for traffic destined to a Service.",
+      "To manage TLS termination for a Service."
+    ],
+    "correct": 2,
+    "expl": "EndpointSlices offer a more scalable and extensible way to track the network endpoints (Pod IPs and ports) that a Service routes to. They replaced the older Endpoints object for improved performance, especially in large clusters with many Pods per Service.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0133"
+  },
+  {
+    "q": "Which component of a Service Mesh architecture is typically injected as a sidecar container into application Pods?",
+    "opts": [
+      "The control plane's central policy manager.",
+      "The data plane proxy (e.g., Envoy, Linkerd2-proxy).",
+      "The certificate authority for issuing mTLS certificates.",
+      "The metrics collection and aggregation server.",
+      "The UI dashboard for visualizing mesh topology."
+    ],
+    "correct": 1,
+    "expl": "In a Service Mesh, a data plane proxy (like Envoy or Linkerd2-proxy) is usually deployed as a sidecar container alongside each application container in the Pod. This proxy intercepts all network traffic to and from the application container, enabling the mesh's features.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0134"
+  },
+  {
+    "q": "A StatefulSet requires stable, unique network identifiers for its Pods. How is this typically achieved in Kubernetes?",
+    "opts": [
+      "By manually assigning static IP addresses to each Pod.",
+      "Through a headless Service that creates DNS records for each Pod.",
+      "Using hostNetwork: true for all Pods in the StatefulSet.",
+      "By relying on CNI plugins to assign predictable IPs from a predefined range.",
+      "By using NetworkPolicy to restrict Pod IPs."
+    ],
+    "correct": 1,
+    "expl": "StatefulSets often use a headless Service (a Service with clusterIP: None). This causes DNS to create A records for each Pod (e.g., mypod-0.my-service.my-namespace) that resolve directly to the Pod's IP, providing stable, resolvable hostnames.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0135"
+  },
+  {
+    "q": "When using dynamic provisioning for Kubernetes storage, what happens if a PersistentVolumeClaim requests a StorageClass that does not exist?",
+    "opts": [
+      "The PVC remains in a Pending state indefinitely or until the class is created.",
+      "Kubernetes automatically creates a default StorageClass and uses it.",
+      "The Pod attempting to use the PVC will fail to start with a network error.",
+      "The PVC will use any available PersistentVolume regardless of its StorageClass.",
+      "The request defaults to using hostPath storage on the assigned node."
+    ],
+    "correct": 0,
+    "expl": "If a PVC specifies a StorageClass that doesn't exist, and no default StorageClass is able to fulfill the request, the PVC will remain in the Pending state because no storage can be dynamically provisioned to satisfy its requirements.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0136"
+  },
+  {
+    "q": "What is the primary benefit of using orchestration for rolling updates compared to manual, script-based updates?",
+    "opts": [
+      "Faster individual container restart times.",
+      "Guaranteed zero cost for update operations.",
+      "Automated health checks, progressive rollout, and easier rollback capabilities.",
+      "Elimination of the need for container image registries.",
+      "In-place binary patching of running application code."
+    ],
+    "correct": 2,
+    "expl": "Orchestrators manage rolling updates by incrementally replacing old instances with new ones, performing health checks on new instances before proceeding, and allowing for automated or easy rollbacks if issues arise. This is far more robust than manual scripting.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0137"
+  },
+  {
+    "q": "What is a key difference between containerd and Docker Engine in the context of Kubernetes (post-dockershim removal)?",
+    "opts": [
+      "containerd cannot run Docker-formatted images; Docker Engine can.",
+      "Docker Engine includes build tools and a CLI; containerd is a core runtime.",
+      "containerd is not OCI compliant; Docker Engine is.",
+      "Docker Engine implements CRI directly; containerd requires a shim.",
+      "containerd is only for Linux; Docker Engine is cross-platform."
+    ],
+    "correct": 1,
+    "expl": "Docker Engine is a larger platform that includes client tools (docker CLI), image building capabilities, and the containerd runtime itself. containerd is a focused OCI-compliant core runtime component designed to be embedded into larger systems like Kubernetes or Docker Engine.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0138"
+  },
+  {
+    "q": "How does Role-Based Access Control (RBAC) in Kubernetes contribute to the principle of least privilege?",
+    "opts": [
+      "By encrypting all API communication by default.",
+      "By ensuring all Pods run with minimal resource requests and limits.",
+      "By allowing administrators to grant users/ServiceAccounts only necessary permissions.",
+      "By automatically rotating credentials for ServiceAccounts.",
+      "By restricting network access between namespaces."
+    ],
+    "correct": 2,
+    "expl": "A Service of type LoadBalancer automatically provisions an external load balancer (if supported by the underlying cloud provider) and assigns it an external IP address, routing external traffic to the Service's Pods.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0139"
+  },
+  {
+    "q": "What is the concept of a \"control plane\" in a Service Mesh architecture?",
+    "opts": [
+      "The set of sidecar proxies running alongside application containers.",
+      "The central components that manage and configure the data plane proxies.",
+      "The application code responsible for handling business logic.",
+      "The underlying Kubernetes cluster nodes.",
+      "The network infrastructure connecting the cluster to the internet."
+    ],
+    "correct": 1,
+    "expl": "The Service Mesh control plane (e.g., Istiod in Istio) provides the management functions. It configures the data plane proxies (sidecars) with policies, collects telemetry from them, and manages service discovery and certificate rotation within the mesh.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0140"
+  },
+  {
+    "q": "If a PersistentVolume is reclaimed using the Delete reclaim policy, what happens to the underlying storage when the associated PersistentVolumeClaim is deleted?",
+    "opts": [
+      "The storage is archived and can be restored later.",
+      "The PersistentVolume object is deleted, but the data on the storage medium remains.",
+      "The data on the underlying storage medium is deleted.",
+      "The PersistentVolume becomes available for another PersistentVolumeClaim.",
+      "The storage is automatically resized to its minimum capacity."
+    ],
+    "correct": 2,
+    "expl": "With the Delete reclaim policy, deleting the PVC will also trigger the deletion of the PersistentVolume object and the associated storage asset in the external infrastructure (e.g., AWS EBS volume, GCE PD). The Retain policy keeps the data.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0141"
+  },
+  {
+    "q": "A PodSecurityContext can be used to define security settings that apply to:",
+    "opts": [
+      "All Pods within a specific Namespace.",
+      "A specific container within a Pod.",
+      "All containers within a Pod, and potentially the Pod's volumes.",
+      "Only the network policies associated with a Pod.",
+      "The ServiceAccount used by the Pod."
+    ],
+    "correct": 2,
+    "expl": "A PodSecurityContext defines privilege and access control settings for an entire Pod. These settings apply to all containers within that Pod and can also affect volumes (e.g., fsGroup). A SecurityContext can also be set at the individual container level.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0142"
+  },
+  {
+    "q": "What is a key benefit of using the Container Runtime Interface (CRI) from Kubernetes' perspective?",
+    "opts": [
+      "It simplifies the container image building process for developers.",
+      "It allows Kubernetes to be independent of specific container runtime implementations.",
+      "It provides a built-in metrics collection system for containers.",
+      "It enables running virtual machines alongside containers within the same Pod.",
+      "It standardizes the format for container log messages."
+    ],
+    "correct": 1,
+    "expl": "CRI provides a stable abstraction layer. This allows Kubernetes to support multiple container runtimes without having runtimespecific code in the core kubelet. As long as a runtime implements CRI, Kubernetes can use it.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0143"
+  }
+]

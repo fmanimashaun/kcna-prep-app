@@ -1,0 +1,325 @@
+[
+  {
+    "id": "q0066",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What core Kubernetes concept allows Deployments to perform rolling updates with zero downtime?",
+    "options": [
+      "Managing StatefulSets",
+      "Utilizing PersistentVolumes",
+      "Incrementally replacing Pods managed by ReplicaSets",
+      "Direct communication with the kube-scheduler",
+      "Modifying NetworkPolicy rules dynamically"
+    ],
+    "correct": 2,
+    "explanation": "The kube-scheduler watches for Pods without an assigned node and selects the most suitable node based on filtering (resource requests, affinity rules, etc.) and scoring algorithms.",
+    "auditIssue": "Explanation mismatch: the question is about rolling updates, but the explanation describes kube-scheduler node selection (filter/score). The correct answer text is right, but the explanation is wrong.",
+    "auditSuggestion": "Rewrite explanation: 'A Deployment creates a new ReplicaSet and gradually scales it up while scaling the old one down, replacing Pods incrementally to maintain availability during updates.'"
+  },
+  {
+    "id": "q0077",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which field in a Pod's specification is crucial for the kubescheduler to determine if a node has sufficient resources?",
+    "options": [
+      "spec.nodeName",
+      "spec.containers[].ports",
+      "spec.containers[].resources.requests",
+      "spec.serviceAccountName",
+      "spec.restartPolicy"
+    ],
+    "correct": 2,
+    "explanation": "The resources.requests field (for CPU and memory) indicates the minimum amount of resources the container needs. The scheduler uses this to filter out nodes that cannot meet these requests.",
+    "auditIssue": "Typo in question: 'kubescheduler' should be 'kube-scheduler' (missing hyphen).",
+    "auditSuggestion": "Fix typo: 'kube-scheduler'."
+  },
+  {
+    "id": "q0079",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which OCI (Open Container Initiative) specification defines how container runtimes should execute containers?",
+    "options": [
+      "Image Specification",
+      "Distribution Specification",
+      "Runtime Specification (CRI is Kubernetes' interface to this)",
+      "Network Specification (CNI is related)",
+      "Storage Specification"
+    ],
+    "correct": 2,
+    "explanation": "The OCI Runtime Specification outlines how to run a container filesystem bundle. Kubernetes uses the Container Runtime Interface (CRI) as an abstraction layer over runtimes like containerd or CRI-O that implement this standard.",
+    "auditIssue": "Option C leaks the answer with parenthetical hint '(CRI is Kubernetes' interface to this)', and option D similarly hints at CNI. These parentheticals telegraph which option is under discussion and make the question too easy.",
+    "auditSuggestion": "Remove parenthetical hints from options. Use plain 'Runtime Specification', 'Network Specification', etc."
+  },
+  {
+    "id": "q0080",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "You need to provide non-sensitive configuration data (like a URL endpoint or logging level) to a Pod. Which resource is most appropriate?",
+    "options": [
+      "Secret",
+      "ConfigMap",
+      "Annotation",
+      "ResourceQuota",
+      "DownwardAPI"
+    ],
+    "correct": 2,
+    "explanation": "A DaemonSet ensures that a copy of a Pod runs on all (or some specified) nodes. This is useful for node-level agents like log collectors, monitoring agents, or CNI plugins.",
+    "auditIssue": "Explanation is completely wrong — it describes DaemonSet instead of ConfigMap (the correct answer). Copy-paste error.",
+    "auditSuggestion": "Rewrite explanation: 'A ConfigMap stores non-sensitive configuration data as key/value pairs. It can be mounted as files in a volume or exposed as environment variables to containers.'"
+  },
+  {
+    "id": "q0087",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which kubectl command is used to view the logs of a running container within a Pod?",
+    "options": [
+      "kubectl get pod <pod-name> -logs",
+      "kubectl describe pod <pod-name>",
+      "kubectl logs <pod-name> [-c <container-name>]",
+      "kubectl attach <pod-name> -c <container-name>",
+      "kubectl exec <pod-name> - tail /var/log/messages"
+    ],
+    "correct": 2,
+    "explanation": "kubectl logs fetches the logs (stdout/stderr) from a specified container within a Pod. The -c flag is needed if the Pod has multiple containers.",
+    "auditIssue": "Option A uses '-logs' (single dash) which is not a real flag and option E has 'kubectl exec <pod-name> - tail' with a stray space/dash. These are formatting issues that may confuse readers. Also the question is somewhat trivial kubectl trivia.",
+    "auditSuggestion": "Clean up option formatting: use 'kubectl get pod <pod-name> --logs' or remove ambiguous dashes. Option E should be 'kubectl exec <pod-name> -- tail /var/log/messages'."
+  },
+  {
+    "id": "q0099",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which resource attribute is primarily used by a Service to determine which Pods should receive traffic?",
+    "options": [
+      "metadata.name",
+      "metadata.namespace",
+      "metadata.labels (matched by the Service's selector)",
+      "spec.nodeName",
+      "status.podIP"
+    ],
+    "correct": 2,
+    "explanation": "A Service definition includes a selector field, which specifies a set of labels. The Service continuously identifies Pods matching these labels and directs traffic to them (via Endpoints/EndpointSlices managed by controllers).",
+    "auditIssue": "Option C gives away the answer by including the parenthetical 'matched by the Service's selector'; other options are throwaway distractors (nodeName, podIP are obviously not used for selection).",
+    "auditSuggestion": "Change option C to simply 'metadata.labels' and make other distractors more plausible (e.g., 'spec.containers.image', 'spec.serviceAccountName')."
+  },
+  {
+    "id": "q0100",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What type of container volume shares the Pod's lifecycle and is initially empty, useful for temporary data sharing between containers in a Pod?",
+    "options": [
+      "hostPath",
+      "persistentVolumeClaim",
+      "emptyDir",
+      "nfs",
+      "secret"
+    ],
+    "correct": 2,
+    "explanation": "An emptyDir volume is created when a Pod is assigned to a node and exists as long as that Pod is running on that node. Its 1 contents are lost when the Pod is deleted. It's ideal for scratch space or sharing files between containers within the same Pod.",
+    "auditIssue": "Explanation contains a stray '1' ('Its 1 contents are lost') which appears to be a footnote artifact/typo.",
+    "auditSuggestion": "Remove the stray '1' from the explanation: 'Its contents are lost when the Pod is deleted.'"
+  },
+  {
+    "id": "q0101",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which Kubernetes API endpoint would kubectl get pods likely interact with?",
+    "options": [
+      "/api/v1/nodes",
+      "/api/v1/namespaces/namespace/pods",
+      "/apis/apps/v1/deployments",
+      "/healthz",
+      "/metrics"
+    ],
+    "correct": 2,
+    "explanation": "Requests are used for scheduling, guaranteeing the resource. Limits enforce an upper bound. If limits are high, a container might consume resources needed by other Pods on the node, potentially leading to CPU throttling or OOM (Out Of Memory) kills and eviction if node pressure occurs.",
+    "auditIssue": "The marked correct answer is index 2 ('/apis/apps/v1/deployments'), which is wrong — 'kubectl get pods' queries the pods endpoint (index 1). Also, option 1 has a formatting issue ('namespaces/namespace/pods' should be '{namespace}'). Explanation is mismatched entirely — it describes requests vs. limits rather than API endpoints.",
+    "auditSuggestion": "Set correct index to 1, fix option to '/api/v1/namespaces/{namespace}/pods', and rewrite explanation to describe how kubectl maps resource types to API paths (core pods live under /api/v1, namespaced)."
+  },
+  {
+    "id": "q0104",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "If a Node fails, what component detects this failure and updates the Node's status in etcd?",
+    "options": [
+      "kubelet on the failed node",
+      "kube-proxy on peer nodes",
+      "node-controller (within kube-controller-manager)",
+      "kube-scheduler",
+      "etcd itself through distributed consensus"
+    ],
+    "correct": 2,
+    "explanation": "The node-controller, running within the kube-controllermanager, is responsible for monitoring Node health (based on heartbeats from kubelet) and updating the Node status (e.g., setting conditions like Ready to False or Unknown).",
+    "auditIssue": "Typo in explanation: 'kube-controllermanager' should be 'kube-controller-manager'.",
+    "auditSuggestion": "Fix the hyphenation."
+  },
+  {
+    "id": "q0107",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "In a typical Kubernetes cluster setup, where does the kubescheduler run?",
+    "options": [
+      "On every worker node",
+      "As a Pod managed by a DaemonSet",
+      "As a static Pod or systemd service on a control plane node",
+      "Inside the etcd cluster",
+      "As part of the kubelet binary"
+    ],
+    "correct": 2,
+    "explanation": "The kube-scheduler is a critical control plane component. It usually runs directly on a control plane node, often managed as a static Pod (defined by a manifest file read by the kubelet on the control plane node) or as a system service.",
+    "auditIssue": "Question title uses 'kubescheduler' (missing hyphen) — should be 'kube-scheduler' for consistency with official naming.",
+    "auditSuggestion": "Rename to 'kube-scheduler' in the question stem."
+  },
+  {
+    "id": "q0122",
+    "domain": "orch",
+    "src": "prep",
+    "question": "When a NetworkPolicy in Kubernetes selects a Pod, what does it primarily control?",
+    "options": [
+      "The Pod's ability to access external services outside the cluster.",
+      "The amount of network bandwidth the Pod can consume.",
+      "The ingress and egress network traffic for that Pod at L3/L4.",
+      "The DNS resolution behavior for the Pod.",
+      "The encryption of data in transit for the Pod."
+    ],
+    "correct": 2,
+    "explanation": "Kubernetes provides an internal DNS service (typically CoreDNS) that automatically creates DNS records for Services. Applications can discover other services by looking up their DNS names (e.g., my-service.my-namespace.svc.cluster.local), which resolve to the Service's ClusterIP.",
+    "auditIssue": "Explanation is completely mismatched — it describes CoreDNS/service discovery instead of what NetworkPolicy controls. The correct answer (index 2, ingress/egress L3/L4) is right, but the explanation is about a different topic.",
+    "auditSuggestion": "Rewrite explanation to describe that NetworkPolicy controls L3/L4 ingress and egress traffic for selected Pods, implemented by the CNI plugin."
+  },
+  {
+    "id": "q0128",
+    "domain": "orch",
+    "src": "prep",
+    "question": "An Ingress resource in Kubernetes provides what type of functionality?",
+    "options": [
+      "L4 TCP/UDP load balancing for internal services.",
+      "Management of external HTTP/S access to services, with host/path based routing.",
+      "Network isolation between Pods within the same namespace.",
+      "Dynamic provisioning of persistent storage for web servers.",
+      "A CNI plugin implementation for advanced networking features."
+    ],
+    "correct": 1,
+    "explanation": "Ingress objects manage external access to services in a cluster, typically HTTP/S. They provide L7 features like host-based routing 162 (e.g., foo.example.com) and path-based routing (e.g., example.com/bar), acting as a reverse proxy. An Ingress controller implements these rules.",
+    "auditIssue": "Explanation contains stray '162' ('host-based routing 162') — footnote/formatting artifact.",
+    "auditSuggestion": "Remove the stray '162' from the explanation."
+  },
+  {
+    "id": "q0139",
+    "domain": "orch",
+    "src": "prep",
+    "question": "How does Role-Based Access Control (RBAC) in Kubernetes contribute to the principle of least privilege?",
+    "options": [
+      "By encrypting all API communication by default.",
+      "By ensuring all Pods run with minimal resource requests and limits.",
+      "By allowing administrators to grant users/ServiceAccounts only necessary permissions.",
+      "By automatically rotating credentials for ServiceAccounts.",
+      "By restricting network access between namespaces."
+    ],
+    "correct": 2,
+    "explanation": "A Service of type LoadBalancer automatically provisions an external load balancer (if supported by the underlying cloud provider) and assigns it an external IP address, routing external traffic to the Service's Pods.",
+    "auditIssue": "Explanation is completely mismatched — it describes LoadBalancer Services instead of RBAC/least privilege. The correct answer (index 2) is right, but the explanation discusses the wrong topic.",
+    "auditSuggestion": "Rewrite explanation to explain that RBAC lets admins grant fine-grained permissions to specific users/ServiceAccounts, supporting least privilege by limiting subjects to only the verbs/resources they need."
+  },
+  {
+    "id": "q0145",
+    "domain": "orch",
+    "src": "prep",
+    "question": "When would you typically choose a Service Mesh over just using Kubernetes NetworkPolicies for securing inter-Pod communication?",
+    "options": [
+      "When you need basic L3/L4 firewalling based on Pod labels.",
+      "When you require application-layer (L7) traffic management, mTLS, and observability.",
+      "When you need to expose services externally using an Ingress controller.",
+      "When you want to restrict a Pod's access to host resources.",
+      "When the primary concern is node-to-node encryption."
+    ],
+    "correct": 1,
+    "explanation": "NetworkPolicies provide L3/L4 segmentation. A Service Mesh operates at L7, offering richer features like automatic mTLS for 167 strong identity and encryption, fine-grained traffic control (retries, timeouts, circuit breaking), and detailed telemetry (metrics, distributed traces) for application traffic.",
+    "auditIssue": "Explanation contains a stray '167' (likely a page number artifact) after 'mTLS for'.",
+    "auditSuggestion": "Remove the stray '167' so the sentence reads 'automatic mTLS for strong identity and encryption'."
+  },
+  {
+    "id": "q0152",
+    "domain": "orch",
+    "src": "prep",
+    "question": "How does Kubernetes DNS enable service discovery for a Service named my-svc in namespace my-ns from another Pod in the same namespace?",
+    "options": [
+      "The Pod queries for my-svc.my-ns.svc.cluster.local.",
+      "The Pod queries for my-svc.",
+      "The Pod queries for the ClusterIP of my-svc directly.",
+      "kube-proxy injects the IP of my-svc into the Pod's /etc/hosts.",
+      "Pods cannot discover services in the same namespace via DNS."
+    ],
+    "correct": 1,
+    "explanation": "Within the same namespace, a short Service name (e.g., my-svc) is sufficient for DNS resolution because the namespace is part of the Pod's DNS search path. For cross-namespace, my-svc.my-ns or the FQDN my-svc.my-ns.svc.cluster.local would be used.",
+    "auditIssue": "Explanation has a trailing stray '169' (page-number artifact).",
+    "auditSuggestion": "Remove the trailing '169' so the explanation ends cleanly after the FQDN example."
+  },
+  {
+    "id": "q0159",
+    "domain": "arch",
+    "src": "prep",
+    "question": "In a typical cloud native environment, which persona is primarily focused on building and maintaining the underlying platform (e.g., Kubernetes cluster) itself?",
+    "options": [
+      "Application Developer",
+      "End User",
+      "Platform Engineer / Operator / SRE",
+      "Data Scientist",
+      "Business Analyst"
+    ],
+    "correct": 2,
+    "explanation": "Open standards ensure that container images built with one tool can be run by different runtimes, and that different tools can work together. This gives users flexibility, prevents vendor lock-in, and allows the ecosystem to innovate collaboratively.",
+    "auditIssue": "Explanation is mismatched: it talks about open standards/vendor lock-in rather than explaining why the Platform Engineer/Operator/SRE persona is the correct answer.",
+    "auditSuggestion": "Replace the explanation with one that describes how Platform Engineers/Operators/SREs are responsible for building, operating, and maintaining the Kubernetes platform itself (cluster lifecycle, upgrades, reliability) so application developers can consume it."
+  },
+  {
+    "id": "q0165",
+    "domain": "arch",
+    "src": "prep",
+    "question": "What is the primary function of the Cluster Autoscaler (CA) in Kubernetes?",
+    "options": [
+      "To adjust the number of replicas for a Deployment based on CPU load.",
+      "To modify the resource requests/limits for Pods based on usage.",
+      "To add or remove worker nodes from the cluster based on Pod scheduling pressure.",
+      "To automatically update Kubernetes control plane components.",
+      "To balance network traffic evenly across all nodes."
+    ],
+    "correct": 2,
+    "explanation": "The Cluster Autoscaler monitors for Pods that cannot be scheduled due to insufficient resources (CPU, memory) on existing nodes. If such Pods exist, it interacts with the cloud provider (or infrastructure) to provision new nodes. It also removes underutilized nodes.",
+    "auditIssue": "Explanation has a trailing stray '173' (page-number artifact).",
+    "auditSuggestion": "Remove the trailing '173' at the end of the explanation."
+  },
+  {
+    "id": "q0172",
+    "domain": "arch",
+    "src": "prep",
+    "question": "How does the CNCF promote cloud native principles and best practices within the community?",
+    "options": [
+      "By mandating the use of specific programming languages for hosted projects.",
+      "By selling proprietary tools that enforce best practices.",
+      "Through publications (e.g., blog, reports), webinars, events (like KubeCon), and fostering collaboration.",
+      "By directly managing the infrastructure for all member companies.",
+      "By providing legally binding architectural blueprints."
+    ],
+    "correct": 2,
+    "explanation": "CNCF acts as a thought leader and community hub. It shares knowledge and promotes best practices through various channels like its website, blog, webinars, research papers, landscape map, and major conferences like KubeCon + CloudNativeCon.",
+    "auditIssue": "Explanation has a trailing stray '175' (page-number artifact).",
+    "auditSuggestion": "Remove the trailing '175' at the end of the explanation."
+  },
+  {
+    "id": "q0179",
+    "domain": "arch",
+    "src": "prep",
+    "question": "The existence of multiple CNI (Container Network Interface) plugins (e.g., Calico, Flannel, Cilium) demonstrates what benefit of open standards?",
+    "options": [
+      "That CNI guarantees identical features across all network plugins.",
+      "That network configuration in Kubernetes is overly complex.",
+      "That standardization allows for choice and innovation in specific implementation areas.",
+      "That CNI plugins are only developed by the CNCF itself.",
+      "That network plugins are the least stable part of Kubernetes."
+    ],
+    "correct": 2,
+    "explanation": "The CNI standard defines how Kubernetes interacts with network plugins but not what features those plugins must provide beyond basic connectivity. This allows different vendors and projects to innovate and offer plugins with varying features (e.g., network policy enforcement, encryption, performance).",
+    "auditIssue": "Explanation has a trailing stray '177' (page-number artifact).",
+    "auditSuggestion": "Remove the trailing '177' at the end of the explanation."
+  }
+]

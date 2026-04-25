@@ -1,0 +1,307 @@
+[
+  {
+    "id": "q0388",
+    "domain": "orch",
+    "src": "prep",
+    "question": "What object binds a Role or ClusterRole to a user, group, or ServiceAccount?",
+    "options": [
+      "Secret",
+      "ConfigMap",
+      "NetworkPolicy",
+      "RoleBinding / ClusterRoleBinding"
+    ],
+    "correct": 3,
+    "explanation": "A RoleBinding (namespace-scoped) or ClusterRoleBinding (cluster-scoped) grants the permissions defined in a Role/ClusterRole to subjects.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0389",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "If you need a Pod to run on every single Node in the cluster (or a subset), which controller is most suitable?",
+    "options": [
+      "Deployment",
+      "StatefulSet",
+      "DaemonSet",
+      "Job"
+    ],
+    "correct": 2,
+    "explanation": "DaemonSets ensure that all (or some) Nodes run a copy of a Pod, useful for cluster services like log collectors or node monitors.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0390",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What is a primary difference between a Deployment and a StatefulSet?",
+    "options": [
+      "StatefulSets manage Pods",
+      "Deployments are for databases",
+      "StatefulSets provide stable IDs",
+      "Deployments use PVs"
+    ],
+    "correct": 2,
+    "explanation": "StatefulSets provide guarantees about the ordering and uniqueness of Pods, including stable network identifiers and persistent storage.",
+    "auditIssue": "Contains 'nan'; option texts are terse/awkward fragments ('StatefulSets manage Pods', 'Deployments use PVs')",
+    "auditSuggestion": "Remove 'nan' and rewrite options as full clauses, e.g., 'StatefulSets provide stable network identities and ordered deployment, while Deployments do not'"
+  },
+  {
+    "id": "q0391",
+    "domain": "orch",
+    "src": "prep",
+    "question": "Which Kubernetes API object is used to manage external access to services in a cluster, typically HTTP/S?",
+    "options": [
+      "Service (LoadBalancer type)",
+      "NodePort Service",
+      "Ingress",
+      "ExternalName Service"
+    ],
+    "correct": 2,
+    "explanation": "Ingress provides HTTP/S routing rules to manage external users' access to services within the cluster based on hostnames or paths.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0392",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What design pattern involves running an additional container within a Pod to provide auxiliary functions (like logging or monitoring) to the main application container?",
+    "options": [
+      "Init Container",
+      "Sidecar Container",
+      "Ephemeral Container",
+      "Job Container"
+    ],
+    "correct": 1,
+    "explanation": "The Sidecar pattern adds helper containers alongside the main application container within the same Pod network/storage namespace.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0393",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What fundamental concept allows Kubernetes to maintain the desired state declared by the user?",
+    "options": [
+      "Imperative Commands",
+      "Control Loop / Reconciliation",
+      "Manual Scaling",
+      "Direct Node Access"
+    ],
+    "correct": 1,
+    "explanation": "Kubernetes controllers operate on control loops, constantly comparing the desired state (from API objects) with the actual cluster state.",
+    "auditIssue": "Contains 'nan' throwaway option",
+    "auditSuggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0394",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "In Kubernetes, what is the process of assigning Pods to Nodes called?",
+    "options": [
+      "Replication",
+      "Orchestration",
+      "Scheduling",
+      "Deployment E."
+    ],
+    "correct": 2,
+    "explanation": "Scheduling is the core function of the kube-scheduler, selecting appropriate Nodes for Pods based on resource requests and other factors.",
+    "auditIssue": "Malformed option: 'Deployment E.' includes stray letter label artifact and only 4 options present (no 'nan' but formatting broken)",
+    "auditSuggestion": "Clean the last option to just 'Deployment'"
+  },
+  {
+    "id": "q0395",
+    "domain": "arch",
+    "src": "prep",
+    "question": "What is the primary goal of the Cluster Autoscaler?",
+    "options": [
+      "Scale Pod replicas",
+      "Scale cluster Nodes",
+      "Scale Persistent Volumes",
+      "Scale Service endpoints E."
+    ],
+    "correct": 1,
+    "explanation": "The Cluster Autoscaler adjusts the number of Nodes in the cluster based on pending Pods that cannot be scheduled due to resource limits.",
+    "auditIssue": "Malformed last option 'Scale Service endpoints E.' with stray 'E.' artifact",
+    "auditSuggestion": "Clean to 'Scale Service endpoints'"
+  },
+  {
+    "id": "q0396",
+    "domain": "obs",
+    "src": "prep",
+    "question": "What language is used to write queries in Prometheus?",
+    "options": [
+      "SQL",
+      "PromQL",
+      "JSONPath",
+      "YAML E."
+    ],
+    "correct": 1,
+    "explanation": "PromQL (Prometheus Query Language) is the powerful functional query language used to select and aggregate time series data.",
+    "auditIssue": "Malformed last option 'YAML E.' with stray 'E.' artifact",
+    "auditSuggestion": "Clean to 'YAML'"
+  },
+  {
+    "id": "q0409",
+    "domain": "k8s",
+    "src": "quiz",
+    "question": "What is a potential consequence of setting container resource limits much higher than requests?",
+    "options": [
+      "Improved Pod scheduling priority",
+      "Reduced cost for node resources",
+      "Potential for node resource exhaustion and Pod eviction (\"noisy neighbor\" effect)",
+      "Faster container startup times",
+      "Automatic vertical scaling of the container"
+    ],
+    "correct": 2,
+    "explanation": "Requests are used for scheduling, guaranteeing the resource. Limits enforce an upper bound. If limits are high, a container might consume resources needed by other Pods on the node, potentially leading to CPU throttling or OOM (Out Of Memory) kills and eviction if node pressure occurs.",
+    "auditIssue": "Explanation is misleading — 'noisy neighbor' typically refers to resources being used beyond requests (bursting toward limits), but the explanation conflates this with OOM kills. Also, high limits alone don't cause eviction unless containers actually consume those resources.",
+    "auditSuggestion": "Clarify: 'When limits greatly exceed requests, containers can burst beyond their guaranteed share and starve other Pods on the node, leading to CPU throttling, OOM kills, and eviction under node pressure.'"
+  },
+  {
+    "id": "q0410",
+    "domain": "obs",
+    "src": "quiz",
+    "question": "When Prometheus fails to scrape a target (e.g., due to network issues or the target being down), what value will the up metric for that target typically have?",
+    "options": [
+      "1",
+      "-1",
+      "NaN (Not a Number)",
+      "The metric will be absent (no data point recorded)."
+    ],
+    "correct": 2,
+    "explanation": "The up metric explicitly indicates scrape success or failure. A value of 1 means the scrape succeeded, while 0 means it failed for any reason (timeout, connection refused, non-200 HTTP response, etc.).",
+    "auditIssue": "Question says correct answer is index 2 ('NaN'), but the explanation and standard Prometheus behavior indicate `up` is set to 0 on scrape failure. The correct answer should be 0, but '0' isn't even among the options.",
+    "auditSuggestion": "Add '0' as an option and mark it correct; fix explanation to match (already correctly says 0 means failed)"
+  },
+  {
+    "id": "q0412",
+    "domain": "arch",
+    "src": "form",
+    "question": "Select advantages of cloud native architecture",
+    "options": [
+      "High cost and maintenance",
+      "High automation and scalability",
+      "High security risk and complexity",
+      "All of the above"
+    ],
+    "correct": 1,
+    "explanation": "Cloud native architectures bring high automation (declarative orchestration, CI/CD, GitOps) and scalability (horizontal scaling, autoscaling). They reduce ops cost and improve security when used correctly.",
+    "auditIssue": "Uses 'All of the above' crutch and weak distractors (all three wrong options are obvious negatives)",
+    "auditSuggestion": "Replace distractors with plausible but incorrect benefits; remove 'All of the above'"
+  },
+  {
+    "id": "q0414",
+    "domain": "arch",
+    "src": "form",
+    "question": "Cloud applications are usually scaled by",
+    "options": [
+      "Vertical scaling",
+      "Horizontal scaling",
+      "Circular scaling",
+      "Triangular scaling"
+    ],
+    "correct": 1,
+    "explanation": "Horizontal scaling — adding more instances behind a load balancer — is the dominant model for stateless cloud native apps. Vertical scaling (bigger machines) is bounded by hardware limits and causes downtime.",
+    "auditIssue": "Throwaway distractors ('Circular scaling', 'Triangular scaling' are nonsense)",
+    "auditSuggestion": "Replace with plausible alternatives like 'Diagonal scaling' and 'Manual provisioning'"
+  },
+  {
+    "id": "q0416",
+    "domain": "arch",
+    "src": "form",
+    "question": "The twelve-factor app is a guideline to",
+    "options": [
+      "Develop cloud native applications",
+      "Build containers",
+      "Deploy on Kubernetes",
+      "All of the above"
+    ],
+    "correct": 0,
+    "explanation": "The 12-factor methodology (from Heroku) is a set of guidelines for building portable, scalable, cloud-suited applications — config in env, logs as streams, disposability, and so on. It predates Kubernetes.",
+    "auditIssue": "Uses 'All of the above' option; slightly ambiguous — 12-factor can arguably inform all listed activities",
+    "auditSuggestion": "Remove 'All of the above' and replace with a clearly-wrong distractor like 'Design hardware networking'"
+  },
+  {
+    "id": "q0419",
+    "domain": "k8s",
+    "src": "form",
+    "question": "Containers can help with which of the following? (best answer)",
+    "options": [
+      "Dependency management of applications",
+      "More efficient use of hardware resources",
+      "Writing secure application code",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Containers package dependencies with the app (solving 'works on my machine') and allow denser packing onto hosts compared to VMs. They can also reduce the surface area for some security issues (though they don't write secure code for you).",
+    "auditIssue": "Uses 'All of the above' crutch; correct answer relies on it",
+    "auditSuggestion": "Remove 'All of the above'; make the question single-best-answer (e.g., best benefit of containers) with plausible distractors"
+  },
+  {
+    "id": "q0423",
+    "domain": "k8s",
+    "src": "form",
+    "question": "Which command can be used to build a container image with Docker?",
+    "options": [
+      "docker build",
+      "docker create",
+      "docker start",
+      "docker image"
+    ],
+    "correct": 0,
+    "explanation": "`docker build` constructs an image from a Dockerfile. `docker create` makes a stopped container from an existing image, `docker start` runs a container, `docker image` is a management subcommand (list, rm).",
+    "auditIssue": "Distractors 'docker start' and 'docker image' are weak; 'docker image' is a real management subcommand but not parallel. Question is trivially easy and more Docker-vendor-trivia than KCNA-core.",
+    "auditSuggestion": "Rephrase to focus on image building concepts, e.g., 'Which command produces a container image from a Dockerfile?' and use more plausible distractors like 'docker run', 'docker commit', 'docker pull'."
+  },
+  {
+    "id": "q0425",
+    "domain": "orch",
+    "src": "form",
+    "question": "Which problems can be solved with a container orchestration system?",
+    "options": [
+      "Scheduling containers",
+      "Managing resources like CPU and memory",
+      "Providing a container network",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Orchestrators like Kubernetes schedule workloads onto nodes, enforce resource requests/limits, and provide a cluster network (via a CNI plugin) so pods can talk to each other.",
+    "auditIssue": "Uses 'All of the above' crutch with three individually-correct items, making the answer giveaway.",
+    "auditSuggestion": "Replace one option with a plausible-but-wrong capability (e.g., 'Writing application source code' or 'Compiling container images') so the candidate must discriminate."
+  },
+  {
+    "id": "q0427",
+    "domain": "orch",
+    "src": "form",
+    "question": "What are the main parts of a Service Mesh?",
+    "options": [
+      "Controller-Manager and DNS",
+      "Data Plane and Control Plane",
+      "Virus and Malware scanner",
+      "Dockerfile and Network"
+    ],
+    "correct": 1,
+    "explanation": "A service mesh is split into a data plane (sidecar proxies that handle actual traffic) and a control plane (configures the proxies with policies, certificates, routing rules).",
+    "auditIssue": "Distractors 'Virus and Malware scanner' and 'Dockerfile and Network' are throwaway/nonsense, making the question trivially easy.",
+    "auditSuggestion": "Use plausible distractors like 'Ingress and Egress', 'Proxy and Registry', 'Sidecar and Gateway'."
+  },
+  {
+    "id": "q0428",
+    "domain": "arch",
+    "src": "form",
+    "question": "Kubernetes was originally designed and developed by",
+    "options": [
+      "Google",
+      "Facebook",
+      "Amazon",
+      "Microsoft"
+    ],
+    "correct": 0,
+    "explanation": "Kubernetes originated at Google, based on lessons from their internal Borg system. Google open-sourced it in 2014 and donated it to the CNCF in 2015.",
+    "auditIssue": "Vendor/history trivia below KCNA exam level; distractors (Facebook, Amazon, Microsoft) are throwaway. Also the question is a sentence fragment missing a trailing verb (should end with a question mark after 'by whom?').",
+    "auditSuggestion": "Either remove, or rewrite to test something exam-relevant, e.g., 'Kubernetes is hosted by which foundation?' with CNCF as the answer."
+  }
+]

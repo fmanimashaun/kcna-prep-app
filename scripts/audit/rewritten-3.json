@@ -1,0 +1,118 @@
+[
+  {
+    "id": "q0186",
+    "expl": "Cold starts occur when a function has been idle and the platform must provision a new execution environment (container, runtime, code load, dependency initialization) before invoking the handler. This setup adds latency to the first request, which can be problematic for latency-sensitive workloads. Long-running services avoid this because their process is already warm and ready to serve requests."
+  },
+  {
+    "id": "q0190",
+    "opts": [
+      "Managed databases, messaging queues, and API gateways that autoscale and abstract infrastructure.",
+      "Traditional virtual machines with pay-as-you-go pricing.",
+      "Bare-metal servers provisioned via an API.",
+      "On-premises Kubernetes clusters managed using GitOps.",
+      "Dedicated hosts with pre-allocated capacity reserved per tenant."
+    ],
+    "correct": 0
+  },
+  {
+    "id": "q0192",
+    "expl": "Different roles have different needs, priorities, and technical skills. Designing a platform or process with these personas in mind leads to better usability, adoption, and efficiency. For example, developers need easy self-service deployment, while operators need robust monitoring and control."
+  },
+  {
+    "id": "q0199",
+    "expl": "In recommendation-only mode, VPA analyzes resource usage and updates the status.recommendation field of the VPA object with suggested values for requests/limits, but it doesn't modify the running Pods. This allows operators to review recommendations before applying them."
+  },
+  {
+    "id": "q0202",
+    "question": "When designing a cloud native platform, which persona is typically most concerned with feature velocity and self-service developer experience rather than operational SLOs or end-user UX?",
+    "opts": [
+      "The Site Reliability Engineer, who prioritizes error budgets and SLO compliance over shipping speed.",
+      "The Application Developer, who values fast iteration, easy deployments, and quick feedback loops.",
+      "The Platform Operator, whose primary concern is cluster stability, capacity, and security posture.",
+      "The End User, who cares about feature availability and application responsiveness.",
+      "The Security Auditor, who focuses on policy enforcement and compliance evidence."
+    ],
+    "correct": 1,
+    "expl": "Application Developers are most directly motivated by feature velocity and developer experience: how quickly they can build, test, and ship code. SREs and Operators prioritize reliability, stability, and operational concerns (often trading off velocity for safety). End Users care about the application's behavior, not the platform. Understanding these differing priorities lets platform designers tailor interfaces (e.g., self-service portals for devs, deep observability for SREs)."
+  },
+  {
+    "id": "q0207",
+    "expl": "Traditional monitoring tracks predefined metrics against thresholds (e.g., did CPU exceed 80%?), focused on failure modes you anticipate in advance ('known unknowns'). Observability aims to answer arbitrary questions about system state from rich telemetry (logs, metrics, traces) without needing to know failure modes ahead of time, helping diagnose 'unknown unknowns' in complex distributed systems."
+  },
+  {
+    "id": "q0213",
+    "expl": "Instrumentation is the process of adding code (using libraries like OpenTelemetry SDKs or Prometheus client libraries) to an application so that it emits signals about its state and behavior - creating log entries, incrementing metric counters, starting/ending trace spans."
+  },
+  {
+    "id": "q0220",
+    "expl": "A Gauge represents a single numerical value that can go up or down. It's suitable for metrics like temperature, current memory usage, or the number of items in a queue. Counters only go up (or reset to zero). Histograms and Summaries track distributions."
+  },
+  {
+    "id": "q0225",
+    "opts": [
+      "A detailed log message indicating a service failure.",
+      "A contractual agreement with a cloud provider for uptime (SLA).",
+      "A specific, measurable target for a service's reliability or performance (e.g., 99.9% of requests succeed over a 30-day window).",
+      "A dashboard showing real-time resource utilization.",
+      "An alert configured in Alertmanager."
+    ],
+    "correct": 2
+  },
+  {
+    "id": "q0227",
+    "expl": "Cloud providers typically charge for data transferred out to the internet or sometimes between regions/availability zones. Monitoring egress traffic helps identify applications sending large amounts of data unexpectedly, allowing investigation and potential optimization to reduce data transfer costs."
+  },
+  {
+    "id": "q0232",
+    "expl": "Prometheus automatically generates an up{job=\"...\", instance=\"...\"} metric for each target scrape (1 if successful, 0 if failed). This only tells if Prometheus could reach the /metrics endpoint. Application health checks (e.g., a /healthz endpoint) verify internal application logic or dependencies."
+  },
+  {
+    "id": "q0234",
+    "correct": 1,
+    "expl": "Logs (especially unstructured, high-volume ones) are expensive to aggregate, index, and query for trends across many instances. Calculating aggregate behavior (request rates, error percentages) from raw logs is far less efficient than using metrics, and reconstructing request flow across services is much harder without traces. The three signals (logs, metrics, traces) are complementary; relying solely on logs leaves gaps."
+  },
+  {
+    "id": "q0240",
+    "expl": "If a target is slow to respond or hangs, Prometheus needs a timeout to avoid waiting indefinitely and blocking other scrapes. scrape_timeout defines this limit; if the target doesn't respond within this duration, the scrape fails, and the up metric becomes 0 for that target."
+  },
+  {
+    "id": "q0242",
+    "opts": [
+      "Traces do not support capturing latency information.",
+      "Generating and storing trace data for every request can be resource-intensive and costly.",
+      "Traces cannot be correlated with logs or metrics.",
+      "Trace data cannot be visualized effectively.",
+      "Only specific programming languages support trace instrumentation."
+    ]
+  },
+  {
+    "id": "q0247",
+    "expl": "Right-sizing involves analyzing actual resource consumption (using metrics from observability tools) and adjusting the resources.requests and resources.limits in Pod specs to align closely with actual needs, minimizing over-provisioning (waste) while ensuring sufficient resources for performance."
+  },
+  {
+    "id": "q0249",
+    "question": "Which of the following is a self-monitoring meta-metric that exporters commonly emit about their own scrape process, rather than a metric describing the system being observed?",
+    "opts": [
+      "scrape_duration_seconds, reporting how long the exporter took to gather and serve metrics for the current scrape.",
+      "node_memory_MemAvailable_bytes, reporting host memory availability.",
+      "kube_deployment_status_replicas, reporting Deployment replica counts.",
+      "container_cpu_usage_seconds_total, reporting per-container CPU consumption.",
+      "http_request_duration_seconds, reporting application request latencies."
+    ],
+    "correct": 0,
+    "expl": "Many exporters expose meta-metrics about their own operation - for example, scrape_duration_seconds (how long collection took) or scrape_errors_total (number of collection errors). These describe the exporter's behavior, not the underlying system. The other options are real metrics, but they describe the observed target (host, workload, container, application) rather than the exporter's own scrape process."
+  },
+  {
+    "id": "q0253",
+    "correct": 2,
+    "expl": "In GitOps, a Git repository holds the declarative desired state for both applications and infrastructure. A reconciliation agent (e.g., Argo CD, Flux) continuously compares the live cluster state against Git and converges them, providing auditability, easy rollback (via git revert), and a clear approval workflow through pull requests."
+  },
+  {
+    "id": "q0259",
+    "expl": "A container registry (e.g., Docker Hub, GCR, Harbor, ECR) stores the container images produced by CI and distributes them to downstream environments. Kubernetes nodes pull the exact image referenced in a Pod/Deployment manifest from the registry, making it the central artifact store that connects build pipelines to runtime clusters."
+  },
+  {
+    "id": "q0264",
+    "question": "What role does automated testing (unit, integration, end-to-end) play in achieving reliable Continuous Delivery/Deployment?"
+  }
+]

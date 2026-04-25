@@ -1,0 +1,309 @@
+[
+  {
+    "id": "q0034",
+    "domain": "orch",
+    "src": "curated",
+    "question": "containerd is:",
+    "options": [
+      "A container orchestrator competing with Kubernetes",
+      "An industry-standard container runtime",
+      "A CNI plugin",
+      "A CI/CD tool"
+    ],
+    "correct": 1,
+    "explanation": "containerd manages the container lifecycle on a host (image pull, execution, supervision). It is a CRI implementation for Kubernetes and is also what Docker uses under the hood.",
+    "auditIssue": "Sentence fragment: \"containerd is:\"",
+    "auditSuggestion": "Rephrase: \"What is containerd?\" or \"containerd is best described as:\""
+  },
+  {
+    "id": "q0050",
+    "domain": "arch",
+    "src": "curated",
+    "question": "Immutable infrastructure means:",
+    "options": [
+      "Infrastructure is patched in place",
+      "Components are replaced entirely rather than modified — typically via new images",
+      "Nothing ever changes",
+      "Managed only via cloud console"
+    ],
+    "correct": 1,
+    "explanation": "Immutable = replace, do not modify. Containers make this natural: deploy a new image, kill the old pod. Benefits: reproducibility, easier rollback, less config drift.",
+    "auditIssue": "Distractor D \"Managed only via cloud console\" is a throwaway",
+    "auditSuggestion": "Replace with plausible distractor like \"Infrastructure tied to specific physical hardware\""
+  },
+  {
+    "id": "q0411",
+    "domain": "arch",
+    "src": "form",
+    "question": "Select the characteristics of cloud native applications",
+    "options": [
+      "Self-healing",
+      "Easy to maintain",
+      "Decoupled services",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Cloud native applications are designed to be resilient (self-healing), operable/maintainable through automation, and loosely coupled (decoupled services) to scale and evolve independently.",
+    "auditIssue": "All of the above crutch — A/B/C all correct, tests nothing",
+    "auditSuggestion": "Rewrite as \"Which is NOT a characteristic of cloud native apps?\" with 4 distractors"
+  },
+  {
+    "id": "q0221",
+    "domain": "obs",
+    "src": "prep",
+    "question": "Why is tagging or labeling resources (e.g., Pods, Nodes, cloud resources) crucial for effective cost management in a shared cloudnative environment?",
+    "options": [
+      "It improves the performance of the Kubernetes scheduler.",
+      "It allows cost allocation and analysis based on specific teams, projects, or environments.",
+      "It automatically encrypts data associated with the tagged resources.",
+      "It enables the use of Vertical Pod Autoscaler (VPA).",
+      "It increases the fault tolerance of the control plane."
+    ],
+    "correct": 1,
+    "explanation": "In shared environments, costs are aggregated. Consistent tagging/labeling allows organizations to filter cost and usage data (often provided by cloud providers or third-party tools) to understand how much each project, team, environment, or application is contributing to the overall cloud spend.",
+    "auditIssue": "Typo \"cloudnative\" + 3 throwaway distractors (encryption, VPA, fault tolerance)",
+    "auditSuggestion": "Fix typo; replace 3 distractors with plausible alternatives like \"preventing tag-based drift\""
+  },
+  {
+    "id": "q0058",
+    "domain": "del",
+    "src": "curated",
+    "question": "A canary deployment:",
+    "options": [
+      "Replaces all instances at once",
+      "Routes a small share of traffic to the new version, increasing if healthy",
+      "Keeps old and new running forever in parallel",
+      "Skips testing entirely"
+    ],
+    "correct": 1,
+    "explanation": "Canary = gradual rollout with observation. If error rates or latency spike on the canary, you roll back before users at large are affected. Contrast with blue/green (full environment swap) and rolling update (instance-by-instance replacement).",
+    "auditIssue": "Distractor D \"Skips testing entirely\" is a throwaway",
+    "auditSuggestion": "Replace with \"Maintains two full environments and switches traffic at cutover\" (blue/green)"
+  },
+  {
+    "id": "q0271",
+    "domain": "del",
+    "src": "prep",
+    "question": "What is a key benefit of automating application delivery pipelines?",
+    "options": [
+      "It increases the need for manual intervention and approvals at each stage.",
+      "It introduces more opportunities for human error during deployment.",
+      "It leads to faster, more reliable, and consistent deployments, enabling quicker feedback loops.",
+      "It makes the deployment process less transparent and harder to audit.",
+      "It primarily benefits only very small development teams."
+    ],
+    "correct": 2,
+    "explanation": "Automation removes manual steps, reducing the chance of human error and speeding up the entire process from code commit to deployment. This consistency and speed enable teams to release value more frequently and get feedback faster.",
+    "auditIssue": "All 3 distractors are negations of correct answer",
+    "auditSuggestion": "Replace with plausible competing benefits (e.g., \"enables self-service for developers\", \"aligns with compliance requirements\")"
+  },
+  {
+    "id": "q0009",
+    "domain": "k8s",
+    "src": "curated",
+    "question": "What is the defining purpose of a StatefulSet vs a Deployment?",
+    "options": [
+      "StatefulSet is faster",
+      "It provides stable network identities (predictable pod names) and stable persistent storage per replica",
+      "It only works on one node",
+      "It automatically provisions PVs"
+    ],
+    "correct": 1,
+    "explanation": "StatefulSets give pods ordinal, predictable names (web-0, web-1) and bind each to its own PVC. Essential for databases, brokers, and anything needing identity across restarts.",
+    "auditIssue": "Distractors A ('StatefulSet is faster') and C ('It only works on one node') are throwaway/nonsense options that are obviously wrong. Only D ('automatically provisions PVs') is a plausible distractor.",
+    "auditSuggestion": "Replace A with 'It enables horizontal scaling without replica limits' and C with 'It performs rolling updates faster than Deployments' to force the learner to distinguish stable identity/storage from other plausible differentiators."
+  },
+  {
+    "id": "q0017",
+    "domain": "k8s",
+    "src": "curated",
+    "question": "Taints and tolerations are used to:",
+    "options": [
+      "Encrypt traffic",
+      "Repel pods from nodes unless the pod explicitly tolerates the taint",
+      "Limit CPU and memory",
+      "Monitor pod health"
+    ],
+    "correct": 1,
+    "explanation": "A taint on a node says \"keep pods away unless they tolerate me.\" Use cases: dedicated GPU nodes, reserved control plane nodes, nodes under maintenance. The inverse of node affinity (which attracts pods).",
+    "auditIssue": "Distractors A ('Encrypt traffic') and D ('Monitor pod health') are throwaway — nothing about taints/tolerations suggests encryption or monitoring. Only C (resource limits) is a vaguely plausible distractor.",
+    "auditSuggestion": "Replace A with 'Attract pods to specific nodes based on labels' (confuses with node affinity) and D with 'Automatically drain nodes during upgrades' to make the distinction between repelling vs attracting more testable."
+  },
+  {
+    "id": "q0026",
+    "domain": "k8s",
+    "src": "curated",
+    "question": "A container image tag `latest`:",
+    "options": [
+      "Guarantees the newest secure version",
+      "Is a mutable pointer that can change, making deployments non-reproducible",
+      "Is immutable and version-pinned",
+      "Cannot be used in production"
+    ],
+    "correct": 1,
+    "explanation": "`latest` is just a default tag — publishers may or may not update it. Production should pin to specific tags or, better, image digests (sha256:...) for true immutability.",
+    "auditIssue": "Question stem is a sentence fragment ('A container image tag `latest`:'). Also tagged 'k8s' but image tag semantics are really a container/OCI concept, better fits 'orch'.",
+    "auditSuggestion": "Rephrase as 'What is true about the container image tag `latest`?' and consider retagging to 'orch'."
+  },
+  {
+    "id": "q0041",
+    "domain": "arch",
+    "src": "curated",
+    "question": "Core principles of the Twelve-Factor App include:",
+    "options": [
+      "A shared database across all services",
+      "Config in env variables, backing services as attached resources, stateless processes",
+      "Deploying on a single server",
+      "Logs written to local files"
+    ],
+    "correct": 1,
+    "explanation": "Twelve-Factor is a SaaS methodology. Key factors for cloud native: III. Config in env, IV. Backing services as resources, VI. Stateless processes, XI. Logs as event streams. It is why containers fit so well.",
+    "auditIssue": "Distractors A, C, D are all obvious anti-patterns (shared DB, single server, local file logs) — any test-taker can eliminate them without knowing Twelve-Factor. Correct answer B is the only one that sounds like best practice, so it's guessable via meta-reasoning.",
+    "auditSuggestion": "Replace at least one distractor with a plausible-sounding but non-Twelve-Factor principle, e.g., 'Tight coupling of build and run stages for consistency' or 'Storing session state in memory for performance'."
+  },
+  {
+    "id": "q0042",
+    "domain": "arch",
+    "src": "curated",
+    "question": "Serverless (FaaS) means:",
+    "options": [
+      "Literally no servers",
+      "Developers don't manage infra; the platform provisions compute on demand and can scale to zero",
+      "Containers are eliminated",
+      "Code runs only on edge devices"
+    ],
+    "correct": 1,
+    "explanation": "Servers still exist — they are just the provider's problem. Pay for execution, not idle capacity. Scale-to-zero is a defining property. Examples: AWS Lambda, Knative, OpenFaaS.",
+    "auditIssue": "Distractor A ('Literally no servers') is a throwaway joke option and C ('Containers are eliminated') is obviously wrong. D is the only plausible distractor. Reduces effective choices to 2.",
+    "auditSuggestion": "Replace A with 'A deployment model where apps run only in containers managed by the developer' and C with 'An architecture where each function runs in its own VM permanently' to test real understanding."
+  },
+  {
+    "id": "q0045",
+    "domain": "arch",
+    "src": "curated",
+    "question": "Site Reliability Engineering (SRE) treats operations as:",
+    "options": [
+      "Eliminating all outages",
+      "A software engineering problem, using error budgets and SLOs to balance reliability and feature velocity",
+      "Manual server management",
+      "Avoiding automation"
+    ],
+    "correct": 1,
+    "explanation": "SRE was born at Google. Key idea: error budget = 100% − SLO. When you burn your budget, you slow feature work until reliability recovers. Treats ops problems with software solutions.",
+    "auditIssue": "Distractors A ('Eliminating all outages'), C ('Manual server management'), and D ('Avoiding automation') are all obviously wrong stereotypes. Only B sounds remotely professional, so the answer is guessable without SRE knowledge.",
+    "auditSuggestion": "Replace with plausible alternatives like 'A role focused exclusively on incident response' and 'A DevOps methodology that merges developer and ops teams into one' to actually test understanding of SRE's distinguishing features (error budgets, SLOs)."
+  },
+  {
+    "id": "q0047",
+    "domain": "arch",
+    "src": "curated",
+    "question": "FinOps in a cloud native context refers to:",
+    "options": [
+      "Financial fraud detection",
+      "A practice for managing and attributing cloud spend",
+      "A certified accounting tool",
+      "Forex handling for multi-region deployments"
+    ],
+    "correct": 1,
+    "explanation": "FinOps brings financial accountability to the variable cost model of cloud. In K8s, tools like OpenCost (CNCF) and Kubecost allocate spend back to namespaces, teams, or workloads.",
+    "auditIssue": "Distractors A ('Financial fraud detection'), C ('certified accounting tool'), and D ('Forex handling') are all throwaway — none are plausibly associated with cloud native practices. Makes this a trivial vocabulary question.",
+    "auditSuggestion": "Replace distractors with plausible alternatives like 'A CNCF-hosted cost-optimization runtime that auto-scales pods based on price' or 'A policy engine for enforcing budget limits on namespaces at admission time' to test deeper understanding vs. just 'FinOps = finance-ish'."
+  },
+  {
+    "id": "q0048",
+    "domain": "arch",
+    "src": "curated",
+    "question": "Which are Open Standards for cloud native?",
+    "options": [
+      "OCI (images/runtime)",
+      "CNI (networking) and CSI (storage)",
+      "CRI (runtime interface)",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "All four are foundational. Add SPIFFE/SPIRE (workload identity) to the list. These standards are why the ecosystem is not locked to one vendor.",
+    "auditIssue": "Classic 'All of the above' crutch: A, B, C are all correct so D is obvious. Explanation also says 'All four are foundational' but there are only three listed items.",
+    "auditSuggestion": "Rewrite to ask 'Which is NOT an open standard?' with one bogus option, or ask which specific standard covers a specific domain (e.g., 'Which standard defines the container image format?' with OCI/CNI/CSI/CRI as options)."
+  },
+  {
+    "id": "q0049",
+    "domain": "arch",
+    "src": "curated",
+    "question": "Resilience patterns for distributed systems include:",
+    "options": [
+      "Ignoring transient errors",
+      "Circuit breakers, exponential backoff retries, graceful degradation",
+      "Bringing everything down on any error",
+      "Retrying indefinitely"
+    ],
+    "correct": 1,
+    "explanation": "Circuit breakers prevent cascading failures; exponential backoff with jitter prevents thundering herds; graceful degradation keeps core functions alive when dependencies fail. Indefinite retries make outages worse.",
+    "auditIssue": "Throwaway distractors: options A, C, and D are obviously absurd ('Ignoring errors', 'Bringing everything down', 'Retrying indefinitely'). A test-taker rules out 3 options without knowing the domain.",
+    "auditSuggestion": "Replace distractors with plausible but wrong patterns, e.g., 'Synchronous retries without backoff', 'Tight coupling with fail-fast dependencies', 'Global locks on shared state'."
+  },
+  {
+    "id": "q0053",
+    "domain": "obs",
+    "src": "curated",
+    "question": "OpenTelemetry is:",
+    "options": [
+      "A Kubernetes distribution",
+      "A vendor-neutral observability framework (APIs, SDKs, collectors) for metrics, logs, and traces",
+      "A replacement for Prometheus",
+      "A CI/CD tool"
+    ],
+    "correct": 1,
+    "explanation": "OTel decouples instrumentation from backends. Instrument once; send data to Jaeger, Prometheus, Tempo, or any commercial vendor. It is rapidly becoming the default instrumentation standard.",
+    "auditIssue": "Sentence-fragment question ('OpenTelemetry is:'). Also distractors A ('Kubernetes distribution') and D ('CI/CD tool') are throwaways.",
+    "auditSuggestion": "Rephrase as 'What is OpenTelemetry?' and replace weak distractors with 'A metrics backend / TSDB', 'A log aggregation agent' to make it harder."
+  },
+  {
+    "id": "q0059",
+    "domain": "del",
+    "src": "curated",
+    "question": "Helm is:",
+    "options": [
+      "A Kubernetes distribution",
+      "A package manager for Kubernetes using charts",
+      "A monitoring tool",
+      "A container runtime"
+    ],
+    "correct": 1,
+    "explanation": "Helm (CNCF graduated) packages K8s manifests into parameterized charts. Think apt/brew for Kubernetes. It uses Go templates. Alternative: Kustomize (no templates; overlays on base YAML, built into kubectl -k).",
+    "auditIssue": "Sentence-fragment question ('Helm is:'). Distractors 'monitoring tool' and 'container runtime' are throwaways.",
+    "auditSuggestion": "Rephrase as 'What is Helm?' and use stronger distractors like 'A GitOps continuous delivery operator', 'A Kubernetes templating engine built into kubectl' (Kustomize)."
+  },
+  {
+    "id": "q0060",
+    "domain": "del",
+    "src": "curated",
+    "question": "Tekton is:",
+    "options": [
+      "A service mesh",
+      "A Kubernetes-native CI/CD framework with pipelines as K8s resources",
+      "A monitoring tool",
+      "A log aggregator"
+    ],
+    "correct": 1,
+    "explanation": "Tekton (CNCF) defines Tasks, Pipelines, and PipelineRuns as CRDs. Pipeline steps run as pods. Jenkins X is built on Tekton. Contrast with classic Jenkins, which runs outside Kubernetes.",
+    "auditIssue": "Sentence-fragment question ('Tekton is:'). Three of the four distractors are throwaways unrelated to CI/CD.",
+    "auditSuggestion": "Rephrase as 'What is Tekton?' and use more plausible distractors such as 'A GitOps reconciliation controller' or 'A workflow engine for data pipelines (Argo Workflows)'."
+  },
+  {
+    "id": "q0062",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "A Pod specification includes two containers: one web server and one log shipper. How do these containers communicate efficiently over the network within the Pod?",
+    "options": [
+      "Via a Kubernetes Service",
+      "Via the node's primary IP address",
+      "Via localhost and shared network namespace",
+      "Via an automatically created NetworkPolicy",
+      "Via distinct Pod IP addresses assigned to each container"
+    ],
+    "correct": 2,
+    "explanation": "Containers within the same Pod share the same network namespace, meaning they can communicate using localhost and standard 143 inter-process communication mechanisms as if they were on the same machine.",
+    "auditIssue": "Typo/artifact in explanation: 'standard 143 inter-process communication mechanisms' — '143' is a stray number likely from OCR.",
+    "auditSuggestion": "Remove the stray '143'; replace with 'standard inter-process communication mechanisms'."
+  }
+]

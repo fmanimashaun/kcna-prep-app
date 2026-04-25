@@ -1,0 +1,2221 @@
+[
+  {
+    "id": "q0001",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0420",
+    "verdict": "retag",
+    "newDomain": "arch",
+    "issue": "Containers vs VMs is a cloud-native concept, not K8s-specific"
+  },
+  {
+    "id": "q0063",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0065",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0403",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0034",
+    "verdict": "fix",
+    "issue": "Sentence fragment: \"containerd is:\"",
+    "suggestion": "Rephrase: \"What is containerd?\" or \"containerd is best described as:\""
+  },
+  {
+    "id": "q0439",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0115",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0401",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0050",
+    "verdict": "fix",
+    "issue": "Distractor D \"Managed only via cloud console\" is a throwaway",
+    "suggestion": "Replace with plausible distractor like \"Infrastructure tied to specific physical hardware\""
+  },
+  {
+    "id": "q0411",
+    "verdict": "fix",
+    "issue": "All of the above crutch — A/B/C all correct, tests nothing",
+    "suggestion": "Rewrite as \"Which is NOT a characteristic of cloud native apps?\" with 4 distractors"
+  },
+  {
+    "id": "q0167",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0398",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0054",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0453",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0219",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0221",
+    "verdict": "fix",
+    "issue": "Typo \"cloudnative\" + 3 throwaway distractors (encryption, VPA, fault tolerance)",
+    "suggestion": "Fix typo; replace 3 distractors with plausible alternatives like \"preventing tag-based drift\""
+  },
+  {
+    "id": "q0058",
+    "verdict": "fix",
+    "issue": "Distractor D \"Skips testing entirely\" is a throwaway",
+    "suggestion": "Replace with \"Maintains two full environments and switches traffic at cutover\" (blue/green)"
+  },
+  {
+    "id": "q0446",
+    "verdict": "remove",
+    "issue": "Vendor-internals trivia — KCNA does not test \"GitOps Toolkit\" naming"
+  },
+  {
+    "id": "q0271",
+    "verdict": "fix",
+    "issue": "All 3 distractors are negations of correct answer",
+    "suggestion": "Replace with plausible competing benefits (e.g., \"enables self-service for developers\", \"aligns with compliance requirements\")"
+  },
+  {
+    "id": "q0002",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0003",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0004",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0005",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0006",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0007",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0008",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0009",
+    "verdict": "fix",
+    "issue": "Distractors A ('StatefulSet is faster') and C ('It only works on one node') are throwaway/nonsense options that are obviously wrong. Only D ('automatically provisions PVs') is a plausible distractor.",
+    "suggestion": "Replace A with 'It enables horizontal scaling without replica limits' and C with 'It performs rolling updates faster than Deployments' to force the learner to distinguish stable identity/storage from other plausible differentiators."
+  },
+  {
+    "id": "q0010",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0011",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0012",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0013",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0014",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0015",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0016",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0017",
+    "verdict": "fix",
+    "issue": "Distractors A ('Encrypt traffic') and D ('Monitor pod health') are throwaway — nothing about taints/tolerations suggests encryption or monitoring. Only C (resource limits) is a vaguely plausible distractor.",
+    "suggestion": "Replace A with 'Attract pods to specific nodes based on labels' (confuses with node affinity) and D with 'Automatically drain nodes during upgrades' to make the distinction between repelling vs attracting more testable."
+  },
+  {
+    "id": "q0018",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0019",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0020",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0021",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0022",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0023",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0024",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0025",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0026",
+    "verdict": "fix",
+    "issue": "Question stem is a sentence fragment ('A container image tag `latest`:'). Also tagged 'k8s' but image tag semantics are really a container/OCI concept, better fits 'orch'.",
+    "suggestion": "Rephrase as 'What is true about the container image tag `latest`?' and consider retagging to 'orch'."
+  },
+  {
+    "id": "q0027",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0028",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0029",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0030",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0031",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0032",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0033",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0035",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0036",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0037",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0038",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0039",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0040",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0041",
+    "verdict": "fix",
+    "issue": "Distractors A, C, D are all obvious anti-patterns (shared DB, single server, local file logs) — any test-taker can eliminate them without knowing Twelve-Factor. Correct answer B is the only one that sounds like best practice, so it's guessable via meta-reasoning.",
+    "suggestion": "Replace at least one distractor with a plausible-sounding but non-Twelve-Factor principle, e.g., 'Tight coupling of build and run stages for consistency' or 'Storing session state in memory for performance'."
+  },
+  {
+    "id": "q0042",
+    "verdict": "fix",
+    "issue": "Distractor A ('Literally no servers') is a throwaway joke option and C ('Containers are eliminated') is obviously wrong. D is the only plausible distractor. Reduces effective choices to 2.",
+    "suggestion": "Replace A with 'A deployment model where apps run only in containers managed by the developer' and C with 'An architecture where each function runs in its own VM permanently' to test real understanding."
+  },
+  {
+    "id": "q0043",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0044",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0045",
+    "verdict": "fix",
+    "issue": "Distractors A ('Eliminating all outages'), C ('Manual server management'), and D ('Avoiding automation') are all obviously wrong stereotypes. Only B sounds remotely professional, so the answer is guessable without SRE knowledge.",
+    "suggestion": "Replace with plausible alternatives like 'A role focused exclusively on incident response' and 'A DevOps methodology that merges developer and ops teams into one' to actually test understanding of SRE's distinguishing features (error budgets, SLOs)."
+  },
+  {
+    "id": "q0046",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0047",
+    "verdict": "fix",
+    "issue": "Distractors A ('Financial fraud detection'), C ('certified accounting tool'), and D ('Forex handling') are all throwaway — none are plausibly associated with cloud native practices. Makes this a trivial vocabulary question.",
+    "suggestion": "Replace distractors with plausible alternatives like 'A CNCF-hosted cost-optimization runtime that auto-scales pods based on price' or 'A policy engine for enforcing budget limits on namespaces at admission time' to test deeper understanding vs. just 'FinOps = finance-ish'."
+  },
+  {
+    "id": "q0048",
+    "verdict": "fix",
+    "issue": "Classic 'All of the above' crutch: A, B, C are all correct so D is obvious. Explanation also says 'All four are foundational' but there are only three listed items.",
+    "suggestion": "Rewrite to ask 'Which is NOT an open standard?' with one bogus option, or ask which specific standard covers a specific domain (e.g., 'Which standard defines the container image format?' with OCI/CNI/CSI/CRI as options)."
+  },
+  {
+    "id": "q0049",
+    "verdict": "fix",
+    "issue": "Throwaway distractors: options A, C, and D are obviously absurd ('Ignoring errors', 'Bringing everything down', 'Retrying indefinitely'). A test-taker rules out 3 options without knowing the domain.",
+    "suggestion": "Replace distractors with plausible but wrong patterns, e.g., 'Synchronous retries without backoff', 'Tight coupling with fail-fast dependencies', 'Global locks on shared state'."
+  },
+  {
+    "id": "q0051",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0052",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0053",
+    "verdict": "fix",
+    "issue": "Sentence-fragment question ('OpenTelemetry is:'). Also distractors A ('Kubernetes distribution') and D ('CI/CD tool') are throwaways.",
+    "suggestion": "Rephrase as 'What is OpenTelemetry?' and replace weak distractors with 'A metrics backend / TSDB', 'A log aggregation agent' to make it harder."
+  },
+  {
+    "id": "q0055",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0056",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0057",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0059",
+    "verdict": "fix",
+    "issue": "Sentence-fragment question ('Helm is:'). Distractors 'monitoring tool' and 'container runtime' are throwaways.",
+    "suggestion": "Rephrase as 'What is Helm?' and use stronger distractors like 'A GitOps continuous delivery operator', 'A Kubernetes templating engine built into kubectl' (Kustomize)."
+  },
+  {
+    "id": "q0060",
+    "verdict": "fix",
+    "issue": "Sentence-fragment question ('Tekton is:'). Three of the four distractors are throwaways unrelated to CI/CD.",
+    "suggestion": "Rephrase as 'What is Tekton?' and use more plausible distractors such as 'A GitOps reconciliation controller' or 'A workflow engine for data pipelines (Argo Workflows)'."
+  },
+  {
+    "id": "q0061",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0062",
+    "verdict": "fix",
+    "issue": "Typo/artifact in explanation: 'standard 143 inter-process communication mechanisms' — '143' is a stray number likely from OCR.",
+    "suggestion": "Remove the stray '143'; replace with 'standard inter-process communication mechanisms'."
+  },
+  {
+    "id": "q0064",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0066",
+    "verdict": "fix",
+    "issue": "Explanation mismatch: the question is about rolling updates, but the explanation describes kube-scheduler node selection (filter/score). The correct answer text is right, but the explanation is wrong.",
+    "suggestion": "Rewrite explanation: 'A Deployment creates a new ReplicaSet and gradually scales it up while scaling the old one down, replacing Pods incrementally to maintain availability during updates.'"
+  },
+  {
+    "id": "q0067",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0068",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0069",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0070",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0071",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0072",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0073",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0074",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0075",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0076",
+    "verdict": "fix",
+    "issue": "Trailing stray '147' (OCR artifact) at the end of the explanation.",
+    "suggestion": "Remove the trailing '147' from the explanation text."
+  },
+  {
+    "id": "q0077",
+    "verdict": "fix",
+    "issue": "Typo in question: 'kubescheduler' should be 'kube-scheduler' (missing hyphen).",
+    "suggestion": "Fix typo: 'kube-scheduler'."
+  },
+  {
+    "id": "q0078",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0079",
+    "verdict": "fix",
+    "issue": "Option C leaks the answer with parenthetical hint '(CRI is Kubernetes' interface to this)', and option D similarly hints at CNI. These parentheticals telegraph which option is under discussion and make the question too easy.",
+    "suggestion": "Remove parenthetical hints from options. Use plain 'Runtime Specification', 'Network Specification', etc."
+  },
+  {
+    "id": "q0080",
+    "verdict": "fix",
+    "issue": "Explanation is completely wrong — it describes DaemonSet instead of ConfigMap (the correct answer). Copy-paste error.",
+    "suggestion": "Rewrite explanation: 'A ConfigMap stores non-sensitive configuration data as key/value pairs. It can be mounted as files in a volume or exposed as environment variables to containers.'"
+  },
+  {
+    "id": "q0081",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0082",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0083",
+    "verdict": "remove",
+    "issue": "Below KCNA level — asks about the specific internal endpointslice-controller within kube-controller-manager. KCNA exam does not require knowledge of individual sub-controller names within kube-controller-manager. This is vendor/implementation trivia."
+  },
+  {
+    "id": "q0084",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0085",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0086",
+    "verdict": "retag",
+    "newDomain": "arch",
+    "issue": "OCI open standards and its goals map to 'Open Standards' under Cloud Native Architecture domain, not Kubernetes Fundamentals."
+  },
+  {
+    "id": "q0087",
+    "verdict": "fix",
+    "issue": "Option A uses '-logs' (single dash) which is not a real flag and option E has 'kubectl exec <pod-name> - tail' with a stray space/dash. These are formatting issues that may confuse readers. Also the question is somewhat trivial kubectl trivia.",
+    "suggestion": "Clean up option formatting: use 'kubectl get pod <pod-name> --logs' or remove ambiguous dashes. Option E should be 'kubectl exec <pod-name> -- tail /var/log/messages'."
+  },
+  {
+    "id": "q0088",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0089",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0090",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0091",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0092",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0093",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0094",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0095",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0096",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0097",
+    "verdict": "fix",
+    "issue": "Trailing stray '153' (OCR artifact) at the end of the explanation.",
+    "suggestion": "Remove the trailing '153' from the explanation text."
+  },
+  {
+    "id": "q0098",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0099",
+    "verdict": "fix",
+    "issue": "Option C gives away the answer by including the parenthetical 'matched by the Service's selector'; other options are throwaway distractors (nodeName, podIP are obviously not used for selection).",
+    "suggestion": "Change option C to simply 'metadata.labels' and make other distractors more plausible (e.g., 'spec.containers.image', 'spec.serviceAccountName')."
+  },
+  {
+    "id": "q0100",
+    "verdict": "fix",
+    "issue": "Explanation contains a stray '1' ('Its 1 contents are lost') which appears to be a footnote artifact/typo.",
+    "suggestion": "Remove the stray '1' from the explanation: 'Its contents are lost when the Pod is deleted.'"
+  },
+  {
+    "id": "q0101",
+    "verdict": "fix",
+    "issue": "The marked correct answer is index 2 ('/apis/apps/v1/deployments'), which is wrong — 'kubectl get pods' queries the pods endpoint (index 1). Also, option 1 has a formatting issue ('namespaces/namespace/pods' should be '{namespace}'). Explanation is mismatched entirely — it describes requests vs. limits rather than API endpoints.",
+    "suggestion": "Set correct index to 1, fix option to '/api/v1/namespaces/{namespace}/pods', and rewrite explanation to describe how kubectl maps resource types to API paths (core pods live under /api/v1, namespaced)."
+  },
+  {
+    "id": "q0102",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0103",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0104",
+    "verdict": "fix",
+    "issue": "Typo in explanation: 'kube-controllermanager' should be 'kube-controller-manager'.",
+    "suggestion": "Fix the hyphenation."
+  },
+  {
+    "id": "q0105",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0106",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0107",
+    "verdict": "fix",
+    "issue": "Question title uses 'kubescheduler' (missing hyphen) — should be 'kube-scheduler' for consistency with official naming.",
+    "suggestion": "Rename to 'kube-scheduler' in the question stem."
+  },
+  {
+    "id": "q0108",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0109",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0110",
+    "verdict": "retag",
+    "newDomain": "k8s",
+    "issue": "RBAC Role vs ClusterRole is core K8s API/resource knowledge, fits K8s Fundamentals rather than Orchestration/security."
+  },
+  {
+    "id": "q0111",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0112",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0113",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0114",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0116",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0117",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0118",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0119",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0120",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0121",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0122",
+    "verdict": "fix",
+    "issue": "Explanation is completely mismatched — it describes CoreDNS/service discovery instead of what NetworkPolicy controls. The correct answer (index 2, ingress/egress L3/L4) is right, but the explanation is about a different topic.",
+    "suggestion": "Rewrite explanation to describe that NetworkPolicy controls L3/L4 ingress and egress traffic for selected Pods, implemented by the CNI plugin."
+  },
+  {
+    "id": "q0123",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0124",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0125",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0126",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0127",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0128",
+    "verdict": "fix",
+    "issue": "Explanation contains stray '162' ('host-based routing 162') — footnote/formatting artifact.",
+    "suggestion": "Remove the stray '162' from the explanation."
+  },
+  {
+    "id": "q0129",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0130",
+    "verdict": "retag",
+    "newDomain": "k8s",
+    "issue": "Volume types (emptyDir) are core K8s fundamentals, not orchestration-layer topics. Also near-duplicate of q0100 which is tagged k8s."
+  },
+  {
+    "id": "q0131",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0132",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0133",
+    "verdict": "retag",
+    "newDomain": "k8s",
+    "issue": "EndpointSlice is a core K8s API resource, not orchestration-specific; belongs under K8s Fundamentals."
+  },
+  {
+    "id": "q0134",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0135",
+    "verdict": "retag",
+    "newDomain": "k8s",
+    "issue": "StatefulSet headless Service behavior is core K8s workload resource knowledge, fits k8s domain better than orch."
+  },
+  {
+    "id": "q0136",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0137",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0138",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0139",
+    "verdict": "fix",
+    "issue": "Explanation is completely mismatched — it describes LoadBalancer Services instead of RBAC/least privilege. The correct answer (index 2) is right, but the explanation discusses the wrong topic.",
+    "suggestion": "Rewrite explanation to explain that RBAC lets admins grant fine-grained permissions to specific users/ServiceAccounts, supporting least privilege by limiting subjects to only the verbs/resources they need."
+  },
+  {
+    "id": "q0140",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0141",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0142",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0143",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0144",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0145",
+    "verdict": "fix",
+    "issue": "Explanation contains a stray '167' (likely a page number artifact) after 'mTLS for'.",
+    "suggestion": "Remove the stray '167' so the sentence reads 'automatic mTLS for strong identity and encryption'."
+  },
+  {
+    "id": "q0146",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0147",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0148",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0149",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0150",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0151",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0152",
+    "verdict": "fix",
+    "issue": "Explanation has a trailing stray '169' (page-number artifact).",
+    "suggestion": "Remove the trailing '169' so the explanation ends cleanly after the FQDN example."
+  },
+  {
+    "id": "q0153",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0154",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0155",
+    "verdict": "retag",
+    "newDomain": "arch",
+    "issue": "Question is about the value proposition/principles of orchestration (why orchestrators exist), which is an Architecture topic, not a hands-on Orchestration/runtime/storage/networking topic."
+  },
+  {
+    "id": "q0156",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0157",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0158",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0159",
+    "verdict": "fix",
+    "issue": "Explanation is mismatched: it talks about open standards/vendor lock-in rather than explaining why the Platform Engineer/Operator/SRE persona is the correct answer.",
+    "suggestion": "Replace the explanation with one that describes how Platform Engineers/Operators/SREs are responsible for building, operating, and maintaining the Kubernetes platform itself (cluster lifecycle, upgrades, reliability) so application developers can consume it."
+  },
+  {
+    "id": "q0160",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0161",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0162",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0163",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0164",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0165",
+    "verdict": "fix",
+    "issue": "Explanation has a trailing stray '173' (page-number artifact).",
+    "suggestion": "Remove the trailing '173' at the end of the explanation."
+  },
+  {
+    "id": "q0166",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0168",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0169",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0170",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0171",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0172",
+    "verdict": "fix",
+    "issue": "Explanation has a trailing stray '175' (page-number artifact).",
+    "suggestion": "Remove the trailing '175' at the end of the explanation."
+  },
+  {
+    "id": "q0173",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0174",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0175",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0176",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0177",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0178",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0179",
+    "verdict": "fix",
+    "issue": "Explanation has a trailing stray '177' (page-number artifact).",
+    "suggestion": "Remove the trailing '177' at the end of the explanation."
+  },
+  {
+    "id": "q0180",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0181",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0182",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0183",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0184",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0185",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0186",
+    "verdict": "fix",
+    "issue": "Explanation is completely mismatched: it discusses DevOps culture instead of explaining why 'cold starts' is a drawback of FaaS.",
+    "suggestion": "Replace the explanation with one describing cold starts: when a function has been idle, the platform must provision/initialize a new instance (container, runtime, code load) before executing, adding latency to the first invocation."
+  },
+  {
+    "id": "q0187",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0188",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0189",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0190",
+    "verdict": "fix",
+    "issue": "Distractor 'Desktop applications deployed via MSI installers' is a throwaway/nonsense option irrelevant to cloud native serverless.",
+    "suggestion": "Replace with a more plausible distractor such as 'Dedicated hosts with pre-allocated capacity reserved per tenant.'"
+  },
+  {
+    "id": "q0191",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0192",
+    "verdict": "fix",
+    "issue": "Explanation has a stray trailing page-number artifact (' 181') left over from a source document.",
+    "suggestion": "Remove the stray '181' at the end of the explanation."
+  },
+  {
+    "id": "q0193",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0194",
+    "verdict": "retag",
+    "newDomain": "orch",
+    "issue": "Question is about probe configuration and HPA interaction, more a Kubernetes orchestration/scheduling topic than an architectural concept.",
+    "suggestion": "Retag to k8s or orch; 'arch' is a poor fit."
+  },
+  {
+    "id": "q0195",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0196",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0197",
+    "verdict": "retag",
+    "newDomain": "obs",
+    "issue": "Question is explicitly about observability (logging formats and Prometheus metrics), not general architecture.",
+    "suggestion": "Retag to obs."
+  },
+  {
+    "id": "q0198",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0199",
+    "verdict": "fix",
+    "issue": "Explanation has a stray trailing page-number artifact (' 183').",
+    "suggestion": "Remove the trailing '183' from the explanation."
+  },
+  {
+    "id": "q0200",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0201",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0202",
+    "verdict": "fix",
+    "issue": "Question is trivially easy; the correct option is obvious ('uses the application's interface') while other options are throwaways clearly belonging to other personas.",
+    "suggestion": "Raise difficulty by asking about differentiating concerns across personas (e.g., which persona cares most about SLOs vs. feature velocity) rather than the obvious end-user interaction."
+  },
+  {
+    "id": "q0203",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0204",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0205",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0206",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0207",
+    "verdict": "fix",
+    "issue": "Explanation is truncated mid-sentence ('did CPU usage cross 80') — the percent sign and rest of the explanation are missing.",
+    "suggestion": "Complete the explanation, e.g., 'Traditional monitoring tracks predefined metrics against thresholds (e.g., did CPU exceed 80%?), while observability aims to answer arbitrary questions about system state from rich telemetry (logs, metrics, traces) without knowing failure modes in advance.'"
+  },
+  {
+    "id": "q0208",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0209",
+    "verdict": "retag",
+    "newDomain": "orch",
+    "issue": "ResourceQuota is a core Kubernetes resource-management feature; cost-control framing is thin. Better aligned with orchestration/k8s than obs.",
+    "suggestion": "Retag to k8s or orch."
+  },
+  {
+    "id": "q0210",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0211",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0212",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0213",
+    "verdict": "fix",
+    "issue": "Explanation has a stray trailing page-number artifact (' 187').",
+    "suggestion": "Remove the trailing '187'."
+  },
+  {
+    "id": "q0214",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0215",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0216",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0217",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0218",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0220",
+    "verdict": "fix",
+    "issue": "Explanation contains an embedded stray number ('current memory 189 usage') — page-number artifact breaking the sentence.",
+    "suggestion": "Remove the '189' artifact so the text reads 'current memory usage'."
+  },
+  {
+    "id": "q0222",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0223",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0224",
+    "verdict": "retag",
+    "newDomain": "orch",
+    "issue": "Primarily about PVC lifecycle/storage management; cost angle is secondary. Better fits orch (storage) than obs.",
+    "suggestion": "Retag to orch."
+  },
+  {
+    "id": "q0225",
+    "verdict": "fix",
+    "issue": "Correct option text is truncated mid-sentence ('99.9') — the percentage and rest of the target are missing, making the option grammatically broken.",
+    "suggestion": "Complete the option, e.g., 'A specific, measurable target for a service's reliability or performance (e.g., 99.9% of requests succeed over 30 days).'"
+  },
+  {
+    "id": "q0226",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0227",
+    "verdict": "fix",
+    "issue": "Explanation contains an embedded stray number ('Monitoring 191 egress traffic') — page-number artifact.",
+    "suggestion": "Remove '191' from within the explanation."
+  },
+  {
+    "id": "q0228",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0229",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0230",
+    "verdict": "retag",
+    "newDomain": "k8s",
+    "issue": "LimitRange is a core Kubernetes resource object; the cost-predictability framing is weak. Better tagged as k8s fundamentals.",
+    "suggestion": "Retag to k8s."
+  },
+  {
+    "id": "q0231",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0232",
+    "verdict": "fix",
+    "issue": "Explanation has formatting issue: 'upjob=\"...\", instance=\"...\"' is missing braces — should read 'up{job=\"...\", instance=\"...\"}'.",
+    "suggestion": "Fix to 'up{job=\"...\", instance=\"...\"}' to render the metric label syntax correctly."
+  },
+  {
+    "id": "q0233",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0234",
+    "verdict": "fix",
+    "issue": "Explanation does not match the question at all — it describes Prometheus remote_write for long-term storage, which has nothing to do with 'downsides of relying only on logs'.",
+    "suggestion": "Replace the explanation with one that addresses log-only observability limitations, e.g., 'Unstructured or high-volume logs are expensive to aggregate, index, and query for trends across many instances; metrics are far better for aggregate trends and traces for request flow.'"
+  },
+  {
+    "id": "q0235",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0236",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0237",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0238",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0239",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0240",
+    "verdict": "fix",
+    "issue": "Explanation contains spurious artifact 'scrape_timeout 195' - looks like a PDF page-number leak.",
+    "suggestion": "Remove the stray '195' from the explanation so it reads 'scrape_timeout defines this limit'."
+  },
+  {
+    "id": "q0241",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0242",
+    "verdict": "fix",
+    "issue": "Typo in option B: 'resourceintensive' should be 'resource-intensive'.",
+    "suggestion": "Fix hyphenation: 'Generating and storing trace data for every request can be resource-intensive and costly.'"
+  },
+  {
+    "id": "q0243",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0244",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0245",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0246",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0247",
+    "verdict": "fix",
+    "issue": "Explanation has spurious '197' artifact embedded in the text ('resources.requests 197 and resources.limits').",
+    "suggestion": "Remove the stray '197' from the explanation."
+  },
+  {
+    "id": "q0248",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0249",
+    "verdict": "fix",
+    "issue": "Distractors are plausible exporter metric names but the question wording ('another common metric ... to indicate their own health') makes option A the obvious right answer while other options are real metrics from other exporters; this borders on a give-away since only option A is meta/self-reported.",
+    "suggestion": "Tighten distractors to be other meta-metrics (e.g., a container_cpu metric, a generic target label) or reword the stem to specifically ask which of these is a self-monitoring metric emitted by exporters about the scrape process itself."
+  },
+  {
+    "id": "q0250",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0251",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0252",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0253",
+    "verdict": "fix",
+    "issue": "Explanation is wrong - it describes Continuous Integration instead of GitOps source of truth. Mismatch between question and explanation.",
+    "suggestion": "Replace explanation with something like: 'In GitOps the Git repository holds the declarative desired state for applications and infrastructure. The cluster is continuously reconciled against this source of truth, providing auditability and easy rollback.'"
+  },
+  {
+    "id": "q0254",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0255",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0256",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0257",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0258",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0259",
+    "verdict": "fix",
+    "issue": "Explanation is wrong - it describes a Canary Release instead of the purpose of a container registry. Mismatched explanation.",
+    "suggestion": "Replace explanation with: 'A container registry (Docker Hub, GCR, Harbor, ECR, etc.) stores the container images produced by CI and distributes them to downstream environments, letting Kubernetes pull the exact image referenced in a manifest.'"
+  },
+  {
+    "id": "q0260",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0261",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0262",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0263",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0264",
+    "verdict": "fix",
+    "issue": "Typo in stem: 'end-toend' missing hyphen.",
+    "suggestion": "Correct to 'end-to-end'."
+  },
+  {
+    "id": "q0265",
+    "verdict": "fix",
+    "issue": "Explanation is about secrets management in GitOps, but the question asks which practice aligns with declarative specifications. Explanation does not match question; the correct answer (YAML in Git) is not explained.",
+    "suggestion": "Replace explanation with: 'Declarative delivery means expressing desired state (what to run) rather than the steps to get there. Kubernetes manifests stored in Git capture that desired state and let controllers reconcile the cluster, unlike imperative scripts, UIs, or in-image config.'"
+  },
+  {
+    "id": "q0266",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0267",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0268",
+    "verdict": "fix",
+    "issue": "Minor typo: 'overlaybased' missing hyphen in explanation.",
+    "suggestion": "Fix to 'overlay-based customization'."
+  },
+  {
+    "id": "q0269",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0270",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0272",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0273",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0274",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0275",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0276",
+    "verdict": "fix",
+    "issue": "Option A is a nonsense/negation distractor ('moving security testing to the rightmost stage') that contradicts the term itself; remaining distractors are weak throwaways.",
+    "suggestion": "Strengthen distractors with genuine plausible confusions (e.g., 'focusing security exclusively on runtime admission control', 'adopting a zero-trust network model', 'shifting responsibility to the SRE on-call rotation') and drop the literal opposite."
+  },
+  {
+    "id": "q0277",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0278",
+    "verdict": "fix",
+    "issue": "Explanation has spurious '207' artifact at the end (PDF page-number leak).",
+    "suggestion": "Remove the trailing ' 207' from the explanation."
+  },
+  {
+    "id": "q0279",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0280",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0281",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0282",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0283",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0284",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0285",
+    "verdict": "fix",
+    "issue": "Stray '209' page-reference artifact at end of explanation.",
+    "suggestion": "Remove the trailing '209' from the explanation text."
+  },
+  {
+    "id": "q0286",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0287",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0288",
+    "verdict": "retag",
+    "newDomain": "k8s",
+    "issue": "Question is about Deployment rolling update mechanics, a core Kubernetes fundamental (workloads/scheduling), not CI/CD delivery pipelines.",
+    "suggestion": "Retag as k8s (workloads/update strategies). Also fix typo 'zerodowntime' -> 'zero-downtime' in explanation."
+  },
+  {
+    "id": "q0289",
+    "verdict": "fix",
+    "issue": "Explanation is mismatched: it discusses feature flags rather than GitOps 'Application Definition'. The correct option (index 2) is about declarative config in Git, but the explanation talks about decoupling deployment from release via feature flags.",
+    "suggestion": "Replace explanation with one describing that in GitOps the Application Definition is the declarative configuration (YAML/Helm/Kustomize) stored in Git that defines desired state of the deployment."
+  },
+  {
+    "id": "q0290",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0291",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0292",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0293",
+    "verdict": "fix",
+    "issue": "Negation-style 'LEAST relevant' question; while the correct answer is defensible, phrasing pushes test-taking-trick rather than conceptual understanding.",
+    "suggestion": "Reframe positively, e.g., 'Which of the following is a primary factor when choosing between pull-based and push-based GitOps?' with the programming language option as a distractor."
+  },
+  {
+    "id": "q0294",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0295",
+    "verdict": "fix",
+    "issue": "Stray '212' page-reference artifact embedded in the explanation sentence.",
+    "suggestion": "Remove the stray '212' from the explanation text."
+  },
+  {
+    "id": "q0296",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0297",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0298",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0299",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0300",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0301",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0302",
+    "verdict": "fix",
+    "issue": "Typo in question: 'kubescheduler' should be 'kube-scheduler'. Also, resource requests/limits are a scheduling input, but 'primary factor' is arguable — nodeSelector, taints/tolerations, and affinity are equally fundamental; wording could mislead.",
+    "suggestion": "Fix typo and tighten question, e.g., 'Which factor from a Pod spec does the kube-scheduler use to filter eligible nodes during scheduling?'"
+  },
+  {
+    "id": "q0303",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0304",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0305",
+    "verdict": "fix",
+    "issue": "Correct option is grammatically broken: 'It focuses on what desired state, not how to achieve it'.",
+    "suggestion": "Rewrite option C as 'It focuses on the desired end state, not the steps to achieve it.'"
+  },
+  {
+    "id": "q0306",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0307",
+    "verdict": "fix",
+    "issue": "Question is misleading/inaccurate: containerd is not 'part of the CRI specification' — it implements the CRI (via cri plugin). The phrasing conflates the spec with the implementation.",
+    "suggestion": "Rephrase: 'Which responsibility does containerd primarily fulfill as a container runtime in Kubernetes?' Keep the same correct answer about low-level container lifecycle management."
+  },
+  {
+    "id": "q0308",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0309",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0310",
+    "verdict": "fix",
+    "issue": "Stray numeral '1' in the explanation ('features 1 like traffic management').",
+    "suggestion": "Remove the stray '1' from the explanation."
+  },
+  {
+    "id": "q0311",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0312",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0313",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0314",
+    "verdict": "fix",
+    "issue": "Option B ('Serverless applications cannot be stateful') is a reasonable partial-truth distractor, but option E ('Serverless is only for event-driven functions') conflates FaaS with all serverless and is not clearly wrong given the question's parenthetical ('e.g., FaaS'). Options overlap and reduce clarity.",
+    "suggestion": "Tighten the question and ensure the correct answer (abstraction of server management) is unambiguously the best; remove or reword option E to avoid overlap with the FaaS framing in the stem."
+  },
+  {
+    "id": "q0315",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0316",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0317",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0318",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0319",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0320",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0321",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0322",
+    "verdict": "fix",
+    "issue": "Stray '113' page-reference artifact at end of explanation.",
+    "suggestion": "Remove the trailing '113' from the explanation."
+  },
+  {
+    "id": "q0323",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0324",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0325",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0326",
+    "verdict": "fix",
+    "issue": "Negation-style question ('NOT a core characteristic'). While answer is obvious, the distractors list three true characteristics plus one obvious non-characteristic, making it trivially easy for KCNA.",
+    "suggestion": "Reframe positively: 'Which of the following best characterizes cloud native architectures?' with microservices/containers/automation as the correct grouping and monolithic design as a distractor, or raise difficulty by contrasting cloud native with cloud-hosted monolithic patterns."
+  },
+  {
+    "id": "q0327",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0328",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0329",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0330",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0331",
+    "verdict": "fix",
+    "issue": "Options A, B, C, D are all partially true statements making this ambiguous; A is arguably the most commonly cited distinction (declarative vs imperative), but the keyed answer is D. Option B is misleading because 'create' actually cannot update existing resources. The question asks for 'a key difference' (singular) but multiple options are defensible.",
+    "suggestion": "Rephrase to 'What is the MOST distinctive behavior of kubectl apply that kubectl create lacks?' and tighten distractors so only the last-applied-configuration annotation answer is correct. Alternatively, key A as correct since declarative vs imperative is the canonical KCNA-level distinction."
+  },
+  {
+    "id": "q0332",
+    "verdict": "retag",
+    "newDomain": "k8s",
+    "issue": "Least privilege is a fundamentals/security concept, not specifically orchestration."
+  },
+  {
+    "id": "q0333",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0334",
+    "verdict": "fix",
+    "issue": "Explanation contains a stray '116' artifact and 'perinstance' is missing a space (should be 'per-instance').",
+    "suggestion": "Clean explanation: 'StatefulSets are designed for stateful applications, providing stable, persistent identifiers (e.g., my-app-0, my-app-1) and per-instance persistent storage that follows the Pod identity.'"
+  },
+  {
+    "id": "q0335",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0336",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0337",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0338",
+    "verdict": "fix",
+    "issue": "Explanation is completely wrong/mismatched — it talks about labels, annotations, and FinOps cost attribution, not about the Prometheus 'up' metric.",
+    "suggestion": "Replace explanation with: 'The up metric is automatically generated by Prometheus per scrape. It has a value of 1 if the scrape succeeded and 0 if it failed, serving as a basic target-health signal.'"
+  },
+  {
+    "id": "q0339",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0340",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0341",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0342",
+    "verdict": "fix",
+    "issue": "Options B and C are near-duplicates (both describe a prescriptive/recommended path). 'Prescriptive path' (B) and 'recommended journey' (C) are effectively the same concept, making the correct answer ambiguous.",
+    "suggestion": "Reword B to something clearly wrong like 'To enforce a single required architecture for cloud native apps' so only C (recommended journey and project choices) is correct."
+  },
+  {
+    "id": "q0343",
+    "verdict": "fix",
+    "issue": "Minor typo in explanation: 'eventdriven' should be 'event-driven'.",
+    "suggestion": "Fix hyphenation in the explanation."
+  },
+  {
+    "id": "q0344",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0345",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0346",
+    "verdict": "retag",
+    "newDomain": "k8s",
+    "issue": "AuthN vs AuthZ fundamentals fits k8s fundamentals/security more naturally than orchestration."
+  },
+  {
+    "id": "q0347",
+    "verdict": "fix",
+    "issue": "Contains 'nan' as a placeholder fifth option — looks like a data-import artifact. Should either be removed or replaced with a real distractor.",
+    "suggestion": "Remove the 'nan' option (leave 4 options) or replace with a plausible distractor like 'Namespace'."
+  },
+  {
+    "id": "q0348",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or replace with a plausible distractor like 'kube-controller-manager'."
+  },
+  {
+    "id": "q0349",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option. Also, 'Managing the container runtime' is slightly imprecise — kubelet interacts with the runtime via CRI but doesn't manage it. A better framing would be 'Ensuring containers described in PodSpecs are running on the Node'.",
+    "suggestion": "Remove 'nan'. Consider rewording correct option to 'Ensuring containers in PodSpecs are running on the Node'."
+  },
+  {
+    "id": "q0350",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or replace with a plausible distractor like 'kubelet'."
+  },
+  {
+    "id": "q0351",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or replace with a plausible distractor like 'Serving the Kubernetes API'."
+  },
+  {
+    "id": "q0352",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or replace with a plausible distractor like 'ReplicaSet' (with explanation distinguishing Deployment as the higher-level manager)."
+  },
+  {
+    "id": "q0353",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option, AND the explanation is completely mismatched — it talks about kube-scheduler and Pods rather than containers/packaging.",
+    "suggestion": "Remove 'nan'. Replace explanation with: 'A container bundles an application and its dependencies into a portable, isolated package that runs consistently across environments.'"
+  },
+  {
+    "id": "q0354",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a plausible distractor like 'Replacing developers'."
+  },
+  {
+    "id": "q0355",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option. Also 'Docker' as a distractor is weak since Docker predates and influenced OCI; the question could be tighter.",
+    "suggestion": "Remove 'nan'. Consider adding 'Runtime Specification' context since both Image and Runtime are OCI specs."
+  },
+  {
+    "id": "q0356",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option. Also 'Docker (dockershim)' is historically accurate but dockershim was removed in K8s 1.24 — the phrasing 'most commonly associated' is now outdated.",
+    "suggestion": "Remove 'nan'. Consider tightening question to 'Which CRI-compliant container runtime is the most widely used default in modern Kubernetes clusters?'"
+  },
+  {
+    "id": "q0357",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or replace with 'Pod'."
+  },
+  {
+    "id": "q0358",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option. Also, Secrets are base64-encoded (not encrypted) by default — explanation should briefly note this to avoid misleading learners.",
+    "suggestion": "Remove 'nan'. Add to explanation: 'Note: Secret data is base64-encoded by default; enable encryption-at-rest on etcd for true encryption.'"
+  },
+  {
+    "id": "q0359",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a plausible distractor like 'Enforcing RBAC'."
+  },
+  {
+    "id": "q0360",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or replace with 'PodSecurityPolicy'."
+  },
+  {
+    "id": "q0361",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option. Option text 'Managing inter-service comms' uses an abbreviation inconsistently.",
+    "suggestion": "Remove 'nan'. Expand 'comms' to 'communications' for consistency."
+  },
+  {
+    "id": "q0362",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a plausible distractor like 'ConfigMap'."
+  },
+  {
+    "id": "q0363",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a plausible distractor like 'An allocation of memory'."
+  },
+  {
+    "id": "q0364",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option. Correct option 'To define types of storage' is vague; could be clearer as 'To define types of storage for dynamic provisioning'.",
+    "suggestion": "Remove 'nan'. Sharpen option A to 'To define storage types for dynamic provisioning'."
+  },
+  {
+    "id": "q0365",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option. CRITICAL: the keyed correct answer is index 1 (Cluster Autoscaler), but the question asks about adjusting the number of Pods based on CPU — that is Horizontal Pod Autoscaler (index 2). The explanation even describes Cluster Autoscaler, which is the wrong answer for the question asked.",
+    "suggestion": "Change correct to 2 (HPA) and fix explanation: 'The Horizontal Pod Autoscaler (HPA) automatically scales the number of Pods in a Deployment (or ReplicaSet/StatefulSet) based on observed CPU utilization or custom metrics.'"
+  },
+  {
+    "id": "q0366",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a distractor like 'Client-Server'."
+  },
+  {
+    "id": "q0367",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a distractor like 'Application logic'."
+  },
+  {
+    "id": "q0368",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add another foundation distractor like 'Eclipse Foundation'."
+  },
+  {
+    "id": "q0369",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option. Also, 'Interoperability Portability' (option C) is missing a separator like '&' or '/' — looks like a formatting error.",
+    "suggestion": "Remove 'nan'. Change C to 'Interoperability and portability'."
+  },
+  {
+    "id": "q0370",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a distractor like 'End User'."
+  },
+  {
+    "id": "q0371",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a distractor like 'Product Manager'."
+  },
+  {
+    "id": "q0372",
+    "verdict": "fix",
+    "issue": "Contains 'nan' placeholder option.",
+    "suggestion": "Remove 'nan' or add a distractor like 'Events, Alerts, Graphs'."
+  },
+  {
+    "id": "q0373",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option as 5th choice",
+    "suggestion": "Remove the 'nan' option so there are 4 clean distractors"
+  },
+  {
+    "id": "q0374",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0375",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0376",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0377",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option AND explanation is wrong — it talks about PromQL instead of explaining the pull/scrape model",
+    "suggestion": "Remove 'nan' and replace explanation with: 'Prometheus uses a pull-based model, periodically scraping metrics endpoints (HTTP /metrics) exposed by targets.'"
+  },
+  {
+    "id": "q0378",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0379",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option; correct option 'Shared resources dynamic workloads' is missing a conjunction (grammar)",
+    "suggestion": "Remove 'nan' and fix option text to 'Shared resources and dynamic workloads'"
+  },
+  {
+    "id": "q0380",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0381",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0382",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option; question is trivially easy acronym recall",
+    "suggestion": "Remove 'nan'; consider deepening by asking about a CI outcome/practice rather than the acronym"
+  },
+  {
+    "id": "q0383",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option; trivial acronym recall",
+    "suggestion": "Remove 'nan'; optionally rephrase to test the Delivery vs Deployment distinction"
+  },
+  {
+    "id": "q0384",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0385",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option; correct option lists 3 tools joined with slashes (awkward); explanation has stray '129' artifact",
+    "suggestion": "Remove 'nan', change correct option to 'Jenkins' with other CI tools as separate distractors (Argo CD, Flux) and remove '129' from explanation"
+  },
+  {
+    "id": "q0386",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option; correct option 'To reliably deploy manage apps' is a sentence fragment missing conjunction",
+    "suggestion": "Remove 'nan'; fix option to 'To reliably deploy and manage applications'"
+  },
+  {
+    "id": "q0387",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0388",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0389",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0390",
+    "verdict": "fix",
+    "issue": "Contains 'nan'; option texts are terse/awkward fragments ('StatefulSets manage Pods', 'Deployments use PVs')",
+    "suggestion": "Remove 'nan' and rewrite options as full clauses, e.g., 'StatefulSets provide stable network identities and ordered deployment, while Deployments do not'"
+  },
+  {
+    "id": "q0391",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0392",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0393",
+    "verdict": "fix",
+    "issue": "Contains 'nan' throwaway option",
+    "suggestion": "Remove the 'nan' option"
+  },
+  {
+    "id": "q0394",
+    "verdict": "fix",
+    "issue": "Malformed option: 'Deployment E.' includes stray letter label artifact and only 4 options present (no 'nan' but formatting broken)",
+    "suggestion": "Clean the last option to just 'Deployment'"
+  },
+  {
+    "id": "q0395",
+    "verdict": "fix",
+    "issue": "Malformed last option 'Scale Service endpoints E.' with stray 'E.' artifact",
+    "suggestion": "Clean to 'Scale Service endpoints'"
+  },
+  {
+    "id": "q0396",
+    "verdict": "fix",
+    "issue": "Malformed last option 'YAML E.' with stray 'E.' artifact",
+    "suggestion": "Clean to 'YAML'"
+  },
+  {
+    "id": "q0397",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0399",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0400",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0402",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0404",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0405",
+    "verdict": "retag",
+    "newDomain": "del",
+    "issue": "DevOps culture question is tagged 'arch' but better fits 'del' (application delivery domain covers DevOps culture and CI/CD)"
+  },
+  {
+    "id": "q0406",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0407",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0408",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0409",
+    "verdict": "fix",
+    "issue": "Explanation is misleading — 'noisy neighbor' typically refers to resources being used beyond requests (bursting toward limits), but the explanation conflates this with OOM kills. Also, high limits alone don't cause eviction unless containers actually consume those resources.",
+    "suggestion": "Clarify: 'When limits greatly exceed requests, containers can burst beyond their guaranteed share and starve other Pods on the node, leading to CPU throttling, OOM kills, and eviction under node pressure.'"
+  },
+  {
+    "id": "q0410",
+    "verdict": "fix",
+    "issue": "Question says correct answer is index 2 ('NaN'), but the explanation and standard Prometheus behavior indicate `up` is set to 0 on scrape failure. The correct answer should be 0, but '0' isn't even among the options.",
+    "suggestion": "Add '0' as an option and mark it correct; fix explanation to match (already correctly says 0 means failed)"
+  },
+  {
+    "id": "q0412",
+    "verdict": "fix",
+    "issue": "Uses 'All of the above' crutch and weak distractors (all three wrong options are obvious negatives)",
+    "suggestion": "Replace distractors with plausible but incorrect benefits; remove 'All of the above'"
+  },
+  {
+    "id": "q0413",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0414",
+    "verdict": "fix",
+    "issue": "Throwaway distractors ('Circular scaling', 'Triangular scaling' are nonsense)",
+    "suggestion": "Replace with plausible alternatives like 'Diagonal scaling' and 'Manual provisioning'"
+  },
+  {
+    "id": "q0415",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0416",
+    "verdict": "fix",
+    "issue": "Uses 'All of the above' option; slightly ambiguous — 12-factor can arguably inform all listed activities",
+    "suggestion": "Remove 'All of the above' and replace with a clearly-wrong distractor like 'Design hardware networking'"
+  },
+  {
+    "id": "q0417",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0418",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0419",
+    "verdict": "fix",
+    "issue": "Uses 'All of the above' crutch; correct answer relies on it",
+    "suggestion": "Remove 'All of the above'; make the question single-best-answer (e.g., best benefit of containers) with plausible distractors"
+  },
+  {
+    "id": "q0421",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0422",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0423",
+    "verdict": "fix",
+    "issue": "Distractors 'docker start' and 'docker image' are weak; 'docker image' is a real management subcommand but not parallel. Question is trivially easy and more Docker-vendor-trivia than KCNA-core.",
+    "suggestion": "Rephrase to focus on image building concepts, e.g., 'Which command produces a container image from a Dockerfile?' and use more plausible distractors like 'docker run', 'docker commit', 'docker pull'."
+  },
+  {
+    "id": "q0424",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0425",
+    "verdict": "fix",
+    "issue": "Uses 'All of the above' crutch with three individually-correct items, making the answer giveaway.",
+    "suggestion": "Replace one option with a plausible-but-wrong capability (e.g., 'Writing application source code' or 'Compiling container images') so the candidate must discriminate."
+  },
+  {
+    "id": "q0426",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0427",
+    "verdict": "fix",
+    "issue": "Distractors 'Virus and Malware scanner' and 'Dockerfile and Network' are throwaway/nonsense, making the question trivially easy.",
+    "suggestion": "Use plausible distractors like 'Ingress and Egress', 'Proxy and Registry', 'Sidecar and Gateway'."
+  },
+  {
+    "id": "q0428",
+    "verdict": "fix",
+    "issue": "Vendor/history trivia below KCNA exam level; distractors (Facebook, Amazon, Microsoft) are throwaway. Also the question is a sentence fragment missing a trailing verb (should end with a question mark after 'by whom?').",
+    "suggestion": "Either remove, or rewrite to test something exam-relevant, e.g., 'Kubernetes is hosted by which foundation?' with CNCF as the answer."
+  },
+  {
+    "id": "q0429",
+    "verdict": "fix",
+    "issue": "'All of the above' crutch; only three options before the catch-all makes it easy to guess.",
+    "suggestion": "Add a plausible non-installer distractor (e.g., 'Helm' or 'kubectl') and remove the 'All of the above' pattern so candidates must identify true cluster-setup tools."
+  },
+  {
+    "id": "q0430",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0431",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0432",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0433",
+    "verdict": "fix",
+    "issue": "Distractors (HTML, PHP, Python) are not data-serialization languages at all, making the question trivially easy. Below KCNA level.",
+    "suggestion": "Use plausible data-serialization distractors like 'TOML', 'XML', 'JSON' (mention that JSON is also valid but YAML is canonical), or rephrase to compare YAML vs JSON specifically."
+  },
+  {
+    "id": "q0434",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0435",
+    "verdict": "fix",
+    "issue": "Distractors 'containerctl' and 'podctl' are invented/throwaway. Question is trivially easy.",
+    "suggestion": "Replace with real-sounding alternatives or rewrite to test kubectl usage (e.g., which subcommand does X)."
+  },
+  {
+    "id": "q0436",
+    "verdict": "fix",
+    "issue": "Distractors 'bootstrapContainer', 'priorityContainer', 'startContainer' are invented names, making it a pattern-match rather than a knowledge test.",
+    "suggestion": "Test the behavior instead: 'Which pod construct runs to completion before app containers start and blocks them if it fails?' with options like initContainer, sidecar, ephemeralContainer, postStart hook."
+  },
+  {
+    "id": "q0437",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0438",
+    "verdict": "fix",
+    "issue": "'All of the above' crutch combined with listing every Service type as individually-correct options telegraphs the answer.",
+    "suggestion": "Rephrase to 'Which of the following is NOT a Kubernetes Service type?' and include a plausible wrong answer (e.g., 'Headless', 'Ingress', 'ExternalIP')."
+  },
+  {
+    "id": "q0440",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0441",
+    "verdict": "fix",
+    "issue": "Answer 'Base64 encoding' is misleading as 'the main difference' — the real difference is intent/handling (sensitive data, mount permissions, opt-in encryption). Explanation admits base64 is not encryption, which undermines the stated correct answer.",
+    "suggestion": "Reframe as 'Which statement best describes the difference between ConfigMaps and Secrets?' with option: 'Secrets are intended for sensitive data and are base64-encoded (but not encrypted by default)'."
+  },
+  {
+    "id": "q0442",
+    "verdict": "fix",
+    "issue": "'All of the above' crutch; listing the three autoscalers as individual options makes the answer obvious.",
+    "suggestion": "Ask 'Which Kubernetes autoscaler scales the number of nodes?' or 'Which is NOT a Kubernetes autoscaler?' with a plausible distractor like 'Node Autoscaler' or 'Pod Autoscaler'."
+  },
+  {
+    "id": "q0443",
+    "verdict": "fix",
+    "issue": "Trivially easy; distractors (Docker, Kubernetes, containerd) are nonsensical as VCS answers. Below KCNA level.",
+    "suggestion": "Remove, or rewrite to test GitOps/VCS concepts relevant to delivery (e.g., what does a git commit represent in GitOps)."
+  },
+  {
+    "id": "q0444",
+    "verdict": "fix",
+    "issue": "'All of the above' crutch.",
+    "suggestion": "Reframe as 'Which best describes GitOps?' with distractors that test conceptual understanding rather than listing categories."
+  },
+  {
+    "id": "q0445",
+    "verdict": "fix",
+    "issue": "Distractors 'CI/CD branch', 'CI/CD repository', 'CI/CD network' are invented throwaway phrases, making the question trivially easy.",
+    "suggestion": "Use plausible alternatives like 'Cron job', 'Webhook', 'Makefile', or test a deeper CI/CD concept (e.g., what stages a pipeline typically has)."
+  },
+  {
+    "id": "q0447",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0448",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0449",
+    "verdict": "fix",
+    "issue": "'All of the above' crutch; listing the three pillars as individual options gives the answer away.",
+    "suggestion": "Ask 'Which of the following is NOT one of the three pillars of observability?' with a distractor like 'Alerts', 'Dashboards', or 'Events'."
+  },
+  {
+    "id": "q0450",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0451",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0452",
+    "verdict": "fix",
+    "issue": "Distractors (YAML, XML, HTML) are weak — YAML and XML are structured but HTML is nonsensical. Trivially easy.",
+    "suggestion": "Compare real logging formats (JSON, logfmt, plain-text, syslog) to make the discrimination meaningful."
+  },
+  {
+    "id": "q0454",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0455",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0456",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0457",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0458",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0459",
+    "verdict": "keep"
+  },
+  {
+    "id": "q0460",
+    "verdict": "fix",
+    "issue": "Uses deprecated terminology ('Master components'); distractors 'Add on components' and 'Extra components' are not real Kubernetes categories.",
+    "suggestion": "Ask directly: 'Which set of Kubernetes components makes global decisions about the cluster?' with options: Control plane, Data plane, Node components, Add-ons."
+  },
+  {
+    "id": "q0461",
+    "verdict": "fix",
+    "issue": "'All of the above' crutch with three deployment-location options; trivially easy.",
+    "suggestion": "Test something more meaningful, e.g., 'Which of the following is NOT a valid Kubernetes deployment target?' with a plausible false option."
+  },
+  {
+    "id": "q0462",
+    "verdict": "fix",
+    "issue": "Distractors 'kubectl', 'kube-proxy', 'Container runtime' are not local cluster installers — none are plausible, making it trivially easy. Could also mention kind/k3d as alternatives.",
+    "suggestion": "Use plausible distractors like 'kind', 'k3d', 'kubeadm', 'MicroK8s' and ask which is/isn't used for local single-node development."
+  },
+  {
+    "id": "q0463",
+    "verdict": "fix",
+    "issue": "Vendor-trivia-shaped question; 'All of the above' crutch; lists GCE (the IaaS) vs GKE (managed K8s) which confuses the concept. Also stale — autoscaling works on Azure, on-prem, etc. too.",
+    "suggestion": "Rewrite to test understanding of Cluster Autoscaler provider-agnosticism, or ask about the specific autoscaler types (HPA/VPA/CA) rather than cloud providers."
+  },
+  {
+    "id": "q0464",
+    "verdict": "fix",
+    "issue": "'none of these' is a negation/throwaway distractor; options 2 and 3 are partially-correct subsets of option 1, which is confusing and trivially easy. 'Kubernetes container image' is also slightly wrong phrasing — it's just an OCI/container image.",
+    "suggestion": "Rewrite: 'Which best describes a container image?' with distinct distractors like 'A running process on a node', 'A Kubernetes Pod definition', 'A host-level kernel module'."
+  },
+  {
+    "id": "q0465",
+    "verdict": "remove",
+    "issue": "Vendor/implementation-detail trivia far below KCNA exam level; the 5-minute default is not a tested KCNA concept, is configurable, and has changed across versions (the current kubelet uses --image-gc-high-threshold/--image-gc-low-threshold, not a fixed interval)."
+  },
+  {
+    "id": "q0466",
+    "verdict": "fix",
+    "issue": "'All of the above' crutch; trivially easy platform-support trivia below KCNA level.",
+    "suggestion": "Remove, or replace with a question about local-cluster tooling choices (Minikube vs kind vs k3d vs Docker Desktop) and their tradeoffs."
+  }
+]

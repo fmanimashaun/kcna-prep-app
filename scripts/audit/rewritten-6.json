@@ -1,0 +1,67 @@
+[
+  {
+    "id": "q0369",
+    "options": [
+      "Vendor lock-in",
+      "Increased complexity",
+      "Interoperability and portability",
+      "Reduced security"
+    ]
+  },
+  {
+    "id": "q0377",
+    "expl": "Prometheus uses a pull-based model, periodically scraping metrics endpoints (HTTP /metrics) exposed by targets."
+  },
+  {
+    "id": "q0379",
+    "options": [
+      "Lack of monitoring tools",
+      "Shared resources and dynamic workloads",
+      "Fixed infrastructure costs",
+      "Infrequent deployments"
+    ]
+  },
+  {
+    "id": "q0382",
+    "question": "In a CI/CD workflow, which practice describes developers frequently merging code changes into a shared mainline branch where automated builds and tests run?",
+    "options": [
+      "Continuous Integration",
+      "Continuous Deployment",
+      "Trunk-based release gating",
+      "Feature branching"
+    ],
+    "correct": 0,
+    "expl": "Continuous Integration is the practice of frequently merging code changes into a shared repository, where each merge triggers automated builds and tests to catch integration issues early."
+  },
+  {
+    "id": "q0383",
+    "question": "In CI/CD, what is the key distinction between Continuous Delivery and Continuous Deployment?",
+    "options": [
+      "Delivery automates testing; Deployment automates building",
+      "Delivery requires a manual approval to release to production; Deployment releases automatically",
+      "Delivery only applies to containers; Deployment only applies to VMs",
+      "They are interchangeable terms with no meaningful difference"
+    ],
+    "correct": 1,
+    "expl": "Continuous Delivery automates the pipeline up to a release-ready artifact but typically requires a manual approval step to push to production. Continuous Deployment goes further by automatically deploying every passing change to production."
+  },
+  {
+    "id": "q0385",
+    "options": [
+      "Jenkins",
+      "Prometheus",
+      "Helm",
+      "etcd"
+    ],
+    "expl": "Jenkins is a widely used automation server that orchestrates build, test, and deployment stages of CI/CD pipelines. Other examples include GitLab CI, GitHub Actions, Argo CD, and Flux."
+  },
+  {
+    "id": "q0386",
+    "options": [
+      "To secure the cluster",
+      "To monitor resource usage",
+      "To reliably deploy and manage applications",
+      "To provision infrastructure"
+    ]
+  }
+]

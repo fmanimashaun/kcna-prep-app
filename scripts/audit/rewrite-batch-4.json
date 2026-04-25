@@ -1,0 +1,322 @@
+[
+  {
+    "id": "q0265",
+    "domain": "del",
+    "src": "prep",
+    "question": "Which practice aligns best with the principle of using declarative specifications for application delivery?",
+    "options": [
+      "Writing shell scripts that execute a series of kubectl commands to deploy.",
+      "Using Kubernetes manifests (YAML) stored in Git to define the desired application state.",
+      "Manually configuring applications through a graphical user interface after deployment.",
+      "Storing application configuration directly within container images.",
+      "Using SSH to log into nodes and manually start application processes."
+    ],
+    "correct": 2,
+    "explanation": "Storing plain-text secrets in Git is a major security risk. GitOps workflows require solutions to manage secrets safely, such as encrypting them in Git (e.g., Sealed Secrets, SOPS) and decrypting them only within the cluster, or fetching them from external secret management systems (e.g., HashiCorp Vault, AWS Secrets Manager).",
+    "auditIssue": "Explanation is about secrets management in GitOps, but the question asks which practice aligns with declarative specifications. Explanation does not match question; the correct answer (YAML in Git) is not explained.",
+    "auditSuggestion": "Replace explanation with: 'Declarative delivery means expressing desired state (what to run) rather than the steps to get there. Kubernetes manifests stored in Git capture that desired state and let controllers reconcile the cluster, unlike imperative scripts, UIs, or in-image config.'"
+  },
+  {
+    "id": "q0268",
+    "domain": "del",
+    "src": "prep",
+    "question": "What is the purpose of tools like Helm or Kustomize in Kubernetes application delivery?",
+    "options": [
+      "To replace the need for container image registries.",
+      "To provide runtime monitoring and alerting for applications.",
+      "To manage, template, and customize Kubernetes manifest files, simplifying complex deployments.",
+      "To automatically write application source code based on high-level requirements.",
+      "To enforce network security policies between Pods."
+    ],
+    "correct": 2,
+    "explanation": "Deploying applications often involves many related Kubernetes manifests. Helm (packaging/templating) and Kustomize (overlaybased customization) help manage this complexity, allowing for parameterization, reuse, and environment-specific configuration without duplicating large amounts of YAML.",
+    "auditIssue": "Minor typo: 'overlaybased' missing hyphen in explanation.",
+    "auditSuggestion": "Fix to 'overlay-based customization'."
+  },
+  {
+    "id": "q0276",
+    "domain": "del",
+    "src": "prep",
+    "question": "What does \"Shift Left\" mean in the context of security in application delivery?",
+    "options": [
+      "Moving security testing and considerations to the rightmost (production) stage of the pipeline.",
+      "Integrating security checks and practices earlier in the development lifecycle (e.g., in CI).",
+      "Assigning all security responsibilities solely to a dedicated security team.",
+      "Ignoring security concerns until after an application has been deployed.",
+      "Focusing security efforts only on the underlying infrastructure."
+    ],
+    "correct": 1,
+    "explanation": "\"Shift Left\" encourages incorporating security practices (like code analysis, dependency scanning, image vulnerability scanning) earlier in the software development lifecycle (closer to the \"left\" side, where code is written) rather than treating security as an afterthought just before release.",
+    "auditIssue": "Option A is a nonsense/negation distractor ('moving security testing to the rightmost stage') that contradicts the term itself; remaining distractors are weak throwaways.",
+    "auditSuggestion": "Strengthen distractors with genuine plausible confusions (e.g., 'focusing security exclusively on runtime admission control', 'adopting a zero-trust network model', 'shifting responsibility to the SRE on-call rotation') and drop the literal opposite."
+  },
+  {
+    "id": "q0278",
+    "domain": "del",
+    "src": "prep",
+    "question": "What is the purpose of a \"smoke test\" in a CD pipeline, often run immediately after deployment?",
+    "options": [
+      "To perform comprehensive end-to-end functional testing of all features.",
+      "To check the basic health and availability of the newly deployed application or service.",
+      "To run security vulnerability scans on the deployed application.",
+      "To gather detailed performance metrics under simulated heavy load.",
+      "To verify the configuration stored in the Git repository."
+    ],
+    "correct": 1,
+    "explanation": "A smoke test is a quick, basic check to ensure the application starts correctly and key functionalities are available (e.g., can it serve a simple request? Is the homepage accessible?). It's not exhaustive but provides rapid feedback on whether the deployment was fundamentally successful.",
+    "auditIssue": "Explanation has spurious '207' artifact at the end (PDF page-number leak).",
+    "auditSuggestion": "Remove the trailing ' 207' from the explanation."
+  },
+  {
+    "id": "q0289",
+    "domain": "del",
+    "src": "prep",
+    "question": "What is the \"Application Definition\" in a GitOps context?",
+    "options": [
+      "The source code of the application written by developers.",
+      "The container image stored in a registry.",
+      "The declarative configuration (e.g., K8s YAML, Helm Charts, Kustomize overlays) stored in Git defining the application deployment.",
+      "The documentation explaining how to use the application.",
+      "The results of the automated tests run in the CI pipeline."
+    ],
+    "correct": 1,
+    "explanation": "Feature flags allow decoupling deployment from release. Code for new features can be deployed (via CI/CD) to production but remain hidden behind a flag. The feature can then be enabled for specific users (canary, A/B test) or gradually rolled out via a configuration change at runtime, without a new deployment.",
+    "auditIssue": "Explanation is mismatched: it discusses feature flags rather than GitOps 'Application Definition'. The correct option (index 2) is about declarative config in Git, but the explanation talks about decoupling deployment from release via feature flags.",
+    "auditSuggestion": "Replace explanation with one describing that in GitOps the Application Definition is the declarative configuration (YAML/Helm/Kustomize) stored in Git that defines desired state of the deployment."
+  },
+  {
+    "id": "q0293",
+    "domain": "del",
+    "src": "prep",
+    "question": "Which factor is LEAST relevant when choosing between a pullbased and push-based GitOps approach?",
+    "options": [
+      "Security considerations regarding cluster API access.",
+      "The specific programming language used by the application being deployed.",
+      "Network policies restricting traffic flow between the CI system and the cluster.",
+      "Scalability requirements for managing many clusters.",
+      "The location of the Git repository relative to the cluster."
+    ],
+    "correct": 1,
+    "explanation": "GitOps focuses on deploying and managing applications based on manifests, regardless of the language the application itself is written in. Security, network topology, and scalability are key factors influencing the choice between pull (agent in cluster) and push (CI pushes to cluster) models.",
+    "auditIssue": "Negation-style 'LEAST relevant' question; while the correct answer is defensible, phrasing pushes test-taking-trick rather than conceptual understanding.",
+    "auditSuggestion": "Reframe positively, e.g., 'Which of the following is a primary factor when choosing between pull-based and push-based GitOps?' with the programming language option as a distractor."
+  },
+  {
+    "id": "q0302",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "When a Pod is scheduled, what is the primary factor the kubescheduler considers from the Pod's specification?",
+    "options": [
+      "Container image version",
+      "restartPolicy",
+      "Resource requests and limits",
+      "serviceAccountName",
+      "labels"
+    ],
+    "correct": 2,
+    "explanation": "The kube-scheduler filters nodes based on whether they can satisfy the Pod's resource requests (CPU, memory) and then ranks them based on various priority functions.",
+    "auditIssue": "Typo in question: 'kubescheduler' should be 'kube-scheduler'. Also, resource requests/limits are a scheduling input, but 'primary factor' is arguable — nodeSelector, taints/tolerations, and affinity are equally fundamental; wording could mislead.",
+    "auditSuggestion": "Fix typo and tighten question, e.g., 'Which factor from a Pod spec does the kube-scheduler use to filter eligible nodes during scheduling?'"
+  },
+  {
+    "id": "q0305",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What is the main advantage of using a declarative approach (e.g., YAML manifests) to manage Kubernetes resources?",
+    "options": [
+      "It allows for more complex scripting logic",
+      "It enables direct manipulation of etcd data",
+      "It focuses on what desired state, not how to achieve it",
+      "It provides faster API response times",
+      "It simplifies single-container Pod deployments only"
+    ],
+    "correct": 2,
+    "explanation": "Declarative configurations define the desired state, and Kubernetes controllers work to reconcile the current state to this desired state. This is more robust and idempotent than imperative commands.",
+    "auditIssue": "Correct option is grammatically broken: 'It focuses on what desired state, not how to achieve it'.",
+    "auditSuggestion": "Rewrite option C as 'It focuses on the desired end state, not the steps to achieve it.'"
+  },
+  {
+    "id": "q0307",
+    "domain": "orch",
+    "src": "prep",
+    "question": "Which part of the Container Runtime Interface (CRI) specification is containerd primarily responsible for implementing?",
+    "options": [
+      "Image distribution and storage",
+      "Low-level container execution and lifecycle management",
+      "Network namespace creation and IP address assignment",
+      "Defining container image format standards",
+      "Implementing pod-level resource sharing"
+    ],
+    "correct": 1,
+    "explanation": "containerd is a core container runtime that manages the complete container lifecycle on a single host - image transfer, storage, container execution, supervision, and network attachments.",
+    "auditIssue": "Question is misleading/inaccurate: containerd is not 'part of the CRI specification' — it implements the CRI (via cri plugin). The phrasing conflates the spec with the implementation.",
+    "auditSuggestion": "Rephrase: 'Which responsibility does containerd primarily fulfill as a container runtime in Kubernetes?' Keep the same correct answer about low-level container lifecycle management."
+  },
+  {
+    "id": "q0314",
+    "domain": "arch",
+    "src": "prep",
+    "question": "How does Serverless (e.g., FaaS like AWS Lambda or Knative Serving) primarily differ from traditional PaaS offerings?",
+    "options": [
+      "Serverless does not use containers",
+      "Serverless applications cannot be stateful",
+      "Serverless abstracts away all underlying server management",
+      "PaaS does not offer auto-scaling capabilities",
+      "Serverless is only for event-driven functions"
+    ],
+    "correct": 2,
+    "explanation": "Serverless computing (especially FaaS) aims to abstract away all infrastructure management, including servers, OS, and runtimes, allowing developers to focus solely on writing code that executes in response to events.",
+    "auditIssue": "Option B ('Serverless applications cannot be stateful') is a reasonable partial-truth distractor, but option E ('Serverless is only for event-driven functions') conflates FaaS with all serverless and is not clearly wrong given the question's parenthetical ('e.g., FaaS'). Options overlap and reduce clarity.",
+    "auditSuggestion": "Tighten the question and ensure the correct answer (abstraction of server management) is unambiguously the best; remove or reword option E to avoid overlap with the FaaS framing in the stem."
+  },
+  {
+    "id": "q0326",
+    "domain": "arch",
+    "src": "prep",
+    "question": "Which of the following is NOT a core characteristic of cloud native architectures?",
+    "options": [
+      "Microservices",
+      "Containers",
+      "Monolithic application design",
+      "DevOps practices",
+      "Automation"
+    ],
+    "correct": 2,
+    "explanation": "Cloud native architectures typically favor microservices, containers, dynamic orchestration (like Kubernetes), and DevOps/Agile practices, moving away from large, tightly coupled monolithic designs.",
+    "auditIssue": "Negation-style question ('NOT a core characteristic'). While answer is obvious, the distractors list three true characteristics plus one obvious non-characteristic, making it trivially easy for KCNA.",
+    "auditSuggestion": "Reframe positively: 'Which of the following best characterizes cloud native architectures?' with microservices/containers/automation as the correct grouping and monolithic design as a distractor, or raise difficulty by contrasting cloud native with cloud-hosted monolithic patterns."
+  },
+  {
+    "id": "q0331",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What is a key difference between kubectl apply -f <filename> and kubectl create -f <filename>?",
+    "options": [
+      "apply is declarative, create is imperative",
+      "create can update existing resources, apply cannot",
+      "apply ignores existing resources, create fails if they exist",
+      "apply stores last-applied-configuration, create does not",
+      "create is idempotent, apply is not"
+    ],
+    "correct": 3,
+    "explanation": "kubectl apply records the applied configuration in an annotation on the resource. This allows it to calculate a patch between the previous, current, and new desired state, making it suitable for declarative updates. create will fail if the resource exists.",
+    "auditIssue": "Options A, B, C, D are all partially true statements making this ambiguous; A is arguably the most commonly cited distinction (declarative vs imperative), but the keyed answer is D. Option B is misleading because 'create' actually cannot update existing resources. The question asks for 'a key difference' (singular) but multiple options are defensible.",
+    "auditSuggestion": "Rephrase to 'What is the MOST distinctive behavior of kubectl apply that kubectl create lacks?' and tighten distractors so only the last-applied-configuration annotation answer is correct. Alternatively, key A as correct since declarative vs imperative is the canonical KCNA-level distinction."
+  },
+  {
+    "id": "q0334",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What core benefit does a StatefulSet provide over a Deployment for applications like databases?",
+    "options": [
+      "Automatic rolling updates by default",
+      "Simpler YAML configuration for Pod templates",
+      "Stable, unique network identifiers and persistent storage",
+      "Support for hostNetwork: true",
+      "Higher number of allowed replicas"
+    ],
+    "correct": 2,
+    "explanation": "StatefulSets are designed for stateful applications, providing stable, persistent identifiers (e.g., my-app-0, my-app-1) and perinstance persistent storage that follows the Pod identity.",
+    "auditIssue": "Explanation contains a stray '116' artifact and 'perinstance' is missing a space (should be 'per-instance').",
+    "auditSuggestion": "Clean explanation: 'StatefulSets are designed for stateful applications, providing stable, persistent identifiers (e.g., my-app-0, my-app-1) and per-instance persistent storage that follows the Pod identity.'"
+  },
+  {
+    "id": "q0338",
+    "domain": "obs",
+    "src": "prep",
+    "question": "In Prometheus, what does the up metric typically indicate for a scraped target?",
+    "options": [
+      "The version number of the target application.",
+      "The number of active user connections to the target.",
+      "Whether Prometheus was able to successfully scrape the target.",
+      "The CPU utilization of the target.",
+      "The total uptime of the target since it started."
+    ],
+    "correct": 1,
+    "explanation": "Labels and annotations applied to Kubernetes resources (Namespaces, Deployments, Pods, etc.) can be used by cost management tools to categorize and attribute costs to different teams, projects, or applications, supporting FinOps practices.",
+    "auditIssue": "Explanation is completely wrong/mismatched — it talks about labels, annotations, and FinOps cost attribution, not about the Prometheus 'up' metric.",
+    "auditSuggestion": "Replace explanation with: 'The up metric is automatically generated by Prometheus per scrape. It has a value of 1 if the scrape succeeded and 0 if it failed, serving as a basic target-health signal.'"
+  },
+  {
+    "id": "q0342",
+    "domain": "arch",
+    "src": "prep",
+    "question": "Which of these is a primary goal of the CNCF's \"Trail Map\" for cloud native adoption?",
+    "options": [
+      "To mandate specific vendor products for each stage.",
+      "To provide a prescriptive path for building cloud native apps.",
+      "To offer a recommended journey and project choices for adopters.",
+      "To rank cloud providers based on their Kubernetes offerings.",
+      "To certify individual developers as cloud native experts."
+    ],
+    "correct": 2,
+    "explanation": "The CNCF Trail Map suggests a path for organizations adopting cloud native technologies, highlighting CNCF projects that can help at different stages (e.g., containerization, CI/CD, orchestration, observability).",
+    "auditIssue": "Options B and C are near-duplicates (both describe a prescriptive/recommended path). 'Prescriptive path' (B) and 'recommended journey' (C) are effectively the same concept, making the correct answer ambiguous.",
+    "auditSuggestion": "Reword B to something clearly wrong like 'To enforce a single required architecture for cloud native apps' so only C (recommended journey and project choices) is correct."
+  },
+  {
+    "id": "q0343",
+    "domain": "arch",
+    "src": "prep",
+    "question": "What is the primary motivation behind using \"Serverless Functions\" (FaaS)?",
+    "options": [
+      "To achieve higher compute density on physical servers.",
+      "To run long-lived, stateful batch processing jobs.",
+      "To execute event-driven code without managing infrastructure.",
+      "To gain fine-grained control over OS-level configurations.",
+      "To build complex, monolithic application backends."
+    ],
+    "correct": 2,
+    "explanation": "Serverless functions are designed for short-lived, eventdriven computations where the underlying infrastructure (servers, OS) is completely managed by the platform, allowing developers to focus on code.",
+    "auditIssue": "Minor typo in explanation: 'eventdriven' should be 'event-driven'.",
+    "auditSuggestion": "Fix hyphenation in the explanation."
+  },
+  {
+    "id": "q0347",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What is the smallest and simplest deployable unit object created and managed by Kubernetes?",
+    "options": [
+      "Node",
+      "Container",
+      "Pod",
+      "Deployment"
+    ],
+    "correct": 2,
+    "explanation": "A Pod represents a single instance of a running process in a cluster and can contain one or more containers. Nodes host Pods.",
+    "auditIssue": "Contains 'nan' as a placeholder fifth option — looks like a data-import artifact. Should either be removed or replaced with a real distractor.",
+    "auditSuggestion": "Remove the 'nan' option (leave 4 options) or replace with a plausible distractor like 'Namespace'."
+  },
+  {
+    "id": "q0348",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "Which Kubernetes component is responsible for watching for newly created Pods and assigning them to Nodes?",
+    "options": [
+      "kube-apiserver",
+      "etcd",
+      "kube-scheduler",
+      "kubelet"
+    ],
+    "correct": 2,
+    "explanation": "The kube-scheduler is the control plane component that decides which Node a Pod should run on based on constraints and availability.",
+    "auditIssue": "Contains 'nan' placeholder option.",
+    "auditSuggestion": "Remove 'nan' or replace with a plausible distractor like 'kube-controller-manager'."
+  },
+  {
+    "id": "q0349",
+    "domain": "k8s",
+    "src": "prep",
+    "question": "What is the primary function of the kubelet component?",
+    "options": [
+      "Storing cluster state",
+      "Scheduling Pods onto Nodes",
+      "Managing the container runtime",
+      "Exposing the Kubernetes API"
+    ],
+    "correct": 2,
+    "explanation": "The kubelet runs on each Node and ensures that containers described in PodSpecs are running and healthy. It interacts with the container runtime.",
+    "auditIssue": "Contains 'nan' placeholder option. Also, 'Managing the container runtime' is slightly imprecise — kubelet interacts with the runtime via CRI but doesn't manage it. A better framing would be 'Ensuring containers described in PodSpecs are running on the Node'.",
+    "auditSuggestion": "Remove 'nan'. Consider rewording correct option to 'Ensuring containers in PodSpecs are running on the Node'."
+  }
+]

@@ -1,0 +1,677 @@
+[
+  {
+    "q": "What does a \"release candidate\" (RC) typically signify in a software release process?",
+    "opts": [
+      "The final, generally available (GA) version of the software.",
+      "An unstable nightly build intended only for internal testing.",
+      "A version believed to be stable and potentially the final release, undergoing final testing.",
+      "A prototype version demonstrating initial concepts.",
+      "A security patch applied to a previous release."
+    ],
+    "correct": 2,
+    "expl": "A release candidate is a build that has passed significant testing (e.g., QA, beta) and is considered potentially ready for final release. It's distributed for final verification before being declared the official stable version.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0283"
+  },
+  {
+    "q": "What is a key benefit of decoupling application configuration from container images?",
+    "opts": [
+      "It simplifies the container build process by including configuration directly.",
+      "It allows the same container image to be deployed across different environments with varying configurations.",
+      "It eliminates the need for version control for configuration.",
+      "It makes container images larger and slower to pull.",
+      "It prevents the use of Kubernetes ConfigMaps and Secrets."
+    ],
+    "correct": 1,
+    "expl": "Baking configuration into images requires rebuilding the image for every configuration change (e.g., database URL). Externalizing configuration (via ConfigMaps, Secrets, environment variables populated by the delivery system) allows the same immutable image artifact to be promoted across environments (dev, staging, prod) by applying different configurations.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0284"
+  },
+  {
+    "q": "How does GitOps facilitate collaboration between development and operations teams?",
+    "opts": [
+      "By requiring operations teams to manually approve every developer commit.",
+      "By providing separate Git repositories for developers and operators with no overlap.",
+      "By using a shared Git repository and pull requests as a common mechanism for proposing and reviewing infrastructure and application changes.",
+      "By eliminating the need for an operations team entirely.",
+      "By forcing developers to manage the underlying Kubernetes infrastructure."
+    ],
+    "correct": 2,
+    "expl": "GitOps provides a common workflow centered around Git. Developers can propose application deployment changes, and operations can propose infrastructure changes via pull requests (PRs) in the same repository (or related ones). This makes changes transparent and allows for cross-functional review and collaboration. 209",
+    "d": "del",
+    "src": "prep",
+    "id": "q0285"
+  },
+  {
+    "q": "What is the role of Helm in a GitOps workflow?",
+    "opts": [
+      "Helm replaces the Git repository as the source of truth.",
+      "Helm is the GitOps operator that reconciles the cluster state.",
+      "Helm charts (stored in Git) can declaratively define the application, and GitOps tools deploy/manage Helm releases based on Git state.",
+      "Helm is used only for building container images within the CI pipeline.",
+      "Helm directly monitors application performance and triggers rollbacks."
+    ],
+    "correct": 2,
+    "expl": "Helm charts provide a way to package and template Kubernetes applications. In a GitOps context, the desired state in Git might be defined using Helm charts and value files. The GitOps operator then uses Helm commands (e.g., helm template, helm install/upgrade) under the hood to render manifests and manage the application release.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0286"
+  },
+  {
+    "q": "What does the \"convergence\" mean in the context of a GitOps reconciliation loop?",
+    "opts": [
+      "The process of merging multiple Git branches into one.",
+      "The act of manually applying configuration changes to the cluster.",
+      "The process where the GitOps operator brings the actual cluster state into alignment with the desired state defined in Git.",
+      "The final stage of a CI pipeline where tests are run.",
+      "The point where application performance meets SLO targets."
+    ],
+    "correct": 2,
+    "expl": "The GitOps operator continuously compares the desired state (Git) and actual state (cluster). If they differ, it takes actions to make the actual state match the desired state. This process of driving the cluster towards the state defined in Git is called convergence.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0287"
+  },
+  {
+    "q": "Which Kubernetes feature allows performing updates with zero downtime by incrementally replacing old Pods with new ones?",
+    "opts": [
+      "StatefulSet update strategies.",
+      "Job completions.",
+      "Deployment rolling update strategy.",
+      "DaemonSet node affinity rules.",
+      "ResourceQuota limits."
+    ],
+    "correct": 2,
+    "expl": "The default strategy for Kubernetes Deployments is RollingUpdate. It ensures that updates happen gradually - stopping old Pods and starting new ones incrementally - while ensuring a minimum number of Pods remain available throughout the process, thus enabling zerodowntime updates.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0288"
+  },
+  {
+    "q": "What is the \"Application Definition\" in a GitOps context?",
+    "opts": [
+      "The source code of the application written by developers.",
+      "The container image stored in a registry.",
+      "The declarative configuration (e.g., K8s YAML, Helm Charts, Kustomize overlays) stored in Git defining the application deployment.",
+      "The documentation explaining how to use the application.",
+      "The results of the automated tests run in the CI pipeline."
+    ],
+    "correct": 1,
+    "expl": "Feature flags allow decoupling deployment from release. Code for new features can be deployed (via CI/CD) to production but remain hidden behind a flag. The feature can then be enabled for specific users (canary, A/B test) or gradually rolled out via a configuration change at runtime, without a new deployment.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0289"
+  },
+  {
+    "q": "What is a key difference between kubectl apply and kubectl create? Why is apply often preferred in automated delivery pipelines?",
+    "opts": [
+      "create updates existing resources; apply only creates new ones.",
+      "apply stores configuration locally; create stores it in the cluster.",
+      "apply performs a declarative update (merging changes); create fails if the resource already exists.",
+      "create is faster for large numbers of resources.",
+      "apply requires cluster-admin privileges; create does not."
+    ],
+    "correct": 2,
+    "expl": "kubectl apply calculates the difference between the local manifest and the live resource configuration and applies only the necessary changes. It can both create and update resources idempotently. kubectl create fails if the resource already exists, making apply much better suited for repeatable, automated CI/CD or GitOps workflows.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0290"
+  },
+  {
+    "q": "If using GitOps with multiple clusters (e.g., dev, staging, prod), how might configurations be managed efficiently?",
+    "opts": [
+      "By maintaining completely separate, unrelated Git repositories for each cluster.",
+      "By using the exact same manifests for all clusters, ignoring differences.",
+      "Using tooling like Kustomize or Helm to manage base configurations and environment-specific overlays/values within a single or related Git repositories.",
+      "By manually applying changes to each cluster sequentially.",
+      "By running a different GitOps operator in each cluster with identical config."
+    ],
+    "correct": 2,
+    "expl": "Tools like Kustomize (using overlays) or Helm (using value files) allow defining a common base configuration and layering environmentspecific settings (e.g., replica counts, resource limits, domain names) on top. This promotes DRY (Don't Repeat Yourself) principles while managing configurations across environments in Git.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0291"
+  },
+  {
+    "q": "What is a common trigger for a Continuous Integration pipeline?",
+    "opts": [
+      "A schedule running once per week.",
+      "A manual button click by the project manager.",
+      "A code commit pushed to the version control repository (e.g., Git).",
+      "A new vulnerability discovered in a base image.",
+      "A successful deployment to the production environment."
+    ],
+    "correct": 2,
+    "expl": "The most common trigger for a CI pipeline is a push event to the Git repository (e.g., pushing commits to a feature branch or merging a pull request). This ensures that every code change automatically initiates the build and test process.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0292"
+  },
+  {
+    "q": "Which factor is LEAST relevant when choosing between a pullbased and push-based GitOps approach?",
+    "opts": [
+      "Security considerations regarding cluster API access.",
+      "The specific programming language used by the application being deployed.",
+      "Network policies restricting traffic flow between the CI system and the cluster.",
+      "Scalability requirements for managing many clusters.",
+      "The location of the Git repository relative to the cluster."
+    ],
+    "correct": 1,
+    "expl": "GitOps focuses on deploying and managing applications based on manifests, regardless of the language the application itself is written in. Security, network topology, and scalability are key factors influencing the choice between pull (agent in cluster) and push (CI pushes to cluster) models.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0293"
+  },
+  {
+    "q": "In a CI/CD context, what is static application security testing (SAST)?",
+    "opts": [
+      "Analyzing running application behavior for security flaws.",
+      "Scanning container images for known vulnerabilities in dependencies.",
+      "Analyzing application source code or compiled binaries for security vulnerabilities without executing the code.",
+      "Performing penetration testing against a deployed application.",
+      "Checking firewall rules protecting the application."
+    ],
+    "correct": 2,
+    "expl": "SAST tools analyze the application's source code, bytecode, or binary code while it's \"static\" (not running) to identify potential security vulnerabilities like SQL injection flaws, buffer overflows, or insecure coding patterns. It's often integrated early in the CI pipeline.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0294"
+  },
+  {
+    "q": "What is the role of idempotency in automated application delivery?",
+    "opts": [
+      "Ensuring that operations always produce different results each time they are run.",
+      "Ensuring that performing the same operation multiple times produces the same result as performing it once.",
+      "Making sure that configuration files are stored only in memory.",
+      "Requiring manual intervention for every deployment step.",
+      "Idempotency relates only to database transaction management."
+    ],
+    "correct": 1,
+    "expl": "Idempotency is crucial for reliable automation. If a deployment script or GitOps reconciliation can be run multiple times without 212 unintended side effects (i.e., applying the same state multiple times results in the same final state), it makes the automation safer and more resilient to transient failures or reruns. kubectl apply is designed to be idempotent.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0295"
+  },
+  {
+    "q": "How can secrets (e.g., API keys, passwords) be securely injected into Pods managed via GitOps without storing plain text in Git?",
+    "opts": [
+      "By embedding secrets directly within the container image layers.",
+      "Using tools like Sealed Secrets (encrypts secrets in Git, decrypted by a controller in-cluster) or referencing external secret managers (e.g., Vault).",
+      "Storing secrets as plain text ConfigMaps in Git.",
+      "Passing secrets as command-line arguments to the GitOps operator.",
+      "Disabling secrets management entirely for simplicity."
+    ],
+    "correct": 1,
+    "expl": "Secure secret management in GitOps requires mechanisms to avoid plain text in Git. Common solutions involve in-cluster decryption of encrypted secrets stored in Git (Sealed Secrets, Mozilla SOPS) or using operators/injectors that fetch secrets directly from systems like HashiCorp Vault, AWS Secrets Manager, etc., at deploy time.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0296"
+  },
+  {
+    "q": "What is a key outcome of adopting mature CI/CD practices?",
+    "opts": [
+      "Longer lead times for changes due to increased process overhead.",
+      "Reduced deployment frequency to minimize risk.",
+      "Faster, more reliable delivery of value to end-users through automation and rapid feedback.",
+      "Increased reliance on manual testing and deployment procedures.",
+      "Complete elimination of bugs in production environments."
+    ],
+    "correct": 2,
+    "expl": "Mature CI/CD pipelines automate the build, test, and deployment process, significantly reducing lead time (time from commit to production) and enabling more frequent, reliable releases. This allows businesses to deliver features and fixes to users faster and get feedback more quickly.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0297"
+  },
+  {
+    "q": "What is the fundamental reason Kubernetes uses Pods as the smallest deployable unit, rather than individual containers directly?",
+    "opts": [
+      "To simplify network configuration for containers",
+      "To enable co-location and shared resources for containers",
+      "To enforce stricter security boundaries than containers",
+      "To provide a unique IP address per container",
+      "To reduce container image size"
+    ],
+    "correct": 1,
+    "expl": "Pods allow tightly coupled containers to share resources like network namespace (IP, port space) and storage volumes, facilitating communication and data sharing for helper or sidecar patterns.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0298"
+  },
+  {
+    "q": "Which Kubernetes control plane component is responsible for persisting the cluster's desired state and configuration?",
+    "opts": [
+      "kube-scheduler",
+      "kube-apiserver",
+      "etcd",
+      "kubelet",
+      "controller-manager"
+    ],
+    "correct": 2,
+    "expl": "etcd is a distributed key-value store that reliably stores all Kubernetes cluster data, serving as the single source of truth for the cluster's state.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0299"
+  },
+  {
+    "q": "A developer needs to expose a web application running in a set of Pods within the cluster using a stable internal IP address. Which Kubernetes resource is most appropriate?",
+    "opts": [
+      "Ingress",
+      "NodePort Service",
+      "ClusterIP Service",
+      "ExternalName Service",
+      "ReplicaSet"
+    ],
+    "correct": 2,
+    "expl": "A ClusterIP Service provides a stable internal IP address and DNS name for accessing Pods, only reachable from within the cluster. NodePort exposes on nodes, Ingress is for external HTTP/S.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0300"
+  },
+  {
+    "q": "What is the primary purpose of the Kubernetes API server in the control plane architecture?",
+    "opts": [
+      "To run containerized applications directly",
+      "To schedule Pods onto available worker nodes",
+      "To validate and process REST requests for API objects",
+      "To manage network traffic between Pods",
+      "To store cluster state in a time-series database"
+    ],
+    "correct": 2,
+    "expl": "The kube-apiserver is the frontend of the control plane, exposing the Kubernetes API. It processes and validates API requests, and updates the corresponding objects in etcd.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0301"
+  },
+  {
+    "q": "When a Pod is scheduled, what is the primary factor the kubescheduler considers from the Pod's specification?",
+    "opts": [
+      "Container image version",
+      "restartPolicy",
+      "Resource requests and limits",
+      "serviceAccountName",
+      "labels"
+    ],
+    "correct": 2,
+    "expl": "The kube-scheduler filters nodes based on whether they can satisfy the Pod's resource requests (CPU, memory) and then ranks them based on various priority functions.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0302"
+  },
+  {
+    "q": "Which component is NOT part of the Kubernetes control plane?",
+    "opts": [
+      "kube-apiserver",
+      "etcd",
+      "kube-scheduler",
+      "kube-proxy",
+      "kube-controller-manager"
+    ],
+    "correct": 3,
+    "expl": "kube-proxy runs on every node in the cluster and is responsible for maintaining network rules on nodes, enabling network communication to Pods from network sessions inside or outside of the cluster. It's a node component, not control plane.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0303"
+  },
+  {
+    "q": "What core benefit does containerization (e.g., using Docker or containerd) provide for application deployment?",
+    "opts": [
+      "Automatic scaling of applications",
+      "Abstraction of the underlying operating system and kernel",
+      "Consistent runtime environment across different machines",
+      "Built-in service discovery and load balancing",
+      "Secure by default inter-container communication"
+    ],
+    "correct": 2,
+    "expl": "Containers bundle an application with its dependencies, ensuring it runs consistently regardless of the host environment, solving \"it works on my machine\" problems.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0304"
+  },
+  {
+    "q": "What is the main advantage of using a declarative approach (e.g., YAML manifests) to manage Kubernetes resources?",
+    "opts": [
+      "It allows for more complex scripting logic",
+      "It enables direct manipulation of etcd data",
+      "It focuses on what desired state, not how to achieve it",
+      "It provides faster API response times",
+      "It simplifies single-container Pod deployments only"
+    ],
+    "correct": 2,
+    "expl": "Declarative configurations define the desired state, and Kubernetes controllers work to reconcile the current state to this desired state. This is more robust and idempotent than imperative commands.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0305"
+  },
+  {
+    "q": "Why is container orchestration essential for managing microservices at scale?",
+    "opts": [
+      "It simplifies writing microservice code",
+      "It automatically converts monolithic apps to microservices",
+      "It handles service discovery, scaling, and fault tolerance",
+      "It provides a centralized logging solution by default",
+      "It guarantees zero-downtime deployments"
+    ],
+    "correct": 2,
+    "expl": "Orchestrators like Kubernetes automate complex tasks like service discovery, load balancing, scaling based on demand, and selfhealing, which are crucial for managing a distributed microservices architecture.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0306"
+  },
+  {
+    "q": "Which part of the Container Runtime Interface (CRI) specification is containerd primarily responsible for implementing?",
+    "opts": [
+      "Image distribution and storage",
+      "Low-level container execution and lifecycle management",
+      "Network namespace creation and IP address assignment",
+      "Defining container image format standards",
+      "Implementing pod-level resource sharing"
+    ],
+    "correct": 1,
+    "expl": "containerd is a core container runtime that manages the complete container lifecycle on a single host - image transfer, storage, container execution, supervision, and network attachments.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0307"
+  },
+  {
+    "q": "In Kubernetes, what is the primary role of Role-Based Access Control (RBAC)?",
+    "opts": [
+      "To define network traffic flow between Pods",
+      "To manage secure storage of sensitive data like passwords",
+      "To control user and service account access to API resources",
+      "To assign static IP addresses to Services",
+      "To encrypt container images at rest"
+    ],
+    "correct": 2,
+    "expl": "RBAC regulates access to Kubernetes API resources based on the roles of individual users or service accounts within the cluster, ensuring users only perform actions they are authorized for.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0308"
+  },
+  {
+    "q": "What is the function of a NetworkPolicy in Kubernetes?",
+    "opts": [
+      "To provide a stable DNS name for a set of Pods",
+      "To manage external access to services via HTTP/S routing",
+      "To define how Pods are allowed to communicate with each other",
+      "To assign IP addresses to newly created Pods",
+      "To encrypt traffic between services in a mesh"
+    ],
+    "correct": 2,
+    "expl": "NetworkPolicy resources specify how groups of Pods are allowed to communicate with each other and other network endpoints, acting as a firewall at the Pod level.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0309"
+  },
+  {
+    "q": "What fundamental problem does a Service Mesh like Istio or Linkerd aim to solve in a microservices architecture?",
+    "opts": [
+      "Simplifying container image building",
+      "Automating infrastructure provisioning",
+      "Managing and observing inter-service communication",
+      "Providing persistent storage for stateful applications",
+      "Abstracting server management"
+    ],
+    "correct": 2,
+    "expl": "Service meshes provide a dedicated infrastructure layer for handling service-to-service communication, offering features 1 like traffic management, security (mTLS), and observability (metrics, traces) without requiring changes to application code.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0310"
+  },
+  {
+    "q": "A stateful application requires storage that persists even if its Pod is rescheduled to another Node. Which Kubernetes objects are essential for this?",
+    "opts": [
+      "ConfigMap and Secret",
+      "PersistentVolume (PV) and PersistentVolumeClaim (PVC)",
+      "EphemeralVolume and HostPath volume",
+      "Service and EndpointSlice",
+      "Job and CronJob"
+    ],
+    "correct": 1,
+    "expl": "A PersistentVolume (PV) represents a piece of storage, and a PersistentVolumeClaim (PVC) is a request for that storage by a user/Pod. This decoupling allows storage to outlive Pods.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0311"
+  },
+  {
+    "q": "Which security mechanism in Kubernetes is best suited for providing an identity to processes running in Pods to interact with the API server?",
+    "opts": [
+      "NetworkPolicy",
+      "SecurityContext",
+      "ServiceAccount",
+      "PodSecurityPolicy (deprecated) / PodSecurityAdmission",
+      "TLS Certificates for etcd"
+    ],
+    "correct": 2,
+    "expl": "ServiceAccounts provide an identity for processes that run in a Pod, which can then be granted permissions to API resources via RBAC Roles and RoleBindings.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0312"
+  },
+  {
+    "q": "What is the primary goal of Horizontal Pod Autoscaling (HPA) in Kubernetes?",
+    "opts": [
+      "To increase the resource limits of existing Pods",
+      "To adjust the number of Pod replicas based on metrics",
+      "To add or remove Nodes from the cluster",
+      "To automatically update container images",
+      "To manage storage capacity for stateful sets"
+    ],
+    "correct": 1,
+    "expl": "HPA automatically scales the number of Pod replicas in a workload resource (like a Deployment or StatefulSet) up or down based on observed CPU utilization, custom metrics, or external metrics.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0313"
+  },
+  {
+    "q": "How does Serverless (e.g., FaaS like AWS Lambda or Knative Serving) primarily differ from traditional PaaS offerings?",
+    "opts": [
+      "Serverless does not use containers",
+      "Serverless applications cannot be stateful",
+      "Serverless abstracts away all underlying server management",
+      "PaaS does not offer auto-scaling capabilities",
+      "Serverless is only for event-driven functions"
+    ],
+    "correct": 2,
+    "expl": "Serverless computing (especially FaaS) aims to abstract away all infrastructure management, including servers, OS, and runtimes, allowing developers to focus solely on writing code that executes in response to events.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0314"
+  },
+  {
+    "q": "What is the primary role of the Cloud Native Computing Foundation (CNCF) in the Kubernetes ecosystem?",
+    "opts": [
+      "To directly employ Kubernetes core developers",
+      "To sell Kubernetes enterprise support subscriptions",
+      "To foster and sustain an ecosystem of open source projects",
+      "To define mandatory cloud provider APIs",
+      "To own the intellectual property of Linux"
+    ],
+    "correct": 2,
+    "expl": "The CNCF hosts and promotes a wide range of open source projects (including Kubernetes, Prometheus, Envoy) to advance cloud native computing, providing governance, support, and community building.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0315"
+  },
+  {
+    "q": "In a typical cloud native environment, which persona is most concerned with ensuring application uptime, performance, and managing incident response?",
+    "opts": [
+      "Application Developer",
+      "Platform Consumer",
+      "Site Reliability Engineer (SRE) / Platform Operator",
+      "Business Analyst",
+      "End User"
+    ],
+    "correct": 2,
+    "expl": "SREs and Platform Operators are responsible for the reliability, scalability, and overall operational health of the platform and the applications running on it, including monitoring, alerting, and incident management.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0316"
+  },
+  {
+    "q": "Why are Open Standards, like those defined by the Open Container Initiative (OCI), critical for the cloud native ecosystem?",
+    "opts": [
+      "They guarantee better application performance",
+      "They enforce specific vendor implementations",
+      "They promote interoperability and prevent vendor lock-in",
+      "They reduce the need for security patching",
+      "They simplify the user interface of cloud platforms"
+    ],
+    "correct": 2,
+    "expl": "Open standards (e.g., OCI for container formats/runtimes, CNI for networking, CRI for runtimes) ensure that different tools and platforms can work together seamlessly, giving users choice and preventing vendor lock-in.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0317"
+  },
+  {
+    "q": "Which type of telemetry data is most suitable for understanding the sequence of operations and latency across multiple microservices for a single user request?",
+    "opts": [
+      "Logs",
+      "Metrics",
+      "Traces (Distributed Tracing)",
+      "Events",
+      "Alerts"
+    ],
+    "correct": 2,
+    "expl": "Distributed tracing captures the end-to-end flow of a request as it propagates through different services, providing insights into latency bottlenecks and dependencies.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0318"
+  },
+  {
+    "q": "Prometheus is primarily designed for which type of observability data?",
+    "opts": [
+      "Distributed tracing",
+      "Log aggregation and analysis",
+      "Time-series metrics collection and alerting",
+      "Security auditing and compliance reporting",
+      "Real-time user monitoring (RUM)"
+    ],
+    "correct": 2,
+    "expl": "Prometheus excels at collecting, storing, and querying time-series data (metrics) from various targets, and it includes a powerful alerting mechanism based on PromQL.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0319"
+  },
+  {
+    "q": "In Prometheus, what is an \"exporter\"?",
+    "opts": [
+      "A component that sends alerts to notification channels",
+      "A database that stores long-term metric data",
+      "A client library for instrumenting application code",
+      "A piece of software that exposes metrics from third-party systems",
+      "A dashboard for visualizing metrics"
+    ],
+    "correct": 3,
+    "expl": "Exporters are helper services that fetch metrics from systems that don't natively expose them in Prometheus format (e.g., databases, hardware, message queues) and translate them into a format Prometheus can scrape.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0320"
+  },
+  {
+    "q": "What is a key challenge in cost management specifically related to shared Kubernetes clusters?",
+    "opts": [
+      "High cost of Kubernetes control plane components",
+      "Difficulty in attributing resource usage to specific teams/apps",
+      "Inability to use reserved instances with Kubernetes",
+      "Lack of tools for visualizing overall cloud spend",
+      "Fixed pricing models for all Kubernetes services"
+    ],
+    "correct": 1,
+    "expl": "In multi-tenant clusters, accurately tracking and attributing resource consumption (CPU, memory, storage, network) to different applications, teams, or cost centers can be complex due to the shared nature of resources.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0321"
+  },
+  {
+    "q": "Which principle is central to the GitOps methodology for application and infrastructure deployment?",
+    "opts": [
+      "Using imperative scripts stored in Git",
+      "Managing only stateless applications via Git",
+      "Treating Git as the single source of truth for desired state",
+      "Requiring manual approval for all Git commits",
+      "Using Git LFS for storing container images"
+    ],
+    "correct": 2,
+    "expl": "GitOps emphasizes a declarative approach where the entire desired state of the system (applications, infrastructure) is described in Git, and an automated process ensures the live environment converges to this state. 113",
+    "d": "del",
+    "src": "prep",
+    "id": "q0322"
+  },
+  {
+    "q": "In a CI/CD pipeline for a cloud native application, what is the typical output of the \"Continuous Integration\" (CI) phase?",
+    "opts": [
+      "A running application in production",
+      "A new Kubernetes cluster provisioned",
+      "A tested and versioned container image/artifact",
+      "A detailed cost analysis report",
+      "A set of user stories for the next sprint"
+    ],
+    "correct": 2,
+    "expl": "The CI phase focuses on building the application, running automated tests, and producing a reliable, versioned artifact (often a container image) that is ready for deployment.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0323"
+  },
+  {
+    "q": "What is the primary benefit of implementing CI/CD pipelines for application delivery?",
+    "opts": [
+      "It eliminates the need for testing",
+      "It reduces infrastructure costs significantly",
+      "It enables faster, more reliable software releases",
+      "It automatically writes application code",
+      "It replaces the need for version control systems"
+    ],
+    "correct": 2,
+    "expl": "CI/CD automates the build, test, and deployment processes, leading to increased release velocity, improved code quality through automated testing, and more consistent deployments.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0324"
+  },
+  {
+    "q": "What does a ReplicaSet ensure in Kubernetes?",
+    "opts": [
+      "That a Pod runs on every node",
+      "That a certain number of Pod replicas are running",
+      "That Pods have stable network identifiers",
+      "That external traffic can reach the Pods",
+      "That Pods are scheduled according to affinity rules"
+    ],
+    "correct": 1,
+    "expl": "A ReplicaSet's primary purpose is to maintain a stable set of replica Pods running at any given time, ensuring the desired number of instances of an application are available. Deployments manage ReplicaSets.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0325"
+  },
+  {
+    "q": "Which of the following is NOT a core characteristic of cloud native architectures?",
+    "opts": [
+      "Microservices",
+      "Containers",
+      "Monolithic application design",
+      "DevOps practices",
+      "Automation"
+    ],
+    "correct": 2,
+    "expl": "Cloud native architectures typically favor microservices, containers, dynamic orchestration (like Kubernetes), and DevOps/Agile practices, moving away from large, tightly coupled monolithic designs.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0326"
+  },
+  {
+    "q": "What is the main purpose of a ServiceAccount in Kubernetes when interacting with the API server?",
+    "opts": [
+      "To define network access policies for Pods",
+      "To provide an identity for Pods to authenticate to the API",
+      "To store sensitive credentials for applications",
+      "To group users for applying permissions",
+      "To manage DNS records for services"
+    ],
+    "correct": 1,
+    "expl": "ServiceAccounts provide an identity for processes running within Pods. This identity can be used to authenticate to the Kubernetes API server, and RBAC rules can grant it specific permissions.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0327"
+  }
+]

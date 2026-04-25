@@ -1,0 +1,556 @@
+[
+  {
+    "q": "Which problems can be solved with a container orchestration system?",
+    "opts": [
+      "Scheduling containers across nodes",
+      "Managing CPU and memory resources",
+      "Providing a cluster network for containers",
+      "Writing application source code"
+    ],
+    "correct": 3,
+    "expl": "Container orchestrators like Kubernetes schedule workloads onto nodes, enforce resource requests/limits, and provide a cluster network (via a CNI plugin). They do not write or generate application source code — that remains a developer responsibility.",
+    "d": "orch",
+    "src": "form",
+    "id": "q0425"
+  },
+  {
+    "q": "What do you call the automatic process of discovering services on a network?",
+    "opts": [
+      "Service Mesh",
+      "Service Registry",
+      "Service Discovery",
+      "Service IP"
+    ],
+    "correct": 2,
+    "expl": "Service discovery is the mechanism by which clients locate service instances dynamically — in Kubernetes, via DNS lookups on Service names. A service mesh *uses* service discovery but adds a proxy layer on top.",
+    "d": "orch",
+    "src": "form",
+    "id": "q0426"
+  },
+  {
+    "q": "What are the main parts of a Service Mesh?",
+    "opts": [
+      "Ingress and Egress",
+      "Data Plane and Control Plane",
+      "Proxy and Registry",
+      "Sidecar and Gateway"
+    ],
+    "correct": 1,
+    "expl": "A service mesh is composed of a data plane (sidecar proxies that intercept and route actual service-to-service traffic) and a control plane (which configures the proxies with policies, certificates, and routing rules).",
+    "d": "orch",
+    "src": "form",
+    "id": "q0427"
+  },
+  {
+    "q": "Kubernetes was originally designed and developed by",
+    "opts": [
+      "Cloud Native Computing Foundation (CNCF)",
+      "Apache Software Foundation",
+      "Linux Foundation Networking",
+      "Open Container Initiative (OCI)"
+    ],
+    "correct": 0,
+    "expl": "Kubernetes originated at Google (based on lessons from Borg) and was donated to the Cloud Native Computing Foundation (CNCF) in 2015. CNCF, a sub-foundation of the Linux Foundation, hosts and stewards the project today.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0428"
+  },
+  {
+    "q": "Which of the following is NOT primarily a tool for setting up a Kubernetes cluster?",
+    "opts": [
+      "Minikube",
+      "kubeadm",
+      "Helm",
+      "kops"
+    ],
+    "correct": 2,
+    "expl": "Minikube (local single-node), kubeadm (production-grade bootstrap), and kops (cluster lifecycle on cloud) all create Kubernetes clusters. Helm is a package manager for applications running on Kubernetes — it does not provision the cluster itself.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0429"
+  },
+  {
+    "q": "Sort the three stages a request needs to go through in the api-server.",
+    "opts": [
+      "Admission Control, Authorization, Authentication",
+      "Authentication, Admission Control, Authorization",
+      "Authentication, Authorization, Admission Control",
+      "Authorization, Authentication, Admission Control"
+    ],
+    "correct": 2,
+    "expl": "The API server processes requests in this order: Authentication (who are you?) → Authorization (are you allowed?) → Admission Control (should this specific object be accepted or mutated?).",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0430"
+  },
+  {
+    "q": "Which container runtime is marked as deprecated by Kubernetes?",
+    "opts": [
+      "CRI-O",
+      "containerd",
+      "Docker",
+      "gvisor"
+    ],
+    "correct": 2,
+    "expl": "Direct Docker support via dockershim was deprecated in Kubernetes 1.20 and removed in 1.24. Kubernetes now talks to OCI-compliant runtimes via the CRI — containerd (which Docker itself uses under the hood) and CRI-O are standard choices.",
+    "d": "orch",
+    "src": "form",
+    "id": "q0431"
+  },
+  {
+    "q": "Which Kubernetes component is responsible for scheduling?",
+    "opts": [
+      "kube-apiserver",
+      "kube-scheduler",
+      "kube-controller-manager",
+      "kube-proxy"
+    ],
+    "correct": 1,
+    "expl": "The kube-scheduler watches for pods without an assigned node and picks one based on resource requests, affinity, taints, and other constraints.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0432"
+  },
+  {
+    "q": "Kubernetes manifests are most commonly written in which data-serialization format?",
+    "opts": [
+      "TOML",
+      "XML",
+      "YAML",
+      "INI"
+    ],
+    "correct": 2,
+    "expl": "Kubernetes manifests are canonically written in YAML. JSON is also accepted by the API, but YAML is preferred for its readability and support for comments. TOML, XML, and INI are not used by the Kubernetes API.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0433"
+  },
+  {
+    "q": "Which of the following is not a required field in a Kubernetes object?",
+    "opts": [
+      "kind",
+      "spec",
+      "containers",
+      "metadata"
+    ],
+    "correct": 2,
+    "expl": "The required top-level fields in a Kubernetes manifest are apiVersion, kind, metadata, and spec (for most resources). `containers` is a field nested inside a Pod's spec, not a top-level required field.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0434"
+  },
+  {
+    "q": "Which kubectl subcommand applies a manifest declaratively, creating or updating resources to match the file?",
+    "opts": [
+      "kubectl create",
+      "kubectl apply",
+      "kubectl run",
+      "kubectl expose"
+    ],
+    "correct": 1,
+    "expl": "kubectl apply is the declarative command — it creates resources that don't exist and updates ones that do, tracking changes via the last-applied-configuration annotation. kubectl create is imperative and fails if the resource exists; run starts a pod; expose creates a Service from an existing resource.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0435"
+  },
+  {
+    "q": "Which pod construct runs to completion before the main application containers start, and blocks the pod from starting if it fails?",
+    "opts": [
+      "Sidecar container",
+      "Init container",
+      "Ephemeral container",
+      "postStart lifecycle hook"
+    ],
+    "correct": 1,
+    "expl": "Init containers run sequentially to completion before app containers start; if any init container fails, the pod is restarted (or fails) per its restartPolicy. Sidecars run alongside the main container, ephemeral containers are injected for debugging a running pod, and postStart hooks run after a container has already started.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0436"
+  },
+  {
+    "q": "Which workload object does not exist in Kubernetes?",
+    "opts": [
+      "ReplicaSet",
+      "Deployment",
+      "ApplicationSet",
+      "StatefulSet"
+    ],
+    "correct": 2,
+    "expl": "ReplicaSet, Deployment, StatefulSet (and DaemonSet, Job, CronJob) are built-in Kubernetes workload resources. 'ApplicationSet' is an Argo CD CRD, not a core Kubernetes workload.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0437"
+  },
+  {
+    "q": "Which of the following is NOT a Kubernetes Service type?",
+    "opts": [
+      "ClusterIP",
+      "NodePort",
+      "Ingress",
+      "ExternalName"
+    ],
+    "correct": 2,
+    "expl": "ClusterIP, NodePort, LoadBalancer, and ExternalName are the four Service types. Ingress is a separate API resource (managed by an Ingress controller) that routes HTTP/S traffic to Services — it is not itself a Service type.",
+    "d": "orch",
+    "src": "form",
+    "id": "q0438"
+  },
+  {
+    "q": "Ingress objects can be used to configure HTTP(S) routing rules. True or False?",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "expl": "True. Ingress is the Kubernetes resource for L7 HTTP/S routing — host- and path-based rules, TLS termination. An Ingress controller (NGINX, Traefik, etc.) reads these rules and implements them.",
+    "d": "orch",
+    "src": "form",
+    "id": "q0439"
+  },
+  {
+    "q": "Which Kubernetes object can be used to request storage?",
+    "opts": [
+      "Container Storage Interface",
+      "PersistentVolume",
+      "PersistentVolumeClaim",
+      "StorageClass"
+    ],
+    "correct": 2,
+    "expl": "A PersistentVolumeClaim (PVC) is how a user/Pod requests storage. It binds to a matching PersistentVolume (PV), which represents the actual storage. StorageClass defines how PVs are dynamically provisioned; CSI is the plugin interface.",
+    "d": "orch",
+    "src": "form",
+    "id": "q0440"
+  },
+  {
+    "q": "Which statement best describes the difference between ConfigMaps and Secrets?",
+    "opts": [
+      "Secrets are intended for sensitive data and are base64-encoded, but are not encrypted at rest by default",
+      "Secrets are encrypted at rest by default while ConfigMaps are stored in plain text",
+      "ConfigMaps are namespaced while Secrets are cluster-scoped",
+      "Secrets can only hold strings while ConfigMaps can hold any data type"
+    ],
+    "correct": 0,
+    "expl": "Secrets are designed for sensitive data (passwords, tokens, keys) and their values are base64-encoded for binary safety — but base64 is encoding, not encryption. Encryption at rest in etcd is opt-in and must be configured separately. Both ConfigMaps and Secrets are namespaced and can hold arbitrary key-value data.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0441"
+  },
+  {
+    "q": "Which Kubernetes autoscaler adjusts a workload's CPU and memory requests/limits rather than the number of replicas?",
+    "opts": [
+      "Horizontal Pod Autoscaler (HPA)",
+      "Vertical Pod Autoscaler (VPA)",
+      "Cluster Autoscaler",
+      "Karpenter"
+    ],
+    "correct": 1,
+    "expl": "VPA tunes pod resource requests/limits based on observed usage. HPA scales the number of replicas, while Cluster Autoscaler and Karpenter add or remove nodes — they operate on different axes from VPA.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0442"
+  },
+  {
+    "q": "In a GitOps workflow, what does a commit to the main branch of the configuration repository typically represent?",
+    "opts": [
+      "A trigger to rebuild the container runtime",
+      "The desired state of the system, which a controller will reconcile toward",
+      "A direct API call to the Kubernetes control plane",
+      "An immutable container image"
+    ],
+    "correct": 1,
+    "expl": "GitOps treats the Git repository as the single source of truth for desired state. A commit changes that desired state, and an in-cluster agent (e.g., Argo CD, Flux) continuously reconciles the live cluster to match. Commits do not call the API directly or build images by themselves.",
+    "d": "del",
+    "src": "form",
+    "id": "q0443"
+  },
+  {
+    "q": "Which best describes the GitOps approach to managing systems?",
+    "opts": [
+      "Using Git purely as a backup mechanism for cluster snapshots",
+      "Manually applying kubectl commands and recording them in Git afterward",
+      "Declaring desired state in Git and using an automated agent to reconcile the cluster",
+      "Pushing container images directly from developer laptops to production"
+    ],
+    "correct": 2,
+    "expl": "GitOps stores the declarative desired state (manifests, Helm values, infrastructure code) in Git, and an automated controller continuously pulls and applies changes to keep the live system in sync. Manual kubectl drift, ad-hoc backups, and laptop-to-prod pushes are anti-patterns it is meant to replace.",
+    "d": "del",
+    "src": "form",
+    "id": "q0444"
+  },
+  {
+    "q": "Which of the following best describes a CI/CD pipeline?",
+    "opts": [
+      "A storage location for source code and configuration",
+      "A defined sequence of automated stages (e.g., build, test, deploy) that an artifact passes through",
+      "A network connection between developer machines and the cluster",
+      "A long-lived branch dedicated to production releases"
+    ],
+    "correct": 1,
+    "expl": "A CI/CD pipeline is the automated sequence of stages — typically build, test, scan, and deploy — that code moves through on its way to production. Repositories store code, branches organize history, and networks carry traffic, but none of these define the automation flow itself.",
+    "d": "del",
+    "src": "form",
+    "id": "q0445"
+  },
+  {
+    "q": "Flux and ArgoCD are popular GitOps tools. They use a push-based approach.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "expl": "False. Flux and ArgoCD are pull-based: an agent runs inside the cluster and pulls desired state from Git, reconciling continuously. Pull is considered more secure because the cluster doesn't need inbound credentials from CI.",
+    "d": "del",
+    "src": "form",
+    "id": "q0447"
+  },
+  {
+    "q": "Observability is the same as monitoring. True or False?",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "expl": "False. Monitoring checks predefined signals against thresholds ('known unknowns'). Observability lets you ask arbitrary questions about system state from its outputs (logs, metrics, traces) — addressing 'unknown unknowns'.",
+    "d": "obs",
+    "src": "form",
+    "id": "q0448"
+  },
+  {
+    "q": "Which of the following is NOT one of the three pillars of observability?",
+    "opts": [
+      "Metrics",
+      "Logs",
+      "Alerts",
+      "Traces"
+    ],
+    "correct": 2,
+    "expl": "The three pillars of observability are metrics, logs, and traces. Alerts are a downstream consumer of these signals — they are produced by evaluating metrics or logs, but are not themselves a pillar.",
+    "d": "obs",
+    "src": "form",
+    "id": "q0449"
+  },
+  {
+    "q": "How can you show the logs of a previously terminated container named ruby in the web-1 pod?",
+    "opts": [
+      "kubectl logs web-1 ruby",
+      "kubectl logs -p web-1 ruby",
+      "kubectl web-1 ruby -p",
+      "kubectl logs -p -c ruby web-1"
+    ],
+    "correct": 3,
+    "expl": "Use `-p` (--previous) to fetch logs from the prior instance of a container that has since restarted or terminated. Use `-c` to specify a container when the pod has multiple. Correct: `kubectl logs -p -c ruby web-1`.",
+    "d": "obs",
+    "src": "form",
+    "id": "q0450"
+  },
+  {
+    "q": "What do you call the pattern where you add a second container to your pod to collect and ship logs?",
+    "opts": [
+      "Cluster-level logging",
+      "Node-level logging",
+      "Sidecar container logging",
+      "Application-level logging"
+    ],
+    "correct": 2,
+    "expl": "The sidecar pattern adds an auxiliary container to the pod. For logging, a sidecar can tail the app's log files and ship them to an aggregator — without modifying the main application.",
+    "d": "obs",
+    "src": "form",
+    "id": "q0451"
+  },
+  {
+    "q": "Which format is most widely adopted for structured application logs?",
+    "opts": [
+      "Plain unstructured text",
+      "JSON (one object per line)",
+      "Syslog RFC 3164",
+      "CSV"
+    ],
+    "correct": 1,
+    "expl": "Line-delimited JSON is the de facto structured logging format — compact, machine-parseable, and supported by all major aggregators (Loki, Elasticsearch, CloudWatch, Datadog). Plain text lacks structure, syslog has limited fields, and CSV is awkward for nested or optional data.",
+    "d": "obs",
+    "src": "form",
+    "id": "q0452"
+  },
+  {
+    "q": "What kind of software is Prometheus?",
+    "opts": [
+      "Software to manage containers",
+      "Software to collect and store metrics",
+      "Software to manage virtual machines",
+      "Software to collect and store logs"
+    ],
+    "correct": 1,
+    "expl": "Prometheus is a time-series database and monitoring system for metrics. It scrapes HTTP endpoints, stores the data in its TSDB, and exposes PromQL for querying and alerting.",
+    "d": "obs",
+    "src": "form",
+    "id": "q0453"
+  },
+  {
+    "q": "Which Prometheus metric type should be used for a value that only increases (e.g., an error_count)?",
+    "opts": [
+      "Histogram",
+      "Gauge",
+      "Counter",
+      "Summary"
+    ],
+    "correct": 2,
+    "expl": "Counters monotonically increase (or reset to zero on restart). Use them for event counts like requests, errors, or bytes sent. Gauges go up and down; histograms/summaries track distributions.",
+    "d": "obs",
+    "src": "form",
+    "id": "q0454"
+  },
+  {
+    "q": "What is the front end for the Kubernetes control plane?",
+    "opts": [
+      "kube-scheduler",
+      "etcd",
+      "kube-controller-manager",
+      "kube-apiserver"
+    ],
+    "correct": 3,
+    "expl": "The kube-apiserver is the only component that talks to etcd and is the entry point for all cluster interactions. Every other component (schedulers, controllers, kubelets, kubectl) communicates through it.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0455"
+  },
+  {
+    "q": "Which key-value store is used as Kubernetes' backing store for all cluster data?",
+    "opts": [
+      "etcd",
+      "kube-scheduler",
+      "kube-apiserver",
+      "kubelet"
+    ],
+    "correct": 0,
+    "expl": "etcd is the distributed, consistent key-value store that holds all cluster state. Lose etcd = lose the cluster. Production clusters run etcd as a 3- or 5-node cluster for high availability.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0456"
+  },
+  {
+    "q": "Which component watches newly created pods that have no node assigned, and selects a node for them to run on?",
+    "opts": [
+      "kube-proxy",
+      "kube-scheduler",
+      "kube-apiserver",
+      "kubelet"
+    ],
+    "correct": 1,
+    "expl": "The kube-scheduler is specifically responsible for this. It filters candidate nodes (that can satisfy the pod's requests) and scores them, then binds the pod to the best node via the API server.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0457"
+  },
+  {
+    "q": "Which of the following runs controllers?",
+    "opts": [
+      "kube-proxy",
+      "kube-scheduler",
+      "kube-apiserver",
+      "kube-controller-manager"
+    ],
+    "correct": 3,
+    "expl": "The kube-controller-manager bundles core controllers — Node, ReplicaSet, Deployment, Endpoints, ServiceAccount, and more — into a single binary. Each controller runs a reconciliation loop.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0458"
+  },
+  {
+    "q": "Which agent runs on each node in a Kubernetes cluster?",
+    "opts": [
+      "etcd",
+      "kube-scheduler",
+      "kube-apiserver",
+      "kubelet"
+    ],
+    "correct": 3,
+    "expl": "kubelet runs on every node. It talks to the API server, receives pod specs assigned to its node, and instructs the container runtime (via CRI) to actually run the containers.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0459"
+  },
+  {
+    "q": "Which set of Kubernetes components makes global decisions about the cluster, such as scheduling and responding to events?",
+    "opts": [
+      "Control plane components",
+      "Node components",
+      "Add-ons",
+      "Container runtime"
+    ],
+    "correct": 0,
+    "expl": "The control plane (API server, scheduler, controller manager, etcd) makes cluster-wide decisions. Node components (kubelet, kube-proxy) execute work locally on each node. Add-ons provide optional cluster features like DNS or dashboards, and the container runtime runs individual containers.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0460"
+  },
+  {
+    "q": "Which of the following is NOT a typical Kubernetes deployment target?",
+    "opts": [
+      "A managed cloud service such as EKS, GKE, or AKS",
+      "An on-premises datacenter using kubeadm or a distribution",
+      "A local developer workstation using Minikube or kind",
+      "A web browser running JavaScript"
+    ],
+    "correct": 3,
+    "expl": "Kubernetes runs on Linux nodes, so it can be deployed in managed cloud, on-prem, and local-dev environments. A web browser cannot host the Kubernetes control plane or workloads — Kubernetes is not a browser runtime.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0461"
+  },
+  {
+    "q": "Which of the following tools is NOT typically used to run a local single-node or single-host Kubernetes cluster for development?",
+    "opts": [
+      "Minikube",
+      "kind",
+      "k3d",
+      "kube-proxy"
+    ],
+    "correct": 3,
+    "expl": "Minikube, kind (Kubernetes-in-Docker), and k3d (k3s-in-Docker) are all popular tools for running a local Kubernetes cluster on a developer machine. kube-proxy is a per-node networking component inside any Kubernetes cluster — it does not provision clusters.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0462"
+  },
+  {
+    "q": "Which statement about Kubernetes autoscaling is most accurate?",
+    "opts": [
+      "Cluster Autoscaler is provider-agnostic and works identically on every cloud without configuration",
+      "HPA and VPA work on any conformant Kubernetes cluster, while Cluster Autoscaler relies on cloud-provider integrations to add or remove nodes",
+      "Autoscaling is only supported on Google Cloud",
+      "HPA scales nodes, while Cluster Autoscaler scales pod replicas"
+    ],
+    "correct": 1,
+    "expl": "HPA (replicas) and VPA (resource requests/limits) are provider-agnostic and run on any Kubernetes cluster with a metrics source. Cluster Autoscaler scales the node pool itself and therefore needs a provider-specific integration (AWS, GCP, Azure, on-prem auto-provisioners, etc.).",
+    "d": "arch",
+    "src": "form",
+    "id": "q0463"
+  },
+  {
+    "q": "Which best describes a container image?",
+    "opts": [
+      "A running process executing on a node",
+      "A Kubernetes Pod specification stored in etcd",
+      "An immutable artifact that bundles an application with its runtime dependencies",
+      "A kernel module loaded on the host"
+    ],
+    "correct": 2,
+    "expl": "A container image is an immutable, layered artifact (typically OCI-formatted) that packages an application binary together with its libraries, files, and configuration so it runs consistently across environments. A running process is a container, a Pod spec is API metadata, and kernel modules live in the host kernel.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0464"
+  },
+  {
+    "q": "Which of the following is the most accurate statement about local Kubernetes development tools?",
+    "opts": [
+      "Minikube is the only tool that can run Kubernetes on a developer workstation",
+      "kind runs Kubernetes nodes as Docker containers, making it well-suited for CI environments",
+      "Docker Desktop cannot run a Kubernetes cluster",
+      "k3d requires a separate hypervisor and cannot run on Linux"
+    ],
+    "correct": 1,
+    "expl": "kind (Kubernetes IN Docker) runs each Kubernetes node as a Docker container, which makes it fast to start and tear down — ideal for CI pipelines. Minikube, Docker Desktop, and k3d are all valid local options as well, each with different tradeoffs around VM usage, multi-node support, and resource overhead.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0466"
+  }
+]

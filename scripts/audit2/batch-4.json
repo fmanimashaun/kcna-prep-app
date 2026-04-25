@@ -1,0 +1,707 @@
+[
+  {
+    "q": "What is a key benefit of using the Container Runtime Interface (CRI) from Kubernetes' perspective?",
+    "opts": [
+      "It simplifies the container image building process for developers.",
+      "It allows Kubernetes to be independent of specific container runtime implementations.",
+      "It provides a built-in metrics collection system for containers.",
+      "It enables running virtual machines alongside containers within the same Pod.",
+      "It standardizes the format for container log messages."
+    ],
+    "correct": 1,
+    "expl": "CRI provides a stable abstraction layer. This allows Kubernetes to support multiple container runtimes without having runtimespecific code in the core kubelet. As long as a runtime implements CRI, Kubernetes can use it.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0143"
+  },
+  {
+    "q": "What is the main difference between iptables and IPVS modes for kube-proxy?",
+    "opts": [
+      "iptables mode is newer and supports more advanced features.",
+      "IPVS is designed for smaller clusters; iptables for larger ones.",
+      "iptables uses linked lists for rules; IPVS uses hash tables, often better for scale.",
+      "IPVS mode does not require kube-proxy to run on worker nodes.",
+      "iptables mode can only handle HTTP traffic; IPVS handles all TCP/UDP."
+    ],
+    "correct": 2,
+    "expl": "IPVS (IP Virtual Server) is built on the Netfilter hook function and uses hash tables. It's generally considered more performant and scalable for a large number of Services compared to iptables mode, which uses sequential rule processing that can become slow with many rules.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0144"
+  },
+  {
+    "q": "When would you typically choose a Service Mesh over just using Kubernetes NetworkPolicies for securing inter-Pod communication?",
+    "opts": [
+      "When you need basic L3/L4 firewalling based on Pod labels.",
+      "When you require application-layer (L7) traffic management, mTLS, and observability.",
+      "When you need to expose services externally using an Ingress controller.",
+      "When you want to restrict a Pod's access to host resources.",
+      "When the primary concern is node-to-node encryption."
+    ],
+    "correct": 1,
+    "expl": "NetworkPolicies provide L3/L4 segmentation between Pods. A Service Mesh operates at L7, offering richer features such as automatic mTLS for strong workload identity and encryption, fine-grained traffic control (retries, timeouts, traffic splitting, circuit breaking), and detailed telemetry (metrics, logs, distributed traces) for application traffic. You choose a mesh when those L7 capabilities are required.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0145"
+  },
+  {
+    "q": "How does a VolumeSnapshot object in Kubernetes relate to a PersistentVolumeClaim?",
+    "opts": [
+      "It defines the maximum size a PVC can grow to.",
+      "It's a request to create a point-in-time copy of the data in a PVC.",
+      "It's a type of PVC that uses ephemeral local storage.",
+      "It specifies the encryption key to be used for a PVC.",
+      "It provides a template for creating multiple identical PVCs."
+    ],
+    "correct": 1,
+    "expl": "A VolumeSnapshot represents a snapshot of the data on a volume associated with a PVC at a specific point in time. This is typically used for backup and restore purposes and requires a CSI driver that supports snapshots.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0146"
+  },
+  {
+    "q": "Which Kubernetes security mechanism would you use to prevent containers in a Pod from running as the root user or gaining new privileges?",
+    "opts": [
+      "NetworkPolicy",
+      "Role and RoleBinding",
+      "SecurityContext (e.g., runAsNonRoot: true, allowPrivilegeEscalation: false)",
+      "Secret storing user credentials.",
+      "LimitRange defining CPU limits."
+    ],
+    "correct": 2,
+    "expl": "The SecurityContext (at Pod or container level) allows setting various security parameters. runAsNonRoot: true ensures the container doesn't run as root. allowPrivilegeEscalation: false prevents a process from gaining more privileges than its parent.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0147"
+  },
+  {
+    "q": "What is the primary advantage of a \"headless\" Service in Kubernetes?",
+    "opts": [
+      "It provides a stable ClusterIP for load balancing.",
+      "It automatically creates an external load balancer for the Service.",
+      "It allows direct Pod IP discovery via DNS, often used with StatefulSets.",
+      "It encrypts all traffic to the Pods it selects.",
+      "It exposes Pods on every node using a fixed NodePort."
+    ],
+    "correct": 2,
+    "expl": "A headless Service (clusterIP: None) does not get a ClusterIP. Instead, DNS queries for the Service name return the IP addresses of the individual backing Pods. This is useful for peer-to-peer discovery or when clients need to connect to specific Pod instances, common with StatefulSets.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0148"
+  },
+  {
+    "q": "In a Service Mesh, what is the typical role of the \"data plane\"?",
+    "opts": [
+      "To define global policies and configurations for service communication.",
+      "To collect telemetry data and send it to a centralized monitoring system.",
+      "To actually handle and proxy network traffic between services (e.g., using sidecars).",
+      "To provide a user interface for managing and visualizing the mesh.",
+      "To manage the lifecycle of service instances (deploy, scale, heal)."
+    ],
+    "correct": 2,
+    "expl": "The data plane consists of the network proxies (usually sidecars like Envoy) that are deployed alongside each service instance. These proxies intercept, inspect, and route all network traffic to and from the services, enforcing policies received from the control plane.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0149"
+  },
+  {
+    "q": "What does the accessModes field (e.g., ReadWriteOnce, ReadOnlyMany, ReadWriteMany) on a PersistentVolume signify?",
+    "opts": [
+      "The speed of the underlying storage (e.g., SSD vs. HDD).",
+      "The encryption status of the volume.",
+      "How the volume can be mounted by nodes and Pods.",
+      "The backup policy for the volume.",
+      "The geographical region where the storage is located."
+    ],
+    "correct": 2,
+    "expl": "accessModes define how many nodes can mount the PV and in what mode. ReadWriteOnce (RWO) means it can be mounted read-write by a single node. ReadOnlyMany (ROX) means read-only by many nodes. ReadWriteMany (RWX) means read-write by many nodes. ReadWriteOncePod (RWOP) is read-write by a single Pod.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0150"
+  },
+  {
+    "q": "What differentiates a PodSecurityPolicy (deprecated) or its successor (Pod Security Admission) from a NetworkPolicy?",
+    "opts": [
+      "PodSecurityPolicy controls network access; NetworkPolicy controls Pod privileges.",
+      "PodSecurityPolicy defines what a Pod can do (e.g., host access, privileges); NetworkPolicy defines network connectivity.",
+      "Both control the same aspects but at different scopes (namespace vs. cluster).",
+      "NetworkPolicy is implemented by CNI; PodSecurityPolicy by the runtime.",
+      "PodSecurityPolicy is for ingress; NetworkPolicy is for egress."
+    ],
+    "correct": 1,
+    "expl": "Pod Security Admission (and its predecessor PSP) define a set of conditions a Pod must run with to be accepted into the cluster (e.g., running as non-root, not using host networking, allowed volumes). NetworkPolicy controls L3/L4 network traffic flow to/from Pods.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0151"
+  },
+  {
+    "q": "How does Kubernetes DNS enable service discovery for a Service named my-svc in namespace my-ns from another Pod in the same namespace?",
+    "opts": [
+      "The Pod queries for my-svc.my-ns.svc.cluster.local.",
+      "The Pod queries for my-svc.",
+      "The Pod queries for the ClusterIP of my-svc directly.",
+      "kube-proxy injects the IP of my-svc into the Pod's /etc/hosts.",
+      "Pods cannot discover services in the same namespace via DNS."
+    ],
+    "correct": 1,
+    "expl": "Within the same namespace, the short Service name (e.g., my-svc) is sufficient because Pods are configured with a DNS search path that includes <namespace>.svc.cluster.local. For cross-namespace lookups you would use my-svc.my-ns or the fully qualified my-svc.my-ns.svc.cluster.local.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0152"
+  },
+  {
+    "q": "What is the primary purpose of the volumeMode field (e.g., Filesystem, Block) in a PersistentVolume and PersistentVolumeClaim?",
+    "opts": [
+      "To specify whether the volume should be encrypted.",
+      "To indicate if the volume supports snapshots.",
+      "To determine if the volume should be presented as a mounted filesystem or a raw block device.",
+      "To define the accessModes allowed for the volume.",
+      "To set the default permissions for files created on the volume."
+    ],
+    "correct": 2,
+    "expl": "volumeMode allows a PV to be exposed as either a mounted filesystem (default) or as a raw block device. Block mode is useful for applications that need direct access to a block device, like certain databases.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0153"
+  },
+  {
+    "q": "If a container image specifies a USER instruction, but the Pod's SecurityContext also defines runAsUser, which value typically takes precedence?",
+    "opts": [
+      "The USER instruction in the Dockerfile.",
+      "The runAsUser from the Pod's SecurityContext.",
+      "Neither; the container will run as root by default.",
+      "The values are merged, leading to an error.",
+      "The kubelet decides based on node configuration."
+    ],
+    "correct": 1,
+    "expl": "Kubernetes' SecurityContext settings (at Pod or container level) generally override the USER instruction baked into the container image. This allows cluster administrators to enforce security policies regardless of how an image was built.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0154"
+  },
+  {
+    "q": "One of the challenges in early container adoption was managing many containers across many hosts. What core capability did orchestrators bring to solve this directly?",
+    "opts": [
+      "Standardization of container image formats.",
+      "Automated cluster-wide scheduling and resource management.",
+      "Tools for building smaller container images.",
+      "Secure private container image registries.",
+      "Faster container boot times."
+    ],
+    "correct": 1,
+    "expl": "While all options are part of the broader ecosystem, the direct answer to managing many containers on many hosts is the automated scheduling (placing containers on appropriate hosts) and resource management (allocating CPU/memory) provided by orchestrators like Kubernetes.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0155"
+  },
+  {
+    "q": "Which Kubernetes autoscaling mechanism adjusts the CPU and memory requests and limits of existing Pods based on historical usage data?",
+    "opts": [
+      "Horizontal Pod Autoscaler (HPA)",
+      "Cluster Autoscaler (CA)",
+      "Vertical Pod Autoscaler (VPA)",
+      "Node Problem Detector (NPD)",
+      "Custom Pod Autoscaler (CPA)"
+    ],
+    "correct": 2,
+    "expl": "VPA analyzes resource usage and modifies the resources.requests and resources.limits for containers within Pods, aiming for optimal resource allocation. HPA changes replica counts, and CA changes the number of nodes.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0156"
+  },
+  {
+    "q": "What is the fundamental characteristic of a \"Serverless\" computing model from the developer's perspective?",
+    "opts": [
+      "The complete absence of servers in the underlying infrastructure.",
+      "The ability to run code without managing or provisioning underlying servers or infrastructure.",
+      "The use of specialized hardware accelerators for function execution.",
+      "A pricing model based solely on CPU cycles consumed.",
+      "The requirement to write code only in specific languages like Node.js or Python."
+    ],
+    "correct": 1,
+    "expl": "Serverless abstracts away the underlying infrastructure (servers, OS, patching). Developers provide code/functions, and the platform handles provisioning, scaling, and management needed to run that code, often triggered by events.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0157"
+  },
+  {
+    "q": "What is the primary role of the Cloud Native Computing Foundation (CNCF)?",
+    "opts": [
+      "To develop and sell commercial distributions of Kubernetes.",
+      "To define and enforce specific implementation details for cloud provider services.",
+      "To host and nurture open source projects, fostering collaboration in the cloud native ecosystem.",
+      "To directly manage the development lifecycle of the Linux kernel.",
+      "To certify individual developers as cloud native experts through exams only."
+    ],
+    "correct": 2,
+    "expl": "CNCF provides a neutral home for critical open source projects (like Kubernetes, Prometheus, Envoy), offering governance, marketing, and community support to promote the adoption of cloud native technologies.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0158"
+  },
+  {
+    "q": "In a typical cloud native environment, which persona is primarily focused on building and maintaining the underlying platform (e.g., Kubernetes cluster) itself?",
+    "opts": [
+      "Application Developer",
+      "End User",
+      "Platform Engineer / Operator / SRE",
+      "Data Scientist",
+      "Business Analyst"
+    ],
+    "correct": 2,
+    "expl": "Platform Engineers, Operators, and SREs are responsible for building, operating, and maintaining the underlying platform itself: provisioning clusters, managing upgrades and patches, handling reliability, observability, and capacity, and providing the platform as a service to application teams. Application Developers consume the platform; they do not run it.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0159"
+  },
+  {
+    "q": "The Horizontal Pod Autoscaler (HPA) in Kubernetes primarily makes scaling decisions based on what kind of information?",
+    "opts": [
+      "Historical resource usage patterns over weeks.",
+      "The number of nodes currently available in the cluster.",
+      "Observed metrics like CPU utilization, memory usage, or custom metrics from Pods.",
+      "The declared priorityClassName of the Pods.",
+      "The size of the container images being used."
+    ],
+    "correct": 2,
+    "expl": "HPA monitors metrics associated with the Pods it targets (e.g., average CPU utilization). When these metrics cross predefined thresholds, HPA adjusts the replicas count of the workload resource (e.g., Deployment, StatefulSet) accordingly.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0160"
+  },
+  {
+    "q": "Which statement best describes Functions-as-a-Service (FaaS), a common implementation of serverless?",
+    "opts": [
+      "A platform for running long-lived, stateful applications with persistent connections.",
+      "An architecture where applications are decomposed into large, independently deployable services.",
+      "A model for executing stateless, event-triggered code functions without managing server infrastructure.",
+      "A service that automatically converts monolithic applications into containerized microservices.",
+      "A managed Kubernetes offering from a cloud provider."
+    ],
+    "correct": 2,
+    "expl": "FaaS platforms (like AWS Lambda, Google Cloud Functions, Knative Serving) are optimized for running small, stateless pieces of code (functions) in response to events (e.g., HTTP requests, queue messages, file uploads), abstracting away the underlying execution environment.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0161"
+  },
+  {
+    "q": "What does it typically mean for a project to be \"Graduated\" within the CNCF?",
+    "opts": [
+      "The project is no longer actively maintained or supported by the CNCF.",
+      "The project has just been accepted into the CNCF Sandbox stage.",
+      "The project has demonstrated widespread adoption, stability, and strong governance.",
+      "The project is mandated for use by all CNCF member companies.",
+      "The project's source code has been formally verified for security flaws."
+    ],
+    "correct": 2,
+    "expl": "Graduation is the highest maturity level for CNCF projects. It signifies that a project is mature, widely used in production, has healthy community dynamics, strong governance, and meets CNCF's criteria for stability and ecosystem impact.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0162"
+  },
+  {
+    "q": "Which persona is most likely to interact directly with kubectl daily to deploy, troubleshoot, and manage applications running on the Kubernetes platform?",
+    "opts": [
+      "Platform Operator managing the cluster infrastructure.",
+      "Application Developer deploying and managing their specific microservices.",
+      "End User accessing the application through a web browser.",
+      "CNCF maintainer reviewing project proposals.",
+      "Security auditor reviewing RBAC policies."
+    ],
+    "correct": 1,
+    "expl": "While Operators also use kubectl, Application Developers are typically the primary users interacting with the Kubernetes API via kubectl to manage the lifecycle of their applications (Deployments, Services, ConfigMaps, etc.) deployed onto the platform provided by Operators.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0163"
+  },
+  {
+    "q": "The Container Network Interface (CNI) standard primarily addresses which aspect of container orchestration?",
+    "opts": [
+      "Container image building and distribution.",
+      "Container runtime execution and lifecycle management.",
+      "Network connectivity and IP address management for containers/Pods.",
+      "Persistent storage provisioning and attachment for containers.",
+      "Security policy enforcement within containers."
+    ],
+    "correct": 2,
+    "expl": "CNI defines a standard interface between container runtimes (or orchestrators like Kubernetes via kubelet) and network plugins. These plugins are responsible for wiring containers into the host network and assigning IP addresses, enabling Pod-to-Pod communication.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0164"
+  },
+  {
+    "q": "What is the primary function of the Cluster Autoscaler (CA) in Kubernetes?",
+    "opts": [
+      "To adjust the number of replicas for a Deployment based on CPU load.",
+      "To modify the resource requests/limits for Pods based on usage.",
+      "To add or remove worker nodes from the cluster based on Pod scheduling pressure.",
+      "To automatically update Kubernetes control plane components.",
+      "To balance network traffic evenly across all nodes."
+    ],
+    "correct": 2,
+    "expl": "The Cluster Autoscaler watches for Pods that are unschedulable due to insufficient CPU or memory on existing nodes. When such Pods exist, it asks the underlying infrastructure (typically a cloud provider) to add new worker nodes so the Pods can be scheduled. It also removes nodes that have been underutilized for a sustained period and whose Pods can be rescheduled elsewhere.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0165"
+  },
+  {
+    "q": "What distinguishes serverless platforms (like Knative or FaaS) from traditional Platform-as-a-Service (PaaS) regarding scaling?",
+    "opts": [
+      "PaaS cannot scale automatically; Serverless can.",
+      "Serverless platforms can typically scale down to zero instances when idle; PaaS often cannot.",
+      "PaaS scales based on node count; Serverless scales based on function memory size.",
+      "Serverless platforms only support vertical scaling; PaaS supports horizontal scaling.",
+      "PaaS requires manual intervention for all scaling operations."
+    ],
+    "correct": 1,
+    "expl": "A key characteristic of many serverless platforms is the ability to scale down the number of running instances to zero when there are no incoming requests, reducing costs for idle applications. Traditional PaaS offerings often require at least one instance to be running continuously.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0166"
+  },
+  {
+    "q": "What is the role of a CNCF Special Interest Group (SIG) or Technical Advisory Group (TAG)?",
+    "opts": [
+      "To directly employ developers working on CNCF projects.",
+      "To provide commercial support contracts for CNCF software.",
+      "To provide technical leadership and coordinate efforts within specific domains or projects.",
+      "To vote on which projects should be accepted into the CNCF Sandbox.",
+      "To manage the financial budget of the CNCF."
+    ],
+    "correct": 2,
+    "expl": "SIGs (often within projects like Kubernetes) and TAGs (across the CNCF landscape) are groups focused on specific technical areas (e.g., TAG Security, TAG Storage, Kubernetes SIG-Network). They provide expertise, guidance, review designs, and coordinate work within their respective domains.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0167"
+  },
+  {
+    "q": "An Application Developer using a cloud native platform is primarily concerned with which of the following?",
+    "opts": [
+      "Managing etcd backups and restores for the cluster.",
+      "Writing application code, defining deployment manifests, and configuring CI/CD pipelines.",
+      "Patching the operating system on the cluster nodes.",
+      "Configuring the CNI plugin for optimal network performance.",
+      "Selecting the physical hardware for the worker nodes."
+    ],
+    "correct": 1,
+    "expl": "The Application Developer's focus is on the application itself: writing code, packaging it (often into containers), defining how it should run in Kubernetes (e.g., Deployments, Services), and setting up automation for building and deploying it. They rely on the platform provided by Operators.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0168"
+  },
+  {
+    "q": "The Container Storage Interface (CSI) standard allows Kubernetes to support various storage systems. What is the main benefit of this standardization?",
+    "opts": [
+      "It guarantees all CSI-compliant storage has the same performance characteristics.",
+      "It allows storage vendors to add support without modifying core Kubernetes code.",
+      "It eliminates the need for PersistentVolumes and PersistentVolumeClaims.",
+      "It provides a built-in data encryption layer for all storage types.",
+      "It defines the optimal way to structure data within a volume."
+    ],
+    "correct": 1,
+    "expl": "CSI provides a standard API for storage plugins. This decouples storage provider implementations from the core Kubernetes code, allowing vendors to develop drivers independently and enabling Kubernetes users to leverage a wide variety of storage backends consistently.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0169"
+  },
+  {
+    "q": "When using Horizontal Pod Autoscaling (HPA) based on custom metrics, where does the HPA typically retrieve these metrics from?",
+    "opts": [
+      "Directly from the kubelet on each node.",
+      "From the Kubernetes Metrics Server (focused on resource metrics).",
+      "From monitoring systems like Prometheus via the custom metrics API (k8s-prometheus-adapter).",
+      "By parsing application log files stored in etcd.",
+      "From annotations manually added to the Deployment manifest."
+    ],
+    "correct": 2,
+    "expl": "While HPA uses the Metrics Server for CPU/memory, custom metrics (e.g., queue length, requests per second) require an adapter (like k8s-prometheus-adapter or a cloud provider specific one) that fetches data from an external monitoring system (like Prometheus) and exposes it via the Kubernetes custom/external metrics API.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0170"
+  },
+  {
+    "q": "What does \"event-driven\" architecture, often associated with serverless functions, mean?",
+    "opts": [
+      "Applications must be written using event sourcing patterns.",
+      "Code execution is triggered by the occurrence of specific events (e.g., HTTP request, message).",
+      "The platform uses events internally for scheduling, hidden from the user.",
+      "All application state must be stored within the event payload.",
+      "Only asynchronous communication patterns can be used."
+    ],
+    "correct": 1,
+    "expl": "In an event-driven model, components react to events. Serverless functions are often designed this way: an event occurs (like an API call, a file upload, a database change), and the platform triggers the corresponding function to process that event.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0171"
+  },
+  {
+    "q": "How does the CNCF promote cloud native principles and best practices within the community?",
+    "opts": [
+      "By mandating the use of specific programming languages for hosted projects.",
+      "By selling proprietary tools that enforce best practices.",
+      "Through publications (e.g., blog, reports), webinars, events (like KubeCon), and fostering collaboration.",
+      "By directly managing the infrastructure for all member companies.",
+      "By providing legally binding architectural blueprints."
+    ],
+    "correct": 2,
+    "expl": "The CNCF acts as a vendor-neutral home and community hub for cloud native projects. It promotes principles and best practices through its website and blog, technical reports and white papers, the CNCF Landscape, webinars and training, and major events such as KubeCon + CloudNativeCon, while fostering collaboration across maintainers and end users.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0172"
+  },
+  {
+    "q": "A Site Reliability Engineer (SRE) working with a Kubernetes platform would likely focus most on which area?",
+    "opts": [
+      "Designing the user interface for end-user applications.",
+      "Automating platform operations, ensuring reliability/SLOs, and managing incident response.",
+      "Writing feature code for the core business applications running on the platform.",
+      "Defining the marketing strategy for the company's cloud native services.",
+      "Choosing which programming language application developers should use."
+    ],
+    "correct": 1,
+    "expl": "SREs apply software engineering principles to infrastructure and operations problems. They focus on automating tasks, measuring and meeting Service Level Objectives (SLOs) for platform reliability, improving monitoring/alerting, and handling incidents efficiently.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0173"
+  },
+  {
+    "q": "Why is the standardization provided by specifications like CRI (Container Runtime Interface) important for Platform Operators/SREs?",
+    "opts": [
+      "It allows them to use docker build commands to manage runtime configuration.",
+      "It simplifies the process of writing application code for developers.",
+      "It gives them flexibility to choose/swap runtimes without disrupting Kubernetes functionality.",
+      "It guarantees that all container runtimes will have identical performance.",
+      "It eliminates the need for managing worker nodes."
+    ],
+    "correct": 2,
+    "expl": "CRI decouples Kubernetes (kubelet) from the specific runtime implementation. This allows platform operators to choose the runtime that best fits their needs (e.g., containerd, CRI-O) and potentially switch between them with minimal impact on the overall Kubernetes system.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0174"
+  },
+  {
+    "q": "If you need to automatically scale your Kubernetes cluster by adding/removing nodes based on overall resource pressure, which component is responsible?",
+    "opts": [
+      "Horizontal Pod Autoscaler (HPA)",
+      "Vertical Pod Autoscaler (VPA)",
+      "Cluster Autoscaler (CA)",
+      "kube-scheduler",
+      "metrics-server"
+    ],
+    "correct": 2,
+    "expl": "The Cluster Autoscaler specifically monitors for unschedulable Pods (due to resource constraints) and interacts with the underlying infrastructure (e.g., cloud provider) to add more nodes. It also consolidates workloads and removes underutilized nodes.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0175"
+  },
+  {
+    "q": "Which statement best describes the concept of \"scale to zero\" in serverless platforms?",
+    "opts": [
+      "The platform uses zero resources when no functions are deployed.",
+      "Application instances are automatically removed when idle, consuming no resources.",
+      "Functions are limited to executing for zero seconds (instantaneous execution).",
+      "The platform requires zero configuration from the developer to deploy functions.",
+      "Only zero-cost open source serverless platforms support this feature."
+    ],
+    "correct": 1,
+    "expl": "\"Scale to zero\" means that if a serverless function or application receives no traffic or events for a period, the platform automatically scales down the number of running instances to zero. This stops resource consumption and associated costs during idle periods.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0176"
+  },
+  {
+    "q": "What is the significance of the CNCF Landscape (landscape.cncf.io)?",
+    "opts": [
+      "It's the official source code repository for all CNCF projects.",
+      "It's a legally binding contract defining how member companies must use CNCF software.",
+      "It provides an interactive map categorizing and organizing projects within the cloud native ecosystem.",
+      "It's the primary tool used for deploying applications to Kubernetes clusters.",
+      "It's a real-time dashboard showing the operational status of CNCF projects."
+    ],
+    "correct": 2,
+    "expl": "The CNCF Landscape is a vital resource that attempts to map the vast cloud native ecosystem, organizing projects and products into categories (e.g., database, scheduling, observability). It helps users navigate the available tools and understand the relationships between them.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0177"
+  },
+  {
+    "q": "Consider the interaction between Application Developers and Platform Operators. What is a key aspect of their relationship in a healthy cloud native culture?",
+    "opts": [
+      "Operators dictate the exact programming languages developers must use.",
+      "Developers have unrestricted root access to all cluster nodes for debugging.",
+      "Clear interfaces and responsibilities, with Operators providing a reliable platform for Developers.",
+      "Developers are solely responsible for patching the Kubernetes control plane.",
+      "Operators manually review every line of application code before deployment."
+    ],
+    "correct": 2,
+    "expl": "A successful cloud native environment relies on a clear separation of concerns and collaboration. Operators provide a stable, automated platform with self-service capabilities, while Developers consume the platform services to build, deploy, and run their applications efficiently.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0178"
+  },
+  {
+    "q": "The existence of multiple CNI (Container Network Interface) plugins (e.g., Calico, Flannel, Cilium) demonstrates what benefit of open standards?",
+    "opts": [
+      "That CNI guarantees identical features across all network plugins.",
+      "That network configuration in Kubernetes is overly complex.",
+      "That standardization allows for choice and innovation in specific implementation areas.",
+      "That CNI plugins are only developed by the CNCF itself.",
+      "That network plugins are the least stable part of Kubernetes."
+    ],
+    "correct": 2,
+    "expl": "The CNI specification standardizes the contract between a container runtime/orchestrator and a network plugin, but it deliberately leaves the implementation open. That is why projects like Calico, Flannel, and Cilium can coexist and differentiate on features such as policy enforcement, eBPF data planes, encryption, or performance, giving users choice while preserving interoperability.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0179"
+  },
+  {
+    "q": "You have a stateless web application deployed using a Kubernetes Deployment. Traffic fluctuates significantly. You want to automatically adjust the number of Pods based on average CPU utilization. Which tool is most appropriate?",
+    "opts": [
+      "Cluster Autoscaler (CA)",
+      "Vertical Pod Autoscaler (VPA)",
+      "Horizontal Pod Autoscaler (HPA) configured with a CPU utilization target.",
+      "Manually adjusting the replicas field in the Deployment manifest.",
+      "Using a DaemonSet instead of a Deployment."
+    ],
+    "correct": 2,
+    "expl": "HPA is designed specifically for this use case: scaling the number of replicas for a workload (like a Deployment) based on metrics like CPU or memory utilization.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0180"
+  },
+  {
+    "q": "Which is NOT a typical characteristic often associated with serverless architectures (especially FaaS)?",
+    "opts": [
+      "Stateless function execution (state managed externally).",
+      "Short-lived execution durations for functions.",
+      "Built-in requirement for managing complex state within the function instance itself.",
+      "Event-driven triggers (e.g., HTTP, queues, storage events).",
+      "Automatic scaling based on demand (including scale-to-zero)."
+    ],
+    "correct": 2,
+    "expl": "Serverless functions are typically designed to be stateless. State should be managed externally (e.g., in databases, caches, storage services) because function instances can be created and destroyed frequently, and requests might be served by different instances with no shared memory.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0181"
+  },
+  {
+    "q": "How does CNCF governance typically handle decision-making for technical directions within its hosted projects?",
+    "opts": [
+      "Decisions are made solely by the original creators of the project.",
+      "Decisions are dictated by the CNCF governing board based on member votes.",
+      "Through community consensus, meritocracy, and processes defined by project-specific governance (e.g., SIGs, maintainers).",
+      "Based on the highest bidder among commercial vendors supporting the project.",
+      "Following directives from the Linux Foundation technical board."
+    ],
+    "correct": 2,
+    "expl": "CNCF projects generally operate under open governance models. Technical decisions are usually made by maintainers and contributors through public discussion, consensus building (e.g., via mailing lists, GitHub issues/PRs, SIG meetings), and documented processes, reflecting a meritocratic approach.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0182"
+  },
+  {
+    "q": "A key responsibility of a Platform Operator/SRE is managing the \"control plane\" of the cloud native platform. What does this typically entail?",
+    "opts": [
+      "Developing the user interface for business applications.",
+      "Ensuring the availability, performance, and security of Kubernetes core components (API server, etcd, etc.).",
+      "Writing unit tests for application microservices.",
+      "Defining the product roadmap for end-user features.",
+      "Onboarding new application development teams."
+    ],
+    "correct": 1,
+    "expl": "The control plane (e.g., Kubernetes API server, scheduler, controller manager, etcd) is the brain of the platform. Operators are responsible for its installation, configuration, upgrades, security, monitoring, and ensuring its overall health and reliability.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0183"
+  },
+  {
+    "q": "What problem does the Service Mesh Interface (SMI) specification aim to address?",
+    "opts": [
+      "The lack of service mesh options available for Kubernetes.",
+      "The difficulty in installing service mesh control planes.",
+      "The need for a standard interface for interacting with different service meshes on Kubernetes.",
+      "The inability of service meshes to handle non-HTTP traffic.",
+      "The high performance overhead associated with service mesh sidecars."
+    ],
+    "correct": 2,
+    "expl": "SMI aims to provide a standard set of APIs for common service mesh functionalities (like traffic splitting, metrics, access control) on Kubernetes. This allows users and tool builders to interact with different service mesh implementations (like Istio, Linkerd, Consul) in a more portable way.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0184"
+  },
+  {
+    "q": "Can Vertical Pod Autoscaler (VPA) and Horizontal Pod Autoscaler (HPA) be safely used together on the same workload for CPU/memory scaling?",
+    "opts": [
+      "Yes, they work seamlessly together by default.",
+      "No, they are fundamentally incompatible and will conflict.",
+      "It's generally discouraged or requires careful configuration, as they can interfere with each other.",
+      "Yes, but only if the Cluster Autoscaler is also enabled.",
+      "VPA automatically disables HPA when applied to the same workload."
+    ],
+    "correct": 2,
+    "expl": "Using VPA (to adjust requests/limits) and HPA (to adjust replicas) simultaneously for the same resources (CPU/memory) is complex and often problematic. VPA might change resource requests, affecting HPA's utilization calculations, leading to instability. It's often recommended to use VPA for resource sizing recommendations and HPA for scaling replicas.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0185"
+  },
+  {
+    "q": "What is a potential drawback or challenge associated with serverless FaaS architectures compared to traditional long-running services?",
+    "opts": [
+      "Significantly higher infrastructure costs when constantly busy.",
+      "Difficulty in achieving automatic scaling.",
+      "Lack of support for common programming languages.",
+      "Cold starts (latency introduced when invoking an idle function).",
+      "Inability to integrate with other cloud services."
+    ],
+    "correct": 2,
+    "expl": "Cold starts occur when a function has been idle and the platform must provision a new execution environment (container, runtime, code load, dependency initialization) before invoking the handler. This setup adds latency to the first request, which can be problematic for latency-sensitive workloads. Long-running services avoid this because their process is already warm and ready to serve requests.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0186"
+  },
+  {
+    "q": "Who is the primary consumer/beneficiary of a well-maintained internal cloud native platform built by Platform Engineers?",
+    "opts": [
+      "The CNCF governing board.",
+      "End users accessing the company's external website.",
+      "Application Development teams building and deploying services.",
+      "Competing companies in the same industry.",
+      "The company's finance department managing cloud spend."
+    ],
+    "correct": 2,
+    "expl": "The main goal of building an internal platform (often based on Kubernetes and other cloud native tools) is to enable Application Development teams to deliver business value (features, applications) faster, more reliably, and more efficiently by abstracting away infrastructure complexity.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0187"
+  },
+  {
+    "q": "What is the value proposition of having a standardized interface like CSI (Container Storage Interface) for Application Developers?",
+    "opts": [
+      "They need to learn the specific API of every storage vendor their platform might use.",
+      "They can request and consume storage using consistent Kubernetes objects (PVC) regardless of the backend.",
+      "They are responsible for writing and maintaining CSI drivers for their applications.",
+      "They no longer need to consider storage performance requirements.",
+      "They must use hostPath volumes for all persistent data."
+    ],
+    "correct": 1,
+    "expl": "CSI abstracts the storage implementation details. Application Developers interact with standard Kubernetes storage objects (PersistentVolumeClaim, StorageClass). They don't need to know the specifics of the underlying storage system (e.g., EBS, GCE PD, NFS, Ceph) as long as a CSI driver is installed.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0188"
+  },
+  {
+    "q": "When might using the Cluster Autoscaler lead to increased costs if not carefully managed?",
+    "opts": [
+      "If it scales down nodes too aggressively, causing workload disruption.",
+      "If it frequently adds new nodes for short-lived Pods that could have waited.",
+      "If it only uses the smallest available instance types from the cloud provider.",
+      "If it conflicts with Horizontal Pod Autoscaler settings.",
+      "If it disables node monitoring and alerting."
+    ],
+    "correct": 1,
+    "expl": "If workloads frequently trigger scale-up events for Pods that only run briefly, the CA might provision new nodes that are then underutilized shortly after. Tuning CA settings (e.g., scan intervals, expander strategies) and ensuring Pods request appropriate resources can help mitigate this.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0189"
+  }
+]

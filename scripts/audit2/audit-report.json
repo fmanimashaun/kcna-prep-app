@@ -1,0 +1,1886 @@
+[
+  {
+    "id": "q0001",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0002",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0003",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0004",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0005",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0006",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0007",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0008",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0009",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0010",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0011",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0012",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0013",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0014",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0015",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0016",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0017",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0018",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0019",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0020",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0021",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0022",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0023",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0024",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0025",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0026",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0027",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0028",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0029",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0030",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0031",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0032",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0033",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0034",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0035",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0036",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0037",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0038",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0039",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0040",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0041",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0042",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0043",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0044",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0045",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0046",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0047",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0048",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0049",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0050",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0051",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0052",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0053",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0054",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0055",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0056",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0057",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0058",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0059",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0060",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0061",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0062",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0063",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0064",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0065",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0066",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0067",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0068",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0069",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0070",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0071",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0072",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0073",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0074",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0075",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0076",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0077",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0078",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0079",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0080",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0081",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0082",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0084",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0085",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0086",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0087",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0088",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0089",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0090",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0091",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0092",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0093",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0094",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0095",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0096",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0097",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0098",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0099",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0100",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0101",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0102",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0103",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0104",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0105",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0106",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0107",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0108",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0109",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0110",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0111",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0112",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0113",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0114",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0115",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0116",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0117",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0118",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0119",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0120",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0121",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0122",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0123",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0124",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0125",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0126",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0127",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0128",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0129",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0130",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0131",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0132",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0133",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0134",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0135",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0136",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0137",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0138",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0139",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0140",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0141",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0142",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0143",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0144",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0145",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0146",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0147",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0148",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0149",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0150",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0151",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0152",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0153",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0154",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0155",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0156",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0157",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0158",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0159",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0160",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0161",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0162",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0163",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0164",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0165",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0166",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0167",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0168",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0169",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0170",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0171",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0172",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0173",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0174",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0175",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0176",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0177",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0178",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0179",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0180",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0181",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0182",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0183",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0184",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0185",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0186",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0187",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0188",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0189",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0190",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0191",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0192",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0193",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0194",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0195",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0196",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0197",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0198",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0199",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0200",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0201",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0202",
+    "verdict": "fix",
+    "issue": "Question asks about End User's primary interaction, but marked-correct option (index 1) is the Application Developer. Options describe personas/priorities rather than 'interaction'. The End User option (index 3) is the answer that matches the question stem.",
+    "fix": {
+      "correct": 3,
+      "expl": "End Users interact with the cloud native system through the application's user-facing interfaces, caring about feature availability, responsiveness, and correctness — not the underlying platform. Developers and Operators interact with build/deploy/observability tooling, while End Users only experience the application's runtime behavior."
+    }
+  },
+  {
+    "id": "q0203",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0204",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0205",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0206",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0207",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0208",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0209",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0210",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0211",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0212",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0213",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0214",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0215",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0216",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0217",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0218",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0219",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0220",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0221",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0222",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0223",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0224",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0225",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0226",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0227",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0228",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0229",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0230",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0231",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0232",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0233",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0234",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0235",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0236",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0237",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0238",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0239",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0240",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0241",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0242",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0243",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0244",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0245",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0246",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0247",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0248",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0249",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0250",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0251",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0252",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0253",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0254",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0255",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0256",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0257",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0258",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0259",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0260",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0261",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0262",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0263",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0264",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0265",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0266",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0267",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0268",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0269",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0270",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0271",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0272",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0273",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0274",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0275",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0276",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0277",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0278",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0279",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0280",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0281",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0282",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0283",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0284",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0285",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0286",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0287",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0288",
+    "verdict": "fix",
+    "issue": "Explanation has typo 'zerodowntime' (missing hyphen/space) and slightly imprecise phrasing about stopping old Pods.",
+    "fix": {
+      "expl": "The default strategy for Kubernetes Deployments is RollingUpdate. It gradually replaces old Pods with new ones, ensuring a minimum number of Pods remain available throughout the process, thus enabling zero-downtime updates."
+    }
+  },
+  {
+    "id": "q0289",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0290",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0291",
+    "verdict": "fix",
+    "issue": "Explanation contains 'environmentspecific' (missing hyphen).",
+    "fix": {
+      "expl": "Tools like Kustomize (using overlays) or Helm (using value files) allow defining a common base configuration and layering environment-specific settings (e.g., replica counts, resource limits, domain names) on top. This promotes DRY (Don't Repeat Yourself) principles while managing configurations across environments in Git."
+    }
+  },
+  {
+    "id": "q0292",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0293",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0294",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0295",
+    "verdict": "fix",
+    "issue": "Explanation contains stray '212' (page-number leak) inside the sentence.",
+    "fix": {
+      "expl": "Idempotency is crucial for reliable automation. If a deployment script or GitOps reconciliation can be run multiple times without unintended side effects (i.e., applying the same state multiple times results in the same final state), it makes the automation safer and more resilient to transient failures or reruns. kubectl apply is designed to be idempotent."
+    }
+  },
+  {
+    "id": "q0296",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0297",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0298",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0299",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0300",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0301",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0302",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0303",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0304",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0305",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0306",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0307",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0308",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0309",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0310",
+    "verdict": "fix",
+    "issue": "Explanation contains stray '1' (page-number leak) between 'features' and 'like'.",
+    "fix": {
+      "expl": "Service meshes provide a dedicated infrastructure layer for handling service-to-service communication, offering features like traffic management, security (mTLS), and observability (metrics, traces) without requiring changes to application code."
+    }
+  },
+  {
+    "id": "q0311",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0312",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0313",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0314",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0315",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0316",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0317",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0318",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0319",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0320",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0321",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0322",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0323",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0324",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0325",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0326",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0327",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0328",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0329",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0330",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0331",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0332",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0333",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0334",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0335",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0336",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0337",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0338",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0339",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0340",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0341",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0342",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0343",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0344",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0345",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0346",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0347",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0348",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0349",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0350",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0351",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0352",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0353",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0354",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0355",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0356",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0357",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0358",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0359",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0360",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0361",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0362",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0363",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0364",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0365",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0366",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0367",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0368",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0369",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0370",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0371",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0372",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0373",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0374",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0375",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0376",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0377",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0378",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0379",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0380",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0381",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0382",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0383",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0384",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0385",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0386",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0387",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0388",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0389",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0390",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0391",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0392",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0393",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0394",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0395",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0396",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0397",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0398",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0399",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0400",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0401",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0402",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0403",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0404",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0405",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0406",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0407",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0408",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0409",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0410",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0411",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0412",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0413",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0414",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0415",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0416",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0417",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0418",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0419",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0420",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0421",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0422",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0423",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0424",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0425",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0426",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0427",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0428",
+    "verdict": "fix",
+    "issue": "Answer index 0 (CNCF) is correct per the existing explanation, but the question asks who 'originally designed and developed' Kubernetes — that was Google (Borg lineage), not CNCF. CNCF is the steward, not the original designer. The correct option is missing from the choices, making the question factually flawed.",
+    "fix": {
+      "opts": [
+        "Google",
+        "Apache Software Foundation",
+        "Linux Foundation Networking",
+        "Open Container Initiative (OCI)"
+      ],
+      "correct": 0,
+      "expl": "Kubernetes was originally designed and developed at Google, drawing on lessons from its internal Borg cluster manager. It was open-sourced in 2014 and donated to the Cloud Native Computing Foundation (CNCF) in 2015, which now stewards the project."
+    }
+  },
+  {
+    "id": "q0429",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0430",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0431",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0432",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0433",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0434",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0435",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0436",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0437",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0438",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0439",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0440",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0441",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0442",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0443",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0444",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0445",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0447",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0448",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0449",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0450",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0451",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0452",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0453",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0454",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0455",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0456",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0457",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0458",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0459",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0460",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0461",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0462",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0463",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0464",
+    "verdict": "ok"
+  },
+  {
+    "id": "q0466",
+    "verdict": "ok"
+  }
+]

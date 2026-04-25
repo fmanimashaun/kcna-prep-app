@@ -2948,8 +2948,8 @@
       "The End User, who cares about feature availability and application responsiveness.",
       "The Security Auditor, who focuses on policy enforcement and compliance evidence."
     ],
-    "correct": 1,
-    "expl": "Application Developers are most directly motivated by feature velocity and developer experience: how quickly they can build, test, and ship code. SREs and Operators prioritize reliability, stability, and operational concerns (often trading off velocity for safety). End Users care about the application's behavior, not the platform. Understanding these differing priorities lets platform designers tailor interfaces (e.g., self-service portals for devs, deep observability for SREs).",
+    "correct": 3,
+    "expl": "End Users interact with the cloud native system through the application's user-facing interfaces, caring about feature availability, responsiveness, and correctness — not the underlying platform. Developers and Operators interact with build/deploy/observability tooling, while End Users only experience the application's runtime behavior.",
     "d": "arch",
     "src": "prep",
     "id": "q0202"
@@ -4237,7 +4237,7 @@
       "ResourceQuota limits."
     ],
     "correct": 2,
-    "expl": "The default strategy for Kubernetes Deployments is RollingUpdate. It ensures that updates happen gradually - stopping old Pods and starting new ones incrementally - while ensuring a minimum number of Pods remain available throughout the process, thus enabling zerodowntime updates.",
+    "expl": "The default strategy for Kubernetes Deployments is RollingUpdate. It gradually replaces old Pods with new ones, ensuring a minimum number of Pods remain available throughout the process, thus enabling zero-downtime updates.",
     "d": "k8s",
     "src": "prep",
     "id": "q0288"
@@ -4282,7 +4282,7 @@
       "By running a different GitOps operator in each cluster with identical config."
     ],
     "correct": 2,
-    "expl": "Tools like Kustomize (using overlays) or Helm (using value files) allow defining a common base configuration and layering environmentspecific settings (e.g., replica counts, resource limits, domain names) on top. This promotes DRY (Don't Repeat Yourself) principles while managing configurations across environments in Git.",
+    "expl": "Tools like Kustomize (using overlays) or Helm (using value files) allow defining a common base configuration and layering environment-specific settings (e.g., replica counts, resource limits, domain names) on top. This promotes DRY (Don't Repeat Yourself) principles while managing configurations across environments in Git.",
     "d": "del",
     "src": "prep",
     "id": "q0291"
@@ -4342,7 +4342,7 @@
       "Idempotency relates only to database transaction management."
     ],
     "correct": 1,
-    "expl": "Idempotency is crucial for reliable automation. If a deployment script or GitOps reconciliation can be run multiple times without 212 unintended side effects (i.e., applying the same state multiple times results in the same final state), it makes the automation safer and more resilient to transient failures or reruns. kubectl apply is designed to be idempotent.",
+    "expl": "Idempotency is crucial for reliable automation. If a deployment script or GitOps reconciliation can be run multiple times without unintended side effects (i.e., applying the same state multiple times results in the same final state), it makes the automation safer and more resilient to transient failures or reruns. kubectl apply is designed to be idempotent.",
     "d": "del",
     "src": "prep",
     "id": "q0295"
@@ -4567,7 +4567,7 @@
       "Abstracting server management"
     ],
     "correct": 2,
-    "expl": "Service meshes provide a dedicated infrastructure layer for handling service-to-service communication, offering features 1 like traffic management, security (mTLS), and observability (metrics, traces) without requiring changes to application code.",
+    "expl": "Service meshes provide a dedicated infrastructure layer for handling service-to-service communication, offering features like traffic management, security (mTLS), and observability (metrics, traces) without requiring changes to application code.",
     "d": "orch",
     "src": "prep",
     "id": "q0310"
@@ -6264,13 +6264,13 @@
   {
     "q": "Kubernetes was originally designed and developed by",
     "opts": [
-      "Cloud Native Computing Foundation (CNCF)",
+      "Google",
       "Apache Software Foundation",
       "Linux Foundation Networking",
       "Open Container Initiative (OCI)"
     ],
     "correct": 0,
-    "expl": "Kubernetes originated at Google (based on lessons from Borg) and was donated to the Cloud Native Computing Foundation (CNCF) in 2015. CNCF, a sub-foundation of the Linux Foundation, hosts and stewards the project today.",
+    "expl": "Kubernetes was originally designed and developed at Google, drawing on lessons from its internal Borg cluster manager. It was open-sourced in 2014 and donated to the Cloud Native Computing Foundation (CNCF) in 2015, which now stewards the project.",
     "d": "arch",
     "src": "form",
     "id": "q0428"

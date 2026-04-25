@@ -1,0 +1,672 @@
+[
+  {
+    "q": "In cloud native cost management, what does \"FinOps\" primarily focus on?",
+    "opts": [
+      "Optimizing application code",
+      "Managing cloud spending",
+      "Improving network security",
+      "Automating deployments"
+    ],
+    "correct": 1,
+    "expl": "FinOps is a cultural practice and framework that brings financial accountability to the variable spend model of the cloud.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0378"
+  },
+  {
+    "q": "Why can cost management be challenging in Kubernetes environments?",
+    "opts": [
+      "Lack of monitoring tools",
+      "Shared resources dynamic workloads",
+      "Fixed infrastructure costs",
+      "Infrequent deployments"
+    ],
+    "correct": 1,
+    "expl": "The shared nature of cluster resources and the dynamic scaling of workloads make it difficult to attribute costs accurately.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0379"
+  },
+  {
+    "q": "What is the practice of using Git repositories as the single source of truth for defining and managing infrastructure and applications?",
+    "opts": [
+      "CI/CD",
+      "DevOps",
+      "GitOps",
+      "Infrastructure as Code (IaC)"
+    ],
+    "correct": 2,
+    "expl": "GitOps leverages Git's features (versioning, history, PRs) to manage infrastructure and application deployment declaratively.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0380"
+  },
+  {
+    "q": "Which core principle differentiates GitOps from general Infrastructure as Code (IaC)?",
+    "opts": [
+      "Using code for infra config",
+      "Automating infrastructure tests",
+      "Using Git as the source of truth",
+      "Manual deployment approval"
+    ],
+    "correct": 2,
+    "expl": "While IaC uses code, GitOps specifically mandates Git as the declarative source of truth and uses agents to enforce that state.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0381"
+  },
+  {
+    "q": "What does \"CI\" stand for in the context of application delivery?",
+    "opts": [
+      "Continuous Integration",
+      "Cluster Infrastructure",
+      "Container Interface",
+      "Cloud Instance"
+    ],
+    "correct": 0,
+    "expl": "Continuous Integration is the practice of frequently merging code changes into a shared repository, where each merge triggers automated builds and tests to catch integration issues early.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0382"
+  },
+  {
+    "q": "What does \"CD\" stand for in CI/CD?",
+    "opts": [
+      "Container Deployment",
+      "Continuous Delivery/Deployment",
+      "Cluster Discovery",
+      "Centralized Dashboard"
+    ],
+    "correct": 1,
+    "expl": "Continuous Delivery automates the pipeline up to a release-ready artifact but typically requires a manual approval step to push to production. Continuous Deployment goes further by automatically deploying every passing change to production.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0383"
+  },
+  {
+    "q": "Which stage in a typical CI/CD pipeline for Kubernetes usually involves creating a container image?",
+    "opts": [
+      "Testing",
+      "Building",
+      "Deployment",
+      "Monitoring"
+    ],
+    "correct": 1,
+    "expl": "The build stage compiles code (if necessary) and packages the application and its dependencies into a container image (e.g., Docker).",
+    "d": "del",
+    "src": "prep",
+    "id": "q0384"
+  },
+  {
+    "q": "Which tool is commonly used in CI/CD pipelines to automate the build, test, and deployment processes?",
+    "opts": [
+      "Kubernetes",
+      "Docker",
+      "Jenkins / GitLab CI / GitHub Actions",
+      "Prometheus"
+    ],
+    "correct": 2,
+    "expl": "Jenkins is a widely used automation server that orchestrates build, test, and deployment stages of CI/CD pipelines. Other examples include GitLab CI, GitHub Actions, Argo CD, and Flux.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0385"
+  },
+  {
+    "q": "What is the primary goal of Application Delivery in a cloud native context?",
+    "opts": [
+      "To secure the cluster",
+      "To monitor resource usage",
+      "To reliably deploy manage apps",
+      "To provision infrastructure"
+    ],
+    "correct": 2,
+    "expl": "Application delivery focuses on the processes and tools used to get applications running reliably and efficiently in the environment.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0386"
+  },
+  {
+    "q": "In Kubernetes RBAC (Role-Based Access Control), what defines a set of permissions?",
+    "opts": [
+      "Role / ClusterRole",
+      "ServiceAccount",
+      "RoleBinding / ClusterRoleBinding",
+      "User"
+    ],
+    "correct": 0,
+    "expl": "A Role (namespace-scoped) or ClusterRole (cluster-scoped) contains rules that represent a set of permissions on resources.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0387"
+  },
+  {
+    "q": "What object binds a Role or ClusterRole to a user, group, or ServiceAccount?",
+    "opts": [
+      "Secret",
+      "ConfigMap",
+      "NetworkPolicy",
+      "RoleBinding / ClusterRoleBinding"
+    ],
+    "correct": 3,
+    "expl": "A RoleBinding (namespace-scoped) or ClusterRoleBinding (cluster-scoped) grants the permissions defined in a Role/ClusterRole to subjects.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0388"
+  },
+  {
+    "q": "If you need a Pod to run on every single Node in the cluster (or a subset), which controller is most suitable?",
+    "opts": [
+      "Deployment",
+      "StatefulSet",
+      "DaemonSet",
+      "Job"
+    ],
+    "correct": 2,
+    "expl": "DaemonSets ensure that all (or some) Nodes run a copy of a Pod, useful for cluster services like log collectors or node monitors.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0389"
+  },
+  {
+    "q": "What is a primary difference between a Deployment and a StatefulSet?",
+    "opts": [
+      "Deployments manage stateless Pods, while StatefulSets provide stable network identities and ordered, persistent storage for each Pod",
+      "Deployments are designed exclusively for database workloads, while StatefulSets handle web servers",
+      "StatefulSets cannot use PersistentVolumes, while Deployments can",
+      "Deployments guarantee Pod ordering during scaling, while StatefulSets do not"
+    ],
+    "correct": 0,
+    "expl": "StatefulSets provide guarantees about ordering and uniqueness of Pods, including stable network identifiers (predictable Pod names like web-0, web-1) and stable persistent storage. Deployments treat Pods as interchangeable replicas, which suits stateless workloads.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0390"
+  },
+  {
+    "q": "Which Kubernetes API object is used to manage external access to services in a cluster, typically HTTP/S?",
+    "opts": [
+      "Service (LoadBalancer type)",
+      "NodePort Service",
+      "Ingress",
+      "ExternalName Service"
+    ],
+    "correct": 2,
+    "expl": "Ingress provides HTTP/S routing rules to manage external users' access to services within the cluster based on hostnames or paths.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0391"
+  },
+  {
+    "q": "What design pattern involves running an additional container within a Pod to provide auxiliary functions (like logging or monitoring) to the main application container?",
+    "opts": [
+      "Init Container",
+      "Sidecar Container",
+      "Ephemeral Container",
+      "Job Container"
+    ],
+    "correct": 1,
+    "expl": "The Sidecar pattern adds helper containers alongside the main application container within the same Pod network/storage namespace.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0392"
+  },
+  {
+    "q": "What fundamental concept allows Kubernetes to maintain the desired state declared by the user?",
+    "opts": [
+      "Imperative Commands",
+      "Control Loop / Reconciliation",
+      "Manual Scaling",
+      "Direct Node Access"
+    ],
+    "correct": 1,
+    "expl": "Kubernetes controllers operate on control loops, constantly comparing the desired state (from API objects) with the actual cluster state.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0393"
+  },
+  {
+    "q": "In Kubernetes, what is the process of assigning Pods to Nodes called?",
+    "opts": [
+      "Replication",
+      "Orchestration",
+      "Scheduling",
+      "Deployment"
+    ],
+    "correct": 2,
+    "expl": "Scheduling is the core function of the kube-scheduler, selecting appropriate Nodes for Pods based on resource requests and other factors.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0394"
+  },
+  {
+    "q": "What is the primary goal of the Cluster Autoscaler?",
+    "opts": [
+      "Scale Pod replicas",
+      "Scale cluster Nodes",
+      "Scale Persistent Volumes",
+      "Scale Service endpoints"
+    ],
+    "correct": 1,
+    "expl": "The Cluster Autoscaler adjusts the number of Nodes in the cluster based on pending Pods that cannot be scheduled due to resource limits.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0395"
+  },
+  {
+    "q": "What language is used to write queries in Prometheus?",
+    "opts": [
+      "SQL",
+      "PromQL",
+      "JSONPath",
+      "YAML"
+    ],
+    "correct": 1,
+    "expl": "PromQL (Prometheus Query Language) is the powerful functional query language used to select and aggregate time series data.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0396"
+  },
+  {
+    "q": "What is the primary goal of Continuous Integration (CI) in a CI/CD pipeline?",
+    "opts": [
+      "To automatically deploy every code change directly to production.",
+      "To frequently merge code changes into a central repository and automatically build and test the application.",
+      "To manage the Git repository permissions for developers.",
+      "To provision the underlying infrastructure required for deployment.",
+      "To manually review code quality before merging."
+    ],
+    "correct": 1,
+    "expl": "CI focuses on automating the process of integrating code changes from multiple contributors into a shared repository. Each integration is verified by an automated build and test 1 sequence to detect issues early. It does not typically involve deployment to production itself (that's CD).",
+    "d": "del",
+    "src": "quiz",
+    "id": "q0397"
+  },
+  {
+    "q": "Why are open standards like the OCI specifications (Image Format, Runtime) crucial for the health of the container ecosystem?",
+    "opts": [
+      "They guarantee containers will run faster than virtual machines.",
+      "They enforce the use of a single vendor's container tools for consistency.",
+      "They promote interoperability and portability, preventing vendor lock-in and fostering innovation.",
+      "They eliminate the need for container security scanning.",
+      "They define the API specifications for Kubernetes itself."
+    ],
+    "correct": 2,
+    "expl": "Open standards ensure that container images built with one tool can be run by different runtimes, and that different tools can work together. This gives users flexibility, prevents vendor lock-in, and allows the ecosystem to innovate collaboratively.",
+    "d": "arch",
+    "src": "quiz",
+    "id": "q0398"
+  },
+  {
+    "q": "Which component is responsible for making the ultimate decision about which node a newly created Pod should run on?",
+    "opts": [
+      "kubelet",
+      "kube-apiserver",
+      "kube-scheduler",
+      "kube-controller-manager",
+      "The Pod's ServiceAccount"
+    ],
+    "correct": 2,
+    "expl": "The kube-scheduler watches for Pods without an assigned node and selects the most suitable node based on filtering (resource requests, affinity rules, etc.) and scoring algorithms.",
+    "d": "k8s",
+    "src": "quiz",
+    "id": "q0399"
+  },
+  {
+    "q": "What cloud-native delivery concept involves gradually shifting traffic from an old version of an application to a new version while monitoring performance?",
+    "opts": [
+      "Blue/Green Deployment",
+      "Rolling Update",
+      "Canary Release",
+      "A/B Testing",
+      "Recreate Deployment"
+    ],
+    "correct": 2,
+    "expl": "A Canary Release introduces the new version to a small subset of users/traffic first. If monitoring shows the new version is stable and performs well, traffic is gradually shifted until the new version handles all traffic. This minimizes the blast radius of potential issues.",
+    "d": "del",
+    "src": "quiz",
+    "id": "q0400"
+  },
+  {
+    "q": "What is the primary mechanism for service discovery within a Kubernetes cluster for applications running in Pods?",
+    "opts": [
+      "Manually configuring IP addresses in application code.",
+      "Using NodePort services and node IPs.",
+      "Kubernetes DNS (e.g., CoreDNS) resolving Service names to ClusterIPs.",
+      "Broadcasting service availability via UDP multicast.",
+      "Relying on a Service Mesh sidecar proxy."
+    ],
+    "correct": 2,
+    "expl": "Kubernetes provides an internal DNS service (typically CoreDNS) that automatically creates DNS records for Services. Applications can discover other services by looking up their DNS names (e.g., my-service.my-namespace.svc.cluster.local), which resolve to the Service's ClusterIP.",
+    "d": "orch",
+    "src": "quiz",
+    "id": "q0401"
+  },
+  {
+    "q": "What is a potential challenge or consideration when implementing GitOps?",
+    "opts": [
+      "It makes rollbacks significantly more difficult than traditional methods.",
+      "It requires developers to have direct kubectl apply access to production clusters.",
+      "Managing secrets securely within a Git-based workflow requires careful handling (e.g., using sealed secrets, external secret managers).",
+      "It eliminates the need for any CI pipeline processes like building and testing.",
+      "It only works with specific proprietary Git hosting providers."
+    ],
+    "correct": 2,
+    "expl": "Storing plain-text secrets in Git is a major security risk. GitOps workflows require solutions to manage secrets safely, such as encrypting them in Git (e.g., Sealed Secrets, SOPS) and decrypting them only within the cluster, or fetching them from external secret management systems (e.g., HashiCorp Vault, AWS Secrets Manager).",
+    "d": "del",
+    "src": "quiz",
+    "id": "q0402"
+  },
+  {
+    "q": "If you want a specific Pod to run on every node in the cluster (or a subset matching certain criteria), which workload resource should you use?",
+    "opts": [
+      "Deployment",
+      "StatefulSet",
+      "DaemonSet",
+      "Job",
+      "ReplicaSet"
+    ],
+    "correct": 2,
+    "expl": "A DaemonSet ensures that a copy of a Pod runs on all (or some specified) nodes. This is useful for node-level agents like log collectors, monitoring agents, or CNI plugins.",
+    "d": "k8s",
+    "src": "quiz",
+    "id": "q0403"
+  },
+  {
+    "q": "How does Prometheus's remote_write feature contribute to observability?",
+    "opts": [
+      "It allows Prometheus to scrape targets located in remote data centers.",
+      "It enables Prometheus to send alerts directly to remote notification systems.",
+      "It allows Prometheus to forward ingested metrics to long-term storage or other analysis systems.",
+      "It lets users remotely query Prometheus metrics via an API.",
+      "It configures remote Grafana instances automatically."
+    ],
+    "correct": 2,
+    "expl": "remote_write allows Prometheus to stream its collected metrics data in near real-time to compatible remote endpoints. This is commonly used for long-term storage solutions (e.g., Thanos, Cortex, VictoriaMetrics, cloud vendor TSDBs) that can handle larger data volumes and longer retention periods.",
+    "d": "obs",
+    "src": "quiz",
+    "id": "q0404"
+  },
+  {
+    "q": "The \"DevOps\" culture is central to cloud native paradigms. What core principle does DevOps emphasize?",
+    "opts": [
+      "Complete separation of development and operations teams and responsibilities.",
+      "Prioritizing feature development speed over operational stability.",
+      "Collaboration, shared responsibility, and automation between development and operations.",
+      "Replacing operations teams entirely with automated tools managed by developers.",
+      "Focusing solely on infrastructure automation, ignoring application development."
+    ],
+    "correct": 2,
+    "expl": "DevOps promotes breaking down silos between development and operations teams. It emphasizes shared goals, collaboration, communication, and automating processes (CI/CD, IaC) to deliver software faster and more reliably.",
+    "d": "del",
+    "src": "quiz",
+    "id": "q0405"
+  },
+  {
+    "q": "Which type of Kubernetes Service is typically used to expose an application to traffic from outside the Kubernetes cluster using a cloud provider's load balancer?",
+    "opts": [
+      "ClusterIP",
+      "NodePort",
+      "LoadBalancer",
+      "ExternalName",
+      "Headless Service"
+    ],
+    "correct": 2,
+    "expl": "A Service of type LoadBalancer automatically provisions an external load balancer (if supported by the underlying cloud provider) and assigns it an external IP address, routing external traffic to the Service's Pods.",
+    "d": "orch",
+    "src": "quiz",
+    "id": "q0406"
+  },
+  {
+    "q": "From a FinOps perspective in a Kubernetes environment, why is tagging resources (e.g., with labels) important?",
+    "opts": [
+      "It improves the scheduling efficiency of Pods.",
+      "It enables more accurate cost allocation and showback/chargeback.",
+      "It automatically secures inter-Pod communication.",
+      "It increases the performance of PersistentVolumes.",
+      "It simplifies the process of upgrading Kubernetes."
+    ],
+    "correct": 1,
+    "expl": "Labels and annotations applied to Kubernetes resources (Namespaces, Deployments, Pods, etc.) can be used by cost management tools to categorize and attribute costs to different teams, projects, or applications, supporting FinOps practices.",
+    "d": "obs",
+    "src": "quiz",
+    "id": "q0407"
+  },
+  {
+    "q": "How do feature flags complement CI/CD and progressive delivery strategies like canary releases?",
+    "opts": [
+      "Feature flags replace the need for CI/CD pipelines entirely.",
+      "Feature flags allow enabling/disabling application features at runtime without requiring a full redeployment.",
+      "Feature flags are used only for configuring infrastructure components.",
+      "Feature flags eliminate the need for version control systems.",
+      "Feature flags require manual code changes for every activation."
+    ],
+    "correct": 1,
+    "expl": "Feature flags allow decoupling deployment from release. Code for new features can be deployed (via CI/CD) to production but remain hidden behind a flag. The feature can then be enabled for specific users (canary, A/B test) or gradually rolled out via a configuration change at runtime, without a new deployment.",
+    "d": "del",
+    "src": "quiz",
+    "id": "q0408"
+  },
+  {
+    "q": "What is a potential consequence of setting container resource limits much higher than requests?",
+    "opts": [
+      "Improved Pod scheduling priority",
+      "Reduced cost for node resources",
+      "Potential for node resource exhaustion and Pod eviction (\"noisy neighbor\" effect)",
+      "Faster container startup times",
+      "Automatic vertical scaling of the container"
+    ],
+    "correct": 2,
+    "expl": "Requests are used for scheduling and reserve a guaranteed share of node resources, while limits cap the maximum a container can use. When limits greatly exceed requests, containers can burst beyond their guaranteed share and starve other Pods on the node — leading to CPU throttling, OOM kills, and Pod eviction once the kubelet detects node pressure.",
+    "d": "k8s",
+    "src": "quiz",
+    "id": "q0409"
+  },
+  {
+    "q": "When Prometheus fails to scrape a target (e.g., due to network issues or the target being down), what value will the up metric for that target typically have?",
+    "opts": [
+      "1",
+      "-1",
+      "0",
+      "NaN (Not a Number)",
+      "The metric will be absent (no data point recorded)."
+    ],
+    "correct": 2,
+    "expl": "The up metric explicitly indicates scrape success or failure. A value of 1 means the scrape succeeded, while 0 means it failed (timeout, connection refused, non-200 HTTP response, etc.). The metric is not absent and not NaN — it's specifically set to 0.",
+    "d": "obs",
+    "src": "quiz",
+    "id": "q0410"
+  },
+  {
+    "q": "Which of the following is NOT a typical characteristic of cloud native applications?",
+    "opts": [
+      "Self-healing through automated restarts and rescheduling",
+      "Loosely coupled services that can be deployed independently",
+      "Tightly coupled, monolithic deployment units sharing a single runtime",
+      "Designed for observability with metrics, logs, and traces"
+    ],
+    "correct": 2,
+    "expl": "Cloud native applications are resilient (self-healing), loosely coupled (so services can scale and evolve independently), and observable. Tight coupling and monolithic deployment is the opposite of the cloud native model — it prevents independent scaling, slows release cadence, and creates large blast radii on failure.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0411"
+  },
+  {
+    "q": "Select advantages of cloud native architecture",
+    "opts": [
+      "Tightly coupled monoliths and manual deployments",
+      "High automation and elastic scalability",
+      "Mandatory use of proprietary hardware",
+      "Single-vendor lock-in by design"
+    ],
+    "correct": 1,
+    "expl": "Cloud native architectures emphasize high automation (declarative orchestration, CI/CD, GitOps) and elastic scalability (horizontal scaling, autoscaling). The other choices describe characteristics cloud native explicitly seeks to avoid.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0412"
+  },
+  {
+    "q": "The Open Container Initiative standards are for",
+    "opts": [
+      "Runtime, image and build",
+      "Runtime, image and distribution",
+      "Image, build and distribution",
+      "Storage, build and image"
+    ],
+    "correct": 1,
+    "expl": "OCI publishes three specifications: Runtime Spec (how to execute a container), Image Spec (how images are packaged), and Distribution Spec (how images are pushed/pulled via registries).",
+    "d": "arch",
+    "src": "form",
+    "id": "q0413"
+  },
+  {
+    "q": "Cloud applications are usually scaled by",
+    "opts": [
+      "Vertical scaling",
+      "Horizontal scaling",
+      "Diagonal scaling",
+      "Manual provisioning"
+    ],
+    "correct": 1,
+    "expl": "Horizontal scaling — adding more instances behind a load balancer — is the dominant model for stateless cloud native apps. Vertical scaling (bigger machines) is bounded by hardware limits and typically causes downtime.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0414"
+  },
+  {
+    "q": "Serverless computing does not require",
+    "opts": [
+      "Servers",
+      "Provisioning and operating infrastructure",
+      "Application Code",
+      "Network"
+    ],
+    "correct": 1,
+    "expl": "Servers still exist under the hood — the word 'serverless' means developers don't provision or operate them. The platform handles capacity, patching, scaling, and runtime lifecycle.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0415"
+  },
+  {
+    "q": "The twelve-factor app is a guideline to",
+    "opts": [
+      "Develop cloud native applications",
+      "Build container images",
+      "Deploy applications on Kubernetes",
+      "Design hardware networking topologies"
+    ],
+    "correct": 0,
+    "expl": "The 12-factor methodology (originated at Heroku) is a set of guidelines for building portable, scalable, cloud-suited applications — config in env vars, logs as streams, disposability, and so on. It predates Kubernetes and is independent of any container build tooling.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0416"
+  },
+  {
+    "q": "Which of the following is not a standard used for container orchestration?",
+    "opts": [
+      "Container Network Interface (CNI)",
+      "Container Deployment Interface (CDI)",
+      "Container Runtime Interface (CRI)",
+      "Container Storage Interface (CSI)"
+    ],
+    "correct": 1,
+    "expl": "CNI (networking), CRI (runtime), and CSI (storage) are real Kubernetes interface standards. 'Container Deployment Interface (CDI)' is a distractor — deployment is handled by controllers, not a standardized plugin interface.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0417"
+  },
+  {
+    "q": "Which of the following is not a key metric for Site Reliability Engineers?",
+    "opts": [
+      "Service level agreement (SLA)",
+      "Service level indicator (SLI)",
+      "Service level objective (SLO)",
+      "Service level requirement (SLR)"
+    ],
+    "correct": 3,
+    "expl": "SRE uses SLIs (what you measure), SLOs (internal targets), and SLAs (external contractual promises). 'SLR' is not an SRE term.",
+    "d": "obs",
+    "src": "form",
+    "id": "q0418"
+  },
+  {
+    "q": "Containers can help with which of the following? (best answer)",
+    "opts": [
+      "Packaging an application with its dependencies for consistent execution across environments",
+      "Automatically generating secure application source code",
+      "Eliminating the need for an operating system kernel",
+      "Replacing the need for a CI/CD pipeline"
+    ],
+    "correct": 0,
+    "expl": "Containers package an application together with its dependencies and runtime configuration into a portable artifact, solving the 'works on my machine' problem and enabling consistent execution across dev, test, and prod. They share the host kernel and do not write secure code or replace CI/CD.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0419"
+  },
+  {
+    "q": "The usage of containers and virtual machines are mutually exclusive. True or False?",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "expl": "False. Containers commonly run inside VMs — many managed Kubernetes services provision VM worker nodes and run containers on top. The two technologies complement rather than replace each other.",
+    "d": "arch",
+    "src": "form",
+    "id": "q0420"
+  },
+  {
+    "q": "Container isolation is achieved by which Linux kernel features?",
+    "opts": [
+      "Namespaces and cgroups",
+      "Container Network Interface",
+      "Security Groups and Firewall",
+      "Service Mesh"
+    ],
+    "correct": 0,
+    "expl": "Linux namespaces isolate what a process can see (PID, network, mount, user, UTS, IPC). Cgroups limit what a process can use (CPU, memory, I/O). Together they're the core primitives behind container isolation.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0421"
+  },
+  {
+    "q": "A Dockerfile contains instructions on how to do what?",
+    "opts": [
+      "Install Docker",
+      "Start multiple containers",
+      "Install Kubernetes",
+      "Build a container image"
+    ],
+    "correct": 3,
+    "expl": "A Dockerfile is the declarative build recipe for a container image — base image, copied files, installed packages, entrypoint. `docker build` reads it and produces an OCI image.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0422"
+  },
+  {
+    "q": "Which command can be used to build a container image with Docker?",
+    "opts": [
+      "docker build",
+      "docker run",
+      "docker commit",
+      "docker pull"
+    ],
+    "correct": 0,
+    "expl": "`docker build` reads a Dockerfile and produces a container image. `docker run` starts a container from an existing image, `docker commit` creates an image from a running container's filesystem changes, and `docker pull` downloads an existing image from a registry.",
+    "d": "k8s",
+    "src": "form",
+    "id": "q0423"
+  },
+  {
+    "q": "Sort the 4C's of cloud native security, starting from the inside.",
+    "opts": [
+      "Code, container, cloud, cluster",
+      "Cluster, container, cloud, code",
+      "Code, container, cluster, cloud",
+      "Container, cluster, cloud, code"
+    ],
+    "correct": 2,
+    "expl": "The 4C's of Cloud Native Security, from innermost layer outward: Code → Container → Cluster → Cloud. Each layer secures the next one out; weaknesses in an inner layer can't be fully compensated by outer layers.",
+    "d": "orch",
+    "src": "form",
+    "id": "q0424"
+  }
+]

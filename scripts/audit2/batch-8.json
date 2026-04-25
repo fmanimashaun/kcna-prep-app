@@ -1,0 +1,679 @@
+[
+  {
+    "q": "What is a key difference between kubectl apply -f <filename> and kubectl create -f <filename>?",
+    "opts": [
+      "apply runs entirely client-side without contacting the API server",
+      "apply automatically creates a Namespace if one is missing",
+      "apply bypasses admission controllers, while create enforces them",
+      "apply records a last-applied-configuration annotation and uses it to compute three-way merge patches on subsequent runs",
+      "apply is faster than create for large manifests"
+    ],
+    "correct": 3,
+    "expl": "kubectl apply records the applied configuration in the kubectl.kubernetes.io/last-applied-configuration annotation. On subsequent applies, it uses a three-way merge between the previous, live, and new configurations to compute a patch, enabling declarative updates. kubectl create simply creates the resource and fails if it already exists.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0331"
+  },
+  {
+    "q": "In the context of container security, what does \"least privilege\" primarily refer to?",
+    "opts": [
+      "Running containers with minimal resource requests",
+      "Granting containers only the permissions they absolutely need",
+      "Using the smallest possible base container images",
+      "Limiting network access to containers",
+      "Encrypting all data within the container"
+    ],
+    "correct": 1,
+    "expl": "The principle of least privilege means that containers (and their processes) should run with only the capabilities and permissions essential for their function, reducing the potential impact of a compromise.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0332"
+  },
+  {
+    "q": "What is the primary function of kube-proxy when a Service of type ClusterIP is created?",
+    "opts": [
+      "It assigns an IP address from the cluster's Pod CIDR.",
+      "It modifies iptables or IPVS rules on nodes to route traffic.",
+      "It creates a DNS A record for the Service.",
+      "It terminates TLS connections for the Service.",
+      "It exposes the Service on a port on each Node."
+    ],
+    "correct": 1,
+    "expl": "kube-proxy watches the API server for new Services and Endpoints. For ClusterIP Services, it configures network rules (e.g., iptables, IPVS) on each node to capture traffic destined for the Service's IP and load balance it to the backend Pods.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0333"
+  },
+  {
+    "q": "What core benefit does a StatefulSet provide over a Deployment for applications like databases?",
+    "opts": [
+      "Automatic rolling updates by default",
+      "Simpler YAML configuration for Pod templates",
+      "Stable, unique network identifiers and persistent storage",
+      "Support for hostNetwork: true",
+      "Higher number of allowed replicas"
+    ],
+    "correct": 2,
+    "expl": "StatefulSets are designed for stateful applications, providing stable, persistent identifiers (e.g., my-app-0, my-app-1) and per-instance persistent storage that follows the Pod identity.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0334"
+  },
+  {
+    "q": "What is the primary role of the \"Controller Manager\" in Kubernetes?",
+    "opts": [
+      "Manages user authentication and authorization",
+      "Exposes the Kubernetes API to external clients",
+      "Runs various controllers that regulate cluster state",
+      "Schedules Pods onto appropriate Nodes",
+      "Stores all cluster configuration data"
+    ],
+    "correct": 2,
+    "expl": "The kube-controller-manager runs multiple controller processes (e.g., Node controller, Replication controller, Endpoints controller) that watch for changes and work to drive the actual cluster state towards the desired state.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0335"
+  },
+  {
+    "q": "What is a primary characteristic of Vertical Pod Autoscaling (VPA)?",
+    "opts": [
+      "It adjusts the number of Pod replicas.",
+      "It adjusts the CPU and memory requests and limits for Pods.",
+      "It adds or removes Nodes from the cluster.",
+      "It automatically selects the optimal storage class.",
+      "It scales the number of available IP addresses."
+    ],
+    "correct": 1,
+    "expl": "VPA recommends or automatically updates the resource requests and limits for containers within Pods to match actual usage, helping to optimize resource allocation. It does not change the number of replicas (that's HPA).",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0336"
+  },
+  {
+    "q": "Which statement accurately describes a key aspect of \"observability\" in cloud native systems?",
+    "opts": [
+      "It is solely focused on collecting system logs.",
+      "It primarily relies on manual health checks by operators.",
+      "It enables understanding a system's internal state from its outputs.",
+      "It is achieved by using proprietary monitoring tools.",
+      "It is only relevant for production environments."
+    ],
+    "correct": 2,
+    "expl": "Observability is the ability to infer the internal state and behavior of a complex system by examining its outputs (logs, metrics, traces). This allows for better troubleshooting, understanding performance, and proactive issue detection.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0337"
+  },
+  {
+    "q": "In Prometheus, what does the up metric typically indicate for a scraped target?",
+    "opts": [
+      "The version number of the target application.",
+      "The number of active user connections to the target.",
+      "Whether Prometheus was able to successfully scrape the target.",
+      "The CPU utilization of the target.",
+      "The total uptime of the target since it started."
+    ],
+    "correct": 1,
+    "expl": "The up metric is automatically generated by Prometheus per scrape. It has a value of 1 if the scrape of the target succeeded and 0 if it failed, serving as a basic target-health signal that can be alerted on.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0338"
+  },
+  {
+    "q": "What is a key advantage of using GitOps for managing Kubernetes deployments compared to traditional CI/CD push-based deployments?",
+    "opts": [
+      "GitOps pipelines are significantly faster to execute.",
+      "GitOps eliminates the need for container registries.",
+      "GitOps enhances security by reducing direct cluster access for CI.",
+      "GitOps does not require YAML manifests for resources.",
+      "GitOps is only suitable for small-scale deployments."
+    ],
+    "correct": 2,
+    "expl": "In GitOps, the CI system typically pushes an image to a registry and updates a Git repo. An agent inside the cluster pulls changes from Git, reducing the CI system's need for direct cluster credentials and providing a stronger security posture.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0339"
+  },
+  {
+    "q": "Which of these is a core component of a \"Continuous Delivery\" pipeline but NOT necessarily \"Continuous Deployment\"?",
+    "opts": [
+      "Automated building of code into an artifact.",
+      "Automated execution of unit and integration tests.",
+      "Automated deployment to a staging/QA environment.",
+      "Automated deployment to the production environment.",
+      "Manual approval gate before production deployment."
+    ],
+    "correct": 4,
+    "expl": "Continuous Delivery ensures every validated change is releasable to production, often with a manual approval step. Continuous Deployment automates the release to production without manual intervention if all prior stages pass. Both include A, B, C.",
+    "d": "del",
+    "src": "prep",
+    "id": "q0340"
+  },
+  {
+    "q": "What Kubernetes feature allows you to define constraints on which Nodes your Pods can run, based on Node labels?",
+    "opts": [
+      "NetworkPolicy",
+      "ResourceQuota",
+      "nodeSelector / nodeAffinity",
+      "PodDisruptionBudget",
+      "LimitRange"
+    ],
+    "correct": 2,
+    "expl": "nodeSelector provides a simple way to constrain Pods to Nodes with specific labels. nodeAffinity offers more expressive rules, including \"preferred\" and \"required\" constraints.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0341"
+  },
+  {
+    "q": "Which of these is a primary goal of the CNCF's \"Trail Map\" for cloud native adoption?",
+    "opts": [
+      "To mandate specific vendor products for each stage.",
+      "To enforce a single required architecture for all cloud native applications.",
+      "To offer a recommended journey and project choices for adopters.",
+      "To rank cloud providers based on their Kubernetes offerings.",
+      "To certify individual developers as cloud native experts."
+    ],
+    "correct": 2,
+    "expl": "The CNCF Trail Map suggests a path for organizations adopting cloud native technologies, highlighting CNCF projects that can help at different stages (e.g., containerization, CI/CD, orchestration, observability).",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0342"
+  },
+  {
+    "q": "What is the primary motivation behind using \"Serverless Functions\" (FaaS)?",
+    "opts": [
+      "To achieve higher compute density on physical servers.",
+      "To run long-lived, stateful batch processing jobs.",
+      "To execute event-driven code without managing infrastructure.",
+      "To gain fine-grained control over OS-level configurations.",
+      "To build complex, monolithic application backends."
+    ],
+    "correct": 2,
+    "expl": "Serverless functions are designed for short-lived, event-driven computations where the underlying infrastructure (servers, OS) is completely managed by the platform, allowing developers to focus on code.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0343"
+  },
+  {
+    "q": "What is the role of an \"Ingress Controller\" in a Kubernetes cluster?",
+    "opts": [
+      "It assigns IP addresses to Pods.",
+      "It manages storage volumes for stateful applications.",
+      "It implements the rules defined in Ingress resources.",
+      "It monitors the health of Nodes in the cluster.",
+      "It encrypts communication between control plane components."
+    ],
+    "correct": 2,
+    "expl": "An Ingress resource defines HTTP/S routing rules, but an Ingress Controller (e.g., Nginx, Traefik) is the actual reverse proxy/load balancer that reads these rules and routes external traffic accordingly.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0344"
+  },
+  {
+    "q": "When instrumenting an application for Prometheus, what is the typical way metrics are exposed by the application?",
+    "opts": [
+      "Writing metrics directly to Prometheus's storage.",
+      "Pushing metrics to a Prometheus Pushgateway.",
+      "Exposing an HTTP endpoint (e.g., /metrics) for scraping.",
+      "Sending metrics via syslog to a collector.",
+      "Using SNMP traps to send metric data."
+    ],
+    "correct": 2,
+    "expl": "Applications instrumented with Prometheus client libraries typically expose their metrics on an HTTP endpoint (commonly /metrics) in a specific format that Prometheus can then periodically scrape.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0345"
+  },
+  {
+    "q": "What is the core difference between \"authentication\" and \"authorization\" in Kubernetes security?",
+    "opts": [
+      "Authentication is for users, authorization for service accounts.",
+      "Authentication verifies identity, authorization verifies permissions.",
+      "Authorization happens before authentication in the API request flow.",
+      "Authentication uses Roles, authorization uses RoleBindings.",
+      "Authorization uses client certificates, authentication uses tokens."
+    ],
+    "correct": 1,
+    "expl": "Authentication is the process of determining who a user or service is. Authorization is the process of determining what an authenticated user or service is allowed to do (i.e., which API resources they can access and what actions they can perform).",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0346"
+  },
+  {
+    "q": "What is the smallest and simplest deployable unit object created and managed by Kubernetes?",
+    "opts": [
+      "Node",
+      "Container",
+      "Pod",
+      "Deployment",
+      "Namespace"
+    ],
+    "correct": 2,
+    "expl": "A Pod represents a single instance of a running process in a cluster and can contain one or more containers. Nodes host Pods.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0347"
+  },
+  {
+    "q": "Which Kubernetes component is responsible for watching for newly created Pods and assigning them to Nodes?",
+    "opts": [
+      "kube-apiserver",
+      "etcd",
+      "kube-scheduler",
+      "kubelet",
+      "kube-controller-manager"
+    ],
+    "correct": 2,
+    "expl": "The kube-scheduler is the control plane component that decides which Node a Pod should run on based on constraints and availability.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0348"
+  },
+  {
+    "q": "What is the primary function of the kubelet component?",
+    "opts": [
+      "Storing cluster state",
+      "Scheduling Pods onto Nodes",
+      "Ensuring containers described in PodSpecs are running on the Node",
+      "Exposing the Kubernetes API",
+      "Programming iptables/IPVS rules for Service traffic"
+    ],
+    "correct": 2,
+    "expl": "The kubelet runs on each Node and ensures that the containers described in PodSpecs are running and healthy. It pulls Pod specs from the API server and works with the container runtime through the CRI.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0349"
+  },
+  {
+    "q": "Which component acts as the central control plane and exposes the Kubernetes API?",
+    "opts": [
+      "kube-proxy",
+      "kube-apiserver",
+      "etcd",
+      "controller-manager"
+    ],
+    "correct": 1,
+    "expl": "The kube-apiserver validates and configures data for API objects (Pods, Services, etc.) and is the frontend for the control plane.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0350"
+  },
+  {
+    "q": "What is the primary role of etcd in a Kubernetes cluster?",
+    "opts": [
+      "Running application containers",
+      "Scheduling workloads",
+      "Storing the cluster state",
+      "Managing network policies"
+    ],
+    "correct": 2,
+    "expl": "etcd is a consistent and highly-available key-value store used as Kubernetes' backing store for all cluster data.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0351"
+  },
+  {
+    "q": "Which Kubernetes resource is typically used to manage stateless applications by ensuring a specified number of Pod replicas are running?",
+    "opts": [
+      "StatefulSet",
+      "DaemonSet",
+      "Deployment",
+      "Job"
+    ],
+    "correct": 2,
+    "expl": "Deployments manage ReplicaSets, providing declarative updates and scaling for stateless applications. While a ReplicaSet alone can maintain Pod replicas, Deployment is the higher-level controller you typically use because it adds rollout history, rolling updates, and rollback.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0352"
+  },
+  {
+    "q": "What type of software package bundles application code with all its dependencies, libraries, and configuration files?",
+    "opts": [
+      "Virtual Machine",
+      "Container",
+      "Operating System",
+      "Serverless Function"
+    ],
+    "correct": 2,
+    "expl": "A container bundles an application and its dependencies into a portable, isolated package that runs consistently across environments.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0353"
+  },
+  {
+    "q": "What is the main benefit of using container orchestration systems like Kubernetes?",
+    "opts": [
+      "Simplifying code writing",
+      "Automating deployment scaling",
+      "Reducing storage costs",
+      "Improving network latency"
+    ],
+    "correct": 1,
+    "expl": "Orchestrators automate the deployment, scaling, management, and networking of containerized applications.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0354"
+  },
+  {
+    "q": "Which of these is a standard specified by the OCI (Open Container Initiative)?",
+    "opts": [
+      "Docker",
+      "Kubernetes",
+      "Image Specification",
+      "Istio"
+    ],
+    "correct": 2,
+    "expl": "The OCI defines standards for container image format (Image Specification), runtime (Runtime Specification), and distribution. CRI, CNI, and CSI are Kubernetes-specific interfaces, not OCI standards.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0355"
+  },
+  {
+    "q": "Which container runtime is most commonly associated with Kubernetes and implements the CRI (Container Runtime Interface)?",
+    "opts": [
+      "Docker (dockershim)",
+      "containerd",
+      "rkt",
+      "LXC"
+    ],
+    "correct": 1,
+    "expl": "containerd is the most widely used CRI-compliant runtime in modern Kubernetes clusters. dockershim was removed in Kubernetes 1.24, rkt is deprecated, and LXC is not commonly used as a Kubernetes runtime.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0356"
+  },
+  {
+    "q": "What Kubernetes object provides a stable IP address and DNS name for accessing a set of Pods?",
+    "opts": [
+      "Ingress",
+      "Service",
+      "EndpointSlice",
+      "NetworkPolicy"
+    ],
+    "correct": 1,
+    "expl": "A Service defines a logical set of Pods and a policy by which to access them, providing load balancing and service discovery.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0357"
+  },
+  {
+    "q": "How can you securely store sensitive information like passwords or API keys in Kubernetes?",
+    "opts": [
+      "ConfigMap",
+      "Annotation",
+      "Label",
+      "Secret"
+    ],
+    "correct": 3,
+    "expl": "Secrets are Kubernetes objects specifically designed to hold small amounts of sensitive data such as passwords or API keys. Note: Secret data is base64-encoded by default; enable encryption-at-rest on etcd for true encryption.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0358"
+  },
+  {
+    "q": "What is the role of a CNI (Container Network Interface) plugin in Kubernetes?",
+    "opts": [
+      "Managing storage volumes",
+      "Providing container networking",
+      "Scheduling Pods",
+      "Securing the API server"
+    ],
+    "correct": 1,
+    "expl": "CNI plugins are responsible for configuring network interfaces for containers and managing IP address allocation within the cluster.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0359"
+  },
+  {
+    "q": "Which Kubernetes object defines rules about how Pods are allowed to communicate with each other and network endpoints?",
+    "opts": [
+      "Service",
+      "Ingress",
+      "NetworkPolicy",
+      "SecurityContext"
+    ],
+    "correct": 2,
+    "expl": "NetworkPolicies allow specifying traffic flow rules at the IP address or port level (OSI layer 3 or 4).",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0360"
+  },
+  {
+    "q": "What is the primary purpose of a Service Mesh like Istio or Linkerd?",
+    "opts": [
+      "Container image building",
+      "Cluster storage management",
+      "Managing inter-service comms",
+      "Node provisioning"
+    ],
+    "correct": 2,
+    "expl": "Service meshes add observability, security, and reliability features to communication between microservices (service-to-service).",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0361"
+  },
+  {
+    "q": "What Kubernetes object represents a piece of storage in the cluster, provisioned by an administrator or dynamically?",
+    "opts": [
+      "PersistentVolumeClaim (PVC)",
+      "StorageClass",
+      "PersistentVolume (PV)",
+      "Volume"
+    ],
+    "correct": 2,
+    "expl": "A PersistentVolume (PV) is a piece of storage provisioned for use in the cluster, independent of any individual Pod.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0362"
+  },
+  {
+    "q": "What does a PersistentVolumeClaim (PVC) represent in Kubernetes?",
+    "opts": [
+      "A request for storage by a user",
+      "A type of storage backend",
+      "A node's local storage",
+      "A backup of a volume"
+    ],
+    "correct": 0,
+    "expl": "A PVC is a request made by a user (or Pod) for storage resources defined by a PV.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0363"
+  },
+  {
+    "q": "What is the function of a StorageClass in Kubernetes?",
+    "opts": [
+      "To define types of storage",
+      "To claim a specific PV",
+      "To attach storage to a Pod",
+      "To backup volume data"
+    ],
+    "correct": 0,
+    "expl": "StorageClasses allow administrators to define different classes of storage (e.g., 'fast-ssd', 'cheap-hdd') and enable dynamic provisioning of PersistentVolumes on demand.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0364"
+  },
+  {
+    "q": "Which mechanism allows Kubernetes to automatically adjust the number of Pods in a Deployment based on CPU utilization or custom metrics?",
+    "opts": [
+      "Vertical Pod Autoscaler (VPA)",
+      "Cluster Autoscaler (CA)",
+      "Horizontal Pod Autoscaler (HPA)",
+      "Node Problem Detector (NPD)"
+    ],
+    "correct": 2,
+    "expl": "The Horizontal Pod Autoscaler (HPA) automatically scales the number of Pods in a Deployment (or ReplicaSet/StatefulSet) based on observed CPU utilization or custom metrics. VPA adjusts Pod resource requests, Cluster Autoscaler adjusts the number of Nodes, and Node Problem Detector reports node-level issues.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0365"
+  },
+  {
+    "q": "What term describes an architectural approach where applications are built as small, independent services that run in their own processes?",
+    "opts": [
+      "Monolithic",
+      "Microservices",
+      "Serverless",
+      "N-Tier"
+    ],
+    "correct": 1,
+    "expl": "Microservices architecture structures an application as a collection of loosely coupled, independently deployable services.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0366"
+  },
+  {
+    "q": "What does \"Serverless\" computing primarily abstract away from the developer?",
+    "opts": [
+      "Networking",
+      "Storage",
+      "Server Management",
+      "Operating System choice"
+    ],
+    "correct": 2,
+    "expl": "Serverless platforms (like FaaS) manage the underlying infrastructure, allowing developers to focus solely on code execution.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0367"
+  },
+  {
+    "q": "Which organization hosts Kubernetes and promotes the growth of the cloud native ecosystem?",
+    "opts": [
+      "Linux Foundation (LF)",
+      "Apache Software Foundation (ASF)",
+      "Cloud Native Computing Foundation (CNCF)",
+      "Open Source Initiative (OSI)"
+    ],
+    "correct": 2,
+    "expl": "The CNCF, part of the Linux Foundation, stewards Kubernetes and many other cloud native projects.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0368"
+  },
+  {
+    "q": "What is the benefit of using open standards in cloud native technologies?",
+    "opts": [
+      "Vendor lock-in",
+      "Increased complexity",
+      "Interoperability Portability",
+      "Reduced security"
+    ],
+    "correct": 2,
+    "expl": "Open standards (like OCI, CRI, CNI) ensure that different tools and platforms can work together, preventing vendor lock-in.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0369"
+  },
+  {
+    "q": "In a typical cloud native environment, which persona is primarily responsible for designing and building the application?",
+    "opts": [
+      "Operator",
+      "Developer",
+      "Site Reliability Engineer (SRE)",
+      "Security Engineer"
+    ],
+    "correct": 1,
+    "expl": "Developers focus on writing, building, and testing the application code that runs within the cloud native platform.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0370"
+  },
+  {
+    "q": "Which persona is typically focused on the reliability, scalability, and maintenance of the underlying Kubernetes platform?",
+    "opts": [
+      "End User",
+      "Application Developer",
+      "Platform Operator / SRE",
+      "Data Scientist"
+    ],
+    "correct": 2,
+    "expl": "Operators or SREs manage the Kubernetes cluster itself, ensuring it's healthy, scalable, and available for developers.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0371"
+  },
+  {
+    "q": "What are the three pillars of observability in cloud native systems?",
+    "opts": [
+      "Alerts, Dashboards, Reports",
+      "Logs, Metrics, Traces",
+      "Monitoring, Logging, Profiling",
+      "Scaling, Scheduling, Storing"
+    ],
+    "correct": 1,
+    "expl": "Logs (events), Metrics (measurements over time), and Traces (request flows) are considered the fundamental pillars of observability.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0372"
+  },
+  {
+    "q": "What type of telemetry data records discrete events that happened at a specific time?",
+    "opts": [
+      "Metrics",
+      "Traces",
+      "Logs",
+      "Profiles"
+    ],
+    "correct": 2,
+    "expl": "Logs provide timestamped records of events, often used for debugging or auditing.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0373"
+  },
+  {
+    "q": "What type of telemetry data represents a measurement sampled over time, often aggregated?",
+    "opts": [
+      "Metrics",
+      "Traces",
+      "Logs",
+      "Events"
+    ],
+    "correct": 0,
+    "expl": "Metrics are numerical values tracked over time (e.g., CPU usage, request count) used for monitoring trends and performance.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0374"
+  },
+  {
+    "q": "What type of telemetry data shows the path and duration of a request as it flows through multiple services?",
+    "opts": [
+      "Metrics",
+      "Traces",
+      "Logs",
+      "Alerts"
+    ],
+    "correct": 1,
+    "expl": "Traces (specifically distributed traces) track a request's journey across different microservices, identifying bottlenecks.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0375"
+  },
+  {
+    "q": "Which open-source monitoring system, graduated by the CNCF, is widely used for collecting and querying time-series metrics in Kubernetes?",
+    "opts": [
+      "Grafana",
+      "Jaeger",
+      "Prometheus",
+      "Fluentd"
+    ],
+    "correct": 2,
+    "expl": "Prometheus is the de facto standard for metrics collection and alerting in the Kubernetes ecosystem.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0376"
+  },
+  {
+    "q": "How does Prometheus typically gather metrics from applications and infrastructure?",
+    "opts": [
+      "Pushing metrics to endpoints",
+      "Pulling metrics via scraping",
+      "Reading log files directly",
+      "Using kernel probes"
+    ],
+    "correct": 1,
+    "expl": "Prometheus uses a pull-based model, periodically scraping metrics endpoints (HTTP /metrics) exposed by targets.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0377"
+  }
+]

@@ -18,13 +18,7 @@
       "Only `kube-apiserver` reads/writes `etcd`. Controllers and the scheduler never touch it directly.",
       "The scheduler does not run pods — it only assigns them to a node. The `kubelet` on that node is what actually starts containers."
     ],
-    "related": [
-      "kubelet",
-      "kube-proxy",
-      "Raft",
-      "reconcile loop",
-      "kubeconfig"
-    ]
+    "related": ["kubelet", "kube-proxy", "Raft", "reconcile loop", "kubeconfig"]
   },
   {
     "id": "c002",
@@ -45,12 +39,7 @@
       "A `Job` runs once to completion — it is not the same as a `CronJob` running once. `CronJob` schedules `Jobs` repeatedly.",
       "Deleting a `StatefulSet` does NOT delete its PVCs by default — that's intentional, to protect data."
     ],
-    "related": [
-      "ReplicaSet",
-      "Pod",
-      "PodDisruptionBudget",
-      "volumeClaimTemplates"
-    ]
+    "related": ["ReplicaSet", "Pod", "PodDisruptionBudget", "volumeClaimTemplates"]
   },
   {
     "id": "c003",
@@ -70,13 +59,7 @@
       "`ExternalName` has no `ClusterIP`, no endpoints, and no selector — it is purely a DNS construct.",
       "`Service` is L4 (TCP/UDP/SCTP). For HTTP host/path routing you need `Ingress` or Gateway API on top."
     ],
-    "related": [
-      "kube-proxy",
-      "EndpointSlice",
-      "Ingress",
-      "MetalLB",
-      "CoreDNS"
-    ]
+    "related": ["kube-proxy", "EndpointSlice", "Ingress", "MetalLB", "CoreDNS"]
   },
   {
     "id": "c004",
@@ -96,12 +79,7 @@
       "If a startup probe is defined, the liveness probe is disabled until startup succeeds. That is the whole point.",
       "Probes run from the `kubelet` on the pod's node — they hit the pod IP directly, not via a `Service`."
     ],
-    "related": [
-      "kubelet",
-      "EndpointSlice",
-      "restartPolicy",
-      "container lifecycle"
-    ]
+    "related": ["kubelet", "EndpointSlice", "restartPolicy", "container lifecycle"]
   },
   {
     "id": "c005",
@@ -121,12 +99,7 @@
       "Env vars from `ConfigMap`/`Secret` do not hot-reload — you must restart the pod (or use a tool like Reloader).",
       "RBAC on `Secret` is what actually protects them. A user with `get secrets` can read every value."
     ],
-    "related": [
-      "EncryptionConfiguration",
-      "envFrom",
-      "projected volume",
-      "RBAC"
-    ]
+    "related": ["EncryptionConfiguration", "envFrom", "projected volume", "RBAC"]
   },
   {
     "id": "c006",
@@ -146,13 +119,7 @@
       "'Containers in a pod share an IP' is true; 'pods share an IP' is false.",
       "You cannot ICMP ping a `Service` `ClusterIP` — it has no listener, only `kube-proxy` rules."
     ],
-    "related": [
-      "CNI",
-      "pause container",
-      "CoreDNS",
-      "kube-proxy",
-      "EndpointSlice"
-    ]
+    "related": ["CNI", "pause container", "CoreDNS", "kube-proxy", "EndpointSlice"]
   },
   {
     "id": "c007",
@@ -173,13 +140,7 @@
       "HPA never sets `requests`/`limits`. VPA does that. CA never touches pods — it adds/removes nodes.",
       "Without `requests` set on pods, HPA cannot compute CPU utilization correctly."
     ],
-    "related": [
-      "metrics-server",
-      "PodDisruptionBudget",
-      "resource requests",
-      "Karpenter",
-      "KEDA"
-    ]
+    "related": ["metrics-server", "PodDisruptionBudget", "resource requests", "Karpenter", "KEDA"]
   },
   {
     "id": "c008",
@@ -199,13 +160,7 @@
       "There is no explicit deny rule. Default-deny is achieved by an empty-rule policy that selects all pods.",
       "DNS often breaks when locking down egress — remember to allow UDP/TCP 53 to `kube-dns`/`CoreDNS`."
     ],
-    "related": [
-      "CNI",
-      "Cilium",
-      "Calico",
-      "namespace",
-      "default-deny"
-    ]
+    "related": ["CNI", "Cilium", "Calico", "namespace", "default-deny"]
   },
   {
     "id": "c009",
@@ -226,12 +181,7 @@
       "A `PVC` without a `StorageClass` and no default class binds only to pre-created PVs (static provisioning).",
       "Deleting a `PVC` with reclaim policy `Delete` destroys the underlying cloud volume. Production PVs should usually be `Retain`."
     ],
-    "related": [
-      "CSI",
-      "StatefulSet",
-      "volumeClaimTemplates",
-      "VolumeSnapshot"
-    ]
+    "related": ["CSI", "StatefulSet", "volumeClaimTemplates", "VolumeSnapshot"]
   },
   {
     "id": "c010",
@@ -252,13 +202,7 @@
       "Ingress is feature-frozen (no new features) — non-trivial routing should use Gateway API or controller-specific annotations.",
       "Gateway API is not part of core Kubernetes — you install the CRDs and a conformant controller separately."
     ],
-    "related": [
-      "Service",
-      "LoadBalancer",
-      "HTTPRoute",
-      "IngressClass",
-      "ReferenceGrant"
-    ]
+    "related": ["Service", "LoadBalancer", "HTTPRoute", "IngressClass", "ReferenceGrant"]
   },
   {
     "id": "c011",
@@ -278,12 +222,7 @@
       "Containers alone are not cloud native. A pet container with manual `docker exec` patches is not cloud native.",
       "Microservices are an option, not a requirement. A well-designed monolith can still be cloud native."
     ],
-    "related": [
-      "containerization",
-      "microservices",
-      "GitOps",
-      "12-factor"
-    ]
+    "related": ["containerization", "microservices", "GitOps", "12-factor"]
   },
   {
     "id": "c012",
@@ -303,13 +242,7 @@
       "Sidecars add real overhead — CPU, memory, latency. Sidecarless modes (Ambient, Cilium) trade architectural complexity for resource savings.",
       "mTLS in a mesh is between proxies, not between application processes. Apps still see plaintext on `localhost`."
     ],
-    "related": [
-      "Envoy",
-      "mTLS",
-      "sidecar",
-      "Ambient mesh",
-      "eBPF"
-    ]
+    "related": ["Envoy", "mTLS", "sidecar", "Ambient mesh", "eBPF"]
   },
   {
     "id": "c013",
@@ -334,12 +267,7 @@
       "Helm is packaging, not GitOps. Argo CD and Flux are GitOps controllers that often consume Helm charts.",
       "`Docker Engine` is not a Kubernetes runtime any more, but `containerd` (which Docker uses internally) absolutely is."
     ],
-    "related": [
-      "CNCF graduation",
-      "TAGs",
-      "project categories",
-      "supply chain"
-    ]
+    "related": ["CNCF graduation", "TAGs", "project categories", "supply chain"]
   },
   {
     "id": "c014",
@@ -360,13 +288,7 @@
       "`metrics-server` ≠ Prometheus. The former feeds HPA; the latter is a full TSDB.",
       "OpenTelemetry doesn't store anything by itself — you still need a backend (Prometheus, Jaeger, Tempo)."
     ],
-    "related": [
-      "PromQL",
-      "exemplars",
-      "OTel Collector",
-      "Grafana",
-      "metrics-server"
-    ]
+    "related": ["PromQL", "exemplars", "OTel Collector", "Grafana", "metrics-server"]
   },
   {
     "id": "c015",
@@ -387,13 +309,7 @@
       "Jenkins or GitHub Actions running `kubectl apply` is push-based CI/CD, not GitOps in the OpenGitOps sense.",
       "Argo CD and Flux are not CI tools — they don't build images. Pair them with a CI system that updates Git with new image tags."
     ],
-    "related": [
-      "Argo CD",
-      "Flux",
-      "Helm",
-      "Kustomize",
-      "OpenGitOps"
-    ]
+    "related": ["Argo CD", "Flux", "Helm", "Kustomize", "OpenGitOps"]
   },
   {
     "id": "c016",
@@ -414,12 +330,7 @@
       "Blue-green doubles the cluster footprint during the cutover window. Budget for it.",
       "Setting `maxUnavailable: 0` and `maxSurge: 0` together makes a `Deployment` undeployable — at least one must be non-zero."
     ],
-    "related": [
-      "Argo Rollouts",
-      "Flagger",
-      "feature flags",
-      "progressive delivery"
-    ]
+    "related": ["Argo Rollouts", "Flagger", "feature flags", "progressive delivery"]
   },
   {
     "id": "c017",
@@ -440,13 +351,7 @@
       "Docker images and OCI images are interchangeable. Switching runtime does not require rebuilding images.",
       "`runc` is not a CRI runtime — it's the OCI low-level runtime that the CRI runtime calls."
     ],
-    "related": [
-      "kubelet",
-      "OCI",
-      "runc",
-      "dockershim",
-      "containerd"
-    ]
+    "related": ["kubelet", "OCI", "runc", "dockershim", "containerd"]
   },
   {
     "id": "c018",
@@ -466,12 +371,7 @@
       "There is no deny rule in RBAC. The only way to remove access is to not grant it — or use admission controllers (OPA/Gatekeeper, Kyverno) on top.",
       "`cluster-admin` is not a magic `*` flag — it's a `ClusterRole` like any other. You can audit it with `kubectl describe clusterrole cluster-admin`."
     ],
-    "related": [
-      "ServiceAccount",
-      "TokenRequest",
-      "admission controllers",
-      "OIDC"
-    ]
+    "related": ["ServiceAccount", "TokenRequest", "admission controllers", "OIDC"]
   },
   {
     "id": "c019",
@@ -493,13 +393,7 @@
       "Taints repel pods unless they tolerate; node affinity attracts pods. Don't conflate the two.",
       "`QoS = Guaranteed` requires `requests == limits` for **both** CPU and memory on **every** container in the pod."
     ],
-    "related": [
-      "LimitRange",
-      "ResourceQuota",
-      "PriorityClass",
-      "taints",
-      "topologySpreadConstraints"
-    ]
+    "related": ["LimitRange", "ResourceQuota", "PriorityClass", "taints", "topologySpreadConstraints"]
   },
   {
     "id": "c020",
@@ -520,12 +414,6 @@
       "Helm chart values are merged by the chart's logic; you cannot patch arbitrary fields the chart doesn't expose. Kustomize can patch anything.",
       "`helm template` renders locally without contacting the cluster — useful for piping into other tools."
     ],
-    "related": [
-      "Argo CD",
-      "Flux",
-      "GitOps",
-      "Chart",
-      "Overlay"
-    ]
+    "related": ["Argo CD", "Flux", "GitOps", "Chart", "Overlay"]
   }
 ]

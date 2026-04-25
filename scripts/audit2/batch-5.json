@@ -1,0 +1,706 @@
+[
+  {
+    "q": "Besides FaaS, what other types of services sometimes fall under the \"serverless\" umbrella?",
+    "opts": [
+      "Managed databases, messaging queues, and API gateways that autoscale and abstract infrastructure.",
+      "Traditional virtual machines with pay-as-you-go pricing.",
+      "Bare-metal servers provisioned via an API.",
+      "On-premises Kubernetes clusters managed using GitOps.",
+      "Dedicated hosts with pre-allocated capacity reserved per tenant."
+    ],
+    "correct": 0,
+    "expl": "The \"serverless\" concept often extends beyond FaaS to include managed backend services (Backend-as-a-Service or BaaS) like databases (e.g., DynamoDB, Firestore), queues (e.g., SQS, Pub/Sub), and API gateways where the provider manages scaling, availability, and infrastructure, abstracting it from the user.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0190"
+  },
+  {
+    "q": "What is the purpose of the CNCF Artifact Hub?",
+    "opts": [
+      "To store source code for all CNCF projects.",
+      "To provide a centralized web UI for finding and discovering cloud native packages and artifacts.",
+      "To run performance benchmarks on different Kubernetes distributions.",
+      "To manage user authentication and authorization for CNCF services.",
+      "To host container images for public use."
+    ],
+    "correct": 1,
+    "expl": "Artifact Hub acts as a central repository for finding and exploring cloud native artifacts like Helm charts, OLM operators, Falco rules, OPA policies, etc. It aggregates information from various distributed repositories, making discovery easier.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0191"
+  },
+  {
+    "q": "Why is understanding the different personas (Developer, Operator, etc.) important when designing a cloud native platform or process?",
+    "opts": [
+      "It helps determine the pricing model for the platform.",
+      "It ensures the platform only uses CNCF Graduated projects.",
+      "It allows tailoring tools, interfaces, and automation to meet the specific needs and workflows of each role.",
+      "It dictates the programming language used for building the platform itself.",
+      "It's primarily a marketing exercise with little technical impact."
+    ],
+    "correct": 2,
+    "expl": "Different roles have different needs, priorities, and technical skills. Designing a platform or process with these personas in mind leads to better usability, adoption, and efficiency. For example, developers need easy self-service deployment, while operators need robust monitoring and control.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0192"
+  },
+  {
+    "q": "The OpenTelemetry project, hosted by CNCF, aims to standardize which aspect of cloud native applications?",
+    "opts": [
+      "Container image formats and runtime execution.",
+      "Service mesh configuration and traffic management APIs.",
+      "Generation, collection, and export of telemetry data (traces, metrics, logs).",
+      "Persistent storage provisioning and volume lifecycle management.",
+      "User authentication and authorization protocols."
+    ],
+    "correct": 2,
+    "expl": "OpenTelemetry provides a vendor-neutral set of APIs, SDKs, and tools for instrumenting applications to generate telemetry data (traces, metrics, logs) and exporting that data to various observability backends, promoting interoperability in monitoring.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0193"
+  },
+  {
+    "q": "Which autoscaling component would be most directly impacted by poorly configured Pod readiness/liveness probes?",
+    "opts": [
+      "Cluster Autoscaler (CA)",
+      "Vertical Pod Autoscaler (VPA)",
+      "Horizontal Pod Autoscaler (HPA)",
+      "Kubernetes Scheduler (kube-scheduler)",
+      "metrics-server"
+    ],
+    "correct": 2,
+    "expl": "HPA relies on Pods being ready to serve traffic and uses metrics from those Pods. If readiness probes are misconfigured, Pods might not become ready, or might be incorrectly marked as unhealthy. This prevents HPA from accurately assessing load and making correct scaling decisions.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0194"
+  },
+  {
+    "q": "What key operational burden is significantly reduced by adopting serverless FaaS compared to running the same code in containers on Kubernetes?",
+    "opts": [
+      "Writing Dockerfiles and building container images.",
+      "Managing the underlying compute instances, OS patching, and runtime updates.",
+      "Defining Kubernetes Service and Ingress resources.",
+      "Implementing application-level logging and monitoring.",
+      "Managing source code in a version control system like Git."
+    ],
+    "correct": 1,
+    "expl": "With FaaS, the provider manages the entire underlying infrastructure stack - physical servers, VMs, operating systems, patching, container runtimes (if used underneath), and language runtimes. The user focuses only on the function code.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0195"
+  },
+  {
+    "q": "What is the relationship between the Linux Foundation (LF) and the Cloud Native Computing Foundation (CNCF)?",
+    "opts": [
+      "They are direct competitors offering similar services.",
+      "CNCF is the parent organization, and LF is one of its projects.",
+      "LF is the parent non-profit foundation, and CNCF is a sub-foundation focused on cloud native.",
+      "They are completely unrelated organizations.",
+      "CNCF manages Linux kernel development; LF manages cloud native projects."
+    ],
+    "correct": 2,
+    "expl": "The Linux Foundation is a large non-profit technology consortium. The CNCF is one of its projects (a sub-foundation) specifically chartered to advance cloud native computing and host related open source projects.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0196"
+  },
+  {
+    "q": "From a Platform Operator's perspective, what is a major benefit of Application Developers adhering to standardized logging formats and exposing Prometheus metrics?",
+    "opts": [
+      "It reduces the number of programming languages the Operator needs to support.",
+      "It simplifies the setup and maintenance of centralized observability and monitoring systems.",
+      "It eliminates the need for Kubernetes RBAC policies.",
+      "It guarantees that applications will be completely bug-free.",
+      "It allows Operators to directly modify application source code."
+    ],
+    "correct": 1,
+    "expl": "When applications follow standards for logging (e.g., structured JSON to stdout) and metrics (e.g., Prometheus exposition format), Operators can more easily configure and manage platform-wide tools (like log aggregators and Prometheus servers) to collect, analyze, and visualize this data effectively.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0197"
+  },
+  {
+    "q": "What core principle do standards like OCI, CRI, CNI, and CSI all enable within the Kubernetes ecosystem?",
+    "opts": [
+      "Reduced complexity for application developers writing business logic.",
+      "Improved performance compared to non-standardized components.",
+      "Modularity and interchangeability of components, fostering choice and innovation.",
+      "Automatic security patching for all involved components.",
+      "Consolidation of all functions into the kubelet binary."
+    ],
+    "correct": 2,
+    "expl": "These standards define interfaces between different layers of the stack (runtime, networking, storage). This allows different implementations for each layer to be developed and used interchangeably, promoting modularity, preventing vendor lock-in, and allowing specialization.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0198"
+  },
+  {
+    "q": "If VPA is configured in \"recommendation\" mode (updateMode: \"Off\"), what does it do?",
+    "opts": [
+      "It automatically adjusts Pod resource requests/limits based on usage.",
+      "It scales the number of Pod replicas based on its recommendations.",
+      "It generates recommendations for resource requests/limits but does not apply them automatically.",
+      "It adds or removes cluster nodes based on resource recommendations.",
+      "It disables itself and provides no recommendations."
+    ],
+    "correct": 2,
+    "expl": "In recommendation-only mode, VPA analyzes resource usage and updates the status.recommendation field of the VPA object with suggested values for requests/limits, but it doesn't modify the running Pods. This allows operators to review recommendations before applying them.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0199"
+  },
+  {
+    "q": "Knative is a popular open source project often associated with serverless on Kubernetes. What core capabilities does Knative Serving provide?",
+    "opts": [
+      "Persistent block storage management for functions.",
+      "A framework for building complex stateful workflows.",
+      "Request-driven compute with autoscaling (including scale-to-zero) for deploying containers.",
+      "A distributed database optimized for serverless workloads.",
+      "A graphical user interface for managing Kubernetes clusters."
+    ],
+    "correct": 2,
+    "expl": "Knative Serving builds on Kubernetes to provide features commonly associated with serverless/FaaS platforms, such as deploying containerized applications, automatically scaling them based on HTTP requests (including scaling down to zero), and managing revisions for easy rollouts/rollbacks.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0200"
+  },
+  {
+    "q": "What is a key characteristic of successful open source governance, as promoted by organizations like the CNCF?",
+    "opts": [
+      "Centralized control by a single sponsoring company.",
+      "Lack of clear processes for contribution or decision-making.",
+      "Transparency, community participation, and clear contribution/leadership paths.",
+      "Frequent changes in project licensing terms.",
+      "Closed-door meetings for all technical decisions."
+    ],
+    "correct": 2,
+    "expl": "Healthy open source projects thrive on transparency in decision-making, clear guidelines for how community members can contribute and potentially grow into leadership roles (maintainers, SIG leads), and active participation from a diverse set of contributors and users.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0201"
+  },
+  {
+    "q": "An End User of a cloud native application interacts with the system differently than a Developer or Operator. What is the End User's primary interaction?",
+    "opts": [
+      "The Site Reliability Engineer, who prioritizes error budgets and SLO compliance over shipping speed.",
+      "The Application Developer, who values fast iteration, easy deployments, and quick feedback loops.",
+      "The Platform Operator, whose primary concern is cluster stability, capacity, and security posture.",
+      "The End User, who cares about feature availability and application responsiveness.",
+      "The Security Auditor, who focuses on policy enforcement and compliance evidence."
+    ],
+    "correct": 1,
+    "expl": "Application Developers are most directly motivated by feature velocity and developer experience: how quickly they can build, test, and ship code. SREs and Operators prioritize reliability, stability, and operational concerns (often trading off velocity for safety). End Users care about the application's behavior, not the platform. Understanding these differing priorities lets platform designers tailor interfaces (e.g., self-service portals for devs, deep observability for SREs).",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0202"
+  },
+  {
+    "q": "The rise of cloud native architectures has emphasized \"Immutable Infrastructure\". What does this principle mean in the context of deployments?",
+    "opts": [
+      "Infrastructure components are never patched or updated once deployed.",
+      "Deployments are updated by creating new instances (e.g., containers, VMs) rather than modifying existing ones.",
+      "Only specific approved vendors can provide infrastructure components.",
+      "Infrastructure configuration is stored in mutable databases.",
+      "All infrastructure must run in a single availability zone for consistency."
+    ],
+    "correct": 1,
+    "expl": "Immutable Infrastructure treats servers or containers as ephemeral units. Instead of updating an existing instance in-place, you build a new version (e.g., a new container image), deploy new instances based on it, and then decommission the old ones. This leads to more predictable and reliable deployments.",
+    "d": "arch",
+    "src": "prep",
+    "id": "q0203"
+  },
+  {
+    "q": "Which of the three pillars of observability is best suited for understanding the end-to-end journey of a request as it traverses multiple microservices?",
+    "opts": [
+      "Metrics",
+      "Logs",
+      "Traces (Distributed Tracing)",
+      "Events",
+      "Alerts"
+    ],
+    "correct": 2,
+    "expl": "Distributed tracing captures the flow of a request across service boundaries, including timing information for each step. This allows developers to visualize the entire request path, identify bottlenecks, and understand service dependencies. Metrics aggregate data, logs provide discrete event info.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0204"
+  },
+  {
+    "q": "What is the primary mechanism by which Prometheus collects metrics data from target applications or services?",
+    "opts": [
+      "Targets push metrics to the Prometheus server via an agent.",
+      "Prometheus queries a central message bus where targets publish metrics.",
+      "Prometheus actively scrapes (pulls) metrics from HTTP endpoints exposed by the targets.",
+      "Targets write metrics directly to Prometheus's time-series database (TSDB).",
+      "Prometheus uses SNMP traps sent by the targets."
+    ],
+    "correct": 2,
+    "expl": "Prometheus operates on a pull model. It periodically sends HTTP requests to configured targets (or targets discovered via service discovery) on specific endpoints (usually /metrics) to retrieve their current metric values.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0205"
+  },
+  {
+    "q": "How can Kubernetes resource usage metrics (like CPU and memory consumption per Pod) directly inform cost management efforts?",
+    "opts": [
+      "By automatically adjusting application code to be more efficient.",
+      "By providing data to identify over-provisioned resources and potential waste.",
+      "By enforcing strict network policies to reduce data transfer costs.",
+      "By predicting future cloud provider price changes.",
+      "By increasing the number of replicas for cost distribution."
+    ],
+    "correct": 1,
+    "expl": "Monitoring resource utilization allows teams to see if Pods consistently use less CPU/memory than requested/limited. This data highlights opportunities to right-size resource requests, reducing waste and potentially lowering costs by allowing more efficient packing of Pods onto nodes or using smaller nodes.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0206"
+  },
+  {
+    "q": "What distinguishes \"observability\" from traditional \"monitoring\"?",
+    "opts": [
+      "Monitoring uses dashboards; Observability uses only logs.",
+      "Monitoring focuses on predefined metrics (\"known unknowns\"); Observability aims to infer system state from outputs (\"unknown unknowns\").",
+      "Observability is only applicable to serverless architectures; Monitoring is for VMs.",
+      "Monitoring relies on pulling metrics; Observability relies on pushing logs.",
+      "Observability replaces the need for alerting systems."
+    ],
+    "correct": 1,
+    "expl": "Traditional monitoring tracks predefined metrics against thresholds (e.g., did CPU exceed 80%?), focused on failure modes you anticipate in advance ('known unknowns'). Observability aims to answer arbitrary questions about system state from rich telemetry (logs, metrics, traces) without needing to know failure modes ahead of time, helping diagnose 'unknown unknowns' in complex distributed systems.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0207"
+  },
+  {
+    "q": "What is the role of an \"exporter\" in the Prometheus ecosystem?",
+    "opts": [
+      "To visualize Prometheus metrics in dashboards (like Grafana).",
+      "To push alerts from Prometheus to notification channels (like Slack).",
+      "To translate metrics from non-Prometheus native systems into the Prometheus format.",
+      "To store long-term Prometheus metrics data in remote storage.",
+      "To configure Prometheus scrape targets automatically."
+    ],
+    "correct": 2,
+    "expl": "Many systems (e.g., databases, hardware, messaging queues) don't expose Prometheus metrics natively. Exporters are helper applications that query these systems for metrics, convert them into the Prometheus text exposition format, and expose them on an HTTP endpoint for Prometheus to scrape.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0208"
+  },
+  {
+    "q": "Which Kubernetes feature helps prevent individual workloads or namespaces from consuming excessive cluster resources, thereby aiding cost control?",
+    "opts": [
+      "NetworkPolicy",
+      "ServiceAccount",
+      "ResourceQuota",
+      "Ingress",
+      "PodDisruptionBudget"
+    ],
+    "correct": 2,
+    "expl": "ResourceQuotas allow administrators to set constraints on the total amount of resources (CPU, memory, storage, object counts) that can be consumed within a specific namespace. This prevents resource hogging and helps manage costs associated with resource consumption.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0209"
+  },
+  {
+    "q": "What are the three main components (pillars) typically associated with observability in cloud-native systems?",
+    "opts": [
+      "Performance, Scalability, Reliability",
+      "Logs, Metrics, Traces",
+      "Containers, Orchestration, Microservices",
+      "Authentication, Authorization, Auditing",
+      "CI/CD, GitOps, Infrastructure-as-Code"
+    ],
+    "correct": 1,
+    "expl": "Logs (discrete events), Metrics (numeric, aggregatable measurements over time), and Traces (request lifecycle across services) are widely considered the three foundational pillars providing visibility into system behavior.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0210"
+  },
+  {
+    "q": "In PromQL (Prometheus Query Language), what is the primary purpose of \"labels\"?",
+    "opts": [
+      "To define the alert conditions for firing rules.",
+      "To specify the time duration for a query range.",
+      "To add dimensions (key-value pairs) to metrics for filtering, aggregation, and grouping.",
+      "To configure the scrape interval for specific targets.",
+      "To encrypt sensitive information within metric data."
+    ],
+    "correct": 2,
+    "expl": "Labels are fundamental to Prometheus's data model. They allow metrics with the same name to be differentiated based on attributes like instance, job, service, environment, etc. PromQL uses these labels extensively for selecting and manipulating time series data.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0211"
+  },
+  {
+    "q": "Analyzing which type of observability data would be most effective in identifying inefficient database queries that contribute significantly to application latency and potentially cloud costs?",
+    "opts": [
+      "Infrastructure metrics (CPU/Memory usage of the database Pod).",
+      "Distributed traces showing long durations for database spans within application requests.",
+      "Kubernetes event logs for the database deployment.",
+      "Network flow logs between the application and the database.",
+      "Security audit logs from the database server."
+    ],
+    "correct": 1,
+    "expl": "While infrastructure metrics might show high load, distributed traces pinpoint which specific database operations (represented as spans within a trace) are taking the longest time during user requests. This directly identifies inefficient queries impacting latency and potentially driving higher resource use (cost).",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0212"
+  },
+  {
+    "q": "What does \"instrumentation\" mean in the context of application observability?",
+    "opts": [
+      "Automatically installing monitoring agents on application hosts.",
+      "Adding code to an application to generate and export telemetry data (logs, metrics, traces).",
+      "Configuring firewall rules to allow monitoring traffic.",
+      "Visualizing telemetry data in dashboards like Grafana.",
+      "Writing PromQL queries to analyze application performance."
+    ],
+    "correct": 1,
+    "expl": "Instrumentation is the process of adding code (using libraries like OpenTelemetry SDKs or Prometheus client libraries) to an application so that it emits signals about its state and behavior - creating log entries, incrementing metric counters, starting/ending trace spans.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0213"
+  },
+  {
+    "q": "What is the function of the Alertmanager component within the Prometheus monitoring stack?",
+    "opts": [
+      "To scrape metrics from target endpoints.",
+      "To store long-term metrics data.",
+      "To handle alerts generated by Prometheus, including deduplication, grouping, and routing.",
+      "To visualize metrics data in graphical dashboards.",
+      "To perform automated remediation actions based on alerts."
+    ],
+    "correct": 2,
+    "expl": "Prometheus server evaluates alerting rules based on PromQL expressions. When rules fire, Prometheus sends alerts to Alertmanager. Alertmanager then handles deduplicating, grouping related alerts, silencing, inhibition, and routing them to configured receivers (e.g., Slack, PagerDuty, email).",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0214"
+  },
+  {
+    "q": "How can tracking resource requests vs. actual usage for Pods help optimize Kubernetes cluster costs?",
+    "opts": [
+      "It allows increasing requests to guarantee performance, regardless of cost.",
+      "It helps identify \"stranded capacity\" where allocated resources (requests) are consistently higher than usage, indicating potential savings.",
+      "It determines the best CNI plugin to use for reducing network latency.",
+      "It automatically selects the cheapest cloud provider region for deployment.",
+      "It increases the number of nodes to improve availability."
+    ],
+    "correct": 1,
+    "expl": "Resource requests guarantee capacity but also dictate scheduling and potentially cost (especially with Cluster Autoscaler). If actual usage is consistently far below requests, the allocated resources are wasted (\"stranded capacity\"). Right-sizing requests closer to usage allows better bin-packing and potential node reduction.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0215"
+  },
+  {
+    "q": "Which observability pillar would be most useful for answering the question: \"What was the exact error message generated by service X at 3:15 PM yesterday?\"",
+    "opts": [
+      "Metrics",
+      "Traces",
+      "Logs",
+      "Dashboards",
+      "Service Level Objectives (SLOs)"
+    ],
+    "correct": 2,
+    "expl": "Logs record discrete, timestamped events, often including detailed contextual information like error messages, stack traces, and specific variable values at the time of the event. This makes them ideal for post-mortem debugging of specific incidents.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0216"
+  },
+  {
+    "q": "Prometheus uses Service Discovery mechanisms (e.g., Kubernetes SD) primarily for what purpose?",
+    "opts": [
+      "To automatically discover TLS certificates for secure scraping.",
+      "To find and dynamically update the list of target endpoints it needs to scrape.",
+      "To discover available Grafana dashboards for visualization.",
+      "To determine which users are authorized to query metrics data.",
+      "To identify which version of Prometheus server is running."
+    ],
+    "correct": 1,
+    "expl": "In dynamic environments like Kubernetes, Pod IPs change frequently. Service Discovery integrations allow Prometheus to automatically query the Kubernetes API (or other sources) to find the current set of targets (e.g., Pods matching specific labels) and their scrape endpoints, eliminating manual configuration.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0217"
+  },
+  {
+    "q": "What is the concept of \"showback\" or \"chargeback\" in cloud cost management, often enabled by observability data?",
+    "opts": [
+      "Showing users the real-time stock price of the cloud provider.",
+      "Charging users based on the number of dashboards they create.",
+      "Allocating infrastructure costs back to the specific teams or applications that consumed the resources.",
+      "Showing developers feedback on their code quality based on metrics.",
+      "Charging a flat fee per namespace regardless of usage."
+    ],
+    "correct": 2,
+    "expl": "Showback (reporting usage/cost) and Chargeback (actually billing internally) involve attributing shared infrastructure costs to the consuming business units, teams, or applications. This requires observability data (resource usage metrics, labels/tags) to correlate consumption with specific owners.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0218"
+  },
+  {
+    "q": "OpenTelemetry aims to standardize which parts of the observability pipeline?",
+    "opts": [
+      "Only the visualization layer (dashboards).",
+      "Only the long-term storage of metrics data.",
+      "The generation, collection, and export of telemetry data (APIs, SDKs, protocols).",
+      "Only the alerting and notification mechanisms.",
+      "The configuration format for Prometheus scrape jobs."
+    ],
+    "correct": 2,
+    "expl": "OpenTelemetry provides vendor-neutral APIs, SDKs for instrumenting code, a collector for processing/exporting data, and protocols (like OTLP) to standardize how telemetry data is produced and transmitted, aiming to avoid vendor lock-in at the instrumentation level.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0219"
+  },
+  {
+    "q": "What type of Prometheus metric is most suitable for tracking a value that can arbitrarily increase or decrease, like the current number of active connections?",
+    "opts": [
+      "Counter",
+      "Gauge",
+      "Histogram",
+      "Summary",
+      "Info"
+    ],
+    "correct": 1,
+    "expl": "A Gauge represents a single numerical value that can go up or down. It's suitable for metrics like temperature, current memory usage, or the number of items in a queue. Counters only go up (or reset to zero). Histograms and Summaries track distributions.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0220"
+  },
+  {
+    "q": "Why is tagging or labeling resources (e.g., Pods, Nodes, cloud resources) crucial for effective cost management in a shared cloud native environment?",
+    "opts": [
+      "It allows cost allocation and analysis based on specific teams, projects, or environments",
+      "It enables the kube-scheduler to spread workloads across the cheapest nodes automatically",
+      "It is required for the Horizontal Pod Autoscaler to consider cost when scaling",
+      "It causes the cloud provider to apply automatic discounts to tagged resources"
+    ],
+    "correct": 0,
+    "expl": "In shared environments, costs are aggregated across many workloads. Consistent tagging/labeling lets cost tools (cloud provider billing, OpenCost, Kubecost) filter and group spend by team, project, or environment — which is the foundation of FinOps showback and chargeback. Tags do not influence the scheduler (B), the HPA does not factor in price (C), and providers do not discount based on tags (D).",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0221"
+  },
+  {
+    "q": "Grafana is often used alongside Prometheus. What is Grafana's primary role in this context?",
+    "opts": [
+      "To store long-term metrics data collected by Prometheus.",
+      "To generate alerts based on Prometheus metrics.",
+      "To provide data visualization and dashboarding for Prometheus metrics (and other sources).",
+      "To replace the Prometheus server for scraping targets.",
+      "To manage Prometheus configuration files."
+    ],
+    "correct": 2,
+    "expl": "Grafana is a popular open-source visualization platform. It excels at querying data sources like Prometheus and displaying the timeseries data in flexible, interactive dashboards with various graph types, tables, and alerts (though Alertmanager is Prometheus's native alerter).",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0222"
+  },
+  {
+    "q": "What does the rate() function in PromQL typically calculate?",
+    "opts": [
+      "The total count of a metric over a time range.",
+      "The average value of a gauge metric over a time range.",
+      "The per-second average rate of increase for a counter metric over a time range.",
+      "The 95th percentile value of a histogram metric.",
+      "The current value of a metric label."
+    ],
+    "correct": 2,
+    "expl": "Counters continuously increase. rate() calculates how fast a counter is increasing per second, averaged over a specified time window. This is essential for understanding throughput or frequency of events (e.g., HTTP requests per second, errors per second).",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0223"
+  },
+  {
+    "q": "Which strategy helps manage costs associated with persistent storage in Kubernetes?",
+    "opts": [
+      "Using only hostPath volumes for all stateful applications.",
+      "Regularly reviewing PersistentVolumeClaim (PVC) usage and cleaning up unused volumes.",
+      "Disabling the Container Storage Interface (CSI) plugin.",
+      "Storing all application data within container images.",
+      "Setting storageClassName to a non-existent class."
+    ],
+    "correct": 1,
+    "expl": "Persistent storage often incurs costs. Orphaned PVCs (no longer used by any Pod) or PVCs attached to terminated resources can lead to unnecessary spending. Regularly auditing PVCs and deleting unused ones, potentially based on age or lack of mounting, is a key cost optimization practice.",
+    "d": "orch",
+    "src": "prep",
+    "id": "q0224"
+  },
+  {
+    "q": "What is a \"Service Level Objective\" (SLO) in the context of observability and SRE?",
+    "opts": [
+      "A detailed log message indicating a service failure.",
+      "A contractual agreement with a cloud provider for uptime (SLA).",
+      "A specific, measurable target for a service's reliability or performance (e.g., 99.9% of requests succeed over a 30-day window).",
+      "A dashboard showing real-time resource utilization.",
+      "An alert configured in Alertmanager."
+    ],
+    "correct": 2,
+    "expl": "An SLO is an internal target for service reliability, often based on user happiness metrics (e.g., availability, latency). Observability data (metrics, logs) is used to measure performance against SLOs. Service Level Indicators (SLIs) are the metrics used to measure SLO compliance. SLAs are external agreements.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0225"
+  },
+  {
+    "q": "What information does a Prometheus Histogram metric provide that a simple Gauge or Counter does not?",
+    "opts": [
+      "The exact time when the metric last changed value.",
+      "The total number of times an event has occurred.",
+      "The distribution of observed values across a set of configurable buckets.",
+      "The current status (up/down) of the monitored target.",
+      "The geographic location of the monitored instance."
+    ],
+    "correct": 2,
+    "expl": "Histograms sample observations (e.g., request latencies) and count them in configurable buckets (e.g., <=100ms, <=200ms, <=500ms). They also provide the sum and count of observations. This allows calculating approximate quantiles (e.g., 95th percentile latency) using functions like histogram_quantile().",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0226"
+  },
+  {
+    "q": "How might analyzing network egress data, often available via cloud provider monitoring or specialized tools, help control costs?",
+    "opts": [
+      "By optimizing DNS resolution times within the cluster.",
+      "By identifying unexpected or excessive data transfer out of the cluster/cloud, which often incurs costs.",
+      "By improving the efficiency of the CNI plugin's IP address allocation.",
+      "By reducing the number of LoadBalancer services used.",
+      "By increasing the MTU size for Pod network interfaces."
+    ],
+    "correct": 1,
+    "expl": "Cloud providers typically charge for data transferred out to the internet or sometimes between regions/availability zones. Monitoring egress traffic helps identify applications sending large amounts of data unexpectedly, allowing investigation and potential optimization to reduce data transfer costs.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0227"
+  },
+  {
+    "q": "Jaeger and Zipkin are open-source tools commonly used in cloudnative environments. Which observability pillar are they primarily associated with?",
+    "opts": [
+      "Metrics aggregation and storage.",
+      "Log collection and analysis.",
+      "Distributed Tracing backend and visualization.",
+      "Alerting and notification routing.",
+      "Service discovery configuration management."
+    ],
+    "correct": 2,
+    "expl": "Jaeger and Zipkin are popular open-source distributed tracing systems. They receive trace data (spans) generated by instrumented applications (often using OpenTelemetry or native libraries), store it, and provide UIs for visualizing request traces and analyzing service dependencies and latency.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0228"
+  },
+  {
+    "q": "What is the purpose of the job label automatically added by Prometheus during scraping?",
+    "opts": [
+      "To identify the specific metric name being scraped.",
+      "To indicate the IP address and port of the scraped target.",
+      "To group targets belonging to the same scrape configuration (e.g., \"kubernetes-pods\").",
+      "To specify the data center location of the Prometheus server.",
+      "To store the timestamp of the last successful scrape."
+    ],
+    "correct": 2,
+    "expl": "Prometheus configuration defines scrape jobs (e.g., a job to scrape all pods with label app=api). The job label is automatically attached to all metrics scraped from targets within that job definition, allowing easy filtering and aggregation for all instances of a particular service type.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0229"
+  },
+  {
+    "q": "Which Kubernetes object can set default resource requests and limits for containers within a namespace if not specified in the Pod spec, indirectly aiding cost predictability?",
+    "opts": [
+      "ConfigMap",
+      "Secret",
+      "LimitRange",
+      "HorizontalPodAutoscaler",
+      "MutatingWebhookConfiguration"
+    ],
+    "correct": 2,
+    "expl": "A LimitRange can enforce minimum/maximum resource constraints and, crucially, apply default requests and limits to containers that don't explicitly define them. This ensures Pods have some resource boundaries set, preventing unbounded consumption and aiding resource allocation and cost estimation.",
+    "d": "k8s",
+    "src": "prep",
+    "id": "q0230"
+  },
+  {
+    "q": "What is meant by \"cardinality\" in the context of Prometheus metrics and labels?",
+    "opts": [
+      "The number of different metric names exposed by a target.",
+      "The total number of targets being scraped by Prometheus.",
+      "The number of unique time series generated by a metric name and its distinct label combinations.",
+      "The frequency at which Prometheus scrapes a specific target.",
+      "The storage duration configured for metrics data."
+    ],
+    "correct": 2,
+    "expl": "High cardinality occurs when a metric has many unique combinations of label values (e.g., using user ID or request ID as a label). This creates many distinct time series, which can significantly increase resource consumption (memory, CPU, storage) on the Prometheus server. Managing cardinality is crucial.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0231"
+  },
+  {
+    "q": "What is the difference between the up metric automatically generated by Prometheus and application-specific health check metrics?",
+    "opts": [
+      "up is a gauge, while health checks are counters.",
+      "up indicates scrape success; health checks indicate application functionality.",
+      "up is only generated for Kubernetes Pods; health checks are for external services.",
+      "up requires custom instrumentation; health checks are built-in.",
+      "up triggers Alertmanager directly; health checks require PromQL rules."
+    ],
+    "correct": 1,
+    "expl": "Prometheus automatically generates an up{job=\"...\", instance=\"...\"} metric for each target scrape (1 if successful, 0 if failed). This only tells if Prometheus could reach the /metrics endpoint. Application health checks (e.g., a /healthz endpoint) verify internal application logic or dependencies.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0232"
+  },
+  {
+    "q": "Tools like Kubecost or OpenCost integrate with Kubernetes and cloud providers primarily to achieve what?",
+    "opts": [
+      "To automatically optimize application code for better performance.",
+      "To provide detailed cost allocation, monitoring, and optimization insights specific to Kubernetes workloads.",
+      "To replace the need for Prometheus and Grafana entirely.",
+      "To manage user authentication and RBAC policies within the cluster.",
+      "To deploy and manage CNI network plugins."
+    ],
+    "correct": 1,
+    "expl": "These tools specialize in Kubernetes cost management. They correlate resource usage data (from metrics) with cloud billing data and Kubernetes object metadata (labels, namespaces) to provide granular insights into how much specific deployments, teams, or namespaces are costing and where optimizations are possible.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0233"
+  },
+  {
+    "q": "What is a potential downside of relying only on logs for observability?",
+    "opts": [
+      "Logs cannot capture detailed error messages.",
+      "Logs are difficult to aggregate and query for trends or patterns across many instances.",
+      "Logs do not provide timestamps for events.",
+      "Logs cannot be generated by most modern applications.",
+      "Logs cannot be stored centrally."
+    ],
+    "correct": 1,
+    "expl": "Logs (especially unstructured, high-volume ones) are expensive to aggregate, index, and query for trends across many instances. Calculating aggregate behavior (request rates, error percentages) from raw logs is far less efficient than using metrics, and reconstructing request flow across services is much harder without traces. The three signals (logs, metrics, traces) are complementary; relying solely on logs leaves gaps.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0234"
+  },
+  {
+    "q": "Allocating costs based on Namespace in Kubernetes is a common strategy. What is a prerequisite for this approach to be effective?",
+    "opts": [
+      "All Pods must run with hostNetwork: true.",
+      "Resources (Pods, PVCs, Services) must be consistently deployed into appropriate team/application-specific Namespaces.",
+      "The cluster must use the Cluster Autoscaler.",
+      "All applications must be instrumented with OpenTelemetry.",
+      "Only LoadBalancer services should be used for external access."
+    ],
+    "correct": 1,
+    "expl": "If resources belonging to different teams or applications are mixed within the same Namespace, attributing costs accurately becomes difficult. A disciplined approach where each team or application has its own Namespace(s) allows usage and costs to be aggregated at the Namespace level.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0235"
+  },
+  {
+    "q": "What is the primary goal of correlating different observability signals (e.g., linking a trace ID in logs to a specific distributed trace)?",
+    "opts": [
+      "To reduce the storage cost of telemetry data.",
+      "To allow visualization of metrics in Grafana.",
+      "To provide a more complete context for troubleshooting by connecting related events across signals.",
+      "To replace the need for manual code instrumentation.",
+      "To standardize the format of log messages."
+    ],
+    "correct": 2,
+    "expl": "Finding a specific trace ID in application logs allows you to quickly jump to the corresponding distributed trace in Jaeger/Zipkin, showing the entire request flow. Linking metrics spikes to specific error logs provides context. Correlation ties the pillars together for faster, more effective debugging.",
+    "d": "obs",
+    "src": "prep",
+    "id": "q0236"
+  }
+]

@@ -34,21 +34,35 @@ export default function Modal({
 
   if (!open) return null;
 
+  // Two-layer trick: the OUTER fixed div is the scroll container, the INNER
+  // div is a flex layout with min-height:100% so short content centers but
+  // tall content grows past the viewport instead of having its top clipped
+  // by `align-items: center`.
   return createPortal(
     <div
       onClick={closeOnBackdrop ? onClose : undefined}
       style={{
         position: 'fixed', inset: 0, background: dim,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 20, zIndex,
+        zIndex,
         overflowY: 'auto',
       }}
     >
       <div
-        onClick={(e) => e.stopPropagation()}
-        style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+        style={{
+          minHeight: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 20,
+          boxSizing: 'border-box',
+        }}
       >
-        {children}
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+        >
+          {children}
+        </div>
       </div>
     </div>,
     document.body,

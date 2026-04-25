@@ -61,12 +61,36 @@ function formatExamDate(iso) {
   return `${date} · ${time}`;
 }
 
+function CountdownUnit({ value, label, urgent }) {
+  return (
+    <div style={{ textAlign: 'center', minWidth: 36 }}>
+      <div style={{
+        fontFamily: fontHead, fontSize: 26, fontWeight: 700,
+        color: urgent ? T.accent : T.text, lineHeight: 1,
+      }}>
+        {String(value).padStart(2, '0')}
+      </div>
+      <div style={{
+        fontFamily: fontMono, fontSize: 9, letterSpacing: '0.15em',
+        color: T.textDim, textTransform: 'uppercase', marginTop: 4,
+      }}>
+        {label}
+      </div>
+    </div>
+  );
+}
+
 export default function Header({
-  days, examDate, onEditExamDate,
+  countdown, examDate, onEditExamDate,
   tab, onTab,
   user, onSwitchUser,
   syncConfig, syncStatus, onOpenSync,
 }) {
+  const hasCountdown = !!countdown;
+  const expired = countdown?.expired;
+  // Highlight in accent color in the final stretch: under 3 days, or any time
+  // remaining is below ~24 hours but the date is still in the future.
+  const urgent = hasCountdown && !expired && (countdown.days < 3);
   return (
     <div style={{
       borderBottom: `1px solid ${T.border}`,
@@ -139,20 +163,28 @@ export default function Header({
             >
               <div style={{
                 fontFamily: fontMono, fontSize: 10, letterSpacing: '0.2em',
-                color: T.textDim, textTransform: 'uppercase',
+                color: T.textDim, textTransform: 'uppercase', marginBottom: 6,
               }}>
-                Days until exam
+                {expired ? "It's exam time" : 'Time until exam'}
               </div>
-              <div style={{
-                fontFamily: fontHead, fontSize: 32, fontWeight: 700,
-                color: days != null && days <= 3 ? T.accent : T.text, lineHeight: 1,
-              }}>
-                {days ?? '—'}
-              </div>
+              {hasCountdown && !expired ? (
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <CountdownUnit value={countdown.days}    label="Days"    urgent={urgent} />
+                  <CountdownUnit value={countdown.hours}   label="Hours"   urgent={urgent} />
+                  <CountdownUnit value={countdown.minutes} label="Minutes" urgent={urgent} />
+                </div>
+              ) : (
+                <div style={{
+                  fontFamily: fontHead, fontSize: 26, fontWeight: 700,
+                  color: expired ? T.accent : T.text, lineHeight: 1,
+                }}>
+                  {expired ? 'Now' : '—'}
+                </div>
+              )}
               {examDate && (
                 <div style={{
                   fontFamily: fontMono, fontSize: 9, letterSpacing: '0.15em',
-                  color: T.textDim, textTransform: 'uppercase', marginTop: 2,
+                  color: T.textDim, textTransform: 'uppercase', marginTop: 6,
                 }}>
                   {formatExamDate(examDate)}
                 </div>

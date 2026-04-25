@@ -7,6 +7,7 @@ import Revise from './components/Revise';
 import Landscape from './components/Landscape';
 import UserPrompt from './components/UserPrompt';
 import ExamDatePrompt from './components/ExamDatePrompt';
+import ExamTimeModal from './components/ExamTimeModal';
 import SyncPanel from './components/SyncPanel';
 import {
   loadProgress, saveProgress, clearProgress,
@@ -17,7 +18,7 @@ import {
   getSyncConfig, setupSync as setupSyncRemote, clearSyncConfig,
   pullStore, pushStore,
 } from './utils/sync';
-import { daysUntilExam } from './utils/helpers';
+import { examCountdown } from './utils/helpers';
 import { T, fontMono } from './utils/theme';
 import QUESTIONS from './data/questions.json';
 import FLASHCARDS from './data/flashcards.json';
@@ -30,8 +31,9 @@ export default function App() {
   const [knownUsers, setKnownUsers] = useState([]);
   const [progress, setProgress] = useState({ examDate: null, q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} });
   const [loaded, setLoaded] = useState(false);
-  const [days, setDays] = useState(null);
+  const [countdown, setCountdown] = useState(null);
   const [editingExamDate, setEditingExamDate] = useState(false);
+  const [examTimeAcked, setExamTimeAcked] = useState(false);
 
   // Pending review handoff: when the user clicks a past run on Dashboard,
   // we stash it here and switch to the Practice tab; ExamSets picks it up
@@ -68,10 +70,13 @@ export default function App() {
   }, []);
 
   // Recompute countdown whenever the user's exam date changes,
-  // and tick once a minute so the day rolls over without a refresh.
+  // and tick every 30s so minutes update snappily.
+  // Also reset the "exam time acknowledged" flag when the date changes —
+  // a freshly-set future date shouldn't keep the dismissed state.
   useEffect(() => {
-    setDays(daysUntilExam(progress.examDate));
-    const timer = setInterval(() => setDays(daysUntilExam(progress.examDate)), 60_000);
+    setCountdown(examCountdown(progress.examDate));
+    setExamTimeAcked(false);
+    const timer = setInterval(() => setCountdown(examCountdown(progress.examDate)), 30_000);
     return () => clearInterval(timer);
   }, [progress.examDate]);
 
@@ -251,7 +256,7 @@ export default function App() {
   return (
     <div className="grain" style={{ minHeight: '100vh', background: T.bg }}>
       <Header
-        days={days}
+        countdown={countdown}
         examDate={progress.examDate}
         onEditExamDate={() => setEditingExamDate(true)}
         tab={tab}
@@ -274,7 +279,7 @@ export default function App() {
         {tab === 'dash'  && (
           <Dashboard
             progress={progress}
-            days={days}
+            days={countdown?.days ?? 0}
             onReset={onReset}
             user={user}
             onReviewRun={reviewRun}
@@ -348,6 +353,14 @@ export default function App() {
             />
           </div>
         </div>
+      )}
+
+      {countdown?.expired && !examTimeAcked && (
+        <ExamTimeModal
+          examDate={progress.examDate}
+          user={user}
+          onClose={() => setExamTimeAcked(true)}
+        />
       )}
     </div>
   );

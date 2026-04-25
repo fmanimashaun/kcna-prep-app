@@ -3,7 +3,23 @@ import { Calendar, ChevronRight } from 'lucide-react';
 import Card from './Card';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 
-// Captures (or edits) the user's KCNA exam date.
+// <input type="datetime-local"> wants "YYYY-MM-DDTHH:mm" in local time.
+// `toISOString` is UTC, so derive the local-formatted string ourselves.
+function toLocalInputValue(d) {
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
+    `T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+// Old data may be a bare date string ("2026-04-29"). Pad with a 09:00 default
+// so the datetime-local input pre-fills cleanly.
+function normalizeForInput(value) {
+  if (!value) return '';
+  if (value.includes('T')) return value.slice(0, 16);
+  return `${value}T09:00`;
+}
+
+// Captures (or edits) the user's KCNA exam date and time.
 // Used as a blocking screen after sign-in when no date is set,
 // and via Header → click countdown to edit later.
 export default function ExamDatePrompt({
@@ -12,14 +28,13 @@ export default function ExamDatePrompt({
   onSubmit,
   onCancel,
   title = 'When is your exam?',
-  subtitle = 'We use this to show your countdown and shape the study strategy.',
-  submitLabel = 'Save date',
+  subtitle = 'Pick the date and start time. We use this for your countdown and study strategy.',
+  submitLabel = 'Save',
   embedded = false,
 }) {
-  const [date, setDate] = useState(initialDate || '');
+  const [date, setDate] = useState(normalizeForInput(initialDate));
 
-  // YYYY-MM-DD for today, used as <input type="date" min>
-  const today = new Date().toISOString().slice(0, 10);
+  const minValue = toLocalInputValue(new Date());
 
   const submit = (e) => {
     e?.preventDefault();
@@ -58,9 +73,9 @@ export default function ExamDatePrompt({
           />
           <input
             autoFocus
-            type="date"
+            type="datetime-local"
             value={date}
-            min={today}
+            min={minValue}
             onChange={(e) => setDate(e.target.value)}
             style={{
               width: '100%',

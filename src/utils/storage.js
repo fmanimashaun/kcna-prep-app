@@ -4,7 +4,7 @@
 //   currentUser: "Fisayo",
 //   users: {
 //     "Fisayo": {
-//       examDate: "2026-04-29",   // ISO date the user is sitting the exam
+//       examDate: "2026-04-29T09:00",   // ISO date+time (local) the user is sitting the exam
 //       q: { [questionId]: { correct, attempts, last } },
 //       f: { [cardId]:   { status, last } },
 //       runs: [ { setId, startedAt, finishedAt, durationMs, score, total, byDomain, answers } ],

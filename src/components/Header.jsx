@@ -53,7 +53,12 @@ function SyncIndicator({ syncConfig, syncStatus, onClick }) {
 function formatExamDate(iso) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '';
-  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  const date = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  // Skip the time stamp for legacy date-only values (midnight in local tz).
+  const hasTime = typeof iso === 'string' && iso.includes('T');
+  if (!hasTime) return date;
+  const time = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+  return `${date} · ${time}`;
 }
 
 export default function Header({

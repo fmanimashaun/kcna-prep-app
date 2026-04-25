@@ -43,7 +43,7 @@ export default function SyncPanel({
   return (
     <Modal open={open} onClose={onClose}>
       <div style={{ width: '100%', maxWidth: 520 }}>
-        <Card style={{ padding: 28 }}>
+        <Card style={{ padding: 28, borderRadius: 12 }}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
               {connected ? (

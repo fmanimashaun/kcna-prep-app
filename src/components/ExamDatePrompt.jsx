@@ -43,7 +43,7 @@ export default function ExamDatePrompt({
   };
 
   const card = (
-    <Card style={{ padding: 28 }}>
+    <Card style={{ padding: 28, borderRadius: embedded ? 12 : 2 }}>
       <div style={{
         fontFamily: fontMono, fontSize: 10, color: T.textDim,
         letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10,

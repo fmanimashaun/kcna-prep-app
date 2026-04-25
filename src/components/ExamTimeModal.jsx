@@ -20,7 +20,7 @@ export default function ExamTimeModal({ examDate, user, onClose }) {
   return (
     <Modal open onClose={onClose} dim="rgba(0,0,0,0.75)">
       <div style={{ width: '100%', maxWidth: 460 }}>
-        <Card style={{ padding: 32, position: 'relative' }}>
+        <Card style={{ padding: 32, position: 'relative', borderRadius: 12 }}>
           <button
             onClick={onClose}
             aria-label="Close"

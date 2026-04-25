@@ -418,7 +418,7 @@ function ActiveExam({ set, questions, onFinish, onAbort }) {
         <div
           style={{
             background: T.bgCard, border: `1px solid ${T.border}`,
-            borderRadius: 2, padding: 24, maxWidth: 420, width: '100%',
+            borderRadius: 12, padding: 24, maxWidth: 420, width: '100%',
           }}
         >
           <div className="flex items-start gap-3 mb-3">

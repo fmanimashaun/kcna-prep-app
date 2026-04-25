@@ -22,7 +22,7 @@ export default function QuestionReviewModal({ question, status, onClose }) {
   return (
     <Modal open={!!question} onClose={onClose}>
       <div style={{ width: '100%', maxWidth: 720 }}>
-        <Card style={{ padding: 28 }}>
+        <Card style={{ padding: 28, borderRadius: 12 }}>
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex items-center gap-2 flex-wrap">
               <span style={{

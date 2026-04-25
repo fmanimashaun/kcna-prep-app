@@ -3,6 +3,7 @@ import { Check, X, ChevronRight, Shuffle } from 'lucide-react';
 import Card from './Card';
 import Filters from './Filters';
 import RelatedConcepts from './RelatedConcepts';
+import FlagButton from './FlagButton';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 import { shuffleArray } from '../utils/helpers';
 import config from '../data/config.json';
@@ -10,7 +11,7 @@ import QUESTIONS from '../data/questions.json';
 
 const DOMAINS = config.domains;
 
-export default function FreePractice({ progress, updateQuestion }) {
+export default function FreePractice({ progress, updateQuestion, flagQuestion, unflagQuestion }) {
   const [domainFilter, setDomainFilter] = useState('all');
   const [sourceFilter, setSourceFilter] = useState('all');
   const [onlyUnanswered, setOnlyUnanswered] = useState(false);
@@ -212,6 +213,11 @@ export default function FreePractice({ progress, updateQuestion }) {
             <div style={{ fontSize: 14, lineHeight: 1.6, color: T.text }}>
               {current.expl}
             </div>
+            <FlagButton
+              flag={progress.flags?.[current.id]}
+              onFlag={(reason) => flagQuestion(current.id, reason)}
+              onUnflag={() => unflagQuestion(current.id)}
+            />
             <RelatedConcepts question={current} />
           </div>
         )}

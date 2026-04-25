@@ -9,7 +9,7 @@ const MODES = [
   { id: 'free', label: 'Free practice (untimed)', icon: InfinityIcon },
 ];
 
-export default function Practice({ progress, updateQuestion, addExamRun }) {
+export default function Practice({ progress, updateQuestion, addExamRun, flagQuestion, unflagQuestion }) {
   const [mode, setMode] = useState('exam');
 
   return (
@@ -55,12 +55,16 @@ export default function Practice({ progress, updateQuestion, addExamRun }) {
           progress={progress}
           addExamRun={addExamRun}
           updateQuestion={updateQuestion}
+          flagQuestion={flagQuestion}
+          unflagQuestion={unflagQuestion}
         />
       )}
       {mode === 'free' && (
         <FreePractice
           progress={progress}
           updateQuestion={updateQuestion}
+          flagQuestion={flagQuestion}
+          unflagQuestion={unflagQuestion}
         />
       )}
     </div>

@@ -27,7 +27,7 @@ export default function App() {
   const [tab, setTab] = useState('dash');
   const [user, setUser] = useState(null);
   const [knownUsers, setKnownUsers] = useState([]);
-  const [progress, setProgress] = useState({ q: {}, f: {}, runs: [], notes: [], reviewed: {} });
+  const [progress, setProgress] = useState({ q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} });
   const [loaded, setLoaded] = useState(false);
   const [days, setDays] = useState(daysUntilExam());
 
@@ -161,11 +161,26 @@ export default function App() {
     setProgress(p => ({ ...p, reviewed }));
   };
 
+  const flagQuestion = (id, reason) => {
+    setProgress(p => ({
+      ...p,
+      flags: { ...(p.flags || {}), [id]: { reason: (reason || '').trim(), at: Date.now() } },
+    }));
+  };
+
+  const unflagQuestion = (id) => {
+    setProgress(p => {
+      const next = { ...(p.flags || {}) };
+      delete next[id];
+      return { ...p, flags: next };
+    });
+  };
+
   const onReset = () => {
     if (!user) return;
     if (window.confirm(`Reset all progress for "${user}"? This cannot be undone.`)) {
       clearProgress(user);
-      setProgress({ q: {}, f: {}, runs: [], notes: [], reviewed: {} });
+      setProgress({ q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} });
     }
   };
 
@@ -232,6 +247,8 @@ export default function App() {
             progress={progress}
             updateQuestion={updateQuestion}
             addExamRun={addExamRun}
+            flagQuestion={flagQuestion}
+            unflagQuestion={unflagQuestion}
           />
         )}
         {tab === 'flash' && <Flashcards progress={progress} updateCard={updateCard} />}

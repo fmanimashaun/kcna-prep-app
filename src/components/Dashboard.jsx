@@ -1,12 +1,14 @@
-import { useMemo } from 'react';
-import { RotateCcw, TrendingDown, Clock } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { RotateCcw, TrendingDown, Clock, Flag, Copy, Check } from 'lucide-react';
 import Section from './Section';
 import Card from './Card';
-import { T, fontHead, fontMono } from '../utils/theme';
+import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 import { daysUntilExam } from '../utils/helpers';
 import config from '../data/config.json';
 import QUESTIONS from '../data/questions.json';
 import FLASHCARDS from '../data/flashcards.json';
+
+const QUESTION_BY_ID = Object.fromEntries(QUESTIONS.map(q => [q.id, q]));
 
 const DOMAINS = config.domains;
 const PASS_MARK = config.passMark;
@@ -276,6 +278,8 @@ export default function Dashboard({ progress, onReset, user }) {
         )}
       </Section>
 
+      <FlaggedSection flags={progress.flags} />
+
       <div className="flex justify-center mt-8" style={{ marginBottom: 16 }}>
         <button
           onClick={onReset}
@@ -299,5 +303,123 @@ export default function Dashboard({ progress, onReset, user }) {
         </button>
       </div>
     </div>
+  );
+}
+
+function FlaggedSection({ flags }) {
+  const [copied, setCopied] = useState(false);
+
+  const entries = useMemo(() => {
+    if (!flags) return [];
+    return Object.entries(flags)
+      .map(([id, f]) => ({ id, reason: f.reason || '', at: f.at || 0, q: QUESTION_BY_ID[id] }))
+      .sort((a, b) => b.at - a.at);
+  }, [flags]);
+
+  if (entries.length === 0) return null;
+
+  const copyToClipboard = async () => {
+    const text = entries.map(e => {
+      const correctOpt = e.q ? e.q.opts[e.q.correct] : '?';
+      return [
+        `## ${e.id}  [${e.q?.d || '?'} / ${e.q?.src || '?'}]`,
+        `Q: ${e.q?.q || '(question not found)'}`,
+        e.q ? e.q.opts.map((o, i) => `  ${String.fromCharCode(65 + i)}. ${o}${i === e.q.correct ? '  <-- marked correct' : ''}`).join('\n') : '',
+        `Currently marked correct: ${correctOpt}`,
+        `Flag reason: ${e.reason || '(no reason)'}`,
+      ].join('\n');
+    }).join('\n\n---\n\n');
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // ignore
+    }
+  };
+
+  return (
+    <Section
+      subtitle="Questions you flagged"
+      title={`Flagged for review (${entries.length})`}
+    >
+      <div className="flex justify-end mb-3">
+        <button
+          onClick={copyToClipboard}
+          style={{
+            padding: '6px 12px',
+            background: copied ? T.correct : 'transparent',
+            color: copied ? T.bg : T.textMuted,
+            border: `1px solid ${copied ? T.correct : T.border}`,
+            borderRadius: 2,
+            cursor: 'pointer',
+            fontFamily: fontMono,
+            fontSize: 11,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+        >
+          {copied ? <Check size={12} /> : <Copy size={12} />}
+          {copied ? 'Copied' : 'Copy all (for review)'}
+        </button>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {entries.map(e => {
+          const dom = e.q?.d ? DOMAINS[e.q.d] : null;
+          return (
+            <Card
+              key={e.id}
+              style={{
+                padding: 14,
+                borderLeft: `3px solid ${T.accent}`,
+              }}
+            >
+              <div className="flex items-start gap-3">
+                <Flag size={14} fill={T.accent} style={{ color: T.accent, marginTop: 4, flexShrink: 0 }} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <span style={{
+                      fontFamily: fontMono, fontSize: 10, color: T.textDim,
+                      letterSpacing: '0.15em', textTransform: 'uppercase',
+                    }}>
+                      {e.id}
+                    </span>
+                    {dom && (
+                      <span style={{
+                        fontFamily: fontMono, fontSize: 10, color: dom.tone,
+                        letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 600,
+                      }}>
+                        · {dom.short}
+                      </span>
+                    )}
+                  </div>
+                  {e.q ? (
+                    <div style={{ fontFamily: fontHead, fontSize: 14, fontWeight: 500, color: T.text, lineHeight: 1.4, marginBottom: 6 }}>
+                      {e.q.q}
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: 12, color: T.textDim, fontStyle: 'italic', marginBottom: 6 }}>
+                      (Question {e.id} no longer in the bank — may have been removed)
+                    </div>
+                  )}
+                  <div style={{
+                    fontSize: 12, color: T.textMuted, lineHeight: 1.55,
+                    background: T.bgRaised, padding: '6px 10px', borderRadius: 2,
+                    border: `1px solid ${T.border}`, fontFamily: fontBody,
+                  }}>
+                    <strong style={{ color: T.accent, fontFamily: fontMono, fontSize: 10, letterSpacing: '0.1em' }}>FLAG: </strong>
+                    {e.reason || <em style={{ color: T.textDim }}>(no reason given)</em>}
+                  </div>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    </Section>
   );
 }

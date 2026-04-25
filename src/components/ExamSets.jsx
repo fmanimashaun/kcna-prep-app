@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { Clock, Play, Check, X, Flag, ChevronLeft, ChevronRight, Shuffle, AlertTriangle } from 'lucide-react';
 import Card from './Card';
 import RelatedConcepts from './RelatedConcepts';
+import FlagButton from './FlagButton';
 import { T, fontBody, fontHead, fontMono } from '../utils/theme';
 import { shuffleArray } from '../utils/helpers';
 import config from '../data/config.json';
@@ -481,7 +482,7 @@ function ActiveExam({ set, questions, onFinish, onAbort }) {
 }
 
 // ---------- Results ----------
-function ResultsView({ run, questions, onRetake, onBackToPicker }) {
+function ResultsView({ run, questions, onRetake, onBackToPicker, flags, onFlag, onUnflag }) {
   const [review, setReview] = useState(false);
   const [reviewIdx, setReviewIdx] = useState(0);
 
@@ -575,6 +576,11 @@ function ResultsView({ run, questions, onRetake, onBackToPicker }) {
             <div style={{ fontSize: 14, lineHeight: 1.6, color: T.text }}>
               {q.expl}
             </div>
+            <FlagButton
+              flag={flags?.[q.id]}
+              onFlag={(reason) => onFlag(q.id, reason)}
+              onUnflag={() => onUnflag(q.id)}
+            />
             <RelatedConcepts question={q} />
           </div>
 
@@ -735,7 +741,7 @@ function ResultsView({ run, questions, onRetake, onBackToPicker }) {
 }
 
 // ---------- Top-level ExamSets ----------
-export default function ExamSets({ progress, addExamRun, updateQuestion }) {
+export default function ExamSets({ progress, addExamRun, updateQuestion, flagQuestion, unflagQuestion }) {
   // stage: 'picker' | 'active' | 'results'
   const [stage, setStage] = useState('picker');
   const [activeSet, setActiveSet] = useState(null);
@@ -808,6 +814,9 @@ export default function ExamSets({ progress, addExamRun, updateQuestion }) {
         questions={activeQuestions}
         onRetake={handleRetake}
         onBackToPicker={backToPicker}
+        flags={progress.flags}
+        onFlag={flagQuestion}
+        onUnflag={unflagQuestion}
       />
     );
   }

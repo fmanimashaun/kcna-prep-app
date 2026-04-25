@@ -3892,7 +3892,7 @@
       "Storing application configuration directly within container images.",
       "Using SSH to log into nodes and manually start application processes."
     ],
-    "correct": 2,
+    "correct": 1,
     "expl": "Declarative delivery means expressing desired state (what to run) rather than the steps to get there. Kubernetes manifests stored in Git capture that desired state and let controllers reconcile the cluster, unlike imperative scripts, UIs, or in-image config.",
     "d": "del",
     "src": "prep",

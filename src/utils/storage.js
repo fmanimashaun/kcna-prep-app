@@ -15,7 +15,7 @@ const STORAGE_KEY = 'kcna-progress-v2';
 const LEGACY_KEY = 'kcna-progress-v1';
 
 function emptyUser() {
-  return { q: {}, f: {}, runs: [], notes: [], reviewed: {} };
+  return { q: {}, f: {}, runs: [], notes: [], reviewed: {}, flags: {} };
 }
 
 function emptyStore() {
@@ -50,7 +50,7 @@ function readStore() {
       return {
         currentUser: null,
         users: {
-          __legacy: { q: old.q || {}, f: old.f || {}, runs: [], notes: [], reviewed: {} },
+          __legacy: { q: old.q || {}, f: old.f || {}, runs: [], notes: [], reviewed: {}, flags: {} },
         },
       };
     }
@@ -105,6 +105,7 @@ export function loadProgress(name) {
     runs: user.runs || [],
     notes: user.notes || [],
     reviewed: user.reviewed || {},
+    flags: user.flags || {},
   };
 }
 
@@ -117,6 +118,7 @@ export function saveProgress(name, state) {
     runs: state.runs || [],
     notes: state.notes || [],
     reviewed: state.reviewed || {},
+    flags: state.flags || {},
   };
   writeStore(store);
 }

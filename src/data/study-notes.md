@@ -63,6 +63,23 @@ spec:                   # ← required for most objects
     spec: { containers: [{ name: web, image: nginx:1.27 }] }
 ```
 
+### The four namespaces a fresh cluster ships with
+
+A vanilla Kubernetes cluster always starts with **exactly these four** namespaces — memorize the spellings:
+
+| Namespace | What's in it |
+|---|---|
+| **`default`** | Where any object you create without specifying a namespace lands. **Note:** it's `default`, *not* `kube-default`. |
+| **`kube-system`** | System components — kube-apiserver, kube-controller-manager, scheduler, **CoreDNS**, kube-proxy, CNI DaemonSets. **Note:** `kube-system`, *not* `system`. |
+| **`kube-public`** | Readable by **everyone, including unauthenticated users**. Holds the `cluster-info` ConfigMap. Almost always otherwise empty. |
+| **`kube-node-lease`** | Holds node `Lease` objects used for **fast node heartbeats** (since 1.13, GA 1.17). Lighter than the old "update Node status every 10s" approach. |
+
+**TRAPS:**
+- *"What namespaces does Kubernetes start with?"* → **`default`, `kube-system`, `kube-public`, `kube-node-lease`** (four total).
+- The user-facing namespace is `default`, not `kube-default`. Watch options that prefix `kube-` to it.
+- The system namespace is `kube-system`, not `system`.
+- **`kube-main` and `kube-primary` don't exist** — distractors.
+
 ### Request flow through the API server
 
 Every API request travels through these stages **in order**. If any stage rejects, the request fails before persistence.
@@ -678,15 +695,53 @@ This is the question shape: *"Which type represents a single numerical value tha
 
 **TRAP:** Histogram > Summary for distributed systems, because Summary's quantiles can't be averaged across instances.
 
-### Health probes — all 3 in one breath
+### Health probes — what they are, how they relate, who runs them
+
+**What a probe is.** A probe is a periodic health check the **kubelet** runs against each container. It's the kubelet's way of asking "is this thing alive / ready / done starting?" — and reacting based on the answer.
+
+**Who runs them.** The **kubelet on the node** — never the API server, never a centralized controller. Each node's kubelet probes the containers it's running. For HTTP/TCP probes the kubelet itself opens the connection from the node's network namespace; for `exec` it uses the container runtime's exec API to run a command **inside** the container. The kubelet then writes the result back to the Pod's status on the API server.
+
+**The three types — all three in one breath:**
 
 | Probe | Failure action | Use it for |
 |---|---|---|
-| **liveness** | **Restart** the container. | "Is the app alive, or stuck in a deadlock?" |
-| **readiness** | Remove Pod from Service endpoints (no traffic). | "Is the app ready to serve right now?" Slow warm-up, dependency-down. |
-| **startup** | Suspend liveness/readiness checks until it passes. | Slow-starting apps that would otherwise be killed by liveness. |
+| **liveness** | **Kubelet restarts the container** (governed by the Pod's `restartPolicy` and back-off). | "Is the app alive, or stuck in a deadlock?" |
+| **readiness** | Endpoint controller removes the Pod IP from EndpointSlices — **traffic stops flowing**, container keeps running. | "Is the app ready to serve right now?" Slow warm-up, missing dependency, queue full. |
+| **startup** | Suspends both liveness and readiness until it passes. | Slow-starting apps (Java, big caches) that would otherwise be killed by liveness during boot. |
 
-**TRAP:** if your liveness probe hits `/` and the dependency DB is down, you'll *restart* a perfectly healthy app forever. Use **readiness** for "depends on something else" checks.
+**How they relate (the interplay that gets tested):**
+
+1. **Startup runs first.** While the startup probe is still failing, liveness and readiness probes are *not* evaluated.
+2. Once startup passes, **liveness and readiness run in parallel** on their own schedules, until the container exits.
+3. **Pod `Ready` condition = all containers' readiness probes are passing.** That's what gates Service traffic to the Pod.
+4. **Liveness failure restarts the container; readiness failure removes traffic only.** Neither cascades into the other directly.
+
+**Probe mechanisms — four ways to check:**
+
+| Mechanism | What the kubelet does | Success means |
+|---|---|---|
+| **`httpGet`** | Sends an HTTP GET to the container port. | Status code in **200–399**. |
+| **`tcpSocket`** | Opens a TCP connection to the port. | Connection succeeds. |
+| **`exec`** | Runs a command inside the container via the runtime's exec API. | Command exits with **status 0**. |
+| **`grpc`** | Makes a gRPC health-check call (since 1.24, GA 1.27). | gRPC `SERVING` response. |
+
+**Probe parameters (timing):**
+
+| Field | Default | Meaning |
+|---|---|---|
+| `initialDelaySeconds` | 0 | Wait this long after container start before the first probe. |
+| `periodSeconds` | 10 | How often to probe. |
+| `timeoutSeconds` | 1 | How long to wait for a single probe to respond. |
+| `failureThreshold` | 3 | Consecutive failures before action. |
+| `successThreshold` | 1 | Consecutive successes to flip back to passing (only configurable on readiness). |
+
+**TRAPS that bite:**
+
+- *Liveness probe hits `/` which calls the database* → if the DB is briefly down, the kubelet restarts a perfectly healthy app in a loop. **Liveness must check intra-process health only.** Use **readiness** for "depends on something else" checks.
+- *Slow-starting app + only a liveness probe* → kubelet kills it mid-boot. **Add a startup probe** with a generous `failureThreshold`.
+- *TCP probe alone doesn't verify the app is healthy* — just that the port is open. Prefer `httpGet` to a real health endpoint.
+- **The kubelet runs probes, not the API server.** Questions phrased as "what component performs health checks?" → kubelet.
+- A failed readiness probe **does not restart the container** — it just removes traffic. People mix this up with liveness.
 
 ### SLI / SLO / SLA + error budget
 
@@ -811,6 +866,7 @@ This is the question shape: *"Which type represents a single numerical value tha
 | **Knative Serving vs Eventing** | Serving = HTTP scale-to-zero. Eventing = pub/sub via CloudEvents. |
 | **Service mesh components** | **Service proxy** (data plane / sidecar — Envoy etc.) + **control plane** (istiod etc.). Not "data plane + runtime plane". Not "tracing + log storage". |
 | **Required YAML fields** | **`apiVersion`, `kind`, `metadata`** (and `spec` for most). `namespace` lives **inside** metadata, not top-level. `data` is ConfigMap/Secret-only. |
+| **Initial namespaces** | **`default`, `kube-system`, `kube-public`, `kube-node-lease`** — exactly four. Not `kube-default`. Not `system`. `kube-main` / `kube-primary` are distractors. |
 | **Showback vs Chargeback** | Showback shows the bill. Chargeback collects it. |
 | **Sandbox / Incubating / Graduated** | Sandbox = experimental. Incubating = production-used. Graduated = mature + audited. |
 | **PSP vs PSA** | PSP was removed in 1.25. **PSA replaced it** via namespace labels. |
@@ -888,8 +944,9 @@ If you only have 10 minutes:
 29. **Service discovery:** **CoreDNS** (standard, since 1.13) — Pods resolve `<svc>.<ns>.svc.cluster.local` to a ClusterIP. **Env vars** are a fallback that only sees Services existing at Pod start. **Headless** Services return Pod IPs in DNS, not a VIP.
 30. **Service mesh = service proxy (data plane / sidecar) + control plane.** Not "runtime plane". Mesh adds mTLS, retries, circuit breaking, traffic shaping; doesn't replace the CNI.
 31. **Every K8s object needs `apiVersion`, `kind`, `metadata`** (and usually `spec`). `namespace` is a sub-field of `metadata`, not top-level. `data` is only on ConfigMap / Secret.
+32. **The four built-in namespaces:** `default`, `kube-system`, `kube-public`, `kube-node-lease`. Not `kube-default`. Not `system`. `kube-main` / `kube-primary` don't exist.
 30. **K3s / KubeEdge** are the K8s distros for **IoT / edge**.
-33. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
-34. **Read every option.** When two answers are close, the more specific one is usually right.
+34. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
+35. **Read every option.** When two answers are close, the more specific one is usually right.
 
 Good luck. 🚀

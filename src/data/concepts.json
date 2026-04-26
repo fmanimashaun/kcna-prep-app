@@ -374,25 +374,31 @@
     "d": "del",
     "summary": "Git is the single source of truth for desired cluster state. An in-cluster controller continuously reconciles actual state to match the repo.",
     "points": [
-      "**Four GitOps principles** (OpenGitOps): declarative, versioned and immutable, pulled automatically, continuously reconciled.",
+      "**Four GitOps principles** (OpenGitOps CNCF working group): **declarative**, **versioned and immutable**, **pulled automatically**, **continuously reconciled**.",
       "**Pull model** — agent inside the cluster watches the repo and applies changes (`Argo CD`, `Flux`). Safer because the cluster never needs an inbound credential exposed to CI.",
-      "**Push model** — CI pipeline runs `kubectl apply` from outside. Simpler to set up, but CI must hold cluster credentials and there is no continuous drift detection.",
-      "**Argo CD** — UI-heavy, `Application` CRD per app, strong RBAC and audit trail, sync waves and hooks.",
-      "**Flux** — composed of small controllers (`source-controller`, `kustomize-controller`, `helm-controller`, `notification-controller`); lighter footprint, GitOps-Toolkit style.",
+      "**Push model** — CI pipeline runs `kubectl apply` from outside. Simpler to set up, but CI must hold cluster credentials and there is no continuous drift detection. **This is plain CI/CD, not GitOps in the OpenGitOps sense.**",
+      "**Argo CD** — UI-heavy, `Application` and `ApplicationSet` CRDs, strong RBAC and audit trail, sync waves and hooks. Multi-cluster via `ApplicationSet` generators.",
+      "**Flux** — composed of small controllers (`source-controller`, `kustomize-controller`, `helm-controller`, `notification-controller`, `image-automation-controller`); lighter footprint, GitOps-Toolkit style.",
       "**`Helm` and `Kustomize`** compose cleanly with both — Argo CD and Flux can render charts/overlays before applying.",
-      "**Drift detection** — both tools constantly compare cluster state to Git and either alert or auto-revert manual changes."
+      "**Drift detection** — both tools constantly compare cluster state to Git and either alert (`Compare to desired state`) or auto-revert manual changes (auto-sync mode).",
+      "**Image-tag automation** — GitOps tools don't build images. Closing the loop: **Flux Image Update Automation** or **Argo CD Image Updater** watches the registry and auto-commits the new tag back to Git, which triggers the reconciliation. Or your CI commits the new tag in a PR.",
+      "**Secrets in Git** — never commit plaintext. **Sealed Secrets** (Bitnami) encrypts so only one cluster can decrypt; **SOPS** (Mozilla) value-level encryption via KMS/age/GPG; **External Secrets Operator** pulls real secrets from Vault/cloud KMS at runtime."
     ],
     "traps": [
-      "GitOps means Git is the source of truth and a controller reconciles it. 'We store our YAML in Git' alone is not GitOps — the reconciliation loop is what defines it.",
+      "GitOps means Git is the source of truth **and** a controller reconciles it. 'We store our YAML in Git' alone is not GitOps — the reconciliation loop is what defines it.",
       "Jenkins or GitHub Actions running `kubectl apply` is push-based CI/CD, not GitOps in the OpenGitOps sense.",
-      "Argo CD and Flux are not CI tools — they don't build images. Pair them with a CI system that updates Git with new image tags."
+      "Argo CD and Flux are not CI tools — they **don't build images**. Pair them with a CI system that updates Git with new image tags.",
+      "**Terraform** is declarative IaC but typically **push-based** — not a GitOps tool by the OpenGitOps definition (no in-cluster reconciler). Same with plain `kubectl apply` in a pipeline.",
+      "*'Which tool monitors a git repo for changes?'* → **Flux or Argo CD** (both are correct). Terraform and Tekton are not GitOps controllers."
     ],
     "related": [
       "Argo CD",
       "Flux",
       "Helm",
       "Kustomize",
-      "OpenGitOps"
+      "OpenGitOps",
+      "Sealed Secrets",
+      "SOPS"
     ]
   },
   {

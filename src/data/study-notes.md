@@ -605,12 +605,55 @@ Memorize the names; questions usually quote a scenario and ask which factor it v
 | **Canary** | Send a small % of traffic to v2, ramp up. | Slight extra. | Lowest — fail closes the canary, not prod. Tools: **Argo Rollouts**, **Flagger**. |
 | **A/B test** | Route by user attribute (header, cookie). | Slight extra. | Not strictly a deploy strategy — a feature-rollout strategy. |
 
-### GitOps
+### GitOps — the four principles + the two tools
 
-- **Git is the source of truth.** Cluster state is reconciled to match the repo.
-- **Pull-based:** an in-cluster agent (ArgoCD, Flux) watches the repo and applies changes. Beats push-based CD because no external system needs cluster credentials.
-- Auditable, rollback-by-revert, declarative.
-- Two big tools: **Argo CD** (UI-heavy, app-centric), **Flux** (modular, Kustomize/Helm-native).
+**OpenGitOps** (the CNCF working group) defines GitOps with four principles. Memorize these — the exam phrases questions around them:
+
+| Principle | What it means |
+|---|---|
+| **Declarative** | Desired state expressed declaratively (YAML, manifests), not imperatively (scripts). |
+| **Versioned & immutable** | Stored in a version-controlled repo (Git) with full history. Past states are recoverable. |
+| **Pulled automatically** | A software agent **automatically reconciles** cluster state to match the repo. |
+| **Continuously reconciled** | The agent keeps watching — drift between cluster and repo is corrected (or alerted). |
+
+**Pull vs push:**
+
+| Model | How it works | Trade-off |
+|---|---|---|
+| **Pull** (the GitOps standard) | An agent **inside the cluster** (Argo CD, Flux) watches the repo and applies changes. | Cluster never exposes credentials to CI. Continuous drift detection. |
+| **Push** | CI pipeline runs `kubectl apply` from outside the cluster. | Simpler to set up; CI holds cluster creds; no drift loop. **This is plain CI/CD, not GitOps.** |
+
+**The two big GitOps controllers — both watch git, both pull:**
+
+| | **Argo CD** | **Flux** |
+|---|---|---|
+| Style | Application-centric, UI-heavy. | Composed of small controllers (`source-controller`, `kustomize-controller`, `helm-controller`, `notification-controller`). |
+| Primary CRD | `Application`, `ApplicationSet`. | `GitRepository`, `Kustomization`, `HelmRelease`. |
+| Multi-cluster | `ApplicationSet` generators (cluster, list, git). | Native via multiple `Kustomization`s pointing at clusters. |
+| Best at | Visual ops, dashboards, complex sync waves & hooks. | Modular, composable, GitOps-Toolkit primitives. |
+
+**Image-tag automation — closing the loop with CI:**
+
+GitOps tools **don't build images**. After CI builds and pushes a new image, *something* has to update the YAML in Git so the GitOps tool sees the new tag and rolls out:
+
+- **Flux Image Update Automation** — Flux watches a registry, auto-commits the new tag back to Git.
+- **Argo CD Image Updater** — same idea, separate component.
+- **Manual** — your CI commits the new tag (PR or direct).
+
+**Secrets in Git — never plaintext:**
+
+| Approach | What it does |
+|---|---|
+| **Sealed Secrets** (Bitnami) | A controller in the cluster decrypts; you commit a `SealedSecret` that only that cluster can decrypt. |
+| **SOPS** (Mozilla) | Encrypts at the value level using KMS / age / GPG. Flux integrates with SOPS natively. |
+| **External Secrets Operator** | Pulls real secrets from Vault / cloud KMS at runtime — references in Git, no ciphertext stored. |
+
+**TRAPS:**
+
+- *"Which tool monitors a git repo for changes?"* → **Flux or Argo CD.** Both are pull-based GitOps controllers. **Terraform** is push-based IaC, not GitOps. **Tekton** is a CI framework, not GitOps. Jenkins running `kubectl apply` is push CI/CD, not GitOps.
+- *"Storing YAML in Git is GitOps"* — incomplete. The **reconciliation loop** is what makes it GitOps.
+- Argo CD and Flux **don't build images** — they pull declarative state from a repo. Pair with CI for the build step.
+- A `git revert` is the safest rollback in GitOps: change the desired state, the agent reconciles.
 
 ### CI vs CD vs CD
 
@@ -902,6 +945,8 @@ This is the question shape: *"Which type represents a single numerical value tha
 | **RED vs USE** | RED for request-driven services (Rate/Errors/Duration). USE for resources (Utilization/Saturation/Errors). |
 | **Helm vs Kustomize** | Helm = templates + chart packaging. Kustomize = overlays on plain YAML. |
 | **GitOps push vs pull** | GitOps is **pull**-based — agent in-cluster watches Git. Push is plain CD with creds outside the cluster. |
+| **Tools that monitor Git for changes** | **Flux** or **Argo CD** (both correct). Terraform is push-based IaC, not GitOps. Tekton is CI. |
+| **GitOps four principles** | Declarative, versioned & immutable, pulled automatically, continuously reconciled. (OpenGitOps.) |
 | **CD vs CD** | Continuous *Delivery* — deployable, manual click. Continuous *Deployment* — automatic. |
 | **Containerd vs runc** | containerd is **high-level** (image pulls, lifecycle). runc is **low-level** (creates the container). containerd uses runc. |
 | **runc vs runsc** | `runc` = reference **low-level** OCI runtime (creates namespaces/cgroups). `runsc` = **gVisor's** sandboxed runtime (user-space kernel). Different layers. |
@@ -995,8 +1040,9 @@ If you only have 10 minutes:
 32. **The four built-in namespaces:** `default`, `kube-system`, `kube-public`, `kube-node-lease`. Not `kube-default`. Not `system`. `kube-main` / `kube-primary` don't exist.
 33. **Split brain defense = consensus protocols** (Raft / Paxos / ZAB). etcd uses **Raft**, runs with an odd number of nodes (3, 5, 7) for quorum. Replication alone is not consensus.
 34. **LoadBalancer Service stuck Pending** → the **Cloud Controller Manager** isn't fulfilling it (missing, lacks cloud IAM, hit cloud quota, or bare-metal without MetalLB). The CCM's three sub-controllers: Service (provisions cloud LBs), Node (lifecycle), Route (cloud routes).
+35. **GitOps:** Git is source of truth + an in-cluster agent reconciles. Both **Flux** and **Argo CD** monitor git and apply changes. Terraform / Tekton / Jenkins-running-kubectl-apply are **not** GitOps.
 30. **K3s / KubeEdge** are the K8s distros for **IoT / edge**.
-36. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
-37. **Read every option.** When two answers are close, the more specific one is usually right.
+37. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
+38. **Read every option.** When two answers are close, the more specific one is usually right.
 
 Good luck. 🚀

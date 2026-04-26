@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard';
 import Practice from './components/Practice';
 import Flashcards from './components/Flashcards';
 import Revise from './components/Revise';
+import CramSheet from './components/CramSheet';
 import Landscape from './components/Landscape';
 import UserPrompt from './components/UserPrompt';
 import ExamDatePrompt from './components/ExamDatePrompt';
@@ -305,6 +306,7 @@ export default function App() {
             updateReviewed={updateReviewed}
           />
         )}
+        {tab === 'cram'  && <CramSheet />}
         {tab === 'land'  && <Landscape />}
       </div>
       <div

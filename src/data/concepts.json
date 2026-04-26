@@ -292,7 +292,7 @@
     "summary": "A service mesh layers observability, mTLS, and L7 traffic control onto service-to-service calls — usually via sidecar proxies.",
     "points": [
       "**Common features** — mTLS between services (zero-trust), retries with timeouts, circuit breaking, request-level metrics and traces, traffic splitting, header-based routing.",
-      "**Architecture** — *data plane* (proxies like Envoy or `linkerd2-proxy` next to each pod) + *control plane* (configures the proxies, distributes certs).",
+      "**Architecture** — every mesh has exactly two component groups: the **service proxy** (a.k.a. *data plane* / *sidecar* — Envoy or `linkerd2-proxy` next to each pod) and the **control plane** (configures the proxies, distributes certs). Exam phrasing: *'service proxy and control plane.'*",
       "**Istio** — feature-rich, Envoy-based, complex. Supports both sidecar mode and *Ambient mode* (sidecarless: per-node `ztunnel` for L4, optional waypoint proxies for L7).",
       "**Linkerd** — lightweight, opinionated, ultralight Rust proxy. Easier to operate; fewer knobs.",
       "**Cilium Service Mesh** — eBPF-based, can run sidecarless by leveraging the kernel; integrates with Cilium CNI and `NetworkPolicy`.",
@@ -526,6 +526,331 @@
       "GitOps",
       "Chart",
       "Overlay"
+    ]
+  },
+  {
+    "id": "c021",
+    "title": "Cloud Controller Manager: the cloud bridge",
+    "d": "k8s",
+    "summary": "The component that lets the same Kubernetes binary run on any cloud. When a `Service: LoadBalancer` is stuck `Pending`, this is who's failing.",
+    "points": [
+      "**Why it exists** — cloud-specific code (provisioning load balancers, querying node metadata, setting up routes) was lifted out of `kube-controller-manager` so vanilla Kubernetes is cloud-agnostic. CCM is the cloud-specific replacement.",
+      "**Three sub-controllers**:\n - **Service controller** — creates/updates/deletes the cloud's load balancer when a `Service: LoadBalancer` is created. Writes the external IP back to the Service's `status.loadBalancer.ingress`.\n - **Node controller** — sets node addresses, region/zone labels, deletes nodes from K8s when they're deleted in the cloud.\n - **Route controller** — programs routes in the cloud's network so Pods on different nodes can reach each other.",
+      "**Where it runs** — usually as a Deployment in `kube-system`, often labelled `cloud-controller-manager`. Cloud providers ship their own implementation (`aws-cloud-controller-manager`, `gcp-cloud-controller-manager`, etc.).",
+      "**On bare metal** — there's no cloud, so no CCM. To still get `Service: LoadBalancer`, install **MetalLB** (or kube-vip) — they speak BGP/ARP to advertise external IPs.",
+      "**Integration with CSI/CNI** — CCM doesn't handle storage or networking driver logic; CSI drivers and CNI plugins are separate. CCM just covers the cloud control-plane operations (LB, node, route)."
+    ],
+    "traps": [
+      "**`Service: LoadBalancer` external-IP stuck `<pending>`** is almost always the CCM's Service controller failing — missing CCM, no IAM, hit cloud quota, or bare-metal cluster with no MetalLB.",
+      "Made-up component names that look right: *Load Balancer Manager*, *Cloud Architecture Manager*, *Cloud Load Balancer Manager*. None of these exist.",
+      "CCM is part of the **control plane**, not the worker nodes. Don't expect to find it on every node.",
+      "Removing the `node.cloudprovider.kubernetes.io/uninitialized` taint is the CCM's job — Pods can't schedule on a fresh node until it's been tainted-then-untainted by the CCM."
+    ],
+    "related": [
+      "Service: LoadBalancer",
+      "MetalLB",
+      "kube-controller-manager",
+      "node taints",
+      "CSI"
+    ]
+  },
+  {
+    "id": "c022",
+    "title": "Split brain and consensus protocols",
+    "d": "k8s",
+    "summary": "When a distributed cluster partitions, both halves can think they're the only one alive — and silently diverge. Consensus protocols are the defense.",
+    "points": [
+      "**Split brain** — a network partition leaves two sub-clusters that can't see each other. Each elects its own leader, accepts writes, and the system silently diverges. When the partition heals, you have data corruption.",
+      "**Consensus protocols** force every write to be agreed by a **majority quorum**. Only the side holding quorum can make progress; the minority side stalls until rejoined.",
+      "**Raft** — the modern, easier-to-understand protocol. Used by **etcd** (the Kubernetes control-plane store), Consul, CockroachDB, TiKV, MongoDB.",
+      "**Paxos** — the academic ancestor; used inside Google Chubby and Spanner.",
+      "**ZAB** (ZooKeeper Atomic Broadcast) — used by Apache ZooKeeper.",
+      "**Why etcd HA uses an odd number of nodes (3, 5, 7)** — quorum needs strict majority. With 3 nodes quorum is 2 (tolerates 1 failure); with 5 it's 3 (tolerates 2). Adding a 4th node doesn't increase fault tolerance and makes ties more likely.",
+      "**Kubernetes layering** — etcd does consensus for cluster state. Apps you run on Kubernetes must do their **own** consensus (StatefulSet only gives stable identity, not coordination)."
+    ],
+    "traps": [
+      "**Replication is not consensus.** Replicating data without a quorum-agreed write order is exactly how you get split-brain divergence.",
+      "*'Which Kubernetes feature guards against split brain?'* → **Consensus protocols.** Not Replication Controllers, not Rolling updates, not StatefulSet.",
+      "StatefulSet gives stable network identity but the consensus algorithm runs **inside the application** (e.g., the etcd or ZooKeeper process). Kubernetes provides the substrate, not the algorithm.",
+      "Even-numbered etcd clusters are worse than the next-odd-number-down. Don't run 4-node etcd."
+    ],
+    "related": [
+      "etcd",
+      "Raft",
+      "ZooKeeper",
+      "StatefulSet",
+      "quorum"
+    ]
+  },
+  {
+    "id": "c023",
+    "title": "Service discovery: DNS, env vars, and the mesh",
+    "d": "orch",
+    "summary": "Kubernetes ships two built-in mechanisms for Pods to find Services, plus an external-mesh alternative. DNS is the standard; env vars are a stale fallback.",
+    "points": [
+      "**DNS (CoreDNS)** — the standard. Pods are configured with the cluster DNS at `/etc/resolv.conf`. Resolving `<svc>.<ns>.svc.cluster.local` returns the Service's `ClusterIP`.",
+      "**Environment variables** — at Pod start, `kubelet` injects vars for **every Service that already exists**: `<SVC>_SERVICE_HOST`, `<SVC>_SERVICE_PORT`. Available even without DNS, but **stale** — Services created after the Pod aren't added.",
+      "**Service mesh** (Istio, Linkerd, Consul Connect) — sidecar (or ambient) proxies intercept traffic and consult a control plane. Adds richer discovery: weighted routing, mTLS, identity-based auth, circuit breaking.",
+      "**DNS records CoreDNS produces**:\n - **ClusterIP Service** → A/AAAA record to the Service's virtual IP.\n - **Headless Service** (`clusterIP: None`) → A/AAAA records to **every backing Pod IP**.\n - **ExternalName Service** → CNAME to the external host.\n - **Named ports** → SRV record at `_<port>._<proto>.<svc>.<ns>.svc.cluster.local`.",
+      "**Server-side discovery** — what Kubernetes does by default. Client hits a stable Service ClusterIP; kube-proxy load-balances. Client knows nothing about backends.",
+      "**Client-side discovery** — client queries a registry (Eureka, Consul) for a backend list and picks one itself. Common outside Kubernetes."
+    ],
+    "traps": [
+      "Env-var-based discovery **only sees Services that existed at Pod start**. New Services created after will not appear in `env`.",
+      "**Headless Services** return Pod IPs directly in DNS — there's no virtual IP and no kube-proxy load-balancing. Used by StatefulSets so each Pod can be addressed by name.",
+      "CoreDNS is the cluster DNS server (since Kubernetes 1.13). `kube-dns` is the older one — pick CoreDNS unless the question is about pre-1.13 history.",
+      "DNS resolution depends on `ndots: 5` and the search path in `/etc/resolv.conf`. Short names like `web` get five suffixes tried before a single absolute lookup, which can be surprising in latency-sensitive paths."
+    ],
+    "related": [
+      "CoreDNS",
+      "Headless Service",
+      "ExternalName",
+      "service mesh",
+      "kube-proxy"
+    ]
+  },
+  {
+    "id": "c024",
+    "title": "Image supply chain security",
+    "d": "orch",
+    "summary": "Trusting a container image means knowing where it came from, what's in it, and that it hasn't been tampered with. Four pillars: sign, bill of materials, scan, verify.",
+    "points": [
+      "**Sign images with cosign** — part of the **sigstore** project. Records signatures in the **Rekor** transparency log; uses **Fulcio** for short-lived certificates. Proof of provenance.",
+      "**Software Bill of Materials (SBOM)** — a list of every package and version inside an image. Formats: **CycloneDX** and **SPDX**. Tools: `syft`, `cosign attest`. Lets you answer 'are we affected by CVE-X?' in seconds.",
+      "**Scan for vulnerabilities** — **Trivy** is the most common (Aqua Security). Alternatives: Grype (Anchore), Clair, Snyk. Scan in CI before push, and again at admission.",
+      "**Slim base images** — fewer packages = fewer CVEs. **Distroless** (Google), **scratch**, Alpine. Pair with **multi-stage Docker builds** so build-time dependencies stay out of the runtime image.",
+      "**Verify at admission** — admission controllers like **Kyverno**, **Gatekeeper (OPA)**, **Connaisseur**, or the **Sigstore Policy Controller** can reject unsigned/unscanned images before they run.",
+      "**Build hygiene** — pin tags to digests (`@sha256:...`), set an explicit non-root `USER`, never bake secrets into layers."
+    ],
+    "traps": [
+      "An image that passes `docker scan` once is not safe forever — new CVEs against the same dependencies are published every week. **Re-scan at admission**, not just at build.",
+      "Image **signing proves provenance**, not absence of bugs. You still need scanners.",
+      "SBOMs are useful even if you don't sign — they let you answer impact questions for an existing image without re-deriving its contents.",
+      "Distroless images have no shell. Debugging needs `kubectl debug` with an ephemeral container that *does* have a shell."
+    ],
+    "related": [
+      "cosign",
+      "sigstore",
+      "Trivy",
+      "Kyverno",
+      "Distroless",
+      "SBOM"
+    ]
+  },
+  {
+    "id": "c025",
+    "title": "Runtime security: keeping a running container honest",
+    "d": "orch",
+    "summary": "Build-time scanning catches known CVEs. Runtime security catches the unknown — privilege escalations, suspicious syscalls, sensitive-file reads — while the container is alive.",
+    "points": [
+      "**Falco** — the canonical runtime security tool (CNCF graduated). Watches Linux **syscalls** via eBPF or a kernel module and alerts on anomalies (shell spawn in container, sensitive-file read, privilege escalation, outbound connection to unexpected destination).",
+      "**seccomp** — filters which syscalls a container can make. Profiles: **`RuntimeDefault`** (recommended; the runtime's curated allow-list), **`Localhost`** (custom file on the node), **`Unconfined`** (no filtering — bad).",
+      "**Linux capabilities** — fine-grained slices of root: `NET_BIND_SERVICE`, `NET_ADMIN`, `SYS_ADMIN`, etc. Best practice: **drop ALL** in `securityContext.capabilities` and **add only what's needed**.",
+      "**AppArmor / SELinux** — Mandatory Access Control profiles enforced by the kernel. AppArmor is path-based (Debian/Ubuntu); SELinux is label/type-based (RHEL/Fedora).",
+      "**Pod-level controls** — `securityContext.runAsNonRoot: true`, `runAsUser`, `readOnlyRootFilesystem: true` (use `emptyDir` for writable scratch), `allowPrivilegeEscalation: false`.",
+      "**Pod Security Admission (PSA) profiles** layer all of these into one switch: `Privileged` / `Baseline` / `Restricted`."
+    ],
+    "traps": [
+      "`Unconfined` seccomp is an active downgrade — never use it in production.",
+      "Falco does not block — it **alerts**. Pair it with a response system (Falco Sidekick, custom webhook) if you want to act on detections.",
+      "Capabilities and `privileged: true` are different. `privileged` grants almost everything; capabilities are how you grant slices.",
+      "`readOnlyRootFilesystem` breaks apps that write logs or PIDs to disk — mount an `emptyDir` at the path they need."
+    ],
+    "related": [
+      "Falco",
+      "seccomp",
+      "PSA",
+      "AppArmor",
+      "securityContext"
+    ]
+  },
+  {
+    "id": "c026",
+    "title": "Serverless on Kubernetes",
+    "d": "arch",
+    "summary": "Knative makes HTTP services scale to zero; KEDA makes event-driven workloads scale from external signals. Together they bring FaaS-style elasticity to Kubernetes.",
+    "points": [
+      "**Knative Serving** — HTTP services that scale to zero, auto-scale on concurrent-request count, support traffic splitting between revisions. Uses its own **Knative Pod Autoscaler (KPA)** by default.",
+      "**Knative Eventing** — pub/sub via **CloudEvents**. Building blocks: `Source` (where events come from), `Channel`/`Broker` (the bus), `Trigger` (filter + sink), `Subscription`.",
+      "**KEDA** (Kubernetes Event-Driven Autoscaling) — wraps HPA. Adds **scale-to-zero** plus scaling on external events: Kafka lag, RabbitMQ queue depth, SQS, Prometheus, cron schedules, custom external metrics.",
+      "**OpenFaaS** — a FaaS framework on Kubernetes; bring a function, OpenFaaS handles the HTTP gateway, scaling, and metrics.",
+      "**FaaS vs PaaS vs CaaS**:\n - **CaaS** — Containers-as-a-Service. You bring the container; the platform schedules. Vanilla Kubernetes.\n - **PaaS** — you bring code; the platform builds + deploys + scales. Heroku-style.\n - **FaaS** — you bring a function; the platform handles invocation + scaling. Lambda, Knative.",
+      "**When serverless fits** — sporadic, event-driven, or bursty workloads. **When it doesn't** — steady high-throughput services, long-running stateful workloads, latency-sensitive paths where cold starts matter."
+    ],
+    "traps": [
+      "Knative Serving and Knative Eventing are **separate components**. You can install one without the other.",
+      "**KEDA wraps HPA**; it doesn't replace it. The triggers run in KEDA, but the actual scaling happens through HPA under the hood.",
+      "Cold starts are real — a Pod scaled to zero needs to be created, scheduled, and warmed up before serving the first request.",
+      "Knative imposes its own routing layer (Activator, Queue Proxy) — that's extra latency and extra components to operate."
+    ],
+    "related": [
+      "Knative",
+      "KEDA",
+      "CloudEvents",
+      "OpenFaaS",
+      "scale-to-zero"
+    ]
+  },
+  {
+    "id": "c027",
+    "title": "Cloud-native roles and personas",
+    "d": "arch",
+    "summary": "Cloud-native systems need a handful of distinct roles working together. Knowing who owns what is exam material.",
+    "points": [
+      "**Cluster admin / Platform engineer** — owns cluster lifecycle, upgrades, RBAC, networking, ingress, observability stack, and the 'golden paths' developers self-serve onto. Cares about reliability, multi-tenant fairness, and cost.",
+      "**Application developer** — owns app code, the container image, manifests / Helm chart for their service. Cares about time-to-deploy, debuggability, fast feedback.",
+      "**DevOps engineer** — owns the CI/CD pipelines, IaC, automation between dev and prod. Cares about repeatability, deployment safety, lead time.",
+      "**SRE** (Site Reliability Engineer) — owns SLOs, error budgets, incident response, runbooks. Cares about the reliability-vs-velocity trade-off.",
+      "**Security engineer** — owns RBAC reviews, image-scanning policy, runtime security tools, audit log review, compliance. Cares about least privilege and supply-chain integrity.",
+      "**Network admin** — owns CNI, ingress, DNS, service mesh. Cares about latency, segmentation, traffic visibility.",
+      "**Storage admin** — owns StorageClass design, PV provisioning, backup/DR. Cares about durability and throughput."
+    ],
+    "traps": [
+      "Roles overlap in small teams — one person may own platform + DevOps + security. The exam still asks about the canonical division.",
+      "**SRE and DevOps are not the same.** DevOps is about automation and culture between dev and ops. SRE is about treating reliability as engineering with SLOs and error budgets.",
+      "Cluster admin is **not** a developer role. Developers shouldn't need cluster-admin to deploy their apps — that's the platform engineer's job to make safe self-service possible.",
+      "'FinOps engineer' is increasingly its own role — owns cost visibility, optimization, and chargeback."
+    ],
+    "related": [
+      "SRE",
+      "DevOps",
+      "Platform engineering",
+      "FinOps",
+      "RBAC"
+    ]
+  },
+  {
+    "id": "c028",
+    "title": "CNCF governance and Kubernetes deprecation policy",
+    "d": "arch",
+    "summary": "How CNCF projects mature, how Kubernetes makes decisions, and how long an API stays alive after it's announced as going away.",
+    "points": [
+      "**CNCF structure** — hosted by the Linux Foundation. The **Technical Oversight Committee (TOC)** accepts/promotes projects; the **Governing Board** handles funding and business affairs.",
+      "**Project maturity gates** — **Sandbox** (experimental, welcomed in) → **Incubating** (real production use, ≥3 independent end users, healthy contributors) → **Graduated** (mature governance, security audit, broad adoption).",
+      "**Graduated examples** — Kubernetes, Prometheus, Helm, Envoy, Argo, Flux, etcd, containerd, OpenTelemetry, Cilium, Istio, Linkerd, CoreDNS, Fluentd, Falco, OPA, cert-manager, KubeVirt, Harbor, Vitess, Rook…",
+      "**Kubernetes governance** — **SIGs** (Special Interest Groups: api-machinery, network, scheduling, node, storage, etc.) own technical areas; **Working Groups (WGs)** are cross-SIG and time-boxed; **KEPs** (Kubernetes Enhancement Proposals) drive any non-trivial change.",
+      "**Release cadence** — roughly **3 minor versions per year**. Each minor release is supported for ~14 months. There's **no formal LTS** in upstream Kubernetes — managed services (EKS, GKE, AKS) extend support windows themselves.",
+      "**Conformance** — the **CNCF Certified Kubernetes** program — distros must pass a test suite to use the Kubernetes name."
+    ],
+    "traps": [
+      "**Deprecation policy** — a stable (GA) API element must be supported for **at least 12 months or 3 minor releases**, whichever is longer. Beta APIs: at least 9 months or 3 releases. Alpha: no guarantees — they can change or vanish in any release.",
+      "Sandbox does **not** mean unstable in practice — many sandbox projects are widely deployed. The label is about CNCF process maturity, not code quality.",
+      "There is no formal upstream LTS for Kubernetes. 'My distro supports v1.X for 3 years' is your distro's contract, not Kubernetes'.",
+      "Conformance testing covers behavior, not features — a conformant cluster can still be opinionated (e.g., default StorageClass)."
+    ],
+    "related": [
+      "CNCF",
+      "TOC",
+      "SIGs",
+      "KEP",
+      "Conformance"
+    ]
+  },
+  {
+    "id": "c029",
+    "title": "SLI, SLO, SLA, and the error budget",
+    "d": "obs",
+    "summary": "Reliability engineering's three R-words, side by side. Confusing them in a meeting is the fast track to the wrong conversation.",
+    "points": [
+      "**SLI (Service Level Indicator)** — an *actual measurement* of some attribute. Example: 'fraction of requests faster than 200ms over the last hour' or 'fraction of requests with HTTP 2xx/3xx'.",
+      "**SLO (Service Level Objective)** — an internal *target* for an SLI. Example: '99.9% of requests under 200ms over a rolling 30 days.' Drives engineering priorities.",
+      "**SLA (Service Level Agreement)** — an external *contract* with consequences (refunds, breach clauses) if violated. Always set looser than the SLO so the SLO has headroom.",
+      "**Error budget** — `1 - SLO`. The amount of unreliability you're allowed in the period. If your SLO is 99.9%, your error budget for a 30-day window is 0.1% × ~720h ≈ **43 minutes** of downtime.",
+      "**Burn rate** — how fast you're consuming the error budget. Multi-window burn-rate alerts (Google SRE workbook style) catch fast-burn outages early without alerting on slow drift.",
+      "**The error-budget policy** — when the budget is exhausted, freeze risky changes; when it's healthy, you can take more delivery risk. Engineering levers driven by reliability data."
+    ],
+    "traps": [
+      "An SLI is not a metric — it's a **specific aggregate** of metrics over a window (a fraction, a count, a percentile). 'Latency' is a metric; 'fraction of requests under 200ms over 1 hour' is an SLI.",
+      "If your SLO equals your SLA, you have no engineering headroom. Always keep SLO > SLA.",
+      "100% is never the right SLO — perfect reliability has infinite cost and zero room for change.",
+      "An error budget is **per service per window**, not a global pool."
+    ],
+    "related": [
+      "SLI",
+      "SLO",
+      "SLA",
+      "error budget",
+      "burn rate"
+    ]
+  },
+  {
+    "id": "c030",
+    "title": "RED, USE, and the Four Golden Signals",
+    "d": "obs",
+    "summary": "Three checklists for choosing what to measure on a service. They overlap on purpose — pick one and apply it consistently.",
+    "points": [
+      "**RED** (Tom Wilkie) — for **request-driven services**:\n - **Rate** — requests per second.\n - **Errors** — number/percentage of failed requests.\n - **Duration** — distribution of request latencies.",
+      "**USE** (Brendan Gregg) — for **resources or queues**:\n - **Utilization** — average % of time the resource is busy.\n - **Saturation** — extra work the resource cannot service yet (queue depth, lock waits).\n - **Errors** — error events from the resource.",
+      "**Four Golden Signals** (Google SRE) — for any user-facing service:\n - **Latency** — time to serve a request (split successes vs errors).\n - **Traffic** — demand on the system (req/s).\n - **Errors** — rate of failed requests.\n - **Saturation** — how 'full' the service is.",
+      "**Use RED for services, USE for resources.** A web service with a queue uses both: RED on the HTTP layer, USE on the queue.",
+      "**Histograms are how you measure Duration / Latency** — server-side bucketed quantiles aggregate across instances, unlike client-side Summary metrics.",
+      "**Cardinality matters** — labels like `user_id` or `request_id` explode time-series counts. Keep label values bounded."
+    ],
+    "traps": [
+      "RED is for *requests*; USE is for *resources*. Don't apply USE to an HTTP API or RED to a Kafka broker — use the right method for the thing.",
+      "The Four Golden Signals overlap with RED — Saturation is the unique one. Treat it as 'how close to a hard limit are we?'.",
+      "Counting only successful requests in your Latency SLI hides errors; counting only errors hides slow successes. Track both with a clear policy.",
+      "High-cardinality labels (request IDs, user IDs, full URLs) blow up Prometheus memory. Use **traces** for per-request data, not metrics."
+    ],
+    "related": [
+      "RED",
+      "USE",
+      "Four Golden Signals",
+      "Histogram",
+      "cardinality"
+    ]
+  },
+  {
+    "id": "c031",
+    "title": "Open Policy Agent (OPA) and policy as code",
+    "d": "orch",
+    "summary": "OPA is a general-purpose policy engine. In Kubernetes it powers admission control via Gatekeeper. Policies are written in Rego — testable, portable, and not Kubernetes-only.",
+    "points": [
+      "**OPA** decouples policy decisions from application logic. Apps ask: *'is this action allowed?'* — OPA evaluates against a Rego policy and returns yes/no plus reasons.",
+      "**Rego** — OPA's declarative query language. Not Python, not YAML. Designed for expressing rules over JSON-shaped data.",
+      "**Gatekeeper** — the Kubernetes integration. A *validating* admission controller that runs OPA policies against API requests. Common policies: require labels, require resource limits, ban `:latest` images, restrict registries, enforce naming conventions.",
+      "**Constraint Templates and Constraints** — Gatekeeper's Kubernetes-native API: a `ConstraintTemplate` defines the rule (Rego), a `Constraint` instance applies it to specific resources.",
+      "**OPA outside Kubernetes** — Terraform plan validation (Conftest), CI/CD policy gates, microservice authorization (often via the Envoy `ext_authz` filter), database-query policy, anywhere you want policy-as-code.",
+      "**Local testability** — `opa test`, `opa eval`, and `conftest` run policies against fixtures **before publish**. The CI pipeline tests policies the same way it tests application code."
+    ],
+    "traps": [
+      "*'OPA policies must be written in Python'* — false. Rego.",
+      "*'OPA is Kubernetes-only'* — false. It's a general-purpose policy engine.",
+      "*'Policies can only be tested when published'* — false. `opa test` runs against fixtures locally.",
+      "**Kyverno** is the alternative — Kubernetes-native YAML policies, no new language to learn. Trade-off: less expressive than Rego for non-K8s policy."
+    ],
+    "related": [
+      "Gatekeeper",
+      "Rego",
+      "Kyverno",
+      "ConstraintTemplate",
+      "Conftest"
+    ]
+  },
+  {
+    "id": "c032",
+    "title": "Kubernetes object basics: namespaces and required fields",
+    "d": "k8s",
+    "summary": "Two foundational facts a fresh cluster gives you: four built-in namespaces, and a fixed top-level shape for every object you write.",
+    "points": [
+      "**The four namespaces a fresh cluster always has**:\n - **`default`** — where any object you create without a namespace lands. (Note: `default`, not `kube-default`.)\n - **`kube-system`** — system components: kube-apiserver, kube-controller-manager, scheduler, CoreDNS, kube-proxy, CNI DaemonSets.\n - **`kube-public`** — readable by everyone, **including unauthenticated users**. Holds the `cluster-info` ConfigMap. Mostly empty.\n - **`kube-node-lease`** — node `Lease` objects used for fast node heartbeats (since 1.13, GA 1.17). Lighter than the old 'update Node status every 10s' approach.",
+      "**Required top-level fields** in every K8s object:\n - **`apiVersion`** — which API version to use (`v1`, `apps/v1`, `networking.k8s.io/v1`).\n - **`kind`** — what type of object (`Pod`, `Deployment`, `Service`, …).\n - **`metadata`** — name, namespace, labels, annotations, owner references, UID.\n - **`spec`** — the desired state (most objects). ConfigMap and Secret use `data` instead.",
+      "**`status`** is **not** something you write — it's set and updated by the controller that owns the resource.",
+      "**Where namespace lives** — inside `metadata`, *not* at the top level. Exam options that put `namespace` next to `apiVersion` or `kind` are the wrong shape.",
+      "**`data`** is **not** a generic top-level field — it's specific to ConfigMap and Secret."
+    ],
+    "traps": [
+      "*'What namespaces does Kubernetes start with?'* → **`default`, `kube-system`, `kube-public`, `kube-node-lease`** (exactly four). Made-up distractors: `kube-default`, `system`, `kube-main`, `kube-primary`.",
+      "*'Which fields are required in any K8s object?'* → **`apiVersion`, `kind`, `metadata`** (and `spec` for most). Watch for distractors that put `namespace` or `data` at the top level.",
+      "Some cluster-scoped objects (Nodes, ClusterRoles, PersistentVolumes, StorageClasses) **don't take a namespace** at all. They're not 'in default' — they're cluster-scoped.",
+      "`kube-public` is readable by **unauthenticated** users — never put secrets there."
+    ],
+    "related": [
+      "namespace",
+      "metadata",
+      "apiVersion",
+      "kind",
+      "kube-public"
     ]
   }
 ]

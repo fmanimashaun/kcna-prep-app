@@ -224,6 +224,31 @@ spec:
 - Tooling: **Operator SDK**, **kubebuilder**, **OperatorHub** (catalog of community operators).
 - Famous operators: cert-manager (certs), Prometheus Operator, Strimzi (Kafka), Postgres operators, **most CSI storage drivers** (see above).
 
+### Split brain & consensus protocols
+
+**Split brain** = a distributed system partitions into two or more sub-clusters that can't see each other. Each side thinks it's the only one alive, elects its own leader, accepts writes — and the system silently diverges into two incompatible states. When the partition heals, you have data corruption.
+
+**The defense — consensus protocols.** A consensus protocol forces every write to be agreed on by a **majority quorum** of nodes. Only the side holding the quorum can make progress; the minority side stalls until it can rejoin.
+
+| Protocol | Used by |
+|---|---|
+| **Raft** | **etcd** (the Kubernetes control plane store), Consul, CockroachDB, TiKV, MongoDB (since 4.0). |
+| **Paxos** | Google Chubby, Spanner, the academic ancestor of Raft. |
+| **ZAB** (ZooKeeper Atomic Broadcast) | Apache **ZooKeeper**. |
+
+**Why etcd is run with an odd number of nodes (3, 5, 7).** Quorum needs a strict majority. With 3 nodes, quorum = 2 → tolerates 1 failure. With 5 nodes, quorum = 3 → tolerates 2. An even number doesn't help (4 nodes still tolerates only 1 failure, same as 3) and makes split-brain ties easier.
+
+**Where this sits in Kubernetes:**
+
+- **etcd** itself is the consensus layer for cluster state. Loses majority → API server goes read-only.
+- **The app running on Kubernetes** (a database, a message broker, a custom service) is responsible for its **own** consensus. Kubernetes gives you scheduling and stable identity (StatefulSet); it doesn't implement consensus *for* your app.
+- Distributed apps that need consensus typically ship as an **Operator** that manages member discovery, leader election, and quorum sizing.
+
+**TRAPS:**
+- *"Which Kubernetes feature guards against split brain?"* → **Consensus protocols** (Raft / Paxos / ZAB). Not Replication Controllers (just replicates Pods, no coordination), not Rolling updates (a deploy strategy), not StatefulSet (gives identity but doesn't do consensus — the *app* inside does).
+- *Replication ≠ consensus.* Replicating Pods or data without quorum-agreed writes is exactly how you *get* split brain.
+- *"How many etcd nodes for HA?"* → an **odd number ≥ 3**. Five for production. Even numbers don't increase fault tolerance.
+
 ---
 
 ## 2. Networking & Services (Kubernetes 46% + Orchestration 22%)
@@ -867,6 +892,9 @@ This is the question shape: *"Which type represents a single numerical value tha
 | **Service mesh components** | **Service proxy** (data plane / sidecar — Envoy etc.) + **control plane** (istiod etc.). Not "data plane + runtime plane". Not "tracing + log storage". |
 | **Required YAML fields** | **`apiVersion`, `kind`, `metadata`** (and `spec` for most). `namespace` lives **inside** metadata, not top-level. `data` is ConfigMap/Secret-only. |
 | **Initial namespaces** | **`default`, `kube-system`, `kube-public`, `kube-node-lease`** — exactly four. Not `kube-default`. Not `system`. `kube-main` / `kube-primary` are distractors. |
+| **Split brain defense** | **Consensus protocols** (Raft, Paxos, ZAB) — quorum-based agreement. Not replication, not rolling updates, not StatefulSet. etcd uses **Raft**, ZooKeeper uses **ZAB**. |
+| **Replication vs consensus** | Replicating data is **not** consensus. Without a quorum-agreed write order you get split-brain divergence. Consensus = quorum + leader. |
+| **Etcd HA size** | **Odd number ≥ 3** (typically 3 or 5). Even numbers don't increase fault tolerance and make tie-break worse. |
 | **Showback vs Chargeback** | Showback shows the bill. Chargeback collects it. |
 | **Sandbox / Incubating / Graduated** | Sandbox = experimental. Incubating = production-used. Graduated = mature + audited. |
 | **PSP vs PSA** | PSP was removed in 1.25. **PSA replaced it** via namespace labels. |
@@ -945,8 +973,9 @@ If you only have 10 minutes:
 30. **Service mesh = service proxy (data plane / sidecar) + control plane.** Not "runtime plane". Mesh adds mTLS, retries, circuit breaking, traffic shaping; doesn't replace the CNI.
 31. **Every K8s object needs `apiVersion`, `kind`, `metadata`** (and usually `spec`). `namespace` is a sub-field of `metadata`, not top-level. `data` is only on ConfigMap / Secret.
 32. **The four built-in namespaces:** `default`, `kube-system`, `kube-public`, `kube-node-lease`. Not `kube-default`. Not `system`. `kube-main` / `kube-primary` don't exist.
+33. **Split brain defense = consensus protocols** (Raft / Paxos / ZAB). etcd uses **Raft**, runs with an odd number of nodes (3, 5, 7) for quorum. Replication alone is not consensus.
 30. **K3s / KubeEdge** are the K8s distros for **IoT / edge**.
-34. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
-35. **Read every option.** When two answers are close, the more specific one is usually right.
+35. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
+36. **Read every option.** When two answers are close, the more specific one is usually right.
 
 Good luck. 🚀

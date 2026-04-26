@@ -781,9 +781,11 @@ So a stable API element you depend on today is guaranteed at least **a full year
 | Signal | What it answers | Common tools |
 |---|---|---|
 | **Metrics** | "How is the system performing? Is something broken right now?" | **Prometheus**, Grafana for visualization. |
-| **Logs** | "What happened? Why did it fail?" | **Fluent Bit** / Fluentd, **Loki** (label-based, cheap), Elasticsearch (heavy, full-text). |
+| **Logs** | "What happened? Why did it fail?" | Shippers: **Fluent Bit** (light C), **Fluentd** (heavier Ruby), **Filebeat** (Elastic's Go shipper). Stores: **Loki** (label-based, cheap), **Elasticsearch** (full-text, heavy), **OpenSearch** (AWS's fork of Elastic, OpenSearch Foundation). |
 | **Traces** | "Where in the request path is the bottleneck?" | **Jaeger**, **Zipkin**, **Tempo**. |
 | **(Unifier)** | One set of SDKs and a wire protocol for all three. | **OpenTelemetry (OTel)** — replaces OpenTracing + OpenCensus. |
+
+**TRAP — *"Which is NOT commonly monitored by observability tools?"* → log *files***. Observability tools ingest **log streams** (12-Factor: stdout/stderr captured by the platform), not files on disk. Network latency, throughput, and application restarts are all standard observability targets.
 
 **Exemplars** link metrics to traces (a histogram bucket can carry a trace ID — jump from "p99 latency spiked" straight to the slow request).
 

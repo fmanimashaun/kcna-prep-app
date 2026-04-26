@@ -663,6 +663,32 @@ GitOps tools **don't build images**. After CI builds and pushes a new image, *so
 
 **Cloud-native CI tools:** **Tekton** (CRD-based pipelines on Kubernetes), **Argo Workflows** (DAG workflows), Jenkins (still common), GitHub Actions, GitLab CI.
 
+### CI/CD vs IaC vs GitOps — three things people mash together
+
+These three are the most confused trio in cloud-native interviews and exams. They overlap in spirit (all three use Git, all three are "DevOps automation") but they operate on **different objects**.
+
+| | **CI/CD** | **Infrastructure as Code (IaC)** | **GitOps** |
+|---|---|---|---|
+| **What it produces** | Built, tested, deployed **application artifacts** (images, binaries, releases). | Provisioned **infrastructure** — cloud accounts, VPCs, VMs, IAM, DNS, the K8s cluster itself. | Reconciled **cluster state** — workloads, Services, ConfigMaps inside an existing cluster. |
+| **Object of change** | Code → image. | Cloud resources. | Kubernetes objects. |
+| **Canonical tools** | Jenkins, GitHub Actions, GitLab CI, CircleCI, **Tekton**, Argo Workflows. | **Terraform** / OpenTofu, Pulumi, AWS CloudFormation, Bicep, **Crossplane**, AWS CDK, Ansible (config mgmt). | **Argo CD**, **Flux**. |
+| **Where it runs** | Build server / runner — usually *outside* the target environment. | Locally or in a CI runner — **push** model. | **Pull** model — agent runs *inside* the cluster. |
+| **Cadence** | Every commit / PR / release. | Less frequent — when infra needs to change. | Continuous reconciliation; auto-revert drift. |
+| **Examples of "I want…"** | "Build, test, and ship my app on every PR." | "Create a new EKS cluster with these node groups and IAM roles." | "Make sure my prod cluster's `Deployment` matches what's in the Git repo." |
+
+**Where they overlap (the actual source of confusion):**
+
+- **IaC is often *executed by* CI/CD.** Running `terraform apply` inside a GitHub Actions workflow doesn't make Terraform a CI/CD tool — it's IaC being orchestrated by CI/CD.
+- **All three use Git as source of truth.** Storing YAML or `.tf` in Git is the start of automation; not what differentiates the three.
+- **Crossplane blurs IaC and Kubernetes** — it makes cloud infrastructure (RDS, S3, IAM) look like Kubernetes objects, so an Argo CD reconciliation can also create cloud resources. Closes the loop between GitOps and IaC.
+
+**TRAPS:**
+
+- *"Which tool is GitOps?"* → **Argo CD or Flux.** **Terraform is IaC, not GitOps.** Tekton is CI, not GitOps. Jenkins running `kubectl apply` is push CI/CD, not GitOps.
+- *"Which tool is IaC?"* → **Terraform / OpenTofu / Pulumi / CloudFormation.** Argo CD and Flux are not IaC — they don't provision cloud resources (unless you pair them with Crossplane).
+- *"Tekton is GitOps"* → false. Tekton is a Kubernetes-native **CI pipeline framework** — pipelines as CRDs, build steps run as Pods. It builds and tests; it doesn't reconcile cluster state from Git.
+- **Kubernetes itself is built by IaC, then apps run on it via CI/CD or GitOps.** Don't conflate "the cluster" with "what's running in the cluster."
+
 ### Helm vs Kustomize
 
 | | **Helm** | **Kustomize** |
@@ -947,6 +973,9 @@ This is the question shape: *"Which type represents a single numerical value tha
 | **GitOps push vs pull** | GitOps is **pull**-based — agent in-cluster watches Git. Push is plain CD with creds outside the cluster. |
 | **Tools that monitor Git for changes** | **Flux** or **Argo CD** (both correct). Terraform is push-based IaC, not GitOps. Tekton is CI. |
 | **GitOps four principles** | Declarative, versioned & immutable, pulled automatically, continuously reconciled. (OpenGitOps.) |
+| **CI/CD vs IaC vs GitOps** | CI/CD ships **app artifacts** (Jenkins, Tekton). IaC provisions **infrastructure** (Terraform, Pulumi, Crossplane). GitOps reconciles **cluster state** from Git (Argo CD, Flux). Different objects of change. |
+| **Tekton is...** | A Kubernetes-native **CI pipeline framework** — pipelines/tasks as CRDs. Builds and tests apps. **Not GitOps**, not IaC. |
+| **Terraform is...** | **IaC** — provisions cloud infra. Push-based by default. **Not GitOps** unless wrapped by an in-cluster reconciler. |
 | **CD vs CD** | Continuous *Delivery* — deployable, manual click. Continuous *Deployment* — automatic. |
 | **Containerd vs runc** | containerd is **high-level** (image pulls, lifecycle). runc is **low-level** (creates the container). containerd uses runc. |
 | **runc vs runsc** | `runc` = reference **low-level** OCI runtime (creates namespaces/cgroups). `runsc` = **gVisor's** sandboxed runtime (user-space kernel). Different layers. |
@@ -1041,8 +1070,9 @@ If you only have 10 minutes:
 33. **Split brain defense = consensus protocols** (Raft / Paxos / ZAB). etcd uses **Raft**, runs with an odd number of nodes (3, 5, 7) for quorum. Replication alone is not consensus.
 34. **LoadBalancer Service stuck Pending** → the **Cloud Controller Manager** isn't fulfilling it (missing, lacks cloud IAM, hit cloud quota, or bare-metal without MetalLB). The CCM's three sub-controllers: Service (provisions cloud LBs), Node (lifecycle), Route (cloud routes).
 35. **GitOps:** Git is source of truth + an in-cluster agent reconciles. Both **Flux** and **Argo CD** monitor git and apply changes. Terraform / Tekton / Jenkins-running-kubectl-apply are **not** GitOps.
+36. **CI/CD vs IaC vs GitOps:** different objects of change. CI/CD ships **apps** (Jenkins, Tekton). IaC provisions **infra** (Terraform, Pulumi, Crossplane). GitOps reconciles **cluster state** from Git (Argo CD, Flux). All three use Git as source of truth — that's not what makes them different.
 30. **K3s / KubeEdge** are the K8s distros for **IoT / edge**.
-37. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
-38. **Read every option.** When two answers are close, the more specific one is usually right.
+38. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
+39. **Read every option.** When two answers are close, the more specific one is usually right.
 
 Good luck. 🚀

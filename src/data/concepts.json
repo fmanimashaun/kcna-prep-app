@@ -858,5 +858,32 @@
       "kind",
       "kube-public"
     ]
+  },
+  {
+    "id": "c033",
+    "title": "CI/CD vs IaC vs GitOps: don't mash them together",
+    "d": "del",
+    "summary": "Three flavors of DevOps automation that operate on different objects. They overlap in spirit and tooling, which is why they get conflated.",
+    "points": [
+      "**CI/CD** — automation that builds, tests, and ships **application artifacts** (container images, binaries). Tools: Jenkins, GitHub Actions, GitLab CI, CircleCI, **Tekton**, Argo Workflows.",
+      "**Infrastructure as Code (IaC)** — declarative or imperative code that provisions and configures **infrastructure**: cloud accounts, VPCs, VMs, IAM, DNS, the Kubernetes cluster *itself*. Tools: **Terraform** / OpenTofu, Pulumi, AWS CloudFormation, Bicep, **Crossplane**, AWS CDK, Ansible (config mgmt).",
+      "**GitOps** — a Kubernetes operating model. An in-cluster controller (Argo CD, Flux) **continuously reconciles** cluster state to match a Git repo. Operates on Kubernetes objects (Deployments, Services, ConfigMaps), not on cloud resources directly.",
+      "**Where they overlap** — all three use Git as source of truth. IaC is often **executed by** a CI/CD pipeline (`terraform apply` in GitHub Actions), but that doesn't make Terraform a CI/CD tool.",
+      "**Crossplane** blurs the line between IaC and GitOps — it represents cloud resources (RDS, S3, IAM) as Kubernetes CRDs, so Argo CD can reconcile them like any other object. Useful when you want one control plane.",
+      "**The mental hierarchy** — IaC builds the cluster; CI/CD builds the apps; GitOps reconciles the apps onto the cluster."
+    ],
+    "traps": [
+      "*'Which is GitOps?'* → **Argo CD or Flux.** Terraform is IaC, Tekton is CI, Jenkins running `kubectl apply` is push CI/CD. Only the in-cluster pull-reconciler model is GitOps in the OpenGitOps sense.",
+      "*'Which is IaC?'* → **Terraform / OpenTofu / Pulumi / CloudFormation / CDK.** Argo CD and Flux are not IaC — they don't provision cloud resources (unless paired with Crossplane).",
+      "**Tekton is not GitOps.** It's a Kubernetes-native CI pipeline framework: pipelines and tasks are CRDs, steps run as Pods. Tekton builds and tests; it doesn't reconcile cluster state from Git.",
+      "**Kubernetes itself is provisioned by IaC**, then apps run on it via CI/CD or GitOps. Don't conflate 'the cluster' with 'what's running in the cluster.'"
+    ],
+    "related": [
+      "Terraform",
+      "Crossplane",
+      "Tekton",
+      "Argo CD",
+      "Flux"
+    ]
   }
 ]

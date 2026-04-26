@@ -30,6 +30,39 @@ Dense, exam-focused. Read once the night before, again the morning of. **TRAP** 
 | **kube-proxy** | Programs the network so traffic to a **Service IP** reaches a backing Pod. Does **not** carry application Pod-to-Pod traffic — that goes through the CNI. |
 | **Container runtime** | Runs the containers. Default is **containerd**. dockershim was **removed in 1.24** — Docker is no longer a supported runtime. |
 
+### Every Kubernetes object — the required top-level fields
+
+Every K8s object you write in YAML or JSON has the **same outer shape**. Four top-level fields:
+
+| Field | Required? | What it is |
+|---|---|---|
+| **`apiVersion`** | ✅ | Which version of the API to use (`v1`, `apps/v1`, `networking.k8s.io/v1`). |
+| **`kind`** | ✅ | What type of object (`Pod`, `Deployment`, `Service`, …). |
+| **`metadata`** | ✅ | Name, **namespace** (lives *inside* metadata!), labels, annotations, owner refs, UID. |
+| **`spec`** | ✅ for most objects | The **desired state** you want. ConfigMap/Secret use `data` instead. |
+| `status` | ❌ (managed by the controller) | The current observed state. You don't write it; controllers update it. |
+
+**TRAPS:**
+- *"Which fields are required in every K8s YAML?"* → **`apiVersion`, `kind`, `metadata`**. (And `spec` for most objects, but the canonical three-field answer is the trio above.)
+- **`namespace` is a sub-field of `metadata`**, not a top-level field. Watch options that put `namespace` next to `apiVersion` / `kind` — they're wrong shape.
+- **`data` is only on ConfigMap and Secret** — not a generic top-level field. Watch options that pair `data` with `kind` / `metadata`.
+- Don't confuse `apiVersion` with `kind`. apiVersion is the API group/version (`apps/v1`), kind is the resource type (`Deployment`).
+
+```yaml
+apiVersion: apps/v1     # ← required
+kind: Deployment        # ← required
+metadata:               # ← required
+  name: web
+  namespace: prod       # ← sub-field of metadata, not top-level!
+  labels: { app: web }
+spec:                   # ← required for most objects
+  replicas: 3
+  selector: { matchLabels: { app: web } }
+  template:
+    metadata: { labels: { app: web } }
+    spec: { containers: [{ name: web, image: nginx:1.27 }] }
+```
+
 ### Request flow through the API server
 
 Every API request travels through these stages **in order**. If any stage rejects, the request fails before persistence.
@@ -242,6 +275,35 @@ A common confusion: **kube-proxy doesn't carry application packets**. It program
 - A Service `web` in namespace `prod` resolves as: **`web.prod.svc.cluster.local`**.
 - For a Pod: `<pod-ip-with-dashes>.<namespace>.pod.cluster.local`.
 - `ndots: 5` in `/etc/resolv.conf` means short names are searched against multiple suffixes — affects DNS performance.
+
+### Service discovery — both mechanisms in one breath
+
+The exam asks "how do Pods find each other?" — there are **two** built-in answers and one external one.
+
+| Mechanism | How it works | When it's used |
+|---|---|---|
+| **DNS (CoreDNS)** — the standard | Pods are configured with the cluster DNS at `/etc/resolv.conf`. Resolving `<svc>.<ns>.svc.cluster.local` returns the Service's ClusterIP. | Always, for almost every modern cluster. |
+| **Environment variables** — the fallback | At Pod start, kubelet injects vars for **every Service that already exists**: `<SVC>_SERVICE_HOST`, `<SVC>_SERVICE_PORT`. | Available even without DNS, but **stale** — Services created *after* the Pod aren't added. Legacy / fallback pattern. |
+| **Service mesh** (Istio, Linkerd, Consul) | Sidecar (or ambient) proxy intercepts traffic, consults a control plane for routes, applies mTLS / traffic policy. | Richer discovery: weighted routing, circuit breaking, identity-based auth. Adds operational complexity. |
+
+**The DNS records CoreDNS produces:**
+
+| Service kind | What you get back |
+|---|---|
+| Normal **ClusterIP** Service | A/AAAA record → the Service's **ClusterIP** (one virtual IP, kube-proxy load-balances). |
+| **Headless** Service (`clusterIP: None`) | A/AAAA records → **all backing Pod IPs** directly. Used by StatefulSets so each Pod is addressable as `<pod>.<svc>.<ns>.svc.cluster.local`. |
+| **ExternalName** Service | A **CNAME** to the external host. No proxying. |
+| Named ports | **SRV** record at `_<port>._<proto>.<svc>.<ns>.svc.cluster.local`. |
+
+**Discovery patterns (terminology you may see):**
+
+- **Server-side discovery** — what Kubernetes does by default. Client hits a stable endpoint (the Service's ClusterIP); the platform's data plane (kube-proxy) load-balances to a backend. Client knows nothing about backends.
+- **Client-side discovery** — client queries a registry (Eureka, Consul) to get a backend list and picks one itself. More common outside K8s.
+
+**TRAPS:**
+- DNS is the standard. **Env-var-based discovery is a fallback** — it can't see Services created after the Pod started.
+- A **headless** Service returns Pod IPs in DNS, *not* a virtual IP. Use it when each Pod must be addressed directly (databases, peer-aware clusters).
+- **CoreDNS** is the cluster DNS server (since 1.13). Don't pick "kube-dns" on the exam unless the question is about pre-1.13 history.
 
 ### NetworkPolicy and the CNI matrix
 
@@ -508,13 +570,22 @@ Memorize the names; questions usually quote a scenario and ask which factor it v
 | Hooks | `pre-install`, `post-upgrade`, etc. | None — pure overlays. |
 | Helm 2 → 3 | **Tiller removed in Helm 3.** Client-only. |  |
 
-### Service mesh
+### Service mesh — the two components, every name they go by
 
-- Sidecar (or sidecar-less, like Cilium / Ambient Istio) proxy intercepts all Pod traffic.
-- **Data plane** — the proxies (Envoy is the dominant data plane).
-- **Control plane** — configures the proxies (istiod, Linkerd).
-- Provides: **mTLS** between services, retries/timeouts, traffic splitting, observability metrics, policy enforcement.
-- Big names: **Istio**, **Linkerd**, **Consul Connect**, **Cilium service mesh**.
+A service mesh has **exactly two component groups**. Know both names for each — the exam swaps them:
+
+| Component | Other names you'll see | What it does | Examples |
+|---|---|---|---|
+| **Service proxy** (a.k.a. **data plane**, **sidecar**) | "service proxy", "data plane", "sidecar proxy", "ambient proxy" | Sits next to (or alongside) every Pod and **intercepts all traffic** in and out. Carries the actual packets. | **Envoy** (dominant), Linkerd-proxy, Cilium eBPF data plane. |
+| **Control plane** | (just "control plane") | **Configures** the proxies — pushes routing rules, certs for mTLS, policies. Doesn't carry application traffic itself. | **istiod** (Istio), Linkerd control plane, Consul servers. |
+
+- Mesh provides: **mTLS** between services, retries/timeouts, traffic splitting, **circuit breaking**, observability metrics, identity-based policy.
+- Big names: **Istio**, **Linkerd**, **Consul Connect**, **Cilium service mesh** (sidecar-less, eBPF).
+- "Sidecar-less" / "ambient" meshes (Ambient Istio, Cilium) move the data plane out of per-Pod sidecars to per-node or eBPF-based proxies — same two components, different deployment shape.
+
+**TRAPS:**
+- *"What components are common in a service mesh?"* → **service proxy + control plane**. Not "data plane and runtime plane" (no such thing as a runtime plane). Not "tracing and log storage" (those are observability *outputs*, not mesh *components*). Not "circuit breaking and Pod scheduling" (Pod scheduling is the kube-scheduler's job).
+- A mesh **adds** mTLS, retries, traffic shaping. It does **not** replace the CNI — Pod-to-Pod packets still flow through the CNI; the proxy just intercepts them at the Pod boundary.
 
 ### Serverless on Kubernetes
 
@@ -738,11 +809,16 @@ This is the question shape: *"Which type represents a single numerical value tha
 | **gVisor vs Kata** | gVisor = user-space kernel (intercepts syscalls). Kata = lightweight VM per container. Both are **sandboxed runtimes** — the answer to "which group provides additional sandboxed isolation". |
 | **cgroups vs runtime** | cgroups is a **Linux kernel feature** for resource limits — *not* a runtime. Runtimes *use* cgroups. |
 | **Knative Serving vs Eventing** | Serving = HTTP scale-to-zero. Eventing = pub/sub via CloudEvents. |
+| **Service mesh components** | **Service proxy** (data plane / sidecar — Envoy etc.) + **control plane** (istiod etc.). Not "data plane + runtime plane". Not "tracing + log storage". |
+| **Required YAML fields** | **`apiVersion`, `kind`, `metadata`** (and `spec` for most). `namespace` lives **inside** metadata, not top-level. `data` is ConfigMap/Secret-only. |
 | **Showback vs Chargeback** | Showback shows the bill. Chargeback collects it. |
 | **Sandbox / Incubating / Graduated** | Sandbox = experimental. Incubating = production-used. Graduated = mature + audited. |
 | **PSP vs PSA** | PSP was removed in 1.25. **PSA replaced it** via namespace labels. |
 | **PodDisruptionBudget protects against…** | **Voluntary** disruptions only (drain, deploy, scale-down). Not node crashes. |
 | **K3s vs vanilla K8s** | K3s = single-binary, tiny footprint, made for IoT / edge / dev. Default CNI is Flannel (so NP needs Calico/Cilium). |
+| **Service discovery: DNS vs env vars** | **DNS (CoreDNS)** is the standard — Pods resolve `<svc>.<ns>.svc.cluster.local` to the ClusterIP. **Env vars** (`<SVC>_SERVICE_HOST/PORT`) are a legacy fallback and **only see Services that existed at Pod start**. |
+| **Headless Service in DNS** | Returns the **Pod IPs** directly, not a single virtual IP. Used by StatefulSets to address each Pod by name. |
+| **CoreDNS vs kube-dns** | **CoreDNS** has been the default since 1.13. kube-dns is the older one. |
 | **OpenShift vs K3s vs RKE vs k1s** | **K3s** is the lightweight K8s distribution for **IoT / edge**. OpenShift is Red Hat's full-featured platform. RKE is Rancher's traditional installer (heavier than K3s). "k1s" doesn't exist — distractor. |
 | **OPA + Rego** | OPA policies are written in **Rego** (not Python/YAML). OPA works **outside** Kubernetes too (Terraform, CI, Envoy). Policies can be **tested locally** with `opa test` / `conftest`. |
 | **Stable API deprecation window** | **At least 12 months or 3 minor releases**, whichever is longer. |
@@ -809,8 +885,11 @@ If you only have 10 minutes:
 26. **SLI = measurement. SLO = internal target. SLA = external contract.** Error budget = `1 - SLO`.
 27. **RED** (Rate/Errors/Duration) for services. **USE** (Utilization/Saturation/Errors) for resources. **Four Golden Signals** = Latency, Traffic, Errors, Saturation.
 28. **High-cardinality labels blow up Prometheus.** Don't put user/request IDs in labels.
-29. **K3s / KubeEdge** are the K8s distros for **IoT / edge**.
-30. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
-31. **Read every option.** When two answers are close, the more specific one is usually right.
+29. **Service discovery:** **CoreDNS** (standard, since 1.13) — Pods resolve `<svc>.<ns>.svc.cluster.local` to a ClusterIP. **Env vars** are a fallback that only sees Services existing at Pod start. **Headless** Services return Pod IPs in DNS, not a VIP.
+30. **Service mesh = service proxy (data plane / sidecar) + control plane.** Not "runtime plane". Mesh adds mTLS, retries, circuit breaking, traffic shaping; doesn't replace the CNI.
+31. **Every K8s object needs `apiVersion`, `kind`, `metadata`** (and usually `spec`). `namespace` is a sub-field of `metadata`, not top-level. `data` is only on ConfigMap / Secret.
+30. **K3s / KubeEdge** are the K8s distros for **IoT / edge**.
+33. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
+34. **Read every option.** When two answers are close, the more specific one is usually right.
 
 Good luck. 🚀

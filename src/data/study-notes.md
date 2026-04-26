@@ -30,6 +30,25 @@ Dense, exam-focused. Read once the night before, again the morning of. **TRAP** 
 | **kube-proxy** | Programs the network so traffic to a **Service IP** reaches a backing Pod. Does **not** carry application Pod-to-Pod traffic — that goes through the CNI. |
 | **Container runtime** | Runs the containers. Default is **containerd**. dockershim was **removed in 1.24** — Docker is no longer a supported runtime. |
 
+### What the Cloud Controller Manager (CCM) actually does
+
+The CCM is what bridges Kubernetes and the underlying cloud provider's API. Cloud-specific code was lifted out of `kube-controller-manager` so the same Kubernetes binary runs anywhere. The CCM bundles **three sub-controllers**:
+
+| Sub-controller | What it does |
+|---|---|
+| **Service controller** | **When a `Service: LoadBalancer` is created, calls the cloud API to provision an actual cloud load balancer** and writes the external IP back into the Service status. |
+| **Node controller** | Detects when a node has been deleted in the cloud and reflects that in K8s; sets node addresses, zone/region labels. |
+| **Route controller** | Sets up routes in the cloud's network so Pods on different nodes can reach each other. |
+
+**TRAP — *"`Service: LoadBalancer` external-IP stuck `<pending>`":*** the **Cloud Controller Manager** isn't fulfilling it. Likely causes:
+
+- No CCM installed (vanilla K8s on bare metal). Use **MetalLB** if you need LoadBalancer Services on bare metal.
+- CCM lacks the IAM credentials to call the cloud API.
+- No cloud quota left for new load balancers.
+- A misconfigured `loadBalancerClass` annotation pointing at a controller that isn't installed.
+
+The wrong-answer distractors — *Load Balancer Manager, Cloud Architecture Manager, Cloud Load Balancer Manager* — are made-up component names. The real one is **Cloud Controller Manager**.
+
 ### Every Kubernetes object — the required top-level fields
 
 Every K8s object you write in YAML or JSON has the **same outer shape**. Four top-level fields:
@@ -895,6 +914,7 @@ This is the question shape: *"Which type represents a single numerical value tha
 | **Split brain defense** | **Consensus protocols** (Raft, Paxos, ZAB) — quorum-based agreement. Not replication, not rolling updates, not StatefulSet. etcd uses **Raft**, ZooKeeper uses **ZAB**. |
 | **Replication vs consensus** | Replicating data is **not** consensus. Without a quorum-agreed write order you get split-brain divergence. Consensus = quorum + leader. |
 | **Etcd HA size** | **Odd number ≥ 3** (typically 3 or 5). Even numbers don't increase fault tolerance and make tie-break worse. |
+| **LoadBalancer external-IP stuck Pending** | **Cloud Controller Manager** isn't fulfilling it (missing, no IAM, quota, or bare-metal cluster with no MetalLB). Not "Load Balancer Manager" — that's a made-up name. |
 | **Showback vs Chargeback** | Showback shows the bill. Chargeback collects it. |
 | **Sandbox / Incubating / Graduated** | Sandbox = experimental. Incubating = production-used. Graduated = mature + audited. |
 | **PSP vs PSA** | PSP was removed in 1.25. **PSA replaced it** via namespace labels. |
@@ -974,8 +994,9 @@ If you only have 10 minutes:
 31. **Every K8s object needs `apiVersion`, `kind`, `metadata`** (and usually `spec`). `namespace` is a sub-field of `metadata`, not top-level. `data` is only on ConfigMap / Secret.
 32. **The four built-in namespaces:** `default`, `kube-system`, `kube-public`, `kube-node-lease`. Not `kube-default`. Not `system`. `kube-main` / `kube-primary` don't exist.
 33. **Split brain defense = consensus protocols** (Raft / Paxos / ZAB). etcd uses **Raft**, runs with an odd number of nodes (3, 5, 7) for quorum. Replication alone is not consensus.
+34. **LoadBalancer Service stuck Pending** → the **Cloud Controller Manager** isn't fulfilling it (missing, lacks cloud IAM, hit cloud quota, or bare-metal without MetalLB). The CCM's three sub-controllers: Service (provisions cloud LBs), Node (lifecycle), Route (cloud routes).
 30. **K3s / KubeEdge** are the K8s distros for **IoT / edge**.
-35. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
-36. **Read every option.** When two answers are close, the more specific one is usually right.
+36. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
+37. **Read every option.** When two answers are close, the more specific one is usually right.
 
 Good luck. 🚀

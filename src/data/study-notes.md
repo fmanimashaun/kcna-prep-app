@@ -289,15 +289,23 @@ A common confusion: **kube-proxy doesn't carry application packets**. It program
 - **dockershim was removed in 1.24.** Docker is no longer a directly-supported runtime; you use containerd, CRI-O, or another CRI-compliant runtime.
 - The runtime *can* still read images Docker built (they're OCI images).
 
-### Runtime hierarchy
+### Runtime hierarchy — know the binary names, not just the project names
 
-| Layer | Examples | What it does |
+The exam loves to test the binary you'd actually see in `ps`. Memorize each row's exact spelling:
+
+| Layer | Binary names | What it does |
 |---|---|---|
-| **High-level runtime** | **containerd**, **CRI-O** | Image pulls, network, lifecycle management; talks to kubelet over CRI; delegates to a low-level runtime. |
-| **Low-level runtime** | **runc** (reference impl), crun | Actually creates the container — namespaces, cgroups, syscall isolation. |
-| **Sandboxed runtimes** | **gVisor** (user-space kernel), **Kata Containers** (lightweight VMs) | Stronger isolation at higher overhead. Used for multi-tenant or untrusted workloads. |
+| **High-level runtime** | **`containerd`**, **`crio`** (CRI-O) | Image pulls, network, lifecycle management; talks to kubelet over CRI; delegates to a low-level runtime. |
+| **Low-level runtime** | **`runc`** (reference impl), **`crun`** (C-based, faster) | Actually creates the container — namespaces, cgroups, syscall isolation. |
+| **Sandboxed runtimes** | **`runsc`** (gVisor — user-space kernel), **`kata`** (Kata Containers — lightweight VM per container) | Stronger isolation at higher overhead. Used for multi-tenant, untrusted, or compliance-driven workloads. |
 
-**TRAP:** containerd is *not* a low-level runtime — it's the layer **above** runc.
+**TRAPS in this hierarchy:**
+
+- `containerd` is *not* a low-level runtime — it's the layer **above** `runc`.
+- **`runsc` is gVisor's binary**, not a typo of `runc`. They're different things at different layers.
+- **`cgroups` is a Linux kernel feature**, not a runtime. It's what runtimes *use* to limit resources, not a runtime itself.
+- **`docker` is not a CRI runtime** since 1.24. The image format remains OCI-compatible, but the daemon isn't talked to directly by kubelet.
+- *"Which group is sandboxed?"* → **`runsc`, `kata`**. (gVisor + Kata Containers.) Not `runc`/`crun` (low-level), not `containerd`/`crio` (high-level), and certainly not `cgroups`.
 
 ### ImagePullPolicy & private registries
 
@@ -726,7 +734,9 @@ This is the question shape: *"Which type represents a single numerical value tha
 | **GitOps push vs pull** | GitOps is **pull**-based — agent in-cluster watches Git. Push is plain CD with creds outside the cluster. |
 | **CD vs CD** | Continuous *Delivery* — deployable, manual click. Continuous *Deployment* — automatic. |
 | **Containerd vs runc** | containerd is **high-level** (image pulls, lifecycle). runc is **low-level** (creates the container). containerd uses runc. |
-| **gVisor vs Kata** | gVisor = user-space kernel (intercepts syscalls). Kata = lightweight VM per container. Both for stronger isolation. |
+| **runc vs runsc** | `runc` = reference **low-level** OCI runtime (creates namespaces/cgroups). `runsc` = **gVisor's** sandboxed runtime (user-space kernel). Different layers. |
+| **gVisor vs Kata** | gVisor = user-space kernel (intercepts syscalls). Kata = lightweight VM per container. Both are **sandboxed runtimes** — the answer to "which group provides additional sandboxed isolation". |
+| **cgroups vs runtime** | cgroups is a **Linux kernel feature** for resource limits — *not* a runtime. Runtimes *use* cgroups. |
 | **Knative Serving vs Eventing** | Serving = HTTP scale-to-zero. Eventing = pub/sub via CloudEvents. |
 | **Showback vs Chargeback** | Showback shows the bill. Chargeback collects it. |
 | **Sandbox / Incubating / Graduated** | Sandbox = experimental. Incubating = production-used. Graduated = mature + audited. |
@@ -792,7 +802,7 @@ If you only have 10 minutes:
 19. **CNCF maturity:** Sandbox → Incubating → Graduated.
 20. **K8s deprecation policy:** Stable API supported **≥12 months / 3 minor releases** after deprecation. Beta ≥9 months. Alpha = no guarantees.
 21. **Open standards:** OCI (image, runtime, distribution), CRI, CNI, CSI.
-22. **runc is low-level. containerd is high-level.** gVisor / Kata for sandboxed isolation.
+22. **Runtime layers + binary names:** `containerd` / `crio` (high-level), `runc` / `crun` (low-level), **`runsc` (gVisor) / `kata`** (sandboxed). `cgroups` is a kernel feature, not a runtime.
 23. **Image supply chain:** **cosign** signs, **Trivy** scans, **SBOM** lists ingredients, **Kyverno/Gatekeeper** enforces at admission.
 24. **Runtime security:** **Falco** (syscall anomalies), seccomp `RuntimeDefault`, drop ALL capabilities and add only what's needed, `runAsNonRoot: true`.
 25. **Knative Serving = HTTP scale-to-zero. Knative Eventing = CloudEvents pub/sub.** KEDA = event-driven autoscaler.

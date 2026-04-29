@@ -443,13 +443,21 @@ Vanilla Kubernetes is heavy. These distributions trim it for the edge, IoT, dev,
 
 | Distribution | Vendor | What's special |
 |---|---|---|
-| **K3s** | Rancher / SUSE | Single ~50MB binary, embedded SQLite or etcd, default CNI is **Flannel** (so NP needs Calico/Cilium). Used in **IoT, edge, CI**. |
+| **K3s** | Rancher / SUSE (CNCF Sandbox) | Single ~50MB binary that **bundles** kube-apiserver, controller-manager, scheduler, **kubelet**, kube-proxy, and containerd. Default datastore is **SQLite** (embedded etcd or external DB for HA). Default CNI is **Flannel** (so NP needs Calico/Cilium). Default ingress is **Traefik**. Used in **IoT, edge, CI, homelab**. |
+| **K3d** | Rancher / SUSE | A **wrapper that runs K3s clusters inside Docker containers**. Lets you spin up single- or multi-node K3s clusters quickly on any machine that has Docker. Great for local dev and testing multi-node behavior without VMs. |
 | **K0s** | Mirantis | Single binary, no host deps. Edge-friendly. |
 | **MicroK8s** | Canonical | Snap-installed, opinionated, easy add-ons. Common in dev / Ubuntu shops. |
-| **kind** | SIG | Kubernetes-in-Docker. Local dev / CI clusters. |
+| **kind** | SIG | Kubernetes-in-Docker (vanilla upstream K8s). Local dev / CI clusters. |
 | **Minikube** | SIG | Single-node K8s in a VM/container for local dev. |
 | **KubeEdge** | CNCF Incubating | Extends K8s control plane to **edge devices** with offline operation. Designed for IoT scenarios (factories, retail, vehicles). |
 | **OpenYurt** | CNCF Sandbox | Turns a vanilla K8s cluster into a multi-region edge platform. |
+
+**TRAPS:**
+
+- **K3s vs K3d** — easy to mix up. K3s **is** the lightweight Kubernetes distribution. K3d **runs K3s in Docker** — it's a tool that *wraps* K3s for laptop/CI use.
+- Misconception sometimes floating around: *"K3s doesn't use kubelet"* — false. K3s **does** use kubelet; it bundles it (and every other control-plane and node component) into one binary. That's the main thing K3s changed about packaging.
+- **kube-proxy** — in both K3s and vanilla K8s — programs **Service-level** NAT rules (`ClusterIP:port` → backend `PodIP:port`). It does **not** "proxy individual container traffic." Pod-to-Pod packets flow through the **CNI**, not kube-proxy.
+- Smaller distro = smaller attack surface, but K3s' Flannel default means NetworkPolicy is silently ignored unless you add an enforcer.
 
 **Edge / IoT use cases that show up on the exam:**
 - 5G base stations and Multi-access Edge Computing (MEC).
@@ -996,6 +1004,7 @@ This is the question shape: *"Which type represents a single numerical value tha
 | **PSP vs PSA** | PSP was removed in 1.25. **PSA replaced it** via namespace labels. |
 | **PodDisruptionBudget protects against…** | **Voluntary** disruptions only (drain, deploy, scale-down). Not node crashes. |
 | **K3s vs vanilla K8s** | K3s = single-binary, tiny footprint, made for IoT / edge / dev. Default CNI is Flannel (so NP needs Calico/Cilium). |
+| **K3s vs K3d** | **K3s** is the lightweight Kubernetes *distribution*. **K3d** is a tool that runs K3s clusters inside Docker containers — for local dev / CI. K3s is the cluster; K3d is the wrapper. |
 | **Service discovery: DNS vs env vars** | **DNS (CoreDNS)** is the standard — Pods resolve `<svc>.<ns>.svc.cluster.local` to the ClusterIP. **Env vars** (`<SVC>_SERVICE_HOST/PORT`) are a legacy fallback and **only see Services that existed at Pod start**. |
 | **Headless Service in DNS** | Returns the **Pod IPs** directly, not a single virtual IP. Used by StatefulSets to address each Pod by name. |
 | **CoreDNS vs kube-dns** | **CoreDNS** has been the default since 1.13. kube-dns is the older one. |

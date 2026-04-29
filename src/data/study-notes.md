@@ -1007,6 +1007,50 @@ This is the question shape: *"Which type represents a single numerical value tha
 
 ## 10. kubectl cheat sheet
 
+### The four-part syntax
+
+```
+kubectl [COMMAND] [TYPE] [NAME] [FLAGS]
+```
+
+| Slot | What it is | Example |
+|---|---|---|
+| **COMMAND** | The operation. | `get`, `apply`, `delete`, `describe`, `logs`, `exec`, `rollout`, `scale`, `port-forward`, `auth`, `top`, `debug`, `cp`, `expose`, `run`, `label`, `annotate`, `patch`, `edit`, `diff`, `kustomize`, `proxy`. |
+| **TYPE** | The resource type. | `pods`, `deployments`, `svc`, `cm`. |
+| **NAME** | Specific resource (omit for all). | `web`, `kube-dns`. **Names are case-sensitive.** |
+| **FLAGS** | Optional modifiers. Long form `--server`, short form `-s`. | `-n prod`, `-o yaml`, `--watch`, `--dry-run=client`. |
+
+**`kubectl` reads its config from `$HOME/.kube/config`** by default. Override with `--kubeconfig` or `KUBECONFIG`.
+
+### Resource abbreviations — the ones that get tested
+
+Most resources have a short form. Memorize the common ones; these are *the* spellings exam questions use.
+
+| Resource | Short | Resource | Short |
+|---|---|---|---|
+| pods | **`po`** | persistentvolumes | **`pv`** |
+| deployments | **`deploy`** | persistentvolumeclaims | **`pvc`** |
+| services | **`svc`** | storageclasses | **`sc`** |
+| replicasets | **`rs`** | statefulsets | **`sts`** |
+| daemonsets | **`ds`** | cronjobs | **`cj`** |
+| namespaces | **`ns`** | nodes | **`no`** |
+| configmaps | **`cm`** | secrets | (no short — `secrets`) |
+| serviceaccounts | **`sa`** | endpoints | **`ep`** |
+| ingresses | **`ing`** | ingressclasses | (no short) |
+| networkpolicies | **`netpol`** | poddisruptionbudgets | **`pdb`** |
+| customresourcedefinitions | **`crd`** | events | **`ev`** |
+| resourcequotas | **`quota`** | limitranges | **`limits`** |
+| horizontalpodautoscalers | **`hpa`** | priorityclasses | **`pc`** |
+| replicationcontrollers | **`rc`** (legacy) | certificatesigningrequests | **`csr`** |
+| componentstatuses | **`cs`** (deprecated) | jobs | (no short) |
+
+**TRAPS:**
+- **PSP (PodSecurityPolicy) was removed in 1.25.** It still appears in older reference lists, but you can no longer `kubectl get psp` on a modern cluster — replaced by Pod Security Admission (PSA).
+- Some objects look like they should have a short form but don't: `secrets`, `jobs`, `ingressclasses`, `roles`, `rolebindings`, `clusterroles`, `clusterrolebindings`. Just spell them out.
+- **Names are case-sensitive.** `kubectl get pod Web` won't match `web`.
+
+### Frequently-tested commands and what they do
+
 | Command | Why it matters |
 |---|---|
 | `kubectl get pods -o wide` | Shows Pod IP and assigned node. First step in "where is this running?" |
@@ -1030,6 +1074,8 @@ This is the question shape: *"Which type represents a single numerical value tha
 | `kubectl cordon <node>` / `uncordon` | Mark a node unschedulable / schedulable again. |
 | `kubectl label <res> <k>=<v>` / `--overwrite` | Add or change labels. |
 | `kubectl get ns` / `kubectl create ns <name>` | Namespace operations. |
+
+**Authoritative reference:** the full command catalog with every flag is at [kubernetes.io/docs/reference/generated/kubectl/kubectl-commands](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands). The cheat sheet above is the high-yield subset.
 
 ---
 
@@ -1073,8 +1119,9 @@ If you only have 10 minutes:
 34. **LoadBalancer Service stuck Pending** → the **Cloud Controller Manager** isn't fulfilling it (missing, lacks cloud IAM, hit cloud quota, or bare-metal without MetalLB). The CCM's three sub-controllers: Service (provisions cloud LBs), Node (lifecycle), Route (cloud routes).
 35. **GitOps:** Git is source of truth + an in-cluster agent reconciles. Both **Flux** and **Argo CD** monitor git and apply changes. Terraform / Tekton / Jenkins-running-kubectl-apply are **not** GitOps.
 36. **CI/CD vs IaC vs GitOps:** different objects of change. CI/CD ships **apps** (Jenkins, Tekton). IaC provisions **infra** (Terraform, Pulumi, Crossplane). GitOps reconciles **cluster state** from Git (Argo CD, Flux). All three use Git as source of truth — that's not what makes them different.
+37. **kubectl syntax:** `kubectl [COMMAND] [TYPE] [NAME] [FLAGS]`. Reads `$HOME/.kube/config` by default. Names are case-sensitive. Common short names: `po`, `deploy`, `svc`, `pvc`, `pv`, `cm`, `sa`, `ns`, `no`, `ds`, `sts`, `ing`, `netpol`, `pdb`, `sc`, `crd`. Reference: kubernetes.io/docs/reference/generated/kubectl/kubectl-commands.
 30. **K3s / KubeEdge** are the K8s distros for **IoT / edge**.
-38. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
-39. **Read every option.** When two answers are close, the more specific one is usually right.
+39. **OPA** policies are in **Rego** (not Python). Wrapped by **Gatekeeper** in K8s; works outside K8s too; testable locally before publish.
+40. **Read every option.** When two answers are close, the more specific one is usually right.
 
 Good luck. 🚀

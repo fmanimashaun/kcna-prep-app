@@ -455,8 +455,8 @@ Vanilla Kubernetes is heavy. These distributions trim it for the edge, IoT, dev,
 **TRAPS:**
 
 - **K3s vs K3d** — easy to mix up. K3s **is** the lightweight Kubernetes distribution. K3d **runs K3s in Docker** — it's a tool that *wraps* K3s for laptop/CI use.
-- Misconception sometimes floating around: *"K3s doesn't use kubelet"* — false. K3s **does** use kubelet; it bundles it (and every other control-plane and node component) into one binary. That's the main thing K3s changed about packaging.
-- **kube-proxy** — in both K3s and vanilla K8s — programs **Service-level** NAT rules (`ClusterIP:port` → backend `PodIP:port`). It does **not** "proxy individual container traffic." Pod-to-Pod packets flow through the **CNI**, not kube-proxy.
+- A popular prep slide states *"K3s does not use kubelet, but it runs kubelet on the host"* — this is contradictory and technically misleading. **K3s does use kubelet.** What it changes is *packaging*: kubelet, kube-proxy, scheduler, controller-manager, and containerd are **embedded in a single binary process**, not run as separate daemons. If exam wording echoes the prep-slide phrasing, read it as "doesn't run kubelet as a separate daemon."
+- The same slide says *"K3s uses kube-proxy to proxy node connections; K8s uses kube-proxy to proxy individual containers."* This distinction doesn't exist. In **both** distros, kube-proxy programs **Service-level** NAT rules (`ClusterIP:port` → backend `PodIP:port`). It does not carry per-container traffic in either case — Pod-to-Pod packets flow through the **CNI**.
 - Smaller distro = smaller attack surface, but K3s' Flannel default means NetworkPolicy is silently ignored unless you add an enforcer.
 
 **Edge / IoT use cases that show up on the exam:**
